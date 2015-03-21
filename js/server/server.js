@@ -3,9 +3,10 @@ var http = require('http');
 function start() {
     var fs = require('fs');
     http.createServer(function(request, response) {
+        console.log('http request', request.url);
         var router = require('./router.js');
-        router.route(request, function(err, moduleName, controllerName, actionName) {
-            console.log('routed: ' + request.url, 'to', err, moduleName, controllerName, actionName);
+        router.route(request, function(err, moduleName, controllerName, actionName, query) {
+            console.log('routed: ' + request.url, 'to', err, moduleName, controllerName, actionName, query);
 
             if ( err ) {
                 throw err;
@@ -24,7 +25,7 @@ function start() {
                 throw 'method not found';
             }
 
-            var internalRequest = { moduleName: moduleName, controllerName: controllerName, actionName: actionName, request: request, url: request.url };
+            var internalRequest = { moduleName: moduleName, controllerName: controllerName, actionName: actionName, request: request, url: request.url, query: query };
             var internalResponse = { returnCode: 200, contentType: 'text/html', text: '', response: response };
 
             method(internalRequest, internalResponse, responseCallback);

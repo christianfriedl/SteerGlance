@@ -9,7 +9,7 @@
         <script type="text/javascript" src="../js/client/forms/EditForm.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $.ajax('http://localhost:8888/customer/customer/edit', {
+                $.ajax('http://localhost:8888/customer/customer/edit?id=2', {
                     success: function(data) {
                         console.log('success', data);
                         var ui = new UI();

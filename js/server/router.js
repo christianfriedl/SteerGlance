@@ -3,7 +3,7 @@ function route(request, callback) {
     var subModule = null;
     var action = null;
     var err = false;
-    var matches = null;
+    var query = undefined;
 
     if ( request.url === '/' ) {
         module = 'index';
@@ -13,12 +13,19 @@ function route(request, callback) {
         module = 'index';
         subModule = 'index';
         action = 'serveFile';
-    } else if ( matches = request.url.match(/^(\/([\w\-_]+)){1,3}$/) ) {
-        console.log('matches', matches);
-        matches = request.url.split('/');
-        module = typeof(matches[1]) === 'string' ? matches[1] : 'index';
-        subModule = typeof(matches[2]) === 'string' ? matches[2] : 'index';
-        action = typeof(matches[3]) === 'string' ? matches[3] : 'index';
+    } else if ( request.url.match(/^(\/([\w\-_]+)){1,3}(\?([\w\-%_&=]+))?$/) ) {
+        var parts = request.url.split('?');
+        var queryString = null;
+        if (parts.length === 2) {
+            queryString = parts.pop();
+            var qs = require('querystring');
+            query = qs.parse(queryString);
+        }
+        var path = parts[0].split('/');
+        console.log('path', path);
+        module = typeof(path[1]) === 'string' ? path[1] : 'index';
+        subModule = typeof(path[2]) === 'string' ? path[2] : 'index';
+        action = typeof(path[3]) === 'string' ? path[3] : 'index';
     } else if ( request.url.match(/\.ico$/) ) {
         console.log('will not route ' + request.url, 'no error');
         module = 'error';
@@ -31,7 +38,7 @@ function route(request, callback) {
         action = 'error';
     }
 
-    callback(err, module, subModule, action);
+    callback(err, module, subModule, action, query);
 }
 
 exports.route = route;
