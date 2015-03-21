@@ -1,6 +1,7 @@
 var fs = require('fs');
 
 function index(request, response) {
+    console.log('indexing');
     fs.readFile('html/index.html', function(err, data) {
         if (err) {
             console.log(err);
