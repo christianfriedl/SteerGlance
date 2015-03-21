@@ -1,7 +1,7 @@
-function edit(request, response, respond) {
+function edit(request, response, responseCallback) {
     var data = { action: 'edit', firstName: 'ersterserv', lastName: 'letzerserv' };
     response.text = JSON.stringify(data);
-    respond(response);
+    responseCallback(response);
 }
 
 exports.edit = edit;

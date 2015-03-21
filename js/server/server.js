@@ -27,13 +27,13 @@ function start() {
             var internalRequest = { moduleName: moduleName, controllerName: controllerName, actionName: actionName, request: request, url: request.url };
             var internalResponse = { returnCode: 200, contentType: 'text/html', text: '', response: response };
 
-            method(internalRequest, internalResponse, respond);
+            method(internalRequest, internalResponse, responseCallback);
 
         });
     }).listen(8888);
 }
 
-function respond(internalResponse) {
+function responseCallback(internalResponse) {
     internalResponse.response.writeHead(internalResponse.returnCode, {"Content-Type": internalResponse.contentType});
     internalResponse.response.write(internalResponse.text);
     internalResponse.response.end();

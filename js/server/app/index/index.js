@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-function index(request, response, respond) {
+function index(request, response, responseCallback) {
     console.log('indexing');
     fs.readFile('html/index.html', function(err, data) {
         if (err) {
@@ -9,11 +9,11 @@ function index(request, response, respond) {
         } else {
             response.text = data;
         }
-        respond(response);
+        responseCallback(response);
     });
 }
 
-function serveFile(request, response, respond) {
+function serveFile(request, response, responseCallback) {
     var url = request.url;
     if ( url.match(/\.\./) ) {
         throw 'du uh, dont walk up my tree';
@@ -31,7 +31,7 @@ function serveFile(request, response, respond) {
             throw 'File not found: ' + url;
         } else {
             response.text = data;
-            respond(response);
+            responseCallback(response);
         }
     });
 
