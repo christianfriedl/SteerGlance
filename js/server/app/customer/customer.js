@@ -1,8 +1,7 @@
-function edit(request, response) {
-        var data = { action: 'edit', firstName: 'ersterserv', lastName: 'letzerserv' };
-        response.writeHead(200, {"Content-Type": "text/html"});
-        response.write(JSON.stringify(data));
-        response.end();
+function edit(request, response, respond) {
+    var data = { action: 'edit', firstName: 'ersterserv', lastName: 'letzerserv' };
+    response.text = JSON.stringify(data);
+    respond(response);
 }
 
 exports.edit = edit;

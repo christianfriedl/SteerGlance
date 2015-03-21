@@ -24,42 +24,20 @@ function start() {
                 throw 'method not found';
             }
 
-            method(request, response);
+            var internalRequest = { moduleName: moduleName, controllerName: controllerName, actionName: actionName, request: request, url: request.url };
+            var internalResponse = { returnCode: 200, contentType: 'text/html', text: '', response: response };
+
+            method(internalRequest, internalResponse, respond);
 
         });
-        return;
-
-        var Customer = require('./bo/Customer.js');
-        var customer = new Customer.Customer();
-        console.log(request.url);
-        if ( request.url.match(/\.html$/) ) {
-            fs.readFile('.' + request.url, function(err, data) {
-                if (err) {
-                    console.log(err);
-                    throw err;
-                }
-
-                response.writeHead(200, {"Content-Type": "text/html"});
-                response.write(data);
-                response.end();
-            });
-        } else if ( request.url.match(/\.js$/) ) {
-            fs.readFile('.' + request.url, function(err, data) {
-                if (err) {
-                    console.log(err);
-                    throw err;
-                }
-
-                response.writeHead(200, {"Content-Type": "application/javascript"});
-                response.write(data);
-                response.end();
-            });
-        } else {
-            response.writeHead(200, {"Content-Type": "application/json"});
-            response.write(JSON.stringify({firstName: customer.getFirstName(), 'lastName': customer.getLastName()}));
-            response.end();
-        }
     }).listen(8888);
+}
+
+function respond(internalResponse) {
+    internalResponse.response.writeHead(internalResponse.returnCode, {"Content-Type": internalResponse.contentType});
+    internalResponse.response.write(internalResponse.text);
+    internalResponse.response.end();
+
 }
 
 exports.start = start;

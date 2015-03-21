@@ -1,20 +1,19 @@
 var fs = require('fs');
 
-function index(request, response) {
+function index(request, response, respond) {
     console.log('indexing');
     fs.readFile('html/index.html', function(err, data) {
         if (err) {
             console.log(err);
             throw err;
+        } else {
+            response.text = data;
         }
-
-        response.writeHead(200, {"Content-Type": "text/html"});
-        response.write(data);
-        response.end();
+        respond(response);
     });
 }
 
-function serveFile(request, response) {
+function serveFile(request, response, respond) {
     var url = request.url;
     if ( url.match(/\.\./) ) {
         throw 'du uh, dont walk up my tree';
@@ -22,21 +21,18 @@ function serveFile(request, response) {
 
     var contentType = 'text/plain';
     if ( url.match(/\.js/) ) {
-        contentType = 'application/javascript';
+        response.contentType = 'application/javascript';
     } else if ( url.match(/\.css/) ) {
-        contentType = 'text/css';
+        response.contentType = 'text/css';
     } 
     fs.readFile('.' + request.url, function(err, data) {
         if (err) {
             console.log(err);
-            response.writeHead(400, {'Message': 'not found'});
-            response.write('File not found: ' + url);
+            throw 'File not found: ' + url;
         } else {
-
-            response.writeHead(200, {"Content-Type": contentType});
-            response.write(data);
+            response.text = data;
+            respond(response);
         }
-        response.end();
     });
 
 }

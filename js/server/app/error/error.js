@@ -1,6 +1,7 @@
-function error(request, response) {
-    response.writeHead(500);
-    response.write('internal server error');
+function error(request, response, respond) {
+    response.returnCode = 500;
+    response.text = 'internal server error';
+    respond(response);
 }
 
 exports.error = error;
