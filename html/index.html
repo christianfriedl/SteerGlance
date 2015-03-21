@@ -3,10 +3,12 @@
         <script type="text/javascript" src="../js/extlib/jquery-2.1.1.min.js"></script> <!-- general goodness -->
         <script type="text/javascript" src="../js/extlib/underscore.js"></script> <!-- functional -->
         <script type="text/javascript" src="../js/extlib/handlebars-v3.0.0.js"></script> <!-- templates -->
+        <script type="text/javascript" src="../js/client/Util.js"></script>
         <script type="text/javascript" src="../js/client/UI.js"></script>
+        <script type="text/javascript" src="../js/client/forms/EditForm.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $.ajax('http://localhost:8888/', {
+                $.ajax('http://localhost:8888/customer/customer/edit', {
                     success: function(data) {
                         console.log('success', data);
                         var ui = new UI();

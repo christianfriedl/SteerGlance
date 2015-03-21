@@ -12,35 +12,16 @@
         if ( typeof(data) !== 'undefinded' ) {
             this.setData(data);
         }
-        data = { firstName: 'erster', lastName: 'letzer' };
+        data = { action: 'edit', firstName: 'erster', lastName: 'letzer' };
 
-        var rawHtml = `
-            <div id="bjo-ui" class="bjo-ui">
-                <form>
-                    <table class="card-form">
-                        <tr>
-                            <th>firstName</th>
-                            <td><input name="firstName" type="text" value="{{firstName}}" /></td>
-                        </tr>
-                        <tr>
-                            <th>firstName</th>
-                            <td><input name="lastName" type="text" value="{{lastName}}" /></td>
-                        </tr>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <td><button onClick="">save</button></td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-        `;
-        var template = Handlebars.compile(rawHtml);
-        var context = data;
-        var html = template(context);
+        var form = FormRouter.route(data);
+          
+
+        var html = form.createHtml(data);
         var div = $(html);
         $('#bjo-ui').remove();
         $('body').append(div);
-        console.log('harg', data);
+
     };
 
     window.UI = Clazz;
