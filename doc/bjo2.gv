@@ -1,0 +1,9 @@
+digraph main {
+    graph Client {
+    }
+    graph Server {
+    }
+
+    Client <-> Server
+}
+
