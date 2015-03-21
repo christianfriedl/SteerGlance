@@ -5,6 +5,7 @@
         <script type="text/javascript" src="../js/extlib/handlebars-v3.0.0.js"></script> <!-- templates -->
         <script type="text/javascript" src="../js/client/Util.js"></script>
         <script type="text/javascript" src="../js/client/UI.js"></script>
+        <script type="text/javascript" src="../js/client/FormRouter.js"></script>
         <script type="text/javascript" src="../js/client/forms/EditForm.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
@@ -12,7 +13,8 @@
                     success: function(data) {
                         console.log('success', data);
                         var ui = new UI();
-                        ui.display(data);
+                        var datax = JSON.parse(data);
+                        ui.display(datax);
                     }
                 });
             });

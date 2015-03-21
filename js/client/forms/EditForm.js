@@ -27,6 +27,7 @@
     Clazz.prototype.createHtml = function(data) {
         var hbTemplate = Handlebars.compile(this._template);
         var html = hbTemplate(data);
+        return html;
     };
 
     window.EditForm = Clazz;

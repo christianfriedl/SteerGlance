@@ -19,6 +19,11 @@ function route(request, callback) {
         module = typeof(matches[1]) === 'string' ? matches[1] : 'index';
         subModule = typeof(matches[2]) === 'string' ? matches[2] : 'index';
         action = typeof(matches[3]) === 'string' ? matches[3] : 'index';
+    } else if ( request.url.match(/\.ico$/) ) {
+        console.log('will not route ' + request.url, 'no error');
+        module = 'error';
+        subModule = 'error';
+        action = 'error';
     } else {
         err = 'unable to route: \'' + request.url + '\'';
         module = 'error';

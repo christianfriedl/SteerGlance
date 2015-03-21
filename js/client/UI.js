@@ -12,12 +12,12 @@
         if ( typeof(data) !== 'undefinded' ) {
             this.setData(data);
         }
-        data = { action: 'edit', firstName: 'erster', lastName: 'letzer' };
 
         var form = FormRouter.route(data);
-          
+        console.log('UI display form:', form);
 
         var html = form.createHtml(data);
+        console.log('UI display html:', html);
         var div = $(html);
         $('#bjo-ui').remove();
         $('body').append(div);
