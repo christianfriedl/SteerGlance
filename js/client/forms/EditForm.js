@@ -3,24 +3,22 @@
 
     var Clazz = function() {
         this._template = `
-            <div id="bjo-ui" class="bjo-ui">
-                <form>
-                    <table class="card-form">
-                        <tr>
-                            <th>firstName</th>
-                            <td><input name="firstName" type="text" value="{{firstName}}" /></td>
-                        </tr>
-                        <tr>
-                            <th>firstName</th>
-                            <td><input name="lastName" type="text" value="{{lastName}}" /></td>
-                        </tr>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <td><button onClick="">save</button></td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
+            <form id="bjo-main-form">
+                <table class="card-form">
+                    <tr>
+                        <th>firstName</th>
+                        <td><input name="firstName" type="text" value="{{firstName}}" /></td>
+                    </tr>
+                    <tr>
+                        <th>firstName</th>
+                        <td><input name="lastName" type="text" value="{{lastName}}" /></td>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td><button onClick="">save</button></td>
+                    </tr>
+                </table>
+            </form>
         `;
     };
 

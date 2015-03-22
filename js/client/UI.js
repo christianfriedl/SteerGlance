@@ -19,8 +19,8 @@
         var html = form.createHtml(data);
         console.log('UI display html:', html);
         var div = $(html);
-        $('#bjo-ui').remove();
-        $('body').append(div);
+        $('#bjo-ui').empty();
+        $('#bjo-ui').append(div);
 
     };
 

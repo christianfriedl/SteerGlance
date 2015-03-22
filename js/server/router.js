@@ -9,7 +9,7 @@ function route(request, callback) {
         module = 'index';
         subModule = 'index';
         action = 'index';
-    } else if ( request.url.match(/\.js$/) ) {
+    } else if ( request.url.match(/(\.js|\.css)$/) ) {
         module = 'index';
         subModule = 'index';
         action = 'serveFile';
