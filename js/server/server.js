@@ -2,6 +2,8 @@ var http = require('http');
 
 function start() {
     var fs = require('fs');
+    var db = require('./sql/sqlite/db.js');
+    db.open();
     http.createServer(function(request, response) {
         console.log('http request', request.url);
         var router = require('./router.js');

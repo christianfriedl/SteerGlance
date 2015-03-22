@@ -1,14 +1,15 @@
 function edit(request, response, responseCallback) {
-    var Customer = require('../../bo/Customer.js');
-    var customer = new Customer(request.query.id);
-    var data = { action: 'edit', 
-        row: [ 
-            customer.getField('firstName'),
-            customer.getField('lastName'),
-        ],
-    };
-    response.text = JSON.stringify(data);
-    responseCallback(response);
+    var CustomerBo = require('../../bo/CustomerBo.js');
+    CustomerBo.loadById(request.query.id, function(err, customer) {
+        var data = { action: 'edit', 
+            row: [ 
+                customer.getField('firstName'),
+                customer.getField('lastName'),
+            ],
+        };
+        response.text = JSON.stringify(data);
+        responseCallback(response);
+    });
 }
 
 exports.edit = edit;

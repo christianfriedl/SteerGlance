@@ -1,16 +1,13 @@
-var _ = require('underscore');
-
-var BO = function() {
-    this._dao = null;
+var DAO = function() {
     this._fields = {};
     this.addField({ name: 'id', value: undefined, label: 'ID' });
 };
 
-BO.prototype.setDao = function(dao) {
+DAO.prototype.setDao = function(dao) {
     this._dao = dao;
 };
 
-BO.prototype.addField = function(field) {
+DAO.prototype.addField = function(field) {
     if ( !field.hasOwnProperty('value') )
         field.value = undefined;
     if ( !field.hasOwnProperty('label') )
@@ -18,20 +15,22 @@ BO.prototype.addField = function(field) {
     this._fields[field.name] = field;
 };
 
-BO.prototype.getField = function(name) {
+DAO.prototype.getField = function(name) {
     return this._fields[name];
 };
 
-BO.prototype.addFields = function(fields) {
-    _.each(fields, function(f) { this.addField(f); }, this);
+DAO.prototype.addFields = function(fields) {
+    var self = this;
+    _.each(fields, function(f) { self.addField(f); });
 };
 
-BO.prototype.setId = function(id) {
+DAO.prototype.setId = function(id) {
     this._fields['id'].value = id;
 };
 
-BO.prototype.getId = function() {
+DAO.prototype.getId = function() {
     return this._fields['id'].value;
 }
 
-exports.BO = BO;
+
+exports.DAO = DAO;
