@@ -3,8 +3,8 @@ function edit(request, response, responseCallback) {
     var customer = new Customer(request.query.id);
     var data = { action: 'edit', 
         row: [ 
-            { name: customer.getFirstName().name, value: customer.getFirstName().value, label: customer.getFirstName().label },
-            { name: customer.getLastName().name, value: customer.getLastName().value, label: customer.getLastName().label },
+            customer.getField('firstName'),
+            customer.getField('lastName'),
         ],
     };
     response.text = JSON.stringify(data);

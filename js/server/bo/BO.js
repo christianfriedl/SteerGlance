@@ -2,6 +2,7 @@ var _ = require('underscore');
 
 var BO = function() {
     this._fields = {};
+    this.addField({ name: 'id', value: undefined, label: 'ID' });
 };
 
 BO.prototype.addField = function(field) {
@@ -20,5 +21,13 @@ BO.prototype.addFields = function(fields) {
     var self = this;
     _.each(fields, function(f) { self.addField(f); });
 };
+
+BO.prototype.setId = function(id) {
+    this._fields['id'].value = id;
+};
+
+BO.prototype.getId = function() {
+    return this._fields['id'].value;
+}
 
 module.exports = BO;
