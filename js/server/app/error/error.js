@@ -1,7 +1,7 @@
 function error(request, response, responseCallback) {
     response.returnCode = 500;
     response.text = 'internal server error';
-    respond(responseCallback);
+    responseCallback(response);
 }
 
 exports.error = error;
