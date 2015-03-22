@@ -5,14 +5,12 @@
         this._template = `
             <form id="bjo-main-form">
                 <table class="card-form">
-                    <tr>
-                        <th>firstName</th>
-                        <td><input name="firstName" type="text" value="{{firstName}}" /></td>
-                    </tr>
-                    <tr>
-                        <th>firstName</th>
-                        <td><input name="lastName" type="text" value="{{lastName}}" /></td>
-                    </tr>
+                    {{#each row}}
+                        <tr>
+                            <th>{{label}}</th>
+                            <td><input name="{{name}}" type="text" value="{{value}}" /></td>
+                        </tr>
+                    {{/each}}
                     <tr>
                         <th>&nbsp;</th>
                         <td><button onClick="">save</button></td>
