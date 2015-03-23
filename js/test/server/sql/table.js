@@ -1,7 +1,9 @@
-var assert = require('assert');
-var table = require('../../../server/sql/table.js');
-var field = require('../../../server/sql/field.js');
+var assert = require(   'assert');
+var table = require(    '../../../server/sql/table.js');
+var field = require(    '../../../server/sql/field.js');
 var fieldLink = require('../../../server/sql/fieldLink.js');
+var fieldList = require('../../../server/sql/query/fieldList.js');
+var select = require(   '../../../server/sql/query/select.js');
 
 function testTable1() {
     var table1 = new table.Table('table1');
@@ -23,10 +25,23 @@ function testTable2() {
     assert.strictEqual(fieldLink.Type.oneToMany, fieldLink1.getType());
 }
 
+function testTable3() {
+    var table1 = new table.Table('table1');
+    var field1 = new field.Field('field1', field.Type.int);
+    var field2 = new field.Field('field2', field.Type.int);
+    table1.addField(field1);
+    table1.addField(field2);
+
+    var fieldList1 = fieldList.fromTable(table1);
+
+    assert.strictEqual(2, fieldList1.getFields().length);
+    assert.strictEqual(field1.getName(), fieldList1.getFields()[0].getName());
+}
+
 function testAll() {
     testTable1();
     testTable2();
+    testTable3();
 }
 
 testAll();
-

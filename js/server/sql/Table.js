@@ -13,7 +13,7 @@ Table.prototype.setName = function(name) {
 
 Table.prototype.addField = function(field) {
     field.setTable(this);
-    this._fields[field.name] = field;
+    this._fields[field.getName()] = field;
 };
 
 Table.prototype.getField = function(name) {
