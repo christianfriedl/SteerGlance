@@ -1,6 +1,6 @@
 var DAO = function() {
     this._fields = {};
-    this.addField({ name: 'id', value: undefined, label: 'ID' });
+    this.addField({ name: 'id', value: undefined });
 };
 
 DAO.prototype.setDao = function(dao) {
@@ -10,8 +10,6 @@ DAO.prototype.setDao = function(dao) {
 DAO.prototype.addField = function(field) {
     if ( !field.hasOwnProperty('value') )
         field.value = undefined;
-    if ( !field.hasOwnProperty('label') )
-        field.label = field.name;
     this._fields[field.name] = field;
 };
 
@@ -23,6 +21,15 @@ DAO.prototype.addFields = function(fields) {
     var self = this;
     _.each(fields, function(f) { self.addField(f); });
 };
+
+DAO.prototype.getValue = function(name) {
+    return this._fields[name].value;
+};
+
+DAO.prototype.setValue = function(name, value) {
+    this._fields[name].value = value;
+};
+
 
 DAO.prototype.setId = function(id) {
     this._fields['id'].value = id;

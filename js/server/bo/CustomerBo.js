@@ -5,7 +5,6 @@ var CustomerDao = require('../dao/CustomerDao.js');
 var CustomerBo = function() {
     this.addFields([{ name: 'firstName'},
         { name: 'lastName', label: 'last Name from bo' }]);
-    this.setDao(new CustomerDao.CustomerDao());
 };
 
 CustomerBo.prototype = new BO.BO();
@@ -27,7 +26,15 @@ CustomerBo.prototype.setLastName = function(lastName) {
 };
 
 var loadById = function(id, callback) {
-    callback(false, new CustomerBo());
+    CustomerDao.loadById(id, function(err, dao) {
+        var customer = new CustomerBo();
+        if ( !err ) {
+            customer.setValue('firstName', dao.getValue('firstName'));
+            customer.setValue('lastName', dao.getValue('lastName'));
+        }
+        callback(err, customer);
+    });
 };
 
 exports.loadById = loadById;
+exports.CustomerBo = CustomerBo;

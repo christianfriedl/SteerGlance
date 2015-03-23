@@ -22,6 +22,14 @@ BO.prototype.getField = function(name) {
     return this._fields[name];
 };
 
+BO.prototype.getValue = function(name) {
+    return this._fields[name].value;
+};
+
+BO.prototype.setValue = function(name, value) {
+    this._fields[name].value = value;
+};
+
 BO.prototype.addFields = function(fields) {
     _.each(fields, function(f) { this.addField(f); }, this);
 };
