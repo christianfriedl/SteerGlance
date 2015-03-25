@@ -1,11 +1,16 @@
+var query = require('../sql/query.js');
 var DAO = function() {
     this._className = 'dao.DAO';
     this._fields = {};
     this.addField({ name: 'id', value: undefined });
 };
 
-DAO.prototype.setDao = function(dao) {
-    this._dao = dao;
+DAO.prototype.dao = function(dao) {
+    if ( typeof(dao) !== 'undefined' ) {
+        this._dao = dao;
+        return this;
+    }
+    return this._dao;
 };
 
 DAO.prototype.field = function(fieldOrName) {
@@ -36,5 +41,10 @@ DAO.prototype.id = function(id) {
     }
     return this.field('id').value();
 };
+
+DAO.prototype._createIdSelect = function() {
+    return query.select().fields(this._fields).from(this._tablesFromFields()).where(condition.condition(
+};
+
 
 exports.DAO = DAO;

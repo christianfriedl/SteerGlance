@@ -1,0 +1,4 @@
+sqlite3
+node sqlite3: npm install sqlite3
+
+underscore.js: npm install underscore

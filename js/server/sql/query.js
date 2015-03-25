@@ -15,15 +15,27 @@ function Query() {
     this._conditions = [];
 }
 
-Query.prototype.tables = function() {
+Query.prototype.tables = function(tables) {
+    if ( typeof(tables) !== 'undefined' ) {
+        this._tables = tables;
+        return this;
+    }
     return this._tables;
 };
 
 Query.prototype.fields = function() {
+    if ( typeof(fields) !== 'undefined' ) {
+        this._fields = fields;
+        return this;
+    }
     return this._fields;
 };
 
 Query.prototype.conditions = function() {
+    if ( typeof(conditions) !== 'undefined' ) {
+        this._conditions = conditions;
+        return this;
+    }
     return this._conditions;
 };
 
