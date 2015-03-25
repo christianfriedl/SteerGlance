@@ -23,7 +23,7 @@ Query.prototype.tables = function(tables) {
     return this._tables;
 };
 
-Query.prototype.fields = function() {
+Query.prototype.fields = function(fields) {
     if ( typeof(fields) !== 'undefined' ) {
         this._fields = fields;
         return this;

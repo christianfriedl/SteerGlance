@@ -1,8 +1,12 @@
 var query = require('../sql/query.js');
+var field = require('../sql/field.js');
+var condition = require('../sql/condition.js');
+var _ = require('underscore');
+
 var DAO = function() {
     this._className = 'dao.DAO';
     this._fields = {};
-    this.addField({ name: 'id', value: undefined });
+    this.field(new field.Field('id', field.Type.int));
 };
 
 DAO.prototype.dao = function(dao) {
@@ -14,8 +18,8 @@ DAO.prototype.dao = function(dao) {
 };
 
 DAO.prototype.field = function(fieldOrName) {
-    if ( typeof(fieldOrName) !== 'undefined' ) {
-        this._fields[field.name] = fieldOrName;
+    if ( typeof(fieldOrName.className) !== 'undefined' && fieldOrName.className() === 'sql.Field' ) {
+        this._fields[fieldOrName.name()] = fieldOrName;
         return this;
     }
     return this._fields[fieldOrName];
@@ -36,14 +40,24 @@ DAO.prototype.fieldValue = function(name, value) {
 
 DAO.prototype.id = function(id) {
     if ( typeof(id) !== 'undefined' ) {
-        this._fields['id'].value = id;
+        this.field('id').value(id);
         return this;
     }
     return this.field('id').value();
 };
 
+DAO.prototype.loadById = function(id) {
+    this.id(id);
+    var query = this._createIdSelect();
+    console.log(query);
+};
+
 DAO.prototype._createIdSelect = function() {
-    return query.select().fields(this._fields).from(this._tablesFromFields()).where(condition.condition(
+    return query.select().fields(this._fields).from(this._tablesFromFields()).where(condition.condition(this._fields['id'], condition.Op.eq, this._fields['id'].value()));
+};
+
+DAO.prototype._tablesFromFields = function() {
+    return _.map(this._fields, function(f) { return f.table(); });
 };
 
 

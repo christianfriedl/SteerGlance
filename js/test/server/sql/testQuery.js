@@ -3,6 +3,7 @@ var table = require('../../../server/sql/table.js');
 var field = require('../../../server/sql/field.js');
 var condition = require('../../../server/sql/condition.js');
 var query = require('../../../server/sql/query.js');
+var dao = require('../../../server/dao/dao.js');
 
 function testQuery() {
     var table1 = new table.Table('table1');
@@ -21,7 +22,14 @@ function testQuery2() {
     console.log(cond);
 }
 
+function testLoadById() {
+    console.log('tlbi');
+    var d = new dao.DAO();
+    d.loadById(20);
+}
+
 
 testQuery();
 testQuery2();
+testLoadById();
 
