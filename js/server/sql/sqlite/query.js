@@ -20,7 +20,7 @@ function _selectQueryString(serverQuery) {
     sql += _.reduce(_.map(serverQuery.tables(), function(t) { return t.name(); }), ', ');
     sql += ' ';
     sql += _whereClause(serverQuery);
-    console.log(sql);
+    return sql;
 }
 
 function _whereClause(serverQuery) {

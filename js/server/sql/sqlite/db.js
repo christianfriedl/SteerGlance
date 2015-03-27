@@ -1,29 +1,40 @@
 var sqlite3 = require('sqlite3').verbose();
+var query = require('./query.js');
 
-var db = null;
+function DB() {
+    this._db = null;
+}
 
-var open = function(/* etc., ignored for now */) {
-    db = new sqlite3.Database(':memory:');
-    db.serialize(function() {
-        db.run("CREATE TABLE customer (id INT, firstName text, lastName text)");
-        var stmt = db.prepare("INSERT INTO customer VALUES (?, ?, ?)");
-        stmt.run(2, 'real first', 'real last');
-        stmt.finalize();
+DB.prototype.open = function(fileName) {
+    this._db = new sqlite3.Database(fileName);
+    return this;
+};
+
+DB.prototype.close = function() {
+    this._db.close();
+    return this;
+};
+
+DB.prototype.runSql = function(sqlString, params, callback) {
+    this._db.run(sqlString, params, function(err) {
+        callback(err);
     });
+    return this;
 };
 
 /**
  * string query, array params -> callback(err, row)
  */
-var fetchRow = function(query, params, callback) {
-    db.get(query, params, function(err, row) {
+DB.prototype.fetchRow = function(sqlQuery, params, callback) {
+    var s = query.queryString(sqlQuery);
+    this._db.get(s, params, function(err, row) {
         callback(err, row);
     });
+    return this;
 };
 
-var close = function() {
-    db.close();
-};
+function db(fileName) {
+    return new DB(fileName);
+}
 
-exports.open = open;
-exports.close = close;
+exports.db = db;

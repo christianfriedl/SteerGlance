@@ -5,8 +5,10 @@ var condition = require('../sql/condition.js');
 var sqliteQuery = require('../sql/sqlite/query.js');
 var _ = require('underscore');
 
-var DAO = function(table) {
+var DAO = function(db, table) {
     this._className = 'dao.DAO';
+    this._db = db;
+    console.log(db);
     this._fields = {};
     this._table = null;
     if ( typeof(table) !== 'undefined' ) {
@@ -58,11 +60,18 @@ DAO.prototype.id = function(id) {
 DAO.prototype.loadById = function(id) {
     this.id(id);
     var query = this._createIdSelect();
-    var sql = sqliteQuery.queryString(query);
+    this._db.fetchRow(query, [], function(err, row) { 
+        if ( err ) console.log(err);
+        console.log(row);
+    });
 };
 
 DAO.prototype._createIdSelect = function() {
-    return query.select().fields(this._fields).tables([ this._table ]).where(condition.condition(this._fields['id'], condition.Op.eq, this._fields['id'].value()));
+    return query.select()
+        .fields(this._fields)
+        .from(this._table)
+        .where(
+            condition.condition(this._fields['id'], condition.Op.eq, this._fields['id'].value()));
 };
 
 DAO.prototype._fieldsFromTable = function(table) {
