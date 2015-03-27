@@ -24,12 +24,15 @@ function testQuery2() {
 
 function testLoadById() {
     console.log('tlbi');
-    var d = new dao.DAO();
+    var table1 = new table.Table('table1').field(new field.Field('id', field.Type.int));
+    var d = new dao.DAO(table1);
     d.loadById(20);
 }
 
 
+/*
 testQuery();
 testQuery2();
+*/
 testLoadById();
 

@@ -23,12 +23,11 @@ Table.prototype.field = function(nameOrField) {
     return this._fields[nameOrField];
 };
 
-Table.prototype.addFields = function(fields) {
-    var self = this;
-    _.each(fields, function(f) { self.field(f); });
-};
-
-Table.prototype.fields = function() {
+Table.prototype.fields = function(fields) {
+    if ( typeof(fields) !== 'undefined' ) {
+        _.each(fields, function(f) { this.field(f); }, this);
+	return this;
+    }
     return this._fields;
 };
 

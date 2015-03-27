@@ -15,6 +15,9 @@ function Query() {
     this._conditions = [];
 }
 
+Query.prototype.type = function() {
+    return this._type;
+};
 Query.prototype.tables = function(tables) {
     if ( typeof(tables) !== 'undefined' ) {
         this._tables = tables;

@@ -31,6 +31,14 @@ Condition.prototype.compareTo = function(compareTo) {
     return this._compareTo;
 };
 
+Condition.prototype.compareToValue = function() {
+    if ( typeof(this._compareTo.className) !== 'undefined' && this._compareTo.className() === 'field.Field' ) {
+        return this._compareTo.value();
+    } else {
+        return this._compareTo;
+    }
+};
+
 function condition(field, op, compareTo) { return new Condition(field, op, compareTo); }
 
 exports.condition = condition;

@@ -1,7 +1,8 @@
 var _ = require('underscore');
+var dao = require('../dao/dao.js');
 
 var BO = function() {
-    this._dao = null;
+    this._dao = new dao.DAO();
     this._fields = {};
     this.addField({ name: 'id', value: undefined, label: 'ID' });
 };
@@ -40,6 +41,12 @@ BO.prototype.setId = function(id) {
 
 BO.prototype.getId = function() {
     return this._fields['id'].value;
-}
+};
+
+BO.prototype.loadById = function(id) {
+    this._dao.loadById(id);
+    console.log('TODO!!!', this._dao);
+    // TODO
+};
 
 exports.BO = BO;

@@ -1,24 +1,33 @@
+var table = require('../sql/table.js');
 var query = require('../sql/query.js');
 var field = require('../sql/field.js');
 var condition = require('../sql/condition.js');
+var sqliteQuery = require('../sql/sqlite/query.js');
 var _ = require('underscore');
 
-var DAO = function() {
+var DAO = function(table) {
     this._className = 'dao.DAO';
     this._fields = {};
-    this.field(new field.Field('id', field.Type.int));
+    this._table = null;
+    if ( typeof(table) !== 'undefined' ) {
+        this._table = table;
+        this._fieldsFromTable(table);
+        console.log('f af ', this._fields);
+    }
 };
 
-DAO.prototype.dao = function(dao) {
-    if ( typeof(dao) !== 'undefined' ) {
-        this._dao = dao;
+DAO.prototype.table = function(table) {
+    if ( typeof(table) !== 'undefined' ) {
+        this._table = table;
+        this._fieldsFromTable(table);
         return this;
     }
-    return this._dao;
+    return this._table;
 };
 
 DAO.prototype.field = function(fieldOrName) {
     if ( typeof(fieldOrName.className) !== 'undefined' && fieldOrName.className() === 'sql.Field' ) {
+        fieldOrName.table(this.table());
         this._fields[fieldOrName.name()] = fieldOrName;
         return this;
     }
@@ -49,15 +58,15 @@ DAO.prototype.id = function(id) {
 DAO.prototype.loadById = function(id) {
     this.id(id);
     var query = this._createIdSelect();
-    console.log(query);
+    var sql = sqliteQuery.queryString(query);
 };
 
 DAO.prototype._createIdSelect = function() {
-    return query.select().fields(this._fields).from(this._tablesFromFields()).where(condition.condition(this._fields['id'], condition.Op.eq, this._fields['id'].value()));
+    return query.select().fields(this._fields).tables([ this._table ]).where(condition.condition(this._fields['id'], condition.Op.eq, this._fields['id'].value()));
 };
 
-DAO.prototype._tablesFromFields = function() {
-    return _.map(this._fields, function(f) { return f.table(); });
+DAO.prototype._fieldsFromTable = function(table) {
+    _.map(table.fields(), function(f) { this.field(f); }, this);
 };
 
 
