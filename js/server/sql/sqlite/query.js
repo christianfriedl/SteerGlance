@@ -15,7 +15,9 @@ function queryString(serverQuery) {
 
 function _selectQueryString(serverQuery) {
     var sql = 'SELECT ';
-    sql += _.reduce(_.map(serverQuery.fields(), function(f) { return f.name(); }), ', ');
+    var ff = serverQuery.fields();
+    var ffMap = _.map(ff, function(f) { return f.name(); });
+    sql += ffMap.join(', ');
     sql += ' FROM ';
     sql += _.reduce(_.map(serverQuery.tables(), function(t) { return t.name(); }), ', ');
     sql += ' ';

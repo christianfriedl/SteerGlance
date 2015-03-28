@@ -16,6 +16,7 @@ DB.prototype.close = function() {
 };
 
 DB.prototype.runSql = function(sqlString, params, callback) {
+    console.log('runSql', sqlString);
     this._db.run(sqlString, params, function(err) {
         callback(err);
     });
@@ -27,6 +28,7 @@ DB.prototype.runSql = function(sqlString, params, callback) {
  */
 DB.prototype.fetchRow = function(sqlQuery, params, callback) {
     var s = query.queryString(sqlQuery);
+    console.log('fetchRow', s);
     this._db.get(s, params, function(err, row) {
         callback(err, row);
     });

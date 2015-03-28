@@ -31,5 +31,7 @@ Table.prototype.fields = function(fields) {
     return this._fields;
 };
 
+function table(name) { return new Table(name); }
 
 exports.Table = Table;
+exports.table = table;

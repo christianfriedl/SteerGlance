@@ -44,5 +44,8 @@ Field.prototype.value = function(value) {
 };
 
 
+function field(name, type) { return new Field(name, type); }
+
 exports.Field = Field;
+exports.field = field;
 exports.Type = Type;

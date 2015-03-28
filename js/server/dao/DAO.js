@@ -8,14 +8,9 @@ var _ = require('underscore');
 var DAO = function(db, table) {
     this._className = 'dao.DAO';
     this._db = db;
-    console.log(db);
     this._fields = {};
     this._table = null;
-    if ( typeof(table) !== 'undefined' ) {
-        this._table = table;
-        this._fieldsFromTable(table);
-        console.log('f af ', this._fields);
-    }
+    this.table(table);
 };
 
 DAO.prototype.table = function(table) {
@@ -57,18 +52,26 @@ DAO.prototype.id = function(id) {
     return this.field('id').value();
 };
 
-DAO.prototype.loadById = function(id) {
+DAO.prototype.loadById = function(id, callback) {
     this.id(id);
     var query = this._createIdSelect();
     this._db.fetchRow(query, [], function(err, row) { 
-        if ( err ) console.log(err);
+        if ( err ) {
+            console.log('dao error', err);
+            return callback(err);
+        }
         console.log(row);
+        callback(false, row);
     });
+};
+
+DAO.prototype._fieldsAsList = function() {
+    return _.map(Object.keys(this._fields), function(k) { return this.field(k); }, this);
 };
 
 DAO.prototype._createIdSelect = function() {
     return query.select()
-        .fields(this._fields)
+        .fields(this._fieldsAsList())
         .from(this._table)
         .where(
             condition.condition(this._fields['id'], condition.Op.eq, this._fields['id'].value()));
