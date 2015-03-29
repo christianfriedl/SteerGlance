@@ -1,13 +1,13 @@
 var assert = require('assert');
 var async = require('async');
-var table = require('../../../server/sql/table.js');
-var field = require('../../../server/sql/field.js');
-var condition = require('../../../server/sql/condition.js');
-var query = require('../../../server/sql/query.js');
-var dao = require('../../../server/dao/dao.js');
-var customerDao = require('../../../server/dao/customerDao.js');
-var customerBo = require('../../../server/bo/customerBo.js');
-var sqlDb = require('../../../server/sql/db.js');
+var table = require('server/sql/table.js');
+var field = require('server/sql/field.js');
+var condition = require('server/sql/condition.js');
+var query = require('server/sql/query.js');
+var dao = require('server/dao/dao.js');
+var customerDao = require('server/dao/customerDao.js');
+var customerBo = require('server/bo/customerBo.js');
+var sqlDb = require('server/sql/db.js');
 
 function testQuery() {
     var table1 = new table.Table('table1');
