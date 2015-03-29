@@ -14,4 +14,7 @@ var CustomerDao = function(db) {
 
 CustomerDao.prototype = new DAO.DAO();
 
+function customerDao(db) { return new CustomerDao(db); }
+
+exports.customerDao = customerDao;
 exports.CustomerDao = CustomerDao;

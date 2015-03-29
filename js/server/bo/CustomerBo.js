@@ -1,40 +1,49 @@
 var util = require('util');
 var BO = require('./BO.js');
-var CustomerDao = require('../dao/CustomerDao.js');
+var customerDao = require('../dao/CustomerDao.js');
 
 var CustomerBo = function() {
-    this.addFields([{ name: 'firstName'},
-        { name: 'lastName', label: 'last Name from bo' }]);
+    this._className = 'customerBo.CustomerBo';
+    this.dao(customerDao.customerDao());
 };
 
 CustomerBo.prototype = new BO.BO();
 
-CustomerBo.prototype.getFirstName = function() {
-    return this._fields.firstName.value;
+////////////////////////////////////////////////////
+
+CustomerBo.prototype.id = function(id) {
+    if ( typeof(id) !== 'undefined' ) {
+        this._fields['id'].value(id);
+        return this;
+    }
+    return this._fields['id'].value();
 };
 
-CustomerBo.prototype.setFirstName = function(firstName) {
-    this._fields.firstName.value = firstName;
+CustomerBo.prototype.firstName = function(firstName) {
+    if ( typeof(firstName) !== 'undefined' ) {
+        this._fields['firstName'].value(firstName)
+        return this;
+    }
+    return this._fields['firstName'].value();
 };
 
-CustomerBo.prototype.getLastName = function() {
-    return this._fields.lastName.value;
+CustomerBo.prototype.lastName = function(lastName) {
+    if ( typeof(lastName) !== 'undefined' ) {
+        this._fields['lastName'].value(lastName);
+        return this;
+    }
+    return this._fields['lastName'].value();
 };
 
-CustomerBo.prototype.setLastName = function(lastName) {
-    this._fields.lastName.value = lastName;
+CustomerBo.prototype.loadById = function(id, callback) {
+    this._dao.loadById(id, function(err, row) {
+        if (err) callback(err);
+        this._fieldValuesFromRow(row);
+        callback();
+    }.bind(this));
 };
 
-var loadById = function(id, callback) {
-    CustomerDao.loadById(id, function(err, dao) {
-        var customer = new CustomerBo();
-        if ( !err ) {
-            customer.setValue('firstName', dao.getValue('firstName'));
-            customer.setValue('lastName', dao.getValue('lastName'));
-        }
-        callback(err, customer);
-    });
-};
+function customerBo() { return new CustomerBo(); }
 
-exports.loadById = loadById;
+exports.customerBo = customerBo;
 exports.CustomerBo = CustomerBo;

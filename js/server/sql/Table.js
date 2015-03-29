@@ -14,12 +14,10 @@ Table.prototype.name = function(name) {
 
 Table.prototype.field = function(nameOrField) {
     if ( typeof(nameOrField.className) !== 'undefined' && nameOrField.className() === 'sql.Field') {
-        console.log('yes', this);
         nameOrField.table(this);
         this._fields[nameOrField.name()] = nameOrField;
         return this;
     }
-        console.log('returning field', this._fields[nameOrField]);
     return this._fields[nameOrField];
 };
 
