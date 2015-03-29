@@ -5,8 +5,8 @@ var field = require('server/sql/field.js');
 var condition = require('server/sql/condition.js');
 var query = require('server/sql/query.js');
 var dao = require('server/dao/dao.js');
-var customerDao = require('server/dao/customerDao.js');
-var customerBo = require('server/bo/customerBo.js');
+var customerDao = require('server/app/customer/customerDao.js');
+var customerBo = require('server/app/customer/customerBo.js');
 var sqlDb = require('server/sql/db.js');
 
 function testQuery() {
