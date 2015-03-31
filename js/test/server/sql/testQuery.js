@@ -43,6 +43,6 @@ function testAggregateQuery() {
 
 
 
-function testBasicQuery();
-function testQueryWithCondition();
-function testAggregateQuery();
+testBasicQuery();
+testQueryWithCondition();
+testAggregateQuery();
