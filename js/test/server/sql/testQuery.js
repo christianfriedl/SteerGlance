@@ -8,6 +8,7 @@ var dao = require('server/dao/dao.js');
 var customerDao = require('server/app/customer/customerDao.js');
 var customerBo = require('server/app/customer/customerBo.js');
 var sqlDb = require('server/sql/db.js');
+var sqliteQuery = require('server/sql/sqlite/query.js');
 
 function testQuery() {
     var table1 = new table.Table('table1');
@@ -22,6 +23,40 @@ function testQuery2() {
         .field(new field.Field('field1'))
         .op(condition.Op.eq)
         .compareTo('haha');
+}
+
+function testAggregateQuery() {
+    var table1 = table.table('table1');
+    var table2 = table.table('table2');
+    var sumField = field.field('sumField', field.Type.int);
+    table2.field(sumField);
+    var id1 = field.field('id1', field.Type.int);
+    table1.field(id1);
+    var id2 = field.field('id2', field.Type.int);
+    table2.field(id2);
+    var s = query.select(sumField)
+            .aggregate(query.Aggregate.sum)
+            .from(table1, table2)
+            .where(id1, condition.Op.eq, id2);
+    console.log(s);
+}
+
+function testAggregateQuery2() {
+    var table1 = table.table('table1');
+    var table2 = table.table('table2');
+    var sumField = field.field('sumField', field.Type.int);
+    table2.field(sumField);
+    var id1 = field.field('id1', field.Type.int);
+    table1.field(id1);
+    var id2 = field.field('id2', field.Type.int);
+    table2.field(id2);
+    var s = query.select(sumField)
+            .aggregate(query.Aggregate.sum)
+            .from(table1, table2)
+            .where(condition.condition(id1, condition.Op.eq, id2));
+    console.log(s);
+    var ss = sqliteQuery.queryString(s);
+    console.log(ss);
 }
 
 function testLoadById() {
@@ -111,5 +146,7 @@ testQuery2();
 */
 // testLoadById();
 // testCustomerDao();
-testCustomerBo();
+//testCustomerBo();
+
+testAggregateQuery2();
 
