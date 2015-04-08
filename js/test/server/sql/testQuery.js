@@ -83,9 +83,52 @@ function testAggregateQuery() {
     console.log(ss);
 }
 
+function testInsertQuery() {
+    throw 'not implemented';
+    var table1 = table.table('table1');
+    var table2 = table.table('table2');
+    var sumField = field.field('sumField', field.Type.int);
+    table2.field(sumField);
+    var id1 = field.field('id1', field.Type.int);
+    table1.field(id1);
+    var id2 = field.field('id2', field.Type.int);
+    table2.field(id2);
+    var s = query.select(sumField)
+            .aggregate(query.Aggregate.sum)
+            .from(table1, table2)
+            .where(condition.condition(id1, condition.Op.eq, id2));
+    console.log(s);
+    var sqliteQQ = sqliteQuery.query(s);
+    var ss = sqliteQQ.queryString(s);
+    console.log(ss);
+}
+
+function testUpdateQuery() {
+    throw 'not implemented';
+    var table1 = table.table('table1');
+    var table2 = table.table('table2');
+    var sumField = field.field('sumField', field.Type.int);
+    table2.field(sumField);
+    var id1 = field.field('id1', field.Type.int);
+    table1.field(id1);
+    var id2 = field.field('id2', field.Type.int);
+    table2.field(id2);
+    var s = query.select(sumField)
+            .aggregate(query.Aggregate.sum)
+            .from(table1, table2)
+            .where(condition.condition(id1, condition.Op.eq, id2));
+    console.log(s);
+    var sqliteQQ = sqliteQuery.query(s);
+    var ss = sqliteQQ.queryString(s);
+    console.log(ss);
+}
+
+
 
 
 testBasicQuery();
 testQueryWithCondition();
 testQueryWithJoin();
 testAggregateQuery();
+testInsertQuery();
+testUpdateQuery();
