@@ -58,7 +58,6 @@ function testQueryWithJoin() {
     var s = query.select(id1, name1, id2)
             .from(table1, table2)
             .where(condition.condition(id1, condition.Op.eq, id2));
-    console.log(s);
     var sqliteQQ = sqliteQuery.query(s);
     var ss = sqliteQQ.queryString(s);
     console.log(ss);
@@ -77,7 +76,6 @@ function testAggregateQuery() {
             .aggregate(query.Aggregate.sum)
             .from(table1, table2)
             .where(condition.condition(id1, condition.Op.eq, id2));
-    console.log(s);
     var sqliteQQ = sqliteQuery.query(s);
     var ss = sqliteQQ.queryString(s);
     console.log(ss);
@@ -91,7 +89,6 @@ function testInsertQuery() {
     table1.field(name1);
     var s = query.insert()
             .into(table1); // all fields
-    console.log(s);
     var sqliteQQ = sqliteQuery.query(s);
     var ss = sqliteQQ.queryString(s);
     console.log(ss, sqliteQQ.params());
@@ -106,7 +103,6 @@ function testUpdateQuery() {
     var s = query.update()
             .table(table1)
             .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
-    console.log(s);
     var sqliteQQ = sqliteQuery.query(s);
     var ss = sqliteQQ.queryString(s);
     console.log(ss, sqliteQQ.params());
