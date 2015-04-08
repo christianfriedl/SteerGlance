@@ -7,6 +7,23 @@ var query = require('server/sql/query.js');
 var sqlDb = require('server/sql/db.js');
 var sqliteQuery = require('server/sql/sqlite/query.js');
 
+
+/*
+ * test cases:
+ *
+ * SELECT t1.f1, t1.f2 FROM table1 AS t1
+ * SELECT t1.f1, t1.f2 FROM table1 AS t1 WHERE tf1.cf1 = 'a'
+ * SELECT t1.f1, t2.f2 FROM table1 AS t1, table2 AS t2
+ * SELECT t1.f1, t2.f2 FROM table1 AS t1, table2 AS t2 WHERE t1.cf1 = t2.cf2
+ * SELECT t1.f1, t2.f2 FROM table1 AS t1 LEFT JOIN t2 ON (t1.cf1 = t2.cf2)
+ * SELECT SUM(t1.f1) FROM table1 AS t1
+ * SELECT SUM(t1.f1) FROM table1 AS t1 WHERE t1.cf1 = 'a'
+ * SELECT SUM(t2.f2) FROM table1 AS t1, table2 AS t2 WHERE t1.cf1 = 'a' AND t1.cf2 = t2.cf3
+ * SELECT COUNT(t1.f1) FROM table1 AS t1 WHERE t1.cf1 = 'a'
+ * SELECT COUNT(*) FROM table1 AS t1 WHERE t1.cf1 = 'a'
+ *
+ */
+
 function testBasicQuery() {
     var table1 = table.table('table1');
     var field1 = field.field('field1', field.Type.int);
@@ -17,10 +34,16 @@ function testBasicQuery() {
 }
 
 function testQueryWithCondition() {
+    var table1 = table.table('table1');
+    var field1 = field.field('field1', field.Type.int);
+    table1.field(field1);
     var cond = condition.condition()
         .field(new field.Field('field1'))
         .op(condition.Op.eq)
         .compareTo('haha');
+    var select = query.select(field1).from(table1).where(cond);
+    var sqliteQQ = sqliteQuery.query(select);
+    console.log(sqliteQQ.queryString(), sqliteQQ.params());
 }
 
 function testAggregateQuery() {
@@ -45,4 +68,4 @@ function testAggregateQuery() {
 
 testBasicQuery();
 testQueryWithCondition();
-testAggregateQuery();
+// testAggregateQuery();
