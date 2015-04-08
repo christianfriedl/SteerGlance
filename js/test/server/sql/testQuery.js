@@ -84,47 +84,33 @@ function testAggregateQuery() {
 }
 
 function testInsertQuery() {
-    throw 'not implemented';
     var table1 = table.table('table1');
-    var table2 = table.table('table2');
-    var sumField = field.field('sumField', field.Type.int);
-    table2.field(sumField);
-    var id1 = field.field('id1', field.Type.int);
+    var id1 = field.field('id1', field.Type.int).value(1);
     table1.field(id1);
-    var id2 = field.field('id2', field.Type.int);
-    table2.field(id2);
-    var s = query.select(sumField)
-            .aggregate(query.Aggregate.sum)
-            .from(table1, table2)
-            .where(condition.condition(id1, condition.Op.eq, id2));
+    var name1 = field.field('name1', field.Type.string).value('name');
+    table1.field(name1);
+    var s = query.insert()
+            .into(table1); // all fields
     console.log(s);
     var sqliteQQ = sqliteQuery.query(s);
     var ss = sqliteQQ.queryString(s);
-    console.log(ss);
+    console.log(ss, sqliteQQ.params());
 }
 
 function testUpdateQuery() {
-    throw 'not implemented';
     var table1 = table.table('table1');
-    var table2 = table.table('table2');
-    var sumField = field.field('sumField', field.Type.int);
-    table2.field(sumField);
-    var id1 = field.field('id1', field.Type.int);
+    var id1 = field.field('id1', field.Type.int).value(1);
     table1.field(id1);
-    var id2 = field.field('id2', field.Type.int);
-    table2.field(id2);
-    var s = query.select(sumField)
-            .aggregate(query.Aggregate.sum)
-            .from(table1, table2)
-            .where(condition.condition(id1, condition.Op.eq, id2));
+    var name1 = field.field('name1', field.Type.string).value('name');
+    table1.field(name1);
+    var s = query.update()
+            .table(table1)
+            .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
     console.log(s);
     var sqliteQQ = sqliteQuery.query(s);
     var ss = sqliteQQ.queryString(s);
-    console.log(ss);
+    console.log(ss, sqliteQQ.params());
 }
-
-
-
 
 testBasicQuery();
 testQueryWithCondition();
