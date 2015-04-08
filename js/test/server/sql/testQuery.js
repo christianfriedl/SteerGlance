@@ -46,6 +46,24 @@ function testQueryWithCondition() {
     console.log(sqliteQQ.queryString(), sqliteQQ.params());
 }
 
+function testQueryWithJoin() {
+    var table1 = table.table('table1');
+    var table2 = table.table('table2');
+    var id1 = field.field('id1', field.Type.int);
+    table1.field(id1);
+    var name1 = field.field('name1', field.Type.string);
+    table1.field(name1);
+    var id2 = field.field('id2', field.Type.int);
+    table2.field(id2);
+    var s = query.select(id1, name1, id2)
+            .from(table1, table2)
+            .where(condition.condition(id1, condition.Op.eq, id2));
+    console.log(s);
+    var sqliteQQ = sqliteQuery.query(s);
+    var ss = sqliteQQ.queryString(s);
+    console.log(ss);
+}
+
 function testAggregateQuery() {
     var table1 = table.table('table1');
     var table2 = table.table('table2');
@@ -60,7 +78,8 @@ function testAggregateQuery() {
             .from(table1, table2)
             .where(condition.condition(id1, condition.Op.eq, id2));
     console.log(s);
-    var ss = sqliteQuery.queryString(s);
+    var sqliteQQ = sqliteQuery.query(s);
+    var ss = sqliteQQ.queryString(s);
     console.log(ss);
 }
 
@@ -68,4 +87,5 @@ function testAggregateQuery() {
 
 testBasicQuery();
 testQueryWithCondition();
-// testAggregateQuery();
+testQueryWithJoin();
+testAggregateQuery();
