@@ -1,3 +1,6 @@
+"use strict";
+
+var _ = require('underscore');
 var assert = require('assert');
 var async = require('async');
 var table = require('server/sql/table.js');
@@ -22,6 +25,8 @@ var sqliteQuery = require('server/sql/sqlite/query.js');
  * SELECT COUNT(t1.f1) FROM table1 AS t1 WHERE t1.cf1 = 'a'
  * SELECT COUNT(*) FROM table1 AS t1 WHERE t1.cf1 = 'a'
  *
+ *
+ *
  */
 
 function testBasicQuery() {
@@ -31,6 +36,10 @@ function testBasicQuery() {
     var select = query.select(field1).from(table1);
     assert.strictEqual(1, select._fields.length);
     assert.strictEqual(1, select._fields.length);
+    var sqliteQQ = sqliteQuery.query(select);
+    assert.strictEqual('SELECT field1 FROM table1', sqliteQQ.queryString());
+    assert.strictEqual(0, sqliteQQ.params().length);
+
 }
 
 function testQueryWithCondition() {
@@ -43,7 +52,10 @@ function testQueryWithCondition() {
         .compareTo('haha');
     var select = query.select(field1).from(table1).where(cond);
     var sqliteQQ = sqliteQuery.query(select);
-    console.log(sqliteQQ.queryString(), sqliteQQ.params());
+    console.log(sqliteQQ.queryString(), sqliteQQ.params(), sqliteQQ.params().length);
+    assert.strictEqual('SELECT field1 FROM table1 WHERE field1 = ?', sqliteQQ.queryString());
+    assert.strictEqual(1, sqliteQQ.params().length);
+    assert.strictEqual('haha', sqliteQQ.params()[0]);
 }
 
 function testQueryWithJoin() {
@@ -61,6 +73,8 @@ function testQueryWithJoin() {
     var sqliteQQ = sqliteQuery.query(s);
     var ss = sqliteQQ.queryString(s);
     console.log(ss);
+    assert.strictEqual('SELECT id1, name1, id2 FROM table1, table2 WHERE id1 = id2', sqliteQQ.queryString());
+    assert.strictEqual(0, sqliteQQ.params().length);
 }
 
 function testAggregateQuery() {
@@ -79,6 +93,8 @@ function testAggregateQuery() {
     var sqliteQQ = sqliteQuery.query(s);
     var ss = sqliteQQ.queryString(s);
     console.log(ss);
+    assert.strictEqual('SELECT SUM(sumField) FROM table1, table2 WHERE id1 = id2', sqliteQQ.queryString());
+    assert.strictEqual(0, sqliteQQ.params().length);
 }
 
 function testInsertQuery() {
@@ -92,6 +108,10 @@ function testInsertQuery() {
     var sqliteQQ = sqliteQuery.query(s);
     var ss = sqliteQQ.queryString(s);
     console.log(ss, sqliteQQ.params());
+    assert.strictEqual('INSERT INTO table1 (id1, name1) VALUES (?, ?)', sqliteQQ.queryString());
+    assert.strictEqual(2, sqliteQQ.params().length);
+    assert.strictEqual(1, sqliteQQ.params()[0]);
+    assert.strictEqual('name', sqliteQQ.params()[1]);
 }
 
 function testUpdateQuery() {
@@ -106,6 +126,26 @@ function testUpdateQuery() {
     var sqliteQQ = sqliteQuery.query(s);
     var ss = sqliteQQ.queryString(s);
     console.log(ss, sqliteQQ.params());
+    assert.strictEqual('UPDATE table1 SET id1 = ?, name1 = ? WHERE id1 = ?', sqliteQQ.queryString());
+    assert.strictEqual(3, sqliteQQ.params().length);
+    assert.strictEqual(1, sqliteQQ.params()[0]);
+    assert.strictEqual('name', sqliteQQ.params()[1]);
+    assert.strictEqual(1, sqliteQQ.params()[2]);
+}
+
+function testDeleteQuery() {
+    var table1 = table.table('table1');
+    var id1 = field.field('id1', field.Type.int).value(1);
+    table1.field(id1);
+    var s = query.delete()
+            .table(table1)
+            .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
+    var sqliteQQ = sqliteQuery.query(s);
+    var ss = sqliteQQ.queryString(s);
+    console.log(ss, sqliteQQ.params());
+    assert.strictEqual('DELETE FROM table1 WHERE id1 = ?', sqliteQQ.queryString());
+    assert.strictEqual(1, sqliteQQ.params().length);
+    assert.strictEqual(1, sqliteQQ.params()[0]);
 }
 
 testBasicQuery();
