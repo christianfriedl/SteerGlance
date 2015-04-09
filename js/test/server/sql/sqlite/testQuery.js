@@ -5,6 +5,7 @@ var assert = require('assert');
 var async = require('async');
 var table = require('server/sql/table.js');
 var field = require('server/sql/field.js');
+var index = require('server/sql/index.js');
 var condition = require('server/sql/condition.js');
 var aggregate = require('server/sql/aggregate.js');
 var query = require('server/sql/query.js');
@@ -160,10 +161,18 @@ function testCreateQuery() {
     console.log(ss);
 }
 
+function testIndex() {
+    var id1 = field.field('id1', field.Type.int);
+    var i1 = index.index('idx_id1').field(id1);
+    assert.strictEqual('idx_id1', i1.name());
+    assert.strictEqual(1, _.keys(i1.fields()).length);
+    assert.strictEqual(id1, i1.field('id1'));
+}
+
 testBasicQuery();
 testQueryWithCondition();
 testQueryWithJoin();
-testAggregateQuery();
-testInsertQuery();
+testAggregateQuery(); testInsertQuery();
 testUpdateQuery();
 testCreateQuery();
+testIndex();
