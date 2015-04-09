@@ -8,6 +8,7 @@ var field = require('server/sql/field.js');
 var condition = require('server/sql/condition.js');
 var aggregate = require('server/sql/aggregate.js');
 var query = require('server/sql/query.js');
+var ddl = require('server/sql/ddl.js');
 var sqlDb = require('server/sql/db.js');
 var sqliteQuery = require('server/sql/sqlite/query.js');
 
@@ -141,11 +142,22 @@ function testDeleteQuery() {
             .table(table1)
             .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
     var sqliteQQ = sqliteQuery.query(s);
-    var ss = sqliteQQ.queryString(s);
+    var ss = sqliteQQ.queryString();
     console.log(ss, sqliteQQ.params());
     assert.strictEqual('DELETE FROM table1 WHERE id1 = ?', sqliteQQ.queryString());
     assert.strictEqual(1, sqliteQQ.params().length);
     assert.strictEqual(1, sqliteQQ.params()[0]);
+}
+
+function testCreateQuery() {
+    var table1 = table.table('table1');
+    var id1 = field.field('id1', field.Type.int);
+    var name1 = field.field('name1', field.Type.string);
+    table1.field(id1).field(name1);
+    var s = ddl.create(table1);
+    var sqliteQQ = sqliteQuery.query(s);
+    var ss = sqliteQQ.queryString();
+    console.log(ss);
 }
 
 testBasicQuery();
@@ -154,3 +166,4 @@ testQueryWithJoin();
 testAggregateQuery();
 testInsertQuery();
 testUpdateQuery();
+testCreateQuery();
