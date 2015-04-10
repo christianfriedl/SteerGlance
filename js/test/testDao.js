@@ -27,22 +27,22 @@ function testGetters() {
     var name1 = field.field('name1', field.Type.string).value('one');
     var table1 = table.table().field(id1).field(name1);
     var dao1 = dao.dao(null, table1);
-    console.log(dao1.getId1(), dao1.getName1());
-    assert.strictEqual(1, dao1.getId1());
-    assert.strictEqual('one', dao1.getName1());
+    console.log(dao1.id1(), dao1.name1());
+    assert.strictEqual(1, dao1.id1());
+    assert.strictEqual('one', dao1.name1());
 }
 
 function testSetters() {
     var id1 = field.field('id1');
-    assert.strictEqual('setId1', id1.setterName());
+    assert.strictEqual('id1', id1.accessorName());
     var name1 = field.field('name1');
-    assert.strictEqual('setName1', name1.setterName());
+    assert.strictEqual('name1', name1.accessorName());
     var table1 = table.table().field(id1).field(name1);
     var dao1 = dao.dao(null, table1);
-    assert.strictEqual(dao1, dao1.setId1(1));
-    assert.strictEqual(dao1, dao1.setName1('name'));
-    assert.strictEqual(1, dao1.getId1());
-    assert.strictEqual('name', dao1.getName1());
+    assert.strictEqual(dao1, dao1.id1(1));
+    assert.strictEqual(dao1, dao1.name1('name'));
+    assert.strictEqual(1, dao1.id1());
+    assert.strictEqual('name', dao1.name1());
 }
 
 function testLoadByQuery() {
@@ -62,8 +62,8 @@ function testLoadByQuery() {
             var dao1 = dao.dao(db1, table1);
             dao1.loadByQuery(select, function(err) {
                 if ( err ) throw err;
-                console.log('dao laoded', dao1.getId1());
-                assert.strictEqual(1, dao1.getId1());
+                console.log('dao laoded', dao1.id1());
+                assert.strictEqual(1, dao1.id1());
             });
         });
     });
