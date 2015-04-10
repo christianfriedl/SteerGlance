@@ -14,6 +14,14 @@ var ddl = require('sql/ddl.js');
 var sqlDb = require('sql/db.js');
 var sqliteQuery = require('sql/sqlite/query.js');
 
+function testFields() {
+    var id1 = field.field('id1', field.Type.int).value(1);
+    var name1 = field.field('name1', field.Type.string).value('name');
+    var table1 = table.table().field(id1).field(name1);
+    var dao1 = dao.dao(null, table1);
+    assert.strictEqual(id1, dao1.field('id1'));
+    assert.strictEqual(name1, dao1.field('name1'));
+}
 function testGetters() {
     var id1 = field.field('id1', field.Type.int).value(1);
     var name1 = field.field('name1', field.Type.string).value('one');
@@ -36,7 +44,9 @@ function testSetters() {
 
 
 function runTests() {
+    testFields();
     testGetters();
+    testSetters();
 }
 
 runTests();
