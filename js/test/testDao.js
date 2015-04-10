@@ -30,7 +30,6 @@ function testGetters() {
     console.log(dao1.getId1(), dao1.getName1());
     assert.strictEqual(1, dao1.getId1());
     assert.strictEqual('one', dao1.getName1());
-    throw 'up';
 }
 
 function testSetters() {
@@ -38,8 +37,10 @@ function testSetters() {
     assert.strictEqual('setId1', id1.setterName());
     var name1 = field.field('name1');
     assert.strictEqual('setName1', name1.setterName());
+    var table1 = table.table().field(id1).field(name1);
+    var dao1 = dao.dao(null, table1);
     assert.strictEqual(dao1, dao1.setId1(1));
-    assert.strictEqual(dao1, dao1.getName1('name'));
+    assert.strictEqual(dao1, dao1.setName1('name'));
     assert.strictEqual(1, dao1.getId1());
     assert.strictEqual('name', dao1.getName1());
 }
