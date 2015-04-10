@@ -3,15 +3,15 @@
 var _ = require('underscore');
 var assert = require('assert');
 var async = require('async');
-var table = require('server/sql/table.js');
-var field = require('server/sql/field.js');
-var index = require('server/sql/index.js');
-var condition = require('server/sql/condition.js');
-var aggregate = require('server/sql/aggregate.js');
-var query = require('server/sql/query.js');
-var ddl = require('server/sql/ddl.js');
-var sqlDb = require('server/sql/db.js');
-var sqliteQuery = require('server/sql/sqlite/query.js');
+var table = require('sql/table.js');
+var field = require('sql/field.js');
+var index = require('sql/index.js');
+var condition = require('sql/condition.js');
+var aggregate = require('sql/aggregate.js');
+var query = require('sql/query.js');
+var ddl = require('sql/ddl.js');
+var sqlDb = require('sql/db.js');
+var sqliteQuery = require('sql/sqlite/query.js');
 
 
 /*
@@ -169,10 +169,14 @@ function testIndex() {
     assert.strictEqual(id1, i1.field('id1'));
 }
 
-testBasicQuery();
-testQueryWithCondition();
-testQueryWithJoin();
-testAggregateQuery(); testInsertQuery();
-testUpdateQuery();
-testCreateQuery();
-testIndex();
+function runTests() {
+    testBasicQuery();
+    testQueryWithCondition();
+    testQueryWithJoin();
+    testAggregateQuery(); testInsertQuery();
+    testUpdateQuery();
+    testCreateQuery();
+    testIndex();
+}
+
+exports.runTests = runTests;
