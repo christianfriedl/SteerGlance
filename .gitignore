@@ -1,5 +1,5 @@
 .backup
-/test.js
+/test*.js
 .*.sw?
 *~
 /node_modules
