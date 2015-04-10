@@ -34,12 +34,14 @@ function testGetters() {
 }
 
 function testSetters() {
-    throw '';
     var id1 = field.field('id1');
     assert.strictEqual('setId1', id1.setterName());
     var name1 = field.field('name1');
     assert.strictEqual('setName1', name1.setterName());
-    // TODO moar tests!!!
+    assert.strictEqual(dao1, dao1.setId1(1));
+    assert.strictEqual(dao1, dao1.getName1('name'));
+    assert.strictEqual(1, dao1.getId1());
+    assert.strictEqual('name', dao1.getName1());
 }
 
 
