@@ -55,18 +55,40 @@ function testLoadByQuery() {
         .compareTo(1);
     var select = query.select(id1).from(table1).where(cond);
     var db1 = db.db(':memory:').open(':memory:');
-    db1._db.runSql('CREATE TABLE table1 (id1 int)', [], function(err) {
-        if ( err ) throw err;
-        db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], function(err) {
-            if ( err ) throw err;
+    async.series([
+        function(callback) { db1._db.runSql('CREATE TABLE table1 (id1 int)', []); },
+        function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', []); },
+        function(callback) {
             var dao1 = dao.dao(db1, table1);
             dao1.loadByQuery(select, function(err) {
                 if ( err ) throw err;
                 console.log('dao laoded', dao1.id1());
                 assert.strictEqual(1, dao1.id1());
             });
-        });
-    });
+        }],
+        function(err, result) { if ( err ) throw err; console.log(result); }
+    );
+}
+
+function testPrimaryDao() {
+    var table1 = table.table('table1')
+        .field(field.field('id', field.Type.int))
+        .field(field.field('name', field.Type.string));
+    var db1 = db.db(':memory:').open(':memory:');
+    async.series([
+        function(callback) { db1._db.runSql('CREATE TABLE table1 (id int, name text)', []); },
+        function(callback) { db1._db.runSql('INSERT INTO table1 (id, name) VALUES(1, \'full name\')', []); },
+        function(callback) {
+            var dao1 = dao.dao(db1, table1);
+            dao1.loadById(1, function(err) {
+                if ( err ) throw err;
+                console.log('dao laoded', dao1.id());
+                assert.strictEqual(1, dao1.id());
+                assert.strictEqual('full name', dao1.name());
+            });
+        }],
+        function(err, result) { if ( err ) throw err; console.log(result); }
+    );
 }
 
 function runTests() {
@@ -74,6 +96,7 @@ function runTests() {
     testGetters();
     testSetters();
     testLoadByQuery();
+    testPrimaryDao();
 }
 
 exports.runTests = runTests;
