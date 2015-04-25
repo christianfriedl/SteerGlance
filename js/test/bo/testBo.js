@@ -22,7 +22,7 @@ var Tests = {
         var name1 = field.field('name1', field.Type.string).value('name');
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(null, table1);
-        var bo1 = bo.bo(dao1);
+        var bo1 = bo.bo(null, dao1);
         assert.strictEqual(id1, bo1.field('id1'));
         assert.strictEqual(name1, bo1.field('name1'));
     },
@@ -32,7 +32,7 @@ var Tests = {
         var name1 = field.field('name1', field.Type.string).value('one');
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(null, table1);
-        var bo1 = bo.bo(dao1);
+        var bo1 = bo.bo(null, dao1);
         console.log(bo1.id1(), bo1.name1());
         assert.strictEqual(1, bo1.id1());
         assert.strictEqual('one', bo1.name1());
@@ -45,7 +45,7 @@ var Tests = {
         assert.strictEqual('name1', name1.accessorName());
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(null, table1);
-        var bo1 = bo.bo(dao1);
+        var bo1 = bo.bo(null, dao1);
         assert.strictEqual(bo1, bo1.id1(1));
         assert.strictEqual(bo1, bo1.name1('name'));
         assert.strictEqual(1, bo1.id1());
