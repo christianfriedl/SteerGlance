@@ -16,7 +16,7 @@ var tests = {
                 bo1.id(1);
                 bo1.firstName('Christian');
                 bo1.lastName('Friedl');
-                bo1.save();
+                bo1.save(function() {});
                 /*
                 var bo2 = customerBo.customerBo(db1);
                 bo2.loadById(1, function(err) {
