@@ -24,8 +24,8 @@ var tests = {
         var name1 = field.field('name1', field.Type.string).value('name');
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(null, table1);
-        assert.strictEqual(id1, dao1.field('id1'));
-        assert.strictEqual(name1, dao1.field('name1'));
+        assert.strictEqual('id1', dao1.field('id1').name());
+        assert.strictEqual('name1', dao1.field('name1').name());
     },
     testGetters: function() {
         var id1 = field.field('id1', field.Type.int).value(1);
@@ -75,6 +75,32 @@ var tests = {
             function(err, result) { if ( err ) throw err; console.log(result); }
         );
     },
+
+    testLoadAllByQuery: function() {
+        var table1 = table.table('table1');
+        var id1 = field.field('id1', field.Type.int);
+        table1.field(id1);
+        var select = query.select(id1).from(table1);
+        var db1 = db.db(':memory:').open(':memory:');
+        async.series([
+            function(callback) { db1._db.runSql('CREATE TABLE table1 (id1 int)', [], callback); },
+            function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], callback); },
+            function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(2)', [], callback); },
+            function(callback) {
+                var dao1 = dao.dao(db1, table1);
+                dao1.loadAllByQuery(select, function(err, daos) {
+                    console.log('test loadAllByQuery', daos);
+                    assert.strictEqual(false, err);
+                    console.log('##### daos', daos, daos[0].id1(), daos[1].id1());
+                    assert.strictEqual(1, daos[0].id1());
+                    assert.strictEqual(2, daos[1].id1());
+                    console.log('test loadAllByQuery is done');
+                });
+            }],
+            function(err, result) { if ( err ) throw err; console.log(result); }
+        );
+    },
+
 
     testPrimaryDao: function() {
         var table1 = table.table('table1')
