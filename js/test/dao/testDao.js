@@ -65,10 +65,11 @@ var tests = {
             function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], callback); },
             function(callback) {
                 var dao1 = dao.dao(db1, table1);
-                dao1.loadByQuery(select, function(err) {
-                    if ( err ) throw err;
+                dao1.loadOneByQuery(select, function(err, dao2) {
+                    assert.strictEqual(false, err);
                     console.log('dao laoded', dao1.id1());
                     assert.strictEqual(1, dao1.id1());
+                    assert.strictEqual(dao2, dao1);
                 });
             }],
             function(err, result) { if ( err ) throw err; console.log(result); }
