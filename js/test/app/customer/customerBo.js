@@ -5,7 +5,6 @@ var assert = require('assert');
 var Tests = {
     test1: function() {
         var db1 = db.db(':memory:').open(':memory:');
-        console.log('test1 db', db1);
         var bo1 = customerBo.customerBo(db1);
         bo1.id(1);
         bo1.firstName('Christian');
