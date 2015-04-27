@@ -89,12 +89,9 @@ var tests = {
             function(callback) {
                 var dao1 = dao.dao(db1, table1);
                 dao1.loadAllByQuery(select, function(err, daos) {
-                    console.log('test loadAllByQuery', daos);
                     assert.strictEqual(false, err);
-                    console.log('##### daos', daos, daos[0].id1(), daos[1].id1());
                     assert.strictEqual(1, daos[0].id1());
                     assert.strictEqual(2, daos[1].id1());
-                    console.log('test loadAllByQuery is done');
                 });
             }],
             function(err, result) { if ( err ) throw err; console.log(result); }
