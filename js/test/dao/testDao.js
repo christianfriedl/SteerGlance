@@ -85,7 +85,7 @@ var Tests = {
                 var dao1 = m_dao_primaryDao.primaryDao(db1, table1);
                 dao1.loadById(1, function(err) {
                     if ( err ) callback(err);
-                    console.log('dao laoded', dao1.id());
+                    console.log('dao laoded', dao1.id(), dao1.name());
                     assert.strictEqual(1, dao1.id());
                     assert.strictEqual('full name', dao1.name());
                     callback();
