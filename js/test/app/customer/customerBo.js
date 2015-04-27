@@ -18,10 +18,11 @@ var tests = {
                 bo1.lastName('Friedl');
                 bo1.save(function() {});
                 var bo2 = m_app_customer_customerBo.customerBo(db1);
-                bo2.loadById(1, function(err) {
-                    if ( err ) throw err;
+                bo2.loadById(1, function(err, bo3) {
+                    assert.strictEqual(false, err);
                     assert.strictEqual('Christian', bo2.firstName());
                     assert.strictEqual('Friedl', bo2.lastName());
+                    assert.strictEqual(bo2, bo3);
                 });
             }],
             function(err, result) { if ( err ) throw err; console.log(result); }
