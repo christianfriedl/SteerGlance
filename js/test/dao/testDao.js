@@ -1,5 +1,7 @@
 "use strict";
 
+var m_TestSuite = require('TestSuite.js');
+
 var _ = require('underscore');
 var assert = require('assert');
 var async = require('async');
@@ -15,8 +17,9 @@ var ddl = require('sql/ddl.js');
 var sqliteQuery = require('sql/sqlite/query.js');
 var m_dao_primaryDao = require('dao/primaryDao.js');
 
-var Tests = {
-    ItestFields: function() {
+var tests = {
+    _name: 'testDao',
+    testFields: function() {
         var id1 = field.field('id1', field.Type.int).value(1);
         var name1 = field.field('name1', field.Type.string).value('name');
         var table1 = table.table().field(id1).field(name1);
@@ -24,7 +27,7 @@ var Tests = {
         assert.strictEqual(id1, dao1.field('id1'));
         assert.strictEqual(name1, dao1.field('name1'));
     },
-    ItestGetters: function() {
+    testGetters: function() {
         var id1 = field.field('id1', field.Type.int).value(1);
         var name1 = field.field('name1', field.Type.string).value('one');
         var table1 = table.table().field(id1).field(name1);
@@ -34,7 +37,7 @@ var Tests = {
         assert.strictEqual('one', dao1.name1());
     },
 
-    ItestSetters: function() {
+    testSetters: function() {
         var id1 = field.field('id1');
         assert.strictEqual('id1', id1.accessorName());
         var name1 = field.field('name1');
@@ -47,7 +50,7 @@ var Tests = {
         assert.strictEqual('name', dao1.name1());
     },
 
-    ItestLoadByQuery: function() {
+    testLoadByQuery: function() {
         var table1 = table.table('table1');
         var id1 = field.field('id1', field.Type.int);
         table1.field(id1);
@@ -99,16 +102,9 @@ var Tests = {
 };
 
 function runTests() {
-    console.log('>', module.filename);
-    var f = null;
-    for (f in Tests) {
-        if ( typeof(Tests[f]) === 'function' && f.substr(0,4) === 'test' ) {
-            console.log('>>>', f);
-            Tests[f]();
-            console.log('<<<', f);
-        }
-    }
-    console.log('<', module.filename);
+    m_TestSuite.TestSuite.call(tests);
+    m_TestSuite.TestSuite.prototype.runTests.call(tests);
 }
+
 
 exports.runTests = runTests;
