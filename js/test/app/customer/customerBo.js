@@ -16,7 +16,9 @@ var tests = {
                 bo1.id(1);
                 bo1.firstName('Christian');
                 bo1.lastName('Friedl');
-                bo1.save(function() {});
+                console.log('id before save', bo1.id());
+                bo1.save(function(err) {assert.strictEqual(false, err); });
+                /*
                 var bo2 = m_app_customer_customerBo.customerBo(db1);
                 bo2.loadById(1, function(err, bo3) {
                     assert.strictEqual(false, err);
@@ -24,6 +26,7 @@ var tests = {
                     assert.strictEqual('Friedl', bo2.lastName());
                     assert.strictEqual(bo2, bo3);
                 });
+                */
             }],
             function(err, result) { if ( err ) throw err; console.log(result); }
         );
