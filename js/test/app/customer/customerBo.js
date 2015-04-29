@@ -46,16 +46,21 @@ var tests = {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
         var bo1 = m_app_customer_customerBo.customerBo(db1);
         async.series([
-                function(callback) { db1.runSql('CREATE TABLE customer (id int, firstName text, lastName text)', [], callback); },
-                function(callback) { db1.runSql('INSERT INTO customer (id, firstName, lastName) VALUES(1, \'Hargenbrihl\', \'Zackenbruck\')', [], callback); },
+                function(callback) { 
+                    db1.runSql('CREATE TABLE customer (id int, firstName text, lastName text)', [], callback); },
+                function(callback) { 
+                    db1.runSql('INSERT INTO customer (id, firstName, lastName) VALUES(1, \'Hargenbrihl\', \'Zackenbruck\')', [], callback); },
                 function(callback) {
                     bo1.firstName('Christian');
                     bo1.lastName('Friedl');
-                    bo1.save(function(err) {assert.strictEqual(false, err); });
-                    callback();
+                    bo1.save(function(err) {
+                        assert.strictEqual(false, err); 
+                        callback();
+                    });
                 },
                 function(callback) { 
                     db1.allSql('SELECT * FROM customer ORDER BY id', [], function(err, rows) { 
+                        if ( err ) throw err;
                         assert.strictEqual(2, rows.length);
                         assert.strictEqual(1, rows[0]['id']);
                         assert.strictEqual('Hargenbrihl', rows[0]['firstName']);
