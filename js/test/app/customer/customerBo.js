@@ -37,7 +37,12 @@ var tests = {
                         assert.strictEqual('Friedl', bo2.lastName());
                         assert.strictEqual(bo2, bo3);
                     });
+                },
+                function(callback) {
+                    db1.close();
+                    callback();
                 }
+
             ],
             function(err, result) { if ( err ) throw err; console.log(result); }
         );
@@ -69,8 +74,12 @@ var tests = {
                         assert.strictEqual('Friedl', rows[1]['lastName']);
                         callback(err); 
                     }); 
+                },
+                function(callback) {
+                    db1.close();
+                    callback();
                 }
-            ],
+           ],
             function(err, result) { if ( err ) throw err; console.log(result); }
         );
     }
