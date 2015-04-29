@@ -14,7 +14,7 @@ var tests = {
                 function(callback) { 
                     db1.runSql('INSERT INTO customer (id, firstName, lastName) VALUES(1, \'Hargenbrihl\', \'Zackenbruck\')', [], callback); },
                 function(callback) {
-                    m_server_app_customer_customer.edit(db1, { query: { id: 1 } }, { }, function(response) {
+                    m_server_app_customer_customer.edit({ db: db1, query: { id: 1 } }, { }, function(response) {
                         console.log('response in test', response);
                         callback();
                     });
