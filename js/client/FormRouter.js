@@ -6,7 +6,7 @@
     Clazz.route = function(data) {
         switch ( data.action ) {
             case 'edit':
-                return new EditForm();
+                return new EditForm(data);
                 break;
 
             default:

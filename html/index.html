@@ -10,12 +10,13 @@
         <script type="text/javascript" src="../js/client/forms/EditForm.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $.ajax('http://localhost:8888/customer/customer/edit?id=2', {
+                    var url = 'http://localhost:8888/customer/customer/edit?id=2';
+                $.ajax(url, {
                     success: function(data) {
                         console.log('success', data);
                         var ui = new UI();
                         var datax = JSON.parse(data);
-                        ui.display(datax);
+                        ui.display(url, datax);
                     }
                 });
             });

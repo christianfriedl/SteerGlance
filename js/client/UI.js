@@ -8,7 +8,8 @@
         this._data = data;
     };
 
-    Clazz.prototype.display = function(data) {
+    Clazz.prototype.display = function(url, data) {
+        data.url = url;
         if ( typeof(data) !== 'undefinded' ) {
             this.setData(data);
         }
