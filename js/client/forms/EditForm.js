@@ -23,13 +23,18 @@
                 $('#bjo-main-form button.save').click(function(evt) {
                     console.log('saving...');
                     evt.preventDefault();
-                    $.ajax( '/{{module}}/{{controller}}/save',
+                    console.log('serailize', $('#bjo-main-form').serialize());
+                    $.ajax( 
                         {
-                            type: 'POST',
+                            type: 'GET', // TODO Duh!!!! post does not work
+                            url: '/{{module}}/{{controller}}/save',
                             data: $('#bjo-main-form').serialize(),
+                        async: false,
+                            dataType: 'json',
                             success: function(data) {
                                 console.log('success!', data);
-                            }
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
                         }
                     );
                 });
