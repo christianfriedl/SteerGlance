@@ -26,10 +26,9 @@
                     console.log('serailize', $('#bjo-main-form').serialize());
                     $.ajax( 
                         {
-                            type: 'GET', // TODO Duh!!!! post does not work
+                            type: 'POST', 
                             url: '/{{module}}/{{controller}}/save',
                             data: $('#bjo-main-form').serialize(),
-                        async: false,
                             dataType: 'json',
                             success: function(data) {
                                 console.log('success!', data);
