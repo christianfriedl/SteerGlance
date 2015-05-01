@@ -3,6 +3,7 @@
 
     var Clazz = function(data) {
         this._data = data;
+        console.log('listform data', data);
         this._template = `
             <form id="bjo-main-form">
                 <table class="card-form">
@@ -60,5 +61,5 @@
 
     };
 
-    window.EditForm = Clazz;
+    window.ListForm = Clazz;
 })(window);
