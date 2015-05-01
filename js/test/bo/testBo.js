@@ -52,7 +52,7 @@ var Tests = {
         assert.strictEqual('name', bo1.name1());
     },
 
-    testLoadByQuery: function() {
+    testLoadByQuery: function() { // TODO this tests the dao, not the bo, and should be moved + replaced!
         var table1 = table.table('table1');
         var id1 = field.field('id1', field.Type.int);
         table1.field(id1);
@@ -72,6 +72,30 @@ var Tests = {
                     console.log('dao laoded', dao1.id1());
                     assert.strictEqual(1, dao1.id1());
                     assert.strictEqual(dao1, dao2);
+                });
+            });
+        });
+    },
+    testLoadAllByConditions: function() {
+        var table1 = table.table('table1');
+        var id1 = field.field('id1', field.Type.int);
+        table1.field(id1);
+        var cond = condition.condition()
+            .field(id1)
+            .op(condition.Op.eq)
+            .compareTo(1);
+        var db1 = db.db(':memory:').open(':memory:');
+        db1._db.runSql('CREATE TABLE table1 (id1 int)', [], function(err) {
+            if ( err ) throw err;
+            db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], function(err) {
+                if ( err ) throw err;
+                var dao1 = dao.dao(db1, table1);
+                var bo1 = bo.bo(db1, dao1);
+                bo1.loadAllByConditions([], function(err, bos) {
+                    assert.strictEqual(false, err);
+                    assert.strictEqual(1, bos.length);
+                    assert.strictEqual(1, bos[0].id1());
+                    console.log('row laoded id1', bos[0].id1());
                 });
             });
         });
