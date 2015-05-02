@@ -26,7 +26,7 @@ var sqliteQuery = require('server/sql/sqlite/query.js');
 
 function testBasicQuery() {
     var table1 = table.table('table1');
-    var field1 = field.field('field1', field.Type.int);
+    var field1 = field.field('field1', field.DataType.int);
     table1.field(field1);
     var select = query.select(field1).from(table1);
     assert.strictEqual(1, select._fields.length);
@@ -35,7 +35,7 @@ function testBasicQuery() {
 
 function testQueryWithCondition() {
     var table1 = table.table('table1');
-    var field1 = field.field('field1', field.Type.int);
+    var field1 = field.field('field1', field.DataType.int);
     table1.field(field1);
     var cond = condition.condition()
         .field(new field.Field('field1'))
@@ -49,11 +49,11 @@ function testQueryWithCondition() {
 function testQueryWithJoin() {
     var table1 = table.table('table1');
     var table2 = table.table('table2');
-    var id1 = field.field('id1', field.Type.int);
+    var id1 = field.field('id1', field.DataType.int);
     table1.field(id1);
-    var name1 = field.field('name1', field.Type.string);
+    var name1 = field.field('name1', field.DataType.string);
     table1.field(name1);
-    var id2 = field.field('id2', field.Type.int);
+    var id2 = field.field('id2', field.DataType.int);
     table2.field(id2);
     var s = query.select(id1, name1, id2)
             .from(table1, table2)
@@ -66,11 +66,11 @@ function testQueryWithJoin() {
 function testAggregateQuery() {
     var table1 = table.table('table1');
     var table2 = table.table('table2');
-    var sumField = field.field('sumField', field.Type.int);
+    var sumField = field.field('sumField', field.DataType.int);
     table2.field(sumField);
-    var id1 = field.field('id1', field.Type.int);
+    var id1 = field.field('id1', field.DataType.int);
     table1.field(id1);
-    var id2 = field.field('id2', field.Type.int);
+    var id2 = field.field('id2', field.DataType.int);
     table2.field(id2);
     var s = query.select(sumField)
             .aggregate(query.Aggregate.sum)
@@ -83,9 +83,9 @@ function testAggregateQuery() {
 
 function testInsertQuery() {
     var table1 = table.table('table1');
-    var id1 = field.field('id1', field.Type.int).value(1);
+    var id1 = field.field('id1', field.DataType.int).value(1);
     table1.field(id1);
-    var name1 = field.field('name1', field.Type.string).value('name');
+    var name1 = field.field('name1', field.DataType.string).value('name');
     table1.field(name1);
     var s = query.insert()
             .into(table1); // all fields
@@ -96,9 +96,9 @@ function testInsertQuery() {
 
 function testUpdateQuery() {
     var table1 = table.table('table1');
-    var id1 = field.field('id1', field.Type.int).value(1);
+    var id1 = field.field('id1', field.DataType.int).value(1);
     table1.field(id1);
-    var name1 = field.field('name1', field.Type.string).value('name');
+    var name1 = field.field('name1', field.DataType.string).value('name');
     table1.field(name1);
     var s = query.update()
             .table(table1)

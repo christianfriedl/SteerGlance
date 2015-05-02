@@ -20,16 +20,16 @@ var m_dao_primaryDao = require('dao/primaryDao.js');
 var tests = {
     _name: 'testDao',
     testFields: function() {
-        var id1 = field.field('id1', field.Type.int).value(1);
-        var name1 = field.field('name1', field.Type.string).value('name');
+        var id1 = field.field('id1', field.DataType.int).value(1);
+        var name1 = field.field('name1', field.DataType.string).value('name');
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(null, table1);
         assert.strictEqual('id1', dao1.field('id1').name());
         assert.strictEqual('name1', dao1.field('name1').name());
     },
     testGetters: function() {
-        var id1 = field.field('id1', field.Type.int).value(1);
-        var name1 = field.field('name1', field.Type.string).value('one');
+        var id1 = field.field('id1', field.DataType.int).value(1);
+        var name1 = field.field('name1', field.DataType.string).value('one');
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(null, table1);
         console.log(dao1.id1(), dao1.name1());
@@ -52,7 +52,7 @@ var tests = {
 
     testLoadByQuery: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.Type.int);
+        var id1 = field.field('id1', field.DataType.int);
         table1.field(id1);
         var cond = condition.condition()
             .field(id1)
@@ -78,7 +78,7 @@ var tests = {
 
     testLoadAllByQuery: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.Type.int);
+        var id1 = field.field('id1', field.DataType.int);
         table1.field(id1);
         var select = query.select(id1).from(table1);
         var db1 = db.db(':memory:').open(':memory:');
@@ -100,7 +100,7 @@ var tests = {
 
     testLoadAllByConditions: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.Type.int);
+        var id1 = field.field('id1', field.DataType.int);
         table1.field(id1);
         console.log('fieldssss', id1, id1.className(), table1.field('id1').className());
         var db1 = db.db(':memory:').open(':memory:');
@@ -123,8 +123,8 @@ var tests = {
     testPrimaryDao: function() {
         var table1 = table.table('table1')
                         .name('table1')
-                        .field(field.field('id', field.Type.int))
-                        .field(field.field('name', field.Type.string));
+                        .field(field.field('id', field.DataType.int))
+                        .field(field.field('name', field.DataType.string));
         var db1 = db.db(':memory:').open(':memory:');
         async.series([
             function(callback) { db1._db.runSql('CREATE TABLE table1 (id int, name text)', [], callback); },

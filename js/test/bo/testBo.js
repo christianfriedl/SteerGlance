@@ -18,8 +18,8 @@ var sqliteQuery = require('sql/sqlite/query.js');
 var Tests = {
 
     testFields: function() {
-        var id1 = field.field('id1', field.Type.int).value(1);
-        var name1 = field.field('name1', field.Type.string).value('name');
+        var id1 = field.field('id1', field.DataType.int).value(1);
+        var name1 = field.field('name1', field.DataType.string).value('name');
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(null, table1);
         var bo1 = bo.bo(null, dao1);
@@ -28,8 +28,8 @@ var Tests = {
     },
 
     testGetters: function() {
-        var id1 = field.field('id1', field.Type.int).value(1);
-        var name1 = field.field('name1', field.Type.string).value('one');
+        var id1 = field.field('id1', field.DataType.int).value(1);
+        var name1 = field.field('name1', field.DataType.string).value('one');
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(null, table1);
         var bo1 = bo.bo(null, dao1);
@@ -54,7 +54,7 @@ var Tests = {
 
     testLoadByQuery: function() { // TODO this tests the dao, not the bo, and should be moved + replaced!
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.Type.int);
+        var id1 = field.field('id1', field.DataType.int);
         table1.field(id1);
         var cond = condition.condition()
             .field(id1)
@@ -78,7 +78,7 @@ var Tests = {
     },
     testLoadAllByConditions: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.Type.int);
+        var id1 = field.field('id1', field.DataType.int);
         table1.field(id1);
         var cond = condition.condition()
             .field(id1)

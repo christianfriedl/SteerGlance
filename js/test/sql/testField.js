@@ -28,7 +28,7 @@ var Tests = {
         // TODO moar tests!!!
     },
     testCalcField: function() {
-        var id1 = m_sql_calcField.calcfield('id1', field.Type.int, m_sql_calcField.CalcType.sum, { label: 'Label' });
+        var id1 = m_sql_calcField.calcfield('id1', field.DataType.int, m_sql_calcField.CalcType.sum, { label: 'Label' });
         assert.strictEqual('id1', id1.name());
         assert.strictEqual('abce', id1.value());
     }

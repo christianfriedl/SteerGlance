@@ -6,3 +6,4 @@
 *.log
 .vim*
 test.db
+*.bak

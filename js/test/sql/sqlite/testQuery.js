@@ -35,7 +35,7 @@ var sqliteQuery = require('sql/sqlite/query.js');
 var Tests = {
     testBasicQuery: function() {
         var table1 = table.table('table1');
-        var field1 = field.field('field1', field.Type.int);
+        var field1 = field.field('field1', field.DataType.int);
         table1.field(field1);
         var select = query.select(field1).from(table1);
         assert.strictEqual(1, select._fields.length);
@@ -48,7 +48,7 @@ var Tests = {
 
     testQueryWithCondition: function() {
         var table1 = table.table('table1');
-        var field1 = field.field('field1', field.Type.int);
+        var field1 = field.field('field1', field.DataType.int);
         table1.field(field1);
         var cond = condition.condition()
             .field(new field.Field('field1'))
@@ -65,11 +65,11 @@ var Tests = {
     testQueryWithJoin: function() {
         var table1 = table.table('table1');
         var table2 = table.table('table2');
-        var id1 = field.field('id1', field.Type.int);
+        var id1 = field.field('id1', field.DataType.int);
         table1.field(id1);
-        var name1 = field.field('name1', field.Type.string);
+        var name1 = field.field('name1', field.DataType.string);
         table1.field(name1);
-        var id2 = field.field('id2', field.Type.int);
+        var id2 = field.field('id2', field.DataType.int);
         table2.field(id2);
         var s = query.select(id1, name1, id2)
                 .from(table1, table2)
@@ -84,11 +84,11 @@ var Tests = {
     testAggregateQuery: function() {
         var table1 = table.table('table1');
         var table2 = table.table('table2');
-        var sumField = field.field('sumField', field.Type.int);
+        var sumField = field.field('sumField', field.DataType.int);
         table2.field(sumField);
-        var id1 = field.field('id1', field.Type.int);
+        var id1 = field.field('id1', field.DataType.int);
         table1.field(id1);
-        var id2 = field.field('id2', field.Type.int);
+        var id2 = field.field('id2', field.DataType.int);
         table2.field(id2);
         var s = query.select(aggregate.aggregate(aggregate.Type.sum, sumField))
                 .from(table1, table2)
@@ -102,9 +102,9 @@ var Tests = {
 
     testInsertQuery: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.Type.int).value(1);
+        var id1 = field.field('id1', field.DataType.int).value(1);
         table1.field(id1);
-        var name1 = field.field('name1', field.Type.string).value('name');
+        var name1 = field.field('name1', field.DataType.string).value('name');
         table1.field(name1);
         var s = query.insert()
                 .into(table1); // all fields
@@ -119,9 +119,9 @@ var Tests = {
 
     testUpdateQuery: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.Type.int).value(1);
+        var id1 = field.field('id1', field.DataType.int).value(1);
         table1.field(id1);
-        var name1 = field.field('name1', field.Type.string).value('name');
+        var name1 = field.field('name1', field.DataType.string).value('name');
         table1.field(name1);
         var s = query.update()
                 .table(table1)
@@ -138,7 +138,7 @@ var Tests = {
 
     DEACTIVATEDtestDeleteQuery: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.Type.int).value(1);
+        var id1 = field.field('id1', field.DataType.int).value(1);
         table1.field(id1);
         var s = query.delete()
                 .table(table1)
@@ -153,8 +153,8 @@ var Tests = {
 
     testCreateQuery: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.Type.int);
-        var name1 = field.field('name1', field.Type.string);
+        var id1 = field.field('id1', field.DataType.int);
+        var name1 = field.field('name1', field.DataType.string);
         table1.field(id1).field(name1);
         var s = ddl.create(table1);
         var sqliteQQ = sqliteQuery.query(s);
@@ -163,7 +163,7 @@ var Tests = {
     },
 
     testIndex: function() {
-        var id1 = field.field('id1', field.Type.int);
+        var id1 = field.field('id1', field.DataType.int);
         var i1 = index.index('idx_id1').field(id1);
         assert.strictEqual('idx_id1', i1.name());
         assert.strictEqual(1, _.keys(i1.fields()).length);

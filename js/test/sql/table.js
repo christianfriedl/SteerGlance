@@ -8,9 +8,9 @@ var select = require(   '../../../server/sql/query/select.js');
 function testTable1() {
     var table1 = new table.Table('table1');
     assert.strictEqual('table1', table1.name());
-    var field1 = new field.Field('field1', field.Type.int);
+    var field1 = new field.Field('field1', field.DataType.int);
     assert.strictEqual('field1', field1.name());
-    assert.strictEqual(field.Type.int, field1.type());
+    assert.strictEqual(field.DataType.int, field1.type());
     table1.field(field1);
     assert.strictEqual(field1, table1.field('field1'));
     assert.strictEqual(table1, field1.table());
@@ -18,10 +18,10 @@ function testTable1() {
 
 function testTable2() {
     var table1 = new table.Table('table1');
-    var field1 = new field.Field('field1', field.Type.int);
+    var field1 = new field.Field('field1', field.DataType.int);
     table1.field(field1);
     var table2 = new table.Table('table2');
-    var field2 = new field.Field('field2', field.Type.int);
+    var field2 = new field.Field('field2', field.DataType.int);
     table2.field(field2);
 
     var fieldLink1 = new fieldLink.FieldLink(field1, field2);
@@ -30,8 +30,8 @@ function testTable2() {
 
 function testTable3() {
     var table1 = new table.Table('table1');
-    var field1 = new field.Field('field1', field.Type.int);
-    var field2 = new field.Field('field2', field.Type.int);
+    var field1 = new field.Field('field1', field.DataType.int);
+    var field2 = new field.Field('field2', field.DataType.int);
     table1.addField(field1);
     table1.addField(field2);
 
