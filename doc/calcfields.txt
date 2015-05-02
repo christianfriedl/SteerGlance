@@ -1,0 +1,6 @@
+calcFields()
+    shall compute all calculated fields in a (dao/bo?)
+field
+    fieldLink link
+        contains how to connect field from this table(source) to field from that table(target)
+    isCalculated

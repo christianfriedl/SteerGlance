@@ -1,4 +1,5 @@
 var field = require('sql/field.js');
+var m_sql_calcField = require('sql/calcField.js');
 var assert = require('assert');
 
 var Tests = {
@@ -25,6 +26,11 @@ var Tests = {
         var name1 = field.field('name1');
         assert.strictEqual('setName1', name1.setterName());
         // TODO moar tests!!!
+    },
+    testCalcField: function() {
+        var id1 = m_sql_calcField.calcfield('id1', field.Type.int, m_sql_calcField.CalcType.sum, { label: 'Label' });
+        assert.strictEqual('id1', id1.name());
+        assert.strictEqual('abce', id1.value());
     }
 
 };
