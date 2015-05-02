@@ -35,6 +35,8 @@ var Tests = {
         } catch (/*Error*/e) {
             assert.strictEqual('calcField of calcType "sum" requires sumField to be set', e.message);
         }
+        var id2 = m_sql_calcField.calcField('id1', field.DataType.int, m_sql_calcField.CalcType.sum, { label: 'Label' });
+        assert.strictEqual('id1', id1.name());
     }
 
 };

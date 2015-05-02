@@ -4,7 +4,9 @@ var _ = require('underscore');
 var assert = require('assert');
 var async = require('async');
 var table = require('sql/table.js');
-var field = require('sql/field.js');
+var m_sql_field = require('sql/field.js');
+var m_sql_calcField = require('sql/calcField.js');
+var m_sql_fieldLink = require('sql/fieldLink.js');
 var index = require('sql/index.js');
 var condition = require('sql/condition.js');
 var aggregate = require('sql/aggregate.js');
@@ -35,7 +37,7 @@ var sqliteQuery = require('sql/sqlite/query.js');
 var Tests = {
     testBasicQuery: function() {
         var table1 = table.table('table1');
-        var field1 = field.field('field1', field.DataType.int);
+        var field1 = m_sql_field.field('field1', m_sql_field.DataType.int);
         table1.field(field1);
         var select = query.select(field1).from(table1);
         assert.strictEqual(1, select._fields.length);
@@ -48,10 +50,10 @@ var Tests = {
 
     testQueryWithCondition: function() {
         var table1 = table.table('table1');
-        var field1 = field.field('field1', field.DataType.int);
+        var field1 = m_sql_field.field('field1', m_sql_field.DataType.int);
         table1.field(field1);
         var cond = condition.condition()
-            .field(new field.Field('field1'))
+            .field(new m_sql_field.field('field1'))
             .op(condition.Op.eq)
             .compareTo('haha');
         var select = query.select(field1).from(table1).where(cond);
@@ -65,11 +67,11 @@ var Tests = {
     testQueryWithJoin: function() {
         var table1 = table.table('table1');
         var table2 = table.table('table2');
-        var id1 = field.field('id1', field.DataType.int);
+        var id1 = m_sql_field.field('id1', m_sql_field.DataType.int);
         table1.field(id1);
-        var name1 = field.field('name1', field.DataType.string);
+        var name1 = m_sql_field.field('name1', m_sql_field.DataType.string);
         table1.field(name1);
-        var id2 = field.field('id2', field.DataType.int);
+        var id2 = m_sql_field.field('id2', m_sql_field.DataType.int);
         table2.field(id2);
         var s = query.select(id1, name1, id2)
                 .from(table1, table2)
@@ -84,11 +86,11 @@ var Tests = {
     testAggregateQuery: function() {
         var table1 = table.table('table1');
         var table2 = table.table('table2');
-        var sumField = field.field('sumField', field.DataType.int);
+        var sumField = m_sql_field.field('sumField', m_sql_field.DataType.int);
         table2.field(sumField);
-        var id1 = field.field('id1', field.DataType.int);
+        var id1 = m_sql_field.field('id1', m_sql_field.DataType.int);
         table1.field(id1);
-        var id2 = field.field('id2', field.DataType.int);
+        var id2 = m_sql_field.field('id2', m_sql_field.DataType.int);
         table2.field(id2);
         var s = query.select(aggregate.aggregate(aggregate.Type.sum, sumField))
                 .from(table1, table2)
@@ -102,9 +104,9 @@ var Tests = {
 
     testInsertQuery: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.DataType.int).value(1);
+        var id1 = m_sql_field.field('id1', m_sql_field.DataType.int).value(1);
         table1.field(id1);
-        var name1 = field.field('name1', field.DataType.string).value('name');
+        var name1 = m_sql_field.field('name1', m_sql_field.DataType.string).value('name');
         table1.field(name1);
         var s = query.insert()
                 .into(table1); // all fields
@@ -119,9 +121,9 @@ var Tests = {
 
     testUpdateQuery: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.DataType.int).value(1);
+        var id1 = m_sql_field.field('id1', m_sql_field.DataType.int).value(1);
         table1.field(id1);
-        var name1 = field.field('name1', field.DataType.string).value('name');
+        var name1 = m_sql_field.field('name1', m_sql_field.DataType.string).value('name');
         table1.field(name1);
         var s = query.update()
                 .table(table1)
@@ -138,7 +140,7 @@ var Tests = {
 
     DEACTIVATEDtestDeleteQuery: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.DataType.int).value(1);
+        var id1 = m_sql_field.field('id1', m_sql_field.DataType.int).value(1);
         table1.field(id1);
         var s = query.delete()
                 .table(table1)
@@ -153,8 +155,8 @@ var Tests = {
 
     testCreateQuery: function() {
         var table1 = table.table('table1');
-        var id1 = field.field('id1', field.DataType.int);
-        var name1 = field.field('name1', field.DataType.string);
+        var id1 = m_sql_field.field('id1', m_sql_field.DataType.int);
+        var name1 = m_sql_field.field('name1', m_sql_field.DataType.string);
         table1.field(id1).field(name1);
         var s = ddl.create(table1);
         var sqliteQQ = sqliteQuery.query(s);
@@ -163,11 +165,27 @@ var Tests = {
     },
 
     testIndex: function() {
-        var id1 = field.field('id1', field.DataType.int);
+        var id1 = m_sql_field.field('id1', m_sql_field.DataType.int);
         var i1 = index.index('idx_id1').field(id1);
         assert.strictEqual('idx_id1', i1.name());
         assert.strictEqual(1, _.keys(i1.fields()).length);
         assert.strictEqual(id1, i1.field('id1'));
+    },
+
+    testCalcField: function() {
+        var table1 = table.table('table1'); // where we want the sum via the calcField
+        var table2 = table.table('table2'); // where the sum is aggregated // SELECT SUM(table2.sumField) FROM table1, table2 WHERE table1.id1 = table2.id2 [AND table1.id1=<constant>]
+        var id1 = m_sql_field.field('id1', m_sql_field.DataType.int);
+        var id2 = m_sql_field.field('id2', m_sql_field.DataType.int);
+        var sumField = m_sql_field.field('sumField', m_sql_field.DataType.int, m_sql_calcField.CalcType.sum, { label: 'Sum1' });
+        var calcField = m_sql_calcField.calcField('calcField', m_sql_field.DataType.int, m_sql_calcField.CalcType.sum, { label: 'Label', sumField: sumField });
+        table1.field(id1);
+        table2.field(id2);
+        table1.field(calcField);
+        table2.field(sumField);
+        var link = m_sql_fieldLink.fieldLink(id1, id2, m_sql_fieldLink.Type.manyToOne);
+        id1.addLink(link);
+        id2.addLink(link);
     }
 
 };
