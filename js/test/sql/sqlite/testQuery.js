@@ -7,13 +7,14 @@ var table = require('sql/table.js');
 var m_sql_field = require('sql/field.js');
 var m_sql_calcField = require('sql/calcField.js');
 var m_sql_fieldLink = require('sql/fieldLink.js');
+var m_sql_condition = require('sql/condition.js');
 var index = require('sql/index.js');
 var condition = require('sql/condition.js');
 var aggregate = require('sql/aggregate.js');
 var query = require('sql/query.js');
 var ddl = require('sql/ddl.js');
 var sqlDb = require('sql/db.js');
-var sqliteQuery = require('sql/sqlite/query.js');
+var m_sql_sqlite_query = require('sql/sqlite/query.js');
 
 
 /*
@@ -42,7 +43,7 @@ var Tests = {
         var select = query.select(field1).from(table1);
         assert.strictEqual(1, select._fields.length);
         assert.strictEqual(1, select._fields.length);
-        var sqliteQQ = sqliteQuery.query(select);
+        var sqliteQQ = m_sql_sqlite_query.query(select);
         assert.strictEqual('SELECT field1 FROM table1', sqliteQQ.queryString());
         assert.strictEqual(0, sqliteQQ.params().length);
 
@@ -57,7 +58,7 @@ var Tests = {
             .op(condition.Op.eq)
             .compareTo('haha');
         var select = query.select(field1).from(table1).where(cond);
-        var sqliteQQ = sqliteQuery.query(select);
+        var sqliteQQ = m_sql_sqlite_query.query(select);
         console.log(sqliteQQ.queryString(), sqliteQQ.params(), sqliteQQ.params().length);
         assert.strictEqual('SELECT field1 FROM table1 WHERE field1 = ?', sqliteQQ.queryString());
         assert.strictEqual(1, sqliteQQ.params().length);
@@ -76,7 +77,7 @@ var Tests = {
         var s = query.select(id1, name1, id2)
                 .from(table1, table2)
                 .where(condition.condition(id1, condition.Op.eq, id2));
-        var sqliteQQ = sqliteQuery.query(s);
+        var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString(s);
         console.log(ss);
         assert.strictEqual('SELECT id1, name1, id2 FROM table1, table2 WHERE id1 = id2', sqliteQQ.queryString());
@@ -95,7 +96,7 @@ var Tests = {
         var s = query.select(aggregate.aggregate(aggregate.Type.sum, sumField))
                 .from(table1, table2)
                 .where(condition.condition(id1, condition.Op.eq, id2));
-        var sqliteQQ = sqliteQuery.query(s);
+        var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString(s);
         console.log(ss);
         assert.strictEqual('SELECT SUM(sumField) FROM table1, table2 WHERE id1 = id2', sqliteQQ.queryString());
@@ -110,7 +111,7 @@ var Tests = {
         table1.field(name1);
         var s = query.insert()
                 .into(table1); // all fields
-        var sqliteQQ = sqliteQuery.query(s);
+        var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString(s);
         console.log(ss, sqliteQQ.params());
         assert.strictEqual('INSERT INTO table1 (id1, name1) VALUES (?, ?)', sqliteQQ.queryString());
@@ -128,7 +129,7 @@ var Tests = {
         var s = query.update()
                 .table(table1)
                 .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
-        var sqliteQQ = sqliteQuery.query(s);
+        var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString(s);
         console.log(ss, sqliteQQ.params());
         assert.strictEqual('UPDATE table1 SET id1 = ?, name1 = ? WHERE id1 = ?', sqliteQQ.queryString());
@@ -145,7 +146,7 @@ var Tests = {
         var s = query.delete()
                 .table(table1)
                 .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
-        var sqliteQQ = sqliteQuery.query(s);
+        var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString();
         console.log(ss, sqliteQQ.params());
         assert.strictEqual('DELETE FROM table1 WHERE id1 = ?', sqliteQQ.queryString());
@@ -159,7 +160,7 @@ var Tests = {
         var name1 = m_sql_field.field('name1', m_sql_field.DataType.string);
         table1.field(id1).field(name1);
         var s = ddl.create(table1);
-        var sqliteQQ = sqliteQuery.query(s);
+        var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString();
         console.log(ss);
     },
@@ -188,7 +189,13 @@ var Tests = {
 
         id1.value(1);
 
-        calcField.value();
+        calcField.conditions([m_sql_condition.condition(id1, m_sql_condition.Op.eq, 1)]);
+        var q = calcField.query();
+        var qq = m_sql_sqlite_query.query(q);
+        console.log(qq.queryString(), qq.params());
+        assert.strictEqual('SELECT SUM(sumField) FROM table1, table2 WHERE id1 = id2 AND id1 = ?', qq.queryString());
+        assert.equal(1, qq.params()[0]);
+
     }
 
 };
