@@ -71,6 +71,7 @@
 </node>
 <node TEXT="Todo" POSITION="right" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1430315738525">
 <edge COLOR="#ffff00"/>
+<node TEXT="conditions vom web holen und in die calcfields stopfen" ID="ID_209212317" CREATED="1430663864574" MODIFIED="1430663919078"/>
 <node TEXT="sequences" ID="ID_903459792" CREATED="1430315738745" MODIFIED="1430315742981">
 <node TEXT="dao sollte eine methode daf&#xfc;r haben" ID="ID_330123917" CREATED="1430315751247" MODIFIED="1430315756343"/>
 </node>
