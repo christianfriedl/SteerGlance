@@ -82,12 +82,64 @@ var tests = {
            ],
             function(err, result) { if ( err ) throw err; console.log(result); }
         );
+    }, testCalcField: function() {
+        var db1 = m_sql_db.db(':memory:').open(':memory:');
+        var bo1 = m_app_customer_customerBo.customerBo(db1);
+        async.series([
+            function(callback) {
+                db1._db._db.serialize(function() {
+                    db1._db._db.run('CREATE TABLE customer (id int, firstName text, lastName text)', [], function(err, res) { console.log(err, 'done', res); });
+                    db1._db._db.run('INSERT INTO customer VALUES(1, \'Karenbruck\', \'Hardnebrautz\')', [], function(err, res) { console.log(err, 'done', res); });
+                    db1._db._db.run('INSERT INTO customer VALUES(2, \'Christian\', \'Friedl\')', [], function(err, res) { console.log(err, 'done', res); });
+
+                    db1._db._db.run('CREATE TABLE invoice (id int, customerId int, amount decimal)', [], function(err, res) { console.log(err, 'done', res); });
+                    db1._db._db.run('INSERT INTO invoice VALUES(1, 1, 10.0)', [], function(err, res) { console.log(err, 'done', res); });
+                    db1._db._db.run('INSERT INTO invoice VALUES(2, 1, 20.0)', [], function(err, res) { console.log(err, 'done', res); });
+                    callback(false);
+                });
+            },
+            function (callback) {
+                console.log('testCalcField loading starts');
+                bo1.loadById(1, function(err, result) {
+                    console.log('testCalcField result', result);
+                    callback(false);
+                });
+            }
+        ]);
+    }
+};
+
+var tests2 = {
+    _name: 'testCustomerBo',
+    testCalcField: function() {
+        var db1 = m_sql_db.db(':memory:').open(':memory:');
+        var bo1 = m_app_customer_customerBo.customerBo(db1);
+        async.series([
+            function(callback) {
+                db1._db._db.serialize(function() {
+                    db1._db._db.run('CREATE TABLE customer (id int, firstName text, lastName text)', [], function(err, res) { console.log(err, 'done', res); });
+                    db1._db._db.run('INSERT INTO customer VALUES(1, \'Karenbruck\', \'Hardnebrautz\')', [], function(err, res) { console.log(err, 'done', res); });
+                    db1._db._db.run('INSERT INTO customer VALUES(2, \'Christian\', \'Friedl\')', [], function(err, res) { console.log(err, 'done', res); });
+
+                    db1._db._db.run('CREATE TABLE invoice (id int, customerId int, amount decimal)', [], function(err, res) { console.log(err, 'done', res); });
+                    db1._db._db.run('INSERT INTO invoice VALUES(1, 1, 10.0)', [], function(err, res) { console.log(err, 'done', res); });
+                    db1._db._db.run('INSERT INTO invoice VALUES(2, 1, 20.0)', [], function(err, res) { console.log(err, 'done', res); });
+                    callback(false);
+                });
+            },
+            function (callback) {
+                bo1.loadById(1, function(err, result) {
+                    assert.strictEqual(30, bo1.field('sumInvoiceAmount').value());
+                    callback(false);
+                }, true);
+            }
+        ]);
     }
 };
 
 function runTests() {
-    m_TestSuite.TestSuite.call(tests);
-    m_TestSuite.TestSuite.prototype.runTests.call(tests);
+    m_TestSuite.TestSuite.call(tests2);
+    m_TestSuite.TestSuite.prototype.runTests.call(tests2);
 }
 
 exports.runTests = runTests;
