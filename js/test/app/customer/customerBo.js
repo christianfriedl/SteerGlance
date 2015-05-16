@@ -6,7 +6,7 @@ var m_TestSuite = require('TestSuite.js');
 
 var tests = {
     _name: 'testCustomerBo',
-    DEACTtestUpdate: function() {
+    testUpdate: function() {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
         var bo1 = m_app_customer_customerBo.customerBo(db1);
         async.series([
@@ -47,7 +47,7 @@ var tests = {
             function(err, result) { if ( err ) throw err; console.log(result); }
         );
     },
-    DEACTtestInsert: function() {
+    testInsert: function() {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
         var bo1 = m_app_customer_customerBo.customerBo(db1);
         async.series([
@@ -83,11 +83,11 @@ var tests = {
             function(err, result) { if ( err ) throw err; console.log(result); }
         );
     }, 
-    DEACTtestCalcFieldUsesRightFields: function() {
+    testCalcFieldUsesRightFields: function() {
         // TODO test taht calcfields are not used for writing or reading to/from db
         console.warn('TODO this is a test stub');
     },
-    DEACTtestCalcFieldLoadById: function() {
+    testCalcFieldLoadById: function() {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
         var bo1 = m_app_customer_customerBo.customerBo(db1);
         async.series([
