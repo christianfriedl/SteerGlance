@@ -15,6 +15,10 @@ var query = require('sql/query.js');
 var ddl = require('sql/ddl.js');
 var sqliteQuery = require('sql/sqlite/query.js');
 
+function fieldEqual(f1, f2) {
+    return f1.name() === f2.name() && f1.dataType() === f2.dataType() && f1.className() === f2.className() && f1.value() === f2.value();
+}
+
 var Tests = {
 
     testFields: function() {
@@ -23,8 +27,8 @@ var Tests = {
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(null, table1);
         var bo1 = bo.bo(null, dao1);
-        assert.strictEqual(id1, bo1.field('id1'));
-        assert.strictEqual(name1, bo1.field('name1'));
+        assert.equal(true, fieldEqual(id1, bo1.field('id1')));
+        assert.equal(true, fieldEqual(name1, bo1.field('name1')));
     },
 
     testGetters: function() {
