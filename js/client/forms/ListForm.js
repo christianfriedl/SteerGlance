@@ -21,6 +21,12 @@
                         </tr>
                     {{/each}}
                     <tr>
+                        sums:
+                    {{#each aggregateRow}}
+                        <td>{{name}}: {{value}}</td>
+                    {{/each}}
+                    </tr>
+                    <tr>
                         <th>&nbsp;</th>
                         <td><button class="save">save</button></td>
                     </tr>
