@@ -4,28 +4,37 @@
     var Clazz = function(data) {
         this._data = data;
         this._data.headrow=data.rows[0].row;
-        this._template = `
+    };
+
+    Clazz.prototype.createHtml = function() {
+        var html = `
             <form id="bjo-main-form">
                 <table class="list-form">
-                    <tr class="head">
-                    {{#each headrow}}
-                        <th>{{label}}</th>
-                    {{/each}}
-                    </tr>
-                    {{#each rows}}
-                        <tr class="edit">
-                        {{#each row}}
-                            <td><input id="field-{{id}}-{{name}}" name="{{name}}" type="text" value="{{value}}" /></td>
-                        {{/each}}
-                        </tr>
-                    {{/each}}
-                    <tr class="foot">
-                    {{#each aggregateRow}}
-                        {{#xif "this.className=='sql.CalcField'"}}<td>{{value}}</td>
-                        {{else}}<td>&nbsp;</td>
-                        {{/xif}}
-                    {{/each}}
-                    </tr>
+                    <tr class="head">`
+                        + _(this._data.headrow).reduce(function(memo, field) { 
+                            return memo 
+                            + '<th>' + field.label + '</th>'; 
+                        }, '')
+                    + `</tr>`
+                    + _(this._data.rows).reduce(function(memo, row) { 
+                        return memo + 
+                        '<tr class="edit">' 
+                            + _(row.fields).reduce(function(memo, field) {
+                                return memo + 
+                                    '<td><input id="field-' + row.id + '-' + field.name + '" name="' + field.name + '" type="text" value="' + (field.value ? field.value : '') + '" /></td>'; 
+                            }, '') 
+                        + '</tr>'; 
+                    }, '')
+                    + `<tr class="foot">`
+                        + _(this._data.aggregateRow).reduce(function(memo, field) {
+                            console.log('_agg',field);
+                            if ( field.className==='sql.CalcField' ) {
+                                return memo + '<td>' + field.value + '</td>';
+                            } else {
+                                return memo + '<td>&nbsp;</td>';
+                            }
+                        }, '')
+                    + `</tr>
                     <tr>
                         <th>&nbsp;</th>
                         <td><button class="save">save</button></td>
@@ -54,11 +63,6 @@
             });
     </script>
         `;
-    };
-
-    Clazz.prototype.createHtml = function() {
-        var hbTemplate = Handlebars.compile(this._template);
-        var html = hbTemplate(this._data);
         return html;
     };
 
