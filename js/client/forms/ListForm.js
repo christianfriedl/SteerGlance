@@ -3,24 +3,23 @@
 
     var Clazz = function(data) {
         this._data = data;
-        console.log('listform data', data.rows[0].row[0].label);
         this._data.headrow=data.rows[0].row;
         this._template = `
             <form id="bjo-main-form">
-                <table class="card-form">
-                    <tr>
+                <table class="list-form">
+                    <tr class="head">
                     {{#each headrow}}
                         <th>{{label}}</th>
                     {{/each}}
                     </tr>
                     {{#each rows}}
-                        <tr>
+                        <tr class="edit">
                         {{#each row}}
-                            <td><input name="{{name}}" type="text" value="{{value}}" /></td>
+                            <td><input id="field-{{id}}-{{name}}" name="{{name}}" type="text" value="{{value}}" /></td>
                         {{/each}}
                         </tr>
                     {{/each}}
-                    <tr>
+                    <tr class="foot">
                     {{#each aggregateRow}}
                         {{#xif "this.className=='sql.CalcField'"}}<td>{{value}}</td>
                         {{else}}<td>&nbsp;</td>
