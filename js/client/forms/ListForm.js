@@ -19,7 +19,7 @@
             <form id="bjo-main-form">
                 <table class="list-form">
                     <tr class="head">`
-                        + _(this._data.headrow).reduce(function(memo, field) { 
+                        + _(this._data.headrow.fields).reduce(function(memo, field) { 
                             return memo 
                             + '<th>' + field.label + '</th>'; 
                         }, '')
