@@ -6,6 +6,14 @@
         this._data.headrow=data.rows[0].row;
     };
 
+    Clazz.prototype.createFieldHtml = function(row, field) {
+        if ( field.isEditable ) {
+            return '<td><input id="field-' + row.id + '-' + field.name + '" name="' + field.name + '" type="text" value="' + (field.value ? field.value : '') + '" /></td>'; 
+        } else {
+            return '<td>' + (field.value ? field.value : '') + '</td>'; 
+        }
+    };
+
     Clazz.prototype.createHtml = function() {
         var html = `
             <form id="bjo-main-form">
@@ -20,11 +28,10 @@
                         return memo + 
                         '<tr class="edit">' 
                             + _(row.fields).reduce(function(memo, field) {
-                                return memo + 
-                                    '<td><input id="field-' + row.id + '-' + field.name + '" name="' + field.name + '" type="text" value="' + (field.value ? field.value : '') + '" /></td>'; 
-                            }, '') 
+                                return memo + this.createFieldHtml(row, field) 
+                            }.bind(this) , '')
                         + '</tr>'; 
-                    }, '')
+                    }.bind(this), '')
                     + `<tr class="foot">`
                         + _(this._data.aggregateRow).reduce(function(memo, field) {
                             console.log('_agg',field);
