@@ -21,9 +21,10 @@
                         </tr>
                     {{/each}}
                     <tr>
-                        sums:
                     {{#each aggregateRow}}
-                        <td>{{name}}: {{value}}</td>
+                        {{#xif "this.className=='sql.CalcField'"}}<td>{{value}}</td>
+                        {{else}}<td>&nbsp;</td>
+                        {{/xif}}
                     {{/each}}
                     </tr>
                     <tr>
