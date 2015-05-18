@@ -142,6 +142,54 @@ var tests = {
             ],
             function(err, result) { if ( err ) throw err; console.log(result); }
         );
+    },
+
+    testSaveExistingRecord: function() {
+        var table1 = table.table('updatetable')
+                        .name('updatetable')
+                        .field(field.field('id', field.DataType.int))
+                        .field(field.field('name', field.DataType.string));
+        var db1 = db.db(':memory:').open(':memory:');
+        async.series([
+            function(callback) { db1._db.runSql('CREATE TABLE updatetable (id int, name text)', [], callback); },
+            function(callback) { db1._db.runSql('INSERT INTO updatetable (id, name) VALUES(1, \'full name\')', [], callback); },
+            function(callback) {
+                var dao1 = m_dao_primaryDao.primaryDao(db1, table1);
+                dao1.loadById(1, function(err) {
+                    if ( err ) callback(err);
+                    dao1.name('new name');
+                    dao1.save(function(err, dao2) {
+                        assert.strictEqual('new name', dao1.name());
+                        assert.strictEqual('new name', dao2.name());
+                    });
+                    callback();
+                });
+            }
+            ],
+            function(err, result) { if ( err ) throw err; console.log(result); }
+        );
+    },
+
+    testSaveNewRecord: function() {
+        var table1 = table.table('updatetable')
+                        .name('updatetable')
+                        .field(field.field('id', field.DataType.int))
+                        .field(field.field('name', field.DataType.string));
+        var db1 = db.db(':memory:').open(':memory:');
+        async.series([
+            function(callback) { db1._db.runSql('CREATE TABLE updatetable (id int, name text)', [], callback); },
+            function(callback) {
+                var dao1 = m_dao_primaryDao.primaryDao(db1, table1);
+                dao1.name('new name');
+                dao1.save(function(err, dao2) {
+                    assert.strictEqual('new name', dao1.name());
+                    assert.strictEqual('new name', dao2.name());
+                });
+                callback();
+            }
+            ],
+            function(err, result) { if ( err ) throw err; console.log(result); }
+        );
     }
 
 };
