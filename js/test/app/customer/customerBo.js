@@ -17,7 +17,16 @@ var tests = {
                     bo1.firstName('Christian');
                     bo1.lastName('Friedl');
                     console.log('id before save', bo1.id(), bo1.fieldValue('id'));
-                    bo1.save(function(err) {assert.strictEqual(false, err); });
+                    bo1.save(function(err, bo2) {
+                        console.log('_save', bo1, bo2);
+                        assert.strictEqual(false, err); 
+                        assert.strictEqual(1, bo1.id());
+                        assert.strictEqual('Christian', bo1.firstName());
+                        assert.strictEqual('Friedl', bo1.lastName());
+                        assert.strictEqual(1, bo2.id());
+                        assert.strictEqual('Christian', bo2.firstName());
+                        assert.strictEqual('Friedl', bo2.lastName());
+                    });
                     callback();
                 },
                 function(callback) { 
@@ -58,8 +67,14 @@ var tests = {
                 function(callback) {
                     bo1.firstName('Christian');
                     bo1.lastName('Friedl');
-                    bo1.save(function(err) {
+                    bo1.save(function(err, bo2) {
                         assert.strictEqual(false, err); 
+                        assert.strictEqual(2, bo1.id());
+                        assert.strictEqual('Christian', bo1.firstName());
+                        assert.strictEqual('Friedl', bo1.lastName());
+                        assert.strictEqual(2, bo2.id());
+                        assert.strictEqual('Christian', bo2.firstName());
+                        assert.strictEqual('Friedl', bo2.lastName());
                         callback();
                     });
                 },

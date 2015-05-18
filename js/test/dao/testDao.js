@@ -186,8 +186,7 @@ var tests = {
                     assert.strictEqual('new name', dao2.name());
                 });
                 callback();
-            }
-            ],
+            }],
             function(err, result) { if ( err ) throw err; console.log(result); }
         );
     }
