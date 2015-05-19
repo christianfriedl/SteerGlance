@@ -8,7 +8,7 @@
 
     Clazz.prototype.createFieldHtml = function(row, field) {
         if ( field.isEditable ) {
-            return '<td><input id="field-' + row.id + '-' + field.name + '" name="' + field.name + '" type="text" value="' + (field.value ? field.value : '') + '" /></td>'; 
+            return '<td><input class="edit-field" id="field-' + row.id + '-' + field.name + '" name="' + field.name + '" type="text" value="' + (field.value ? field.value : '') + '" /></td>'; 
         } else {
             return '<td>' + (field.value ? field.value : '') + '</td>'; 
         }
@@ -53,7 +53,6 @@
                 $('#bjo-main-form button.save').click(function(evt) {
                     console.log('saving...');
                     evt.preventDefault();
-                    console.log('serailize', $('#bjo-main-form').serialize());
                     $.ajax( 
                         {
                             type: 'POST', 
@@ -67,7 +66,37 @@
                         }
                     );
                 });
+                $('#bjo-main-form input.edit-field').change(function(ev) {
+                    ev.preventDefault();
+                    var m = undefined;
+                    if ( m = ($(this).attr('id').match(/^field-(\\d+)-(\\w+)$/)) ) {
+                        var id = m[1];
+                        var fieldName = m[2];
+                        var data = { row: serializeRow('bjo-main-form', id), currentField: fieldName };
+                        `;
+
+                        var postUrl = '/' + [this._data.module, this._data.controller, 'saveField'].join('/');
+        html += `
+                        $.ajax( 
+                            {
+                                type: 'POST', 
+                                    url: '` + postUrl + `',
+                                data: data,
+                                dataType: 'json',
+                                success: function(data) {
+                                    console.log('success!', data);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
+                            }
+                        );
+                    }
+                });
             });
+            function serializeRow(formId, rowId) {
+                var rv = {};
+                $('#' + formId + ' [id^=field-' + rowId + ']').each(function(i, f) { rv[$(f).attr('name')] = $(f).val(); });
+                return rv;
+            }
     </script>
         `;
         return html;
