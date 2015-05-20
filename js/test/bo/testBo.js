@@ -103,7 +103,36 @@ var Tests = {
                 });
             });
         });
+    },
+    testDefaultValidate: function() {
+        var table1 = table.table('table1');
+        var id1 = field.field('id1', field.DataType.int);
+        table1.field(id1);
+        var db1 = db.db(':memory:').open(':memory:');
+        var dao1 = dao.dao(db1, table1);
+        var bo1 = bo.bo(db1, dao1);
+        assert.doesNotThrow(function() { bo1.validate(); });
+    },
+    testSetValidate: function() {
+        var table1 = table.table('table1');
+        var id1 = field.field('id1', field.DataType.int);
+        table1.field(id1);
+        var db1 = db.db(':memory:').open(':memory:');
+        var dao1 = dao.dao(db1, table1);
+        var bo1 = bo.bo(db1, dao1);
+        var id1 = field.field('id1').dataType(field.DataType.int);
+        bo1.id1(1);
+        bo1.validation(function() {
+            console.log('_validation', 'this', this, this.field('id1'), this.field('id1').value());
+            if ( this.field('id1').value() < 2 ) {
+                throw new field.ValidationException(id1, "must be at least 2");
+            }
+        });
+        assert.throws(function() { bo1.validate(); },  field.ValidationException, "should throw ValidationException");
+        bo1.id1(2);
+        assert.doesNotThrow(function() { bo1.validate(); });
     }
+
 };
 
 function runTests() {

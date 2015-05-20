@@ -37,6 +37,21 @@ var Tests = {
         }
         var id2 = m_sql_calcField.calcField('id1', field.DataType.int, m_sql_calcField.CalcType.sum, { label: 'Label' });
         assert.strictEqual('id1', id1.name());
+    },
+    testDefaultValidate: function() {
+        var id1 = field.field('id1').dataType(field.DataType.int);
+        id1.validate(2);
+    },
+    testSetValidate: function() {
+        var id1 = field.field('id1').dataType(field.DataType.int);
+        id1.validation(function(value) {
+            // we ignore the ctx here
+            if ( value < 2 ) {
+                throw new field.ValidationException(id1, "must be at least 2");
+            }
+        });
+        assert.throws(function() { id1.validate(1); },  field.ValidationException);
+        assert.doesNotThrow(function() { id1.validate(2); });
     }
 
 };
