@@ -20,6 +20,7 @@ function fieldEqual(f1, f2) {
 }
 
 var Tests = {
+    _name: 'testBo',
 
     testFields: function() {
         var id1 = field.field('id1', field.DataType.int).value(1);
@@ -132,7 +133,6 @@ var Tests = {
         bo1.id1(2);
         assert.doesNotThrow(function() { bo1.validate(); });
     }
-
 };
 
 function runTests() {
