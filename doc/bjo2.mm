@@ -110,6 +110,7 @@
 </node>
 </node>
 </node>
+<node TEXT="null values when coming from form" ID="ID_958543010" CREATED="1432198757393" MODIFIED="1432198762670"/>
 <node TEXT="delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1431870497676"/>
 </node>
 <node TEXT="Diary" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">
@@ -148,6 +149,18 @@
 <node TEXT="wenn gutgegangen" ID="ID_606765180" CREATED="1431871687909" MODIFIED="1431871691976">
 <node TEXT="speichern" ID="ID_755576089" CREATED="1431871692366" MODIFIED="1431871695771"/>
 </node>
+</node>
+</node>
+<node TEXT="autoSave + saveField" ID="ID_1449841197" CREATED="1432198430536" MODIFIED="1432198437089">
+<node TEXT="sind alle required fields ausgef&#xfc;llt?" ID="ID_78787627" CREATED="1432198441292" MODIFIED="1432198464993"/>
+<node TEXT="ich muss alle felder vom form holen" ID="ID_944256545" CREATED="1432198486292" MODIFIED="1432198491094">
+<node TEXT="weil ich ja keinen halben datensatz speichern kann" ID="ID_1888516385" CREATED="1432198512148" MODIFIED="1432198520452"/>
+</node>
+<node TEXT="felder im form brauchen ein &quot;dirty&quot; flag" ID="ID_394469690" CREATED="1432198679599" MODIFIED="1432198686306">
+<node TEXT="NEIN, sie sind entweder ausgef&#xfc;llt oder nicht" ID="ID_1855562146" CREATED="1432198711276" MODIFIED="1432198721639"/>
+</node>
+<node TEXT="&apos;&apos; = NULL???" ID="ID_1076353818" CREATED="1432198724684" MODIFIED="1432198729579">
+<node TEXT="jetzt mal nein, ist ein TODO" ID="ID_1677446564" CREATED="1432198748087" MODIFIED="1432198754860"/>
 </node>
 </node>
 </node>

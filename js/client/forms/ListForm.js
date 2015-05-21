@@ -72,7 +72,8 @@
                     if ( m = ($(this).attr('id').match(/^field-(\\d+)-(\\w+)$/)) ) {
                         var id = m[1];
                         var fieldName = m[2];
-                        var data = { row: serializeRow('bjo-main-form', id), currentField: fieldName };
+                        var data = { row: serializeRow('bjo-main-form', id), fieldName: fieldName, id: id };
+                        console.log('saveField data', data);
                         `;
 
                         var postUrl = '/' + [this._data.module, this._data.controller, 'saveField'].join('/');
@@ -81,8 +82,9 @@
                             {
                                 type: 'POST', 
                                     url: '` + postUrl + `',
-                                data: data,
+                                data: JSON.stringify(data),
                                 dataType: 'json',
+                                contentType: 'application/json',
                                 success: function(data) {
                                     console.log('success!', data);
                                 },
