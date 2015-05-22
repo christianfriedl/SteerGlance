@@ -6,9 +6,9 @@
         this._data.headrow=data.rows[0].row;
     };
 
-    Clazz.prototype.createFieldHtml = function(row, field) {
+    Clazz.prototype.createFieldHtml = function(id, field) {
         if ( field.isEditable ) {
-            return '<td><input class="edit-field" id="field-' + row.id + '-' + field.name + '" name="' + field.name + '" type="text" value="' + (field.value ? field.value : '') + '" /></td>'; 
+            return '<td><input class="edit-field" id="field-' + id + '-' + field.name + '" name="' + field.name + '" type="text" value="' + (field.value ? field.value : '') + '" /></td>'; 
         } else {
             return '<td>' + (field.value ? field.value : '') + '</td>'; 
         }
@@ -28,7 +28,7 @@
                         return memo + 
                         '<tr class="edit">' 
                             + _(row.fields).reduce(function(memo, field) {
-                                return memo + this.createFieldHtml(row, field) 
+                                return memo + this.createFieldHtml(row.id, field) 
                             }.bind(this) , '')
                         + '</tr>'; 
                     }.bind(this), '')
@@ -68,6 +68,7 @@
                 });
                 $('#bjo-main-form input.edit-field').change(function(ev) {
                     ev.preventDefault();
+                    var self = this;
                     var m = undefined;
                     if ( m = ($(this).attr('id').match(/^field-(\\d+)-(\\w+)$/)) ) {
                         var id = m[1];
@@ -87,6 +88,13 @@
                                 contentType: 'application/json',
                                 success: function(data) {
                                     console.log('success!', data);
+                                    if ( data.hasSaved ) {
+                                        $(self).parent().parent().html(
+                                            _(data.row).reduce(function(memo, field) {
+                                                console.log('reduce', field);
+                                                return memo + ListForm.prototype.createFieldHtml(data.id, field) 
+                                            }.bind(self), ''));
+                                    }
                                 },
                                 error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
                             }
