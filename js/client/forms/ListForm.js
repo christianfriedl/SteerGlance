@@ -10,7 +10,7 @@
         if ( field.isEditable ) {
             return '<td><input class="edit-field" id="field-' + id + '-' + field.name + '" name="' + field.name + '" type="text" value="' + (field.value ? field.value : '') + '" /></td>'; 
         } else {
-            return '<td>' + (field.value ? field.value : '') + '</td>'; 
+            return '<td><input type="hidden" id="field-' + id + '-' + field.name + '" name="' + field.name + '" value="' + (field.value ? field.value : '') + '" />' + (field.value ? field.value : '') + '</td>'; 
         }
     };
 
@@ -32,6 +32,12 @@
                             }.bind(this) , '')
                         + '</tr>'; 
                     }.bind(this), '')
+                    + '<tr class="edit insert">' 
+                    + _(this._data.rows[0].fields).reduce(function(memo, field) { 
+                        var field2 = { name: field.name, isEditable: field.isEditable, value: '' };
+                        return memo + this.createFieldHtml('insert', field2); 
+                    }.bind(this), '')
+                    + '</tr>'
                     + `<tr class="foot">`
                         + _(this._data.aggregateRow).reduce(function(memo, field) {
                             console.log('_agg',field);
@@ -70,7 +76,7 @@
                     ev.preventDefault();
                     var self = this;
                     var m = undefined;
-                    if ( m = ($(this).attr('id').match(/^field-(\\d+)-(\\w+)$/)) ) {
+                    if ( m = ($(this).attr('id').match(/^field-(\\w+)-(\\w+)$/)) ) {
                         var id = m[1];
                         var fieldName = m[2];
                         var data = { row: serializeRow('bjo-main-form', id), fieldName: fieldName, id: id };
