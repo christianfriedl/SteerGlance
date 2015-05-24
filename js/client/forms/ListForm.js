@@ -80,7 +80,6 @@
                         var id = m[1];
                         var fieldName = m[2];
                         var data = { row: serializeRow('bjo-main-form', id), fieldName: fieldName, id: id };
-                        console.log('saveField data', data);
                         `;
 
                         var postUrl = '/' + [this._data.module, this._data.controller, 'saveField'].join('/');
@@ -93,13 +92,14 @@
                                 dataType: 'json',
                                 contentType: 'application/json',
                                 success: function(data) {
-                                    console.log('success!', data);
+                                    console.log('success data', data);
                                     if ( data.hasSaved ) {
                                         $(self).parent().parent().html(
                                             _(data.row).reduce(function(memo, field) {
-                                                console.log('reduce', field);
-                                                return memo + ListForm.prototype.createFieldHtml(data.id, field) 
-                                            }.bind(self), ''));
+                                                return memo + ListForm.prototype.createFieldHtml(_(data.row).find(function(f) { return f.name === 'id'; }).value, field) ;
+                                        }.bind(self), ''));
+                                        if ( id === 'insert' ) {
+                                        }
                                     }
                                 },
                                 error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
