@@ -14,6 +14,15 @@
         }
     };
 
+    Clazz.prototype.createInsertRowHtml = function(row) {
+        return '<tr class="edit insert">' 
+            + _(row.fields).reduce(function(memo, field) { 
+                var field2 = { name: field.name, isEditable: field.isEditable, value: '' };
+                return memo + ListForm.prototype.createFieldHtml('insert', field2); 
+            }, '')
+        + '</tr>';
+    };
+
     Clazz.prototype.createHtml = function() {
         var html = `
             <form id="bjo-main-form">
@@ -32,12 +41,7 @@
                             }.bind(this) , '')
                         + '</tr>'; 
                     }.bind(this), '')
-                    + '<tr class="edit insert">' 
-                    + _(this._data.rows[0].fields).reduce(function(memo, field) { 
-                        var field2 = { name: field.name, isEditable: field.isEditable, value: '' };
-                        return memo + this.createFieldHtml('insert', field2); 
-                    }.bind(this), '')
-                    + '</tr>'
+                    + this.createInsertRowHtml(this._data.rows[0])
                     + `<tr class="foot">`
                         + _(this._data.aggregateRow).reduce(function(memo, field) {
                             console.log('_agg',field);
@@ -72,7 +76,8 @@
                         }
                     );
                 });
-                $('#bjo-main-form input.edit-field').change(function(ev) {
+                $('#bjo-main-form input.edit-field')
+                .change(function(ev) {
                     ev.preventDefault();
                     var self = this;
                     var m = undefined;
@@ -96,9 +101,10 @@
                                     if ( data.hasSaved ) {
                                         $(self).parent().parent().html(
                                             _(data.row).reduce(function(memo, field) {
-                                                return memo + ListForm.prototype.createFieldHtml(_(data.row).find(function(f) { return f.name === 'id'; }).value, field) ;
+                                                return memo + ListForm.prototype.createFieldHtml(idFieldValue(data.row), field) ;
                                         }.bind(self), ''));
-                                        if ( id === 'insert' ) {
+                                        if ( id === 'insert' ) { // old id!!!
+                                            $(self).parent().parent().append(ListForm.prototype.createInsertRowHtml(data.row));
                                         }
                                     }
                                 },
@@ -106,8 +112,21 @@
                             }
                         );
                     }
+                })
+                .click(function(ev) {
+                    if ( getSelection().type === 'Caret' ) {
+                        this.setSelectionRange(0, $(this).val().length);
+                    }
                 });
             });
+            function idFieldValue(row) { 
+                var field = _(row).find(function(f) { return f.name === 'id'; });
+                if ( field ) { 
+                    return field.value;
+                } else {
+                    return null;
+                }
+            }
             function serializeRow(formId, rowId) {
                 var rv = {};
                 $('#' + formId + ' [id^=field-' + rowId + ']').each(function(i, f) { rv[$(f).attr('name')] = $(f).val(); });
