@@ -189,8 +189,27 @@ var tests = {
             }],
             function(err, result) { if ( err ) throw err; console.log(result); }
         );
+    },
+    testCountByConditions: function() {
+        var table1 = table.table('counttable')
+                        .name('counttable')
+                        .field(field.field('id', field.DataType.int));
+        var db1 = db.db(':memory:').open(':memory:');
+        async.series([
+            function(callback) { db1._db.runSql('CREATE TABLE counttable (id int)', [], callback); },
+            function(callback) { db1._db.runSql('INSERT INTO counttable (id) VALUES(1)', [], callback); },
+            function(callback) { db1._db.runSql('INSERT INTO counttable (id) VALUES(1)', [], callback); },
+            function(callback) { db1._db.runSql('INSERT INTO counttable (id) VALUES(1)', [], callback); },
+            function(callback) {
+                var dao1 = dao.dao(db1, table1);
+                dao1.countByConditions([], function(err, count) {
+                    assert.strictEqual(3, count);
+                    callback();
+                });
+            }],
+            function(err, result) { if ( err ) throw err; console.log(result); }
+        );
     }
-
 };
 
 function runTests() {

@@ -24,7 +24,7 @@ function fieldEqual(f1, f2) {
 var Tests = {
     _name: 'testPrimaryBo',
 
-    testSaveFieldWithValidation: function() {
+    DISABLEDtestSaveFieldWithValidation: function() {
         // example scenario: amountGross must be > amountNet
         var invoiceLine = table.table('invoiceLine');
         var id = field.field('id', field.DataType.int);
