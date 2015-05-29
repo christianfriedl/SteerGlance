@@ -17,6 +17,7 @@
     Clazz.prototype.createInsertRowHtml = function(row) {
         return '<tr class="edit insert">' 
             + _(row.fields).reduce(function(memo, field) { 
+                console.log('insertrow field', field);
                 var field2 = { name: field.name, isEditable: field.isEditable, value: '' };
                 return memo + ListForm.prototype.createFieldHtml('insert', field2); 
             }, '')
@@ -27,20 +28,25 @@
         var html = `
             <form id="bjo-main-form">
                 <table class="list-form">
+                    <thead>
                     <tr class="head">`
                         + _(this._data.rows[0].fields).reduce(function(memo, field) { 
                             return memo 
                             + '<th>' + field.label + '</th>'; 
                         }, '')
                     + `</tr>`
+                    + `</thead>
+                    <tbody>`
                     + _(this._data.rows).reduce(function(memo, row) { 
                         return memo + 
-                        '<tr class="edit">' 
+                        '<tr class="edit" id="edit-row-' + row.id + '">' 
                             + _(row.fields).reduce(function(memo, field) {
                                 return memo + this.createFieldHtml(row.id, field) 
                             }.bind(this) , '')
                         + '</tr>'; 
                     }.bind(this), '')
+                    + `</tbody>
+                    <tfoot>`
                     + this.createInsertRowHtml(this._data.rows[0])
                     + `<tr class="foot">`
                         + _(this._data.aggregateRow).reduce(function(memo, field) {
@@ -54,8 +60,9 @@
                     + `</tr>
                     <tr>
                         <th>&nbsp;</th>
-                        <td><button class="save">save</button></td>
+                        <td>count: <span id="count">` + this._data.count + `</td>
                     </tr>
+                    </tfoot>
                 </table>
             </form>
     <script>
@@ -87,30 +94,41 @@
                         var data = { row: serializeRow('bjo-main-form', id), fieldName: fieldName, id: id };
                         `;
 
-                        var postUrl = '/' + [this._data.module, this._data.controller, 'saveField'].join('/');
+                        var saveFieldUrl = '/' + [this._data.module, this._data.controller, 'saveField'].join('/');
+                        var countUrl = '/' + [this._data.module, this._data.controller, 'count'].join('/');
         html += `
-                        $.ajax( 
-                            {
-                                type: 'POST', 
-                                    url: '` + postUrl + `',
-                                data: JSON.stringify(data),
-                                dataType: 'json',
-                                contentType: 'application/json',
-                                success: function(data) {
-                                    console.log('success data', data);
-                                    if ( data.hasSaved ) {
-                                        $(self).parent().parent().html(
-                                            _(data.row).reduce(function(memo, field) {
-                                                return memo + ListForm.prototype.createFieldHtml(idFieldValue(data.row), field) ;
-                                        }.bind(self), ''));
-                                        if ( id === 'insert' ) { // old id!!!
-                                            $(self).parent().parent().append(ListForm.prototype.createInsertRowHtml(data.row));
-                                        }
+                        $.ajax({
+                            type: 'POST', 
+                            url: '` + saveFieldUrl + `',
+                            data: JSON.stringify(data),
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            success: function(data) {
+                                console.log('success data', data);
+                                if ( data.flags.hasSaved ) {
+                                    $('#bjo-main-form tbody #edit-row-' + idFieldValue(data.row) + ').html(
+                                        _(data.row.fields).reduce(function(memo, field) {
+                                            return memo + ListForm.prototype.createFieldHtml(idFieldValue(data.row), field) ;
+                                        }.bind(self), '')
+                                    );
+                                    if ( data.flags.hasInserted ) { // old id!!!
+                                        $('#bjo-main-form tbody').append('<tr><td>jjjjjj</td></tr>'); // ListForm.prototype.createInsertRowHtml(data.row));
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '` + countUrl + `',
+                                            data: JSON.stringify({conditions: []}),
+                                            dataType: 'json',
+                                            contentType: 'application/json',
+                                            success: function(data2) {
+                                                console.log('success count data2', data2);
+                                                $('#bjo-main-form #count').html(data2.count);
+                                            }
+                                        });
                                     }
-                                },
-                                error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
-                            }
-                        );
+                                }
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
+                        });
                     }
                 })
                 .click(function(ev) {
@@ -120,7 +138,7 @@
                 });
             });
             function idFieldValue(row) { 
-                var field = _(row).find(function(f) { return f.name === 'id'; });
+                var field = _(row.fields).find(function(f) { return f.name === 'id'; });
                 if ( field ) { 
                     return field.value;
                 } else {
