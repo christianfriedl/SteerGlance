@@ -66,90 +66,6 @@
                 </table>
             </form>
     <script>
-            $(document).ready(function() {
-                $('#bjo-main-form button.save').click(function(evt) {
-                    console.log('saving...');
-                    evt.preventDefault();
-                    $.ajax( 
-                        {
-                            type: 'POST', 
-                            url: '/{{module}}/{{controller}}/save',
-                            data: $('#bjo-main-form').serialize(),
-                            dataType: 'json',
-                            success: function(data) {
-                                console.log('success!', data);
-                            },
-                            error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
-                        }
-                    );
-                });
-                $('#bjo-main-form input.edit-field')
-                .change(function(ev) {
-                    ev.preventDefault();
-                    var self = this;
-                    var m = undefined;
-                    if ( m = ($(this).attr('id').match(/^field-(\\w+)-(\\w+)$/)) ) {
-                        var id = m[1];
-                        var fieldName = m[2];
-                        var data = { row: serializeRow('bjo-main-form', id), fieldName: fieldName, id: id };
-                        `;
-
-                        var saveFieldUrl = '/' + [this._data.module, this._data.controller, 'saveField'].join('/');
-                        var countUrl = '/' + [this._data.module, this._data.controller, 'count'].join('/');
-        html += `
-                        $.ajax({
-                            type: 'POST', 
-                            url: '` + saveFieldUrl + `',
-                            data: JSON.stringify(data),
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            success: function(data) {
-                                console.log('success data', data);
-                                if ( data.flags.hasSaved ) {
-                                    $('#bjo-main-form tbody #edit-row-' + idFieldValue(data.row) + ').html(
-                                        _(data.row.fields).reduce(function(memo, field) {
-                                            return memo + ListForm.prototype.createFieldHtml(idFieldValue(data.row), field) ;
-                                        }.bind(self), '')
-                                    );
-                                    if ( data.flags.hasInserted ) { // old id!!!
-                                        $('#bjo-main-form tbody').append('<tr><td>jjjjjj</td></tr>'); // ListForm.prototype.createInsertRowHtml(data.row));
-                                        $.ajax({
-                                            type: 'POST',
-                                            url: '` + countUrl + `',
-                                            data: JSON.stringify({conditions: []}),
-                                            dataType: 'json',
-                                            contentType: 'application/json',
-                                            success: function(data2) {
-                                                console.log('success count data2', data2);
-                                                $('#bjo-main-form #count').html(data2.count);
-                                            }
-                                        });
-                                    }
-                                }
-                            },
-                            error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
-                        });
-                    }
-                })
-                .click(function(ev) {
-                    if ( getSelection().type === 'Caret' ) {
-                        this.setSelectionRange(0, $(this).val().length);
-                    }
-                });
-            });
-            function idFieldValue(row) { 
-                var field = _(row.fields).find(function(f) { return f.name === 'id'; });
-                if ( field ) { 
-                    return field.value;
-                } else {
-                    return null;
-                }
-            }
-            function serializeRow(formId, rowId) {
-                var rv = {};
-                $('#' + formId + ' [id^=field-' + rowId + ']').each(function(i, f) { rv[$(f).attr('name')] = $(f).val(); });
-                return rv;
-            }
     </script>
         `;
         return html;
@@ -167,5 +83,90 @@
 
     };
 
+    Clazz.prototype.afterCreateHtml = function() {
+        $('#bjo-main-form button.save').click(function(evt) {
+            console.log('saving...');
+            evt.preventDefault();
+            $.ajax( 
+                {
+                    type: 'POST', 
+                    url: '/{{module}}/{{controller}}/save',
+                    data: $('#bjo-main-form').serialize(),
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log('success!', data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
+                }
+            );
+        });
+        $('#bjo-main-form input.edit-field')
+        .change(function(ev) {
+            ev.preventDefault();
+            var self = this;
+            var m = undefined;
+            if ( m = ($(this).attr('id').match(/^field-(\\w+)-(\\w+)$/)) ) {
+                var id = m[1];
+                var fieldName = m[2];
+                var data = { row: serializeRow('bjo-main-form', id), fieldName: fieldName, id: id };
+                `;
+
+                var saveFieldUrl = '/' + [this._data.module, this._data.controller, 'saveField'].join('/');
+                var countUrl = '/' + [this._data.module, this._data.controller, 'count'].join('/');
+html += `
+                $.ajax({
+                    type: 'POST', 
+                    url: '` + saveFieldUrl + `',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        console.log('success data', data);
+                        if ( data.flags.hasSaved ) {
+                            $('#bjo-main-form tbody #edit-row-' + idFieldValue(data.row) + ').html(
+                                _(data.row.fields).reduce(function(memo, field) {
+                                    return memo + ListForm.prototype.createFieldHtml(idFieldValue(data.row), field) ;
+                                }.bind(self), '')
+                            );
+                            if ( data.flags.hasInserted ) { // old id!!!
+                                $('#bjo-main-form tbody').append('<tr><td>jjjjjj</td></tr>'); // ListForm.prototype.createInsertRowHtml(data.row));
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '` + countUrl + `',
+                                    data: JSON.stringify({conditions: []}),
+                                    dataType: 'json',
+                                    contentType: 'application/json',
+                                    success: function(data2) {
+                                        console.log('success count data2', data2);
+                                        $('#bjo-main-form #count').html(data2.count);
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
+                });
+            }
+        })
+        .click(function(ev) {
+            if ( getSelection().type === 'Caret' ) {
+                this.setSelectionRange(0, $(this).val().length);
+            }
+        });
+    }
+
+            function idFieldValue(row) { 
+                var field = _(row.fields).find(function(f) { return f.name === 'id'; });
+                if ( field ) { 
+                    return field.value;
+                } else {
+                    return null;
+                }
+            }
+            function serializeRow(formId, rowId) {
+                var rv = {};
+                $('#' + formId + ' [id^=field-' + rowId + ']').each(function(i, f) { rv[$(f).attr('name')] = $(f).val(); });
+                return rv;
+            }
     window.ListForm = Clazz;
 })(window);

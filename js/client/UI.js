@@ -20,9 +20,9 @@
         var html = form.createHtml(data);
         console.log('UI display html:', html);
         var div = $(html);
-        form.afterCreateHtml();
         $('#bjo-ui').empty();
         $('#bjo-ui').append(div);
+        form.afterCreateHtml();
 
     };
 
