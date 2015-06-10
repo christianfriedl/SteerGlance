@@ -9,7 +9,7 @@
                 return new EditForm(data);
                 break;
             case 'list':
-                return new ListForm(data);
+                return ListForm;
                 break;
             default:
                 throw 'no such action as ' + data.action;

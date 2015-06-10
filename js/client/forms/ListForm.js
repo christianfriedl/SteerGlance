@@ -1,12 +1,8 @@
 (function(window) {
     "use strict";
 
-    var Clazz = function(data) {
-        this._data = data;
-        this._data.headrow=data.rows[0].row;
-    };
-
-    Clazz.prototype.createFieldHtml = function(id, field) {
+    var ListForm = {};
+    ListForm.createFieldHtml = function(id, field) {
         if ( field.isEditable ) {
             return '<td><input class="edit-field" id="field-' + id + '-' + field.name + '" name="' + field.name + '" type="text" value="' + (field.value ? field.value : '') + '" /></td>'; 
         } else {
@@ -14,42 +10,43 @@
         }
     };
 
-    Clazz.prototype.createInsertRowHtml = function(row) {
-        return '<tr class="edit insert">' 
+    ListForm.createInsertRowHtml = function(row) {
+        return '<tr class="edit insert" id="insert-row">' 
             + _(row.fields).reduce(function(memo, field) { 
-                console.log('insertrow field', field);
                 var field2 = { name: field.name, isEditable: field.isEditable, value: '' };
-                return memo + ListForm.prototype.createFieldHtml('insert', field2); 
+                return memo + ListForm.createFieldHtml('insert', field2); 
             }, '')
         + '</tr>';
     };
+    ListForm.createRowHtml = function(row) {
+        return '<tr class="edit" id="edit-row-' + row.id + '">' 
+            + _(row.fields).reduce(function(memo, field) {
+                return memo + ListForm.createFieldHtml(row.id, field) 
+            }.bind(ListForm) , '')
+        + '</tr>'; 
+    }
 
-    Clazz.prototype.createHtml = function() {
+    ListForm.createHtml = function(cssId, data) {
         var html = `
-            <form id="bjo-main-form">
+            <form id="` + cssId + `">
                 <table class="list-form">
                     <thead>
                     <tr class="head">`
-                        + _(this._data.rows[0].fields).reduce(function(memo, field) { 
+                        + _(data.rows[0].fields).reduce(function(memo, field) { 
                             return memo 
                             + '<th>' + field.label + '</th>'; 
                         }, '')
                     + `</tr>`
                     + `</thead>
                     <tbody>`
-                    + _(this._data.rows).reduce(function(memo, row) { 
-                        return memo + 
-                        '<tr class="edit" id="edit-row-' + row.id + '">' 
-                            + _(row.fields).reduce(function(memo, field) {
-                                return memo + this.createFieldHtml(row.id, field) 
-                            }.bind(this) , '')
-                        + '</tr>'; 
-                    }.bind(this), '')
+                    + _(data.rows).reduce(function(memo, row) { 
+                        return memo + ListForm.createRowHtml(row);
+                    }.bind(ListForm), '')
                     + `</tbody>
                     <tfoot>`
-                    + this.createInsertRowHtml(this._data.rows[0])
+                    + this.createInsertRowHtml(data.rows[0])
                     + `<tr class="foot">`
-                        + _(this._data.aggregateRow).reduce(function(memo, field) {
+                        + _(data.aggregateRow).reduce(function(memo, field) {
                             console.log('_agg',field);
                             if ( field.className==='sql.CalcField' ) {
                                 return memo + '<td>' + field.value + '</td>';
@@ -60,7 +57,7 @@
                     + `</tr>
                     <tr>
                         <th>&nbsp;</th>
-                        <td>count: <span id="count">` + this._data.count + `</td>
+                        <td>count: <span id="count">` + data.count + `</td>
                     </tr>
                     </tfoot>
                 </table>
@@ -71,8 +68,8 @@
         return html;
     };
 
-    Clazz.prototype.save = function(formId) {
-        $.ajax(this._data.url, {
+    ListForm.save = function(formId) {
+        $.ajax(data.url, {
             type: 'POST',
             data: $('#' + formId).serialize(),
             success: function(data) {
@@ -83,65 +80,45 @@
 
     };
 
-    Clazz.prototype.afterCreateHtml = function() {
-        $('#bjo-main-form button.save').click(function(evt) {
-            console.log('saving...');
-            evt.preventDefault();
-            $.ajax( 
-                {
-                    type: 'POST', 
-                    url: '/{{module}}/{{controller}}/save',
-                    data: $('#bjo-main-form').serialize(),
-                    dataType: 'json',
-                    success: function(data) {
-                        console.log('success!', data);
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
-                }
-            );
+    ListForm.afterCreateHtml = function(cssId, data) {
+        _(data.rows).each(function(row) {
+            ListForm.addJQueryFieldHandlers(cssId, 'edit-row-' + row.id, row, data.module, data.controller);
         });
-        $('#bjo-main-form input.edit-field')
-        .change(function(ev) {
+        ListForm.addJQueryFieldHandlers(cssId, 'insert-row', data.rows[0], data.module, data.controller);
+
+    }
+
+    ListForm.addJQueryFieldHandlers = function(cssId, rowCssId, row, module, controller) {
+        $('#' + cssId + ' #' + rowCssId + ' input.edit-field').change(function(ev) {
             ev.preventDefault();
-            var self = this;
             var m = undefined;
-            if ( m = ($(this).attr('id').match(/^field-(\\w+)-(\\w+)$/)) ) {
+            if ( m = ($(this).attr('id').match(/^field-(\w+)-(\w+)$/)) ) {
                 var id = m[1];
                 var fieldName = m[2];
-                var data = { row: serializeRow('bjo-main-form', id), fieldName: fieldName, id: id };
-                `;
+                var ajaxData = { row: serializeRow(cssId, id), fieldName: fieldName, id: id };
 
-                var saveFieldUrl = '/' + [this._data.module, this._data.controller, 'saveField'].join('/');
-                var countUrl = '/' + [this._data.module, this._data.controller, 'count'].join('/');
-html += `
+                var saveFieldUrl = '/' + [module, controller, 'saveField'].join('/');
+                console.log(saveFieldUrl);
+                var countUrl = '/' + [module, controller, 'count'].join('/');
+
                 $.ajax({
                     type: 'POST', 
-                    url: '` + saveFieldUrl + `',
-                    data: JSON.stringify(data),
+                    url: saveFieldUrl,
+                    data: JSON.stringify(ajaxData),
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
-                        console.log('success data', data);
-                        if ( data.flags.hasSaved ) {
-                            $('#bjo-main-form tbody #edit-row-' + idFieldValue(data.row) + ').html(
-                                _(data.row.fields).reduce(function(memo, field) {
-                                    return memo + ListForm.prototype.createFieldHtml(idFieldValue(data.row), field) ;
-                                }.bind(self), '')
-                            );
-                            if ( data.flags.hasInserted ) { // old id!!!
-                                $('#bjo-main-form tbody').append('<tr><td>jjjjjj</td></tr>'); // ListForm.prototype.createInsertRowHtml(data.row));
-                                $.ajax({
-                                    type: 'POST',
-                                    url: '` + countUrl + `',
-                                    data: JSON.stringify({conditions: []}),
-                                    dataType: 'json',
-                                    contentType: 'application/json',
-                                    success: function(data2) {
-                                        console.log('success count data2', data2);
-                                        $('#bjo-main-form #count').html(data2.count);
-                                    }
-                                });
-                            }
+                        if ( data.flags.hasInserted ) {
+                            var oldRowHtml = ListForm.createRowHtml(data.row);
+                            var newInsertRowHtml = ListForm.createInsertRowHtml(data.row);
+
+                            $('#' + cssId + ' table.list-form tfoot tr#insert-row').remove();
+                            $('#' + cssId + ' table.list-form tfoot').prepend(newInsertRowHtml);
+                            $('#' + cssId + ' table.list-form tbody').append(oldRowHtml);
+                            console.log(data);
+                            ListForm.updateCount(cssId, data.count);
+                            ListForm.addJQueryFieldHandlers(cssId, 'edit-row-' + data.row.id, data.row, data.module, data.controller);
+                            ListForm.addJQueryFieldHandlers(cssId, 'insert-row', data.row, data.module, data.controller);
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
@@ -153,6 +130,10 @@ html += `
                 this.setSelectionRange(0, $(this).val().length);
             }
         });
+    };
+
+    ListForm.updateCount = function(cssId, count) {
+        $('#' + cssId + ' #count').html(count);
     }
 
             function idFieldValue(row) { 
@@ -168,5 +149,5 @@ html += `
                 $('#' + formId + ' [id^=field-' + rowId + ']').each(function(i, f) { rv[$(f).attr('name')] = $(f).val(); });
                 return rv;
             }
-    window.ListForm = Clazz;
+    window.ListForm = ListForm;
 })(window);

@@ -9,6 +9,7 @@
     };
 
     Clazz.prototype.display = function(url, data) {
+        var cssId = 'bjo-main-form';
         data.url = url;
         if ( typeof(data) !== 'undefinded' ) {
             this.setData(data);
@@ -17,13 +18,10 @@
         var form = FormRouter.route(data);
         console.log('UI display form:', form);
 
-        var html = form.createHtml(data);
+        var html = form.createHtml(cssId, data);
         console.log('UI display html:', html);
-        var div = $(html);
-        $('#bjo-ui').empty();
-        $('#bjo-ui').append(div);
-        form.afterCreateHtml();
-
+        $('#bjo-ui').html(html);
+        form.afterCreateHtml(cssId, data);
     };
 
     window.UI = Clazz;
