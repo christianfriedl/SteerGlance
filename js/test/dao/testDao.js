@@ -50,76 +50,6 @@ var tests = {
         assert.strictEqual('name', dao1.name1());
     },
 
-    testLoadByQuery: function() {
-        var table1 = table.table('table1');
-        var id1 = field.field('id1', field.DataType.int);
-        table1.field(id1);
-        var cond = condition.condition()
-            .field(id1)
-            .op(condition.Op.eq)
-            .compareTo(1);
-        var select = query.select(id1).from(table1).where(cond);
-        var db1 = db.db(':memory:').open(':memory:');
-        async.series([
-            function(callback) { db1._db.runSql('CREATE TABLE table1 (id1 int)', [], callback); },
-            function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], callback); },
-            function(callback) {
-                var dao1 = dao.dao(db1, table1);
-                dao1.loadOneByQuery(select, function(err, dao2) {
-                    assert.strictEqual(false, err);
-                    console.log('dao laoded', dao1.id1());
-                    assert.strictEqual(1, dao1.id1());
-                    assert.strictEqual(dao2, dao1);
-                });
-            }],
-            function(err, result) { if ( err ) throw err; console.log(result); }
-        );
-    },
-
-    testLoadAllByQuery: function() {
-        var table1 = table.table('table1');
-        var id1 = field.field('id1', field.DataType.int);
-        table1.field(id1);
-        var select = query.select(id1).from(table1);
-        var db1 = db.db(':memory:').open(':memory:');
-        async.series([
-            function(callback) { db1._db.runSql('CREATE TABLE table1 (id1 int)', [], callback); },
-            function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], callback); },
-            function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(2)', [], callback); },
-            function(callback) {
-                var dao1 = dao.dao(db1, table1);
-                dao1.loadAllByQuery(select, function(err, daos) {
-                    assert.strictEqual(false, err);
-                    assert.strictEqual(1, daos[0].id1());
-                    assert.strictEqual(2, daos[1].id1());
-                });
-            }],
-            function(err, result) { if ( err ) throw err; console.log(result); }
-        );
-    },
-
-    testLoadAllByConditions: function() {
-        var table1 = table.table('table1');
-        var id1 = field.field('id1', field.DataType.int);
-        table1.field(id1);
-        console.log('fieldssss', id1, id1.className(), table1.field('id1').className());
-        var db1 = db.db(':memory:').open(':memory:');
-        async.series([
-            function(callback) { db1._db.runSql('CREATE TABLE table1 (id1 int)', [], callback); },
-            function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], callback); },
-            function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(2)', [], callback); },
-            function(callback) {
-                var dao1 = dao.dao(db1, table1);
-                dao1.loadAllByConditions([], function(err, daos) {
-                    assert.strictEqual(false, err);
-                    assert.strictEqual(1, daos[0].id1());
-                    assert.strictEqual(2, daos[1].id1());
-                });
-            }],
-            function(err, result) { if ( err ) throw err; console.log(result); }
-        );
-    },
-
     testPrimaryDao: function() {
         var table1 = table.table('table1')
                         .name('table1')
@@ -189,29 +119,8 @@ var tests = {
             }],
             function(err, result) { if ( err ) throw err; console.log(result); }
         );
-    },
-    testCountByConditions: function() {
-        var table1 = table.table('counttable')
-                        .name('counttable')
-                        .field(field.field('id', field.DataType.int));
-        var db1 = db.db(':memory:').open(':memory:');
-        async.series([
-            function(callback) { db1._db.runSql('CREATE TABLE counttable (id int)', [], callback); },
-            function(callback) { db1._db.runSql('INSERT INTO counttable (id) VALUES(1)', [], callback); },
-            function(callback) { db1._db.runSql('INSERT INTO counttable (id) VALUES(1)', [], callback); },
-            function(callback) { db1._db.runSql('INSERT INTO counttable (id) VALUES(1)', [], callback); },
-            function(callback) {
-                var dao1 = dao.dao(db1, table1);
-                dao1.countByConditions([], function(err, count) {
-                    assert.strictEqual(3, count);
-                    callback();
-                });
-            }],
-            function(err, result) { if ( err ) throw err; console.log(result); }
-        );
     }
 };
-
 function runTests() {
     m_TestSuite.TestSuite.call(tests);
     m_TestSuite.TestSuite.prototype.runTests.call(tests);
