@@ -5,15 +5,15 @@ global.DEBUG = true;
 
 // framework tests
 
-// require('./sql/table.js').runTests();
-// require('./sql/testField.js').runTests();
-// require('./sql/sqlite/testQuery.js').runTests();
+require('./sql/table.js').runTests();
+require('./sql/testField.js').runTests();
+require('./sql/sqlite/testQuery.js').runTests();
 require('./dao/testDao.js').runTests();
 require('./dao/testDaoSet.js').runTests();
 require('./bo/testBo.js').runTests();
 require('./bo/testBoSet.js').runTests();
 // require('./bo/testPrimaryBo.js').runTests();
-// require('./app/customer/customerBo.js').runTests();
+require('./app/customer/customerBo.js').runTests();
 
 // server tests
-// require('./server/app/customer/testCustomer.js').runTests();
+require('./server/app/customer/testCustomer.js').runTests();
