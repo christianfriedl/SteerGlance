@@ -12,7 +12,7 @@ require('./dao/testDao.js').runTests();
 require('./dao/testDaoSet.js').runTests();
 require('./bo/testBo.js').runTests();
 require('./bo/testBoSet.js').runTests();
-// require('./bo/testPrimaryBo.js').runTests();
+// require('./bo/testPrimaryBo.js').runTests(); -- covered via test...customerBo
 require('./app/customer/customerBo.js').runTests();
 
 // server tests

@@ -1,5 +1,8 @@
 var async = require('async');
+var m_app_customer_customerDao = require('app/customer/customerDao.js');
 var m_app_customer_customerBo = require('app/customer/customerBo.js');
+var m_dao_daoSet = require('dao/daoSet.js');
+var m_bo_boSet = require('bo/boSet.js');
 var m_sql_db = require('sql/db.js');
 var assert = require('assert');
 var m_TestSuite = require('TestSuite.js');
@@ -128,7 +131,9 @@ var tests = {
     },
     testCalcFieldLoadAllByConditions: function() {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
-        var bo1 = m_app_customer_customerBo.customerBo(db1);
+        var bo1 = m_app_customer_customerBo.customerBo();
+        var daoSet = m_dao_daoSet.daoSet(db1, bo1.dao().table(), m_app_customer_customerDao.customerDao);
+        var boSet = m_bo_boSet.boSet(daoSet, m_app_customer_customerBo.customerBo);
         async.series([
             function(callback) {
                 db1._db._db.serialize(function() {
@@ -144,7 +149,7 @@ var tests = {
                 });
             },
             function (callback) {
-                bo1.loadAllByConditions([], function(err, bos, aggregateBo) {
+                boSet.loadAllByConditions([], function(err, bos, aggregateBo) {
                     assert.strictEqual(33.0, bos[0].field('sumInvoiceAmount').value());
                     assert.strictEqual(30.0, bos[1].field('sumInvoiceAmount').value());
                     assert.strictEqual(63.0, aggregateBo.field('sumInvoiceAmount').value());
