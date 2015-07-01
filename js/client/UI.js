@@ -16,10 +16,8 @@
         }
 
         var form = FormRouter.route(data);
-        console.log('UI display form:', form);
 
         var html = form.createHtml(cssId, data);
-        console.log('UI display html:', html);
         $('#bjo-ui').html(html);
         form.afterCreateHtml(cssId, data);
     };

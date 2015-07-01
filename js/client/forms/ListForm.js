@@ -1,6 +1,35 @@
 (function(window) {
     "use strict";
 
+    function startTag(name, attrs) {
+        return '<' + name + _(attrs).reduce(function(memo, attr) { return memo + ' ' + attr.name + '="' + attr.value + '"'; }, '') + '>';
+    }
+    function endTag(name) {
+        return '</' + name + '>';
+    }
+    function singleTag(name, attrs) {
+        return '<' + name + _(attrs).reduce(function(memo, attr) { return memo + ' ' + attr.name + '="' + attr.value + '"'; }, '') + ' />';
+    }
+    function attr(name, value) {
+        return { name: name, value: value };
+    }
+
+    function tag(name, attrs, subTags, text) {
+        if ( subTags.length > 0 || (typeof(text) !== 'undefined' && text.length > 0) ) {
+            return '<' + name
+                +_(_(attrs).keys()).reduce(function(memo, name) { return memo + ' ' + name + '="' + attrs[name] + '"'; }, '')
+                + '>'
+                + _(subTags).reduce(function(memo, text) { return memo + text; }, '')
+                + text
+                + '</' + name + '>';
+        } else {
+            return '<' + name
+                +_(_(attrs).keys()).reduce(function(memo, name) { return memo + ' ' + name + '="' + attrs[name] + '"'; }, '')
+                + ' />';
+        }
+                
+    }
+
     var ListForm = {};
     ListForm.createFieldHtml = function(id, field) {
         if ( field.isEditable ) {
@@ -8,6 +37,55 @@
         } else {
             return '<td><input type="hidden" id="field-' + id + '-' + field.name + '" name="' + field.name + '" value="' + (field.value ? field.value : '') + '" />' + (field.value ? field.value : '') + '</td>'; 
         }
+    };
+
+    ListForm.createFieldFilterHtml = function(cssId, field, module, controller) {
+        var filterFieldUrl = '/' + [module, controller, 'list'].join('/');
+        return startTag('select', [ attr('id', 'filter-op-' + field.name) ])
+                + startTag('option', [ attr('value', '') ]) + '' + endTag('option')
+                + startTag('option', [ attr('value', 'eq') ]) + '=' + endTag('option')
+                + startTag('option', [ attr('value', 'lt') ]) + '<' + endTag('option')
+                + startTag('option', [ attr('value', 'gt') ]) + '>' + endTag('option')
+            + endTag('select')
+            + singleTag('input', [ attr('type', 'text'), attr('id', 'filter-text-' + field.name), attr('size', 10), attr('maxlength', 255) ])
+        + tag('script', { type: 'text/javascript' }, [],
+                `jQuery(document).ready(function() {
+                    jQuery('select#filter-op-` + field.name + `,input#filter-text-` + field.name + `').change(function(ev) {
+                        console.log('inchange', jQuery(this).attr('id'));
+                        if ( m = (jQuery(this).attr('id').match(/^filter-(\\w+)-(\\w+)$/)) ) {
+                            var data = { conditions: [] };
+                            
+                            jQuery('select', jQuery(this).parent()).each(function() {
+                                var m = jQuery(this).attr('id').match(/^filter-(\\w+)-(\\w+)$/);
+                                var opId = 'filter-op-' + m[2];
+                                var valueId = 'filter-text-' + m[2];
+                                var name = m[2];
+                                console.log('opId', opId, jQuery('#'+opId).val());
+                                if ( jQuery('#' + valueId).val().length > 0 ) {
+                                    var obj = { fieldName: name, opName: jQuery('#' + opId).val(), value: jQuery('#' + valueId).val() };
+                                    data.conditions.push(obj);
+                                }
+                            });
+
+                            if ( data.conditions.length > 0 ) {
+                                $.ajax({
+                                    type: 'POST', 
+                                    url: '` + filterFieldUrl + `',
+                                    data: JSON.stringify(data),
+                                    dataType: 'json',
+                                    contentType: 'application/json',
+                                    success: function(data) {
+                                        console.log('filter successs, got data', data);
+                                        var html = ListForm.createHtml('` + cssId + `', data);
+                                        jQuery('#` + cssId + `').parent().html(html);
+                                        ListForm.afterCreateHtml('` + cssId + `', data);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });`
+        );
     };
 
     ListForm.createInsertRowHtml = function(row) {
@@ -31,12 +109,18 @@
             <form id="` + cssId + `">
                 <table class="list-form">
                     <thead>
-                    <tr class="head">`
-                        + _(data.rows[0].fields).reduce(function(memo, field) { 
-                            return memo 
-                            + '<th>' + field.label + '</th>'; 
-                        }, '')
-                    + `</tr>`
+                        <tr class="filters head">`
+                            + _(data.rows[0].fields).reduce(function(memo, field) { 
+                                return memo 
+                                + '<th>' + ListForm.createFieldFilterHtml(cssId, field, data.module, data.controller) + '</th>'; 
+                            }, '')
+                        + `</tr>
+                        <tr class="head">`
+                            + _(data.rows[0].fields).reduce(function(memo, field) { 
+                                return memo 
+                                + '<th>' + field.label + '</th>'; 
+                            }, '')
+                        + `</tr>`
                     + `</thead>
                     <tbody>`
                     + _(data.rows).reduce(function(memo, row) { 
