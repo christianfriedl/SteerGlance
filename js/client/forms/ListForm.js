@@ -116,7 +116,7 @@
                         <tr class="filters head">`
                             + _(data.rows[0].fields).reduce(function(memo, field) { 
                                 return memo 
-                                + '<th>' + ListForm.createFieldFilterHtml(cssId, field, data.module, data.controller) + '</th>'; 
+                                + '<th>' + (field.className !== 'sql.CalcField' ? ListForm.createFieldFilterHtml(cssId, field, data.module, data.controller) : '&nbsp;') + '</th>'; 
                             }, '')
                         + `</tr>
                         <tr class="head">`
