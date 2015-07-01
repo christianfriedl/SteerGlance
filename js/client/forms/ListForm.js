@@ -67,25 +67,29 @@
                                 }
                             });
 
-                            if ( data.conditions.length > 0 ) {
-                                $.ajax({
-                                    type: 'POST', 
-                                    url: '` + filterFieldUrl + `',
-                                    data: JSON.stringify(data),
-                                    dataType: 'json',
-                                    contentType: 'application/json',
-                                    success: function(data) {
-                                        console.log('filter successs, got data', data);
-                                        var html = ListForm.createHtml('` + cssId + `', data);
-                                        jQuery('#` + cssId + `').parent().html(html);
-                                        ListForm.afterCreateHtml('` + cssId + `', data);
-                                    }
-                                });
-                            }
+                            $.ajax({
+                                type: 'POST', 
+                                url: '` + filterFieldUrl + `',
+                                data: JSON.stringify(data),
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                success: function(data) {
+                                    console.log('filter successs, got data', data);
+                                    ListForm.refreshData('` + cssId + `', data);
+                                    ListForm.afterCreateHtml('` + cssId + `', data);
+                                }
+                            });
                         }
                     });
                 });`
         );
+    };
+
+    ListForm.refreshData = function(cssId, data) {
+        jQuery('#' + cssId + ' tbody').html(
+            _(data.rows).reduce(function(memo, row) { 
+                return memo + ListForm.createRowHtml(row);
+        }.bind(ListForm), ''));
     };
 
     ListForm.createInsertRowHtml = function(row) {
