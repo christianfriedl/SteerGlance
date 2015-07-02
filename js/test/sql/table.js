@@ -8,6 +8,12 @@ var fieldLink = require('sql/fieldLink.js');
 
 var tests = {
     _name: 'testTable',
+    testGuid: function() {
+        var util = require('util.js');
+        var guid1 = util.guid();
+        var guid2 = util.guid();
+        assert.notEqual(guid1, guid2);
+    },
     testTable1: function() {
         var table1 = new table.Table('table1');
         assert.strictEqual('table1', table1.name());
