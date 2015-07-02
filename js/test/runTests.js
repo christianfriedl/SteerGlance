@@ -1,8 +1,6 @@
 var log4js = require('log4js');
 log4js.configure({ appenders: [ { type: "console", layout: { type: "basic" } } ], replaceConsole: true })
 
-global.DEBUG = true;
-
 // framework tests
 
 require('./sql/table.js').runTests();
