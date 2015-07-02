@@ -11,9 +11,8 @@
         <script type="text/javascript" src="../js/client/forms/EditForm.js"></script>
         <script type="text/javascript" src="../js/client/forms/ListForm.js"></script>
         <script type="text/javascript">
-            $(document).ready(function() {
-                var url = 'http://localhost:8888/customer/customer/list';
-                $.ajax(url, {
+            function loadUI(url) {
+                jQuery.ajax(url, {
                     async: true,
                     success: function(data) {
                         console.log('success', data);
@@ -22,11 +21,16 @@
                         ui.display(url, datax);
                     }
                 });
-            });
+            }
         </script>
     </head>
     <body>
-        <div id="bjo-ui" class="bjo-ui"></div>
+        <div id="bjo-ui" class="bjo-ui">
+            <div class="bjo-links">
+                <a href="#" onClick="loadUI('http://localhost:8888/customer/customer/list');return false;">customer list</a><br/>
+                <a href="#" onClick="loadUI('http://localhost:8888/invoice/invoice/list');return false;">invoice list</a><br/>
+            </div>
+        </div>
         <div class="bjo-license">
             <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Butler James Online</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Christian Friedl</span> is licenced under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a> license.
         </div>

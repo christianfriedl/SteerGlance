@@ -6,6 +6,9 @@
     width: 99.5%;
     border: 1px solid #999;
 }
+.bjo-links {
+    float: left;
+}
 .bjo-license {
     position: absolute;
     bottom: 10px;
