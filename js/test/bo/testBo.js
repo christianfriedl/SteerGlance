@@ -76,7 +76,7 @@ var Tests = {
                 if ( err ) throw err;
                 var dao1 = dao.dao(db1, table1);
                 dao1.loadOneByQuery(select, function(err, dao2) {
-                    assert.strictEqual(false, err);
+                    if ( err ) throw new Error(err);
                     console.log('dao laoded', dao1.id1());
                     assert.strictEqual(1, dao1.id1());
                     assert.strictEqual(dao1, dao2);
