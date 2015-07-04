@@ -87,8 +87,14 @@
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
 <node TEXT="currently, we&apos;re just using the first" ID="ID_669468957" CREATED="1435858155342" MODIFIED="1435858163145"/>
 </node>
+<node TEXT="table: use instanceof for determining field classes" ID="ID_1320547546" CREATED="1436015161559" MODIFIED="1436015244304"/>
+<node TEXT="bo: use real objects for references" ID="ID_37481252" CREATED="1436018546588" MODIFIED="1436018556452">
+<node TEXT="e.g. customerBo in invoice for customerId" ID="ID_1247201555" CREATED="1436018556794" MODIFIED="1436018569704"/>
+</node>
+<node TEXT="dao: dao.calculateCalcfields() - remove conditions from params, if we are a primary dao... otherwise...???" ID="ID_1556723586" CREATED="1436019216756" MODIFIED="1436019289475"/>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
+<node TEXT="lookupfield: .clone might be suboptimal, what if user changes Field stuff between construction and cloning?" ID="ID_1528169891" CREATED="1436024303688" MODIFIED="1436024337016"/>
 <node TEXT="test-app" ID="ID_799636667" CREATED="1430315839833" MODIFIED="1430315841342">
 <node TEXT="customer/ invoices" ID="ID_1907447430" CREATED="1430315841734" MODIFIED="1430315846728"/>
 <node TEXT="costs" ID="ID_376143007" CREATED="1430315847016" MODIFIED="1430315851573"/>
