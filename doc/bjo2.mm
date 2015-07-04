@@ -72,7 +72,7 @@
 <node TEXT="Scrum" POSITION="right" ID="ID_1919369938" CREATED="1435663658673" MODIFIED="1435663661271">
 <edge COLOR="#7c0000"/>
 <node TEXT="Todo" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1435663662175">
-<node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435663675234">
+<node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
 <node TEXT="frontend: ListForm now uses data.rows[0] for the header section" ID="ID_1419571184" CREATED="1435673318570" MODIFIED="1435673335334"/>
 <node TEXT="frontend: add lookups to listform" ID="ID_234718807" CREATED="1435663951264" MODIFIED="1435663958045"/>
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
@@ -81,7 +81,8 @@
 <node TEXT="frontend: streamline initial request by using ajax" ID="ID_587838158" CREATED="1435775497250" MODIFIED="1435775510097"/>
 <node TEXT="frontend: revisit edit form" ID="ID_1656955817" CREATED="1435663974168" MODIFIED="1435663978868"/>
 <node TEXT="frontend: update count after insert" ID="ID_160128588" CREATED="1435663980835" MODIFIED="1435664064870"/>
-<node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435664078574"/>
+<node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435919335285"/>
+<node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1435919385726"/>
 <node TEXT="fieldLinks: need clarification" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
 <node TEXT="currently, we&apos;re just using the first" ID="ID_669468957" CREATED="1435858155342" MODIFIED="1435858163145"/>
@@ -105,6 +106,7 @@
 <node TEXT="queries: add additional aggregate/join queries" ID="ID_1593921330" CREATED="1435666661730" MODIFIED="1435666676013"/>
 </node>
 <node TEXT="Prio 3" ID="ID_1852199333" CREATED="1435663677286" MODIFIED="1435663679383">
+<node TEXT="optimization: cache lookupfield options" ID="ID_32683467" CREATED="1435919298306" MODIFIED="1435919309328"/>
 <node TEXT="secuirity: acheck against sql injection" ID="ID_1469007336" CREATED="1435666679893" MODIFIED="1435666690886"/>
 <node TEXT="create some preprocessor for #ifdef" ID="ID_179422742" CREATED="1435664122057" MODIFIED="1435664132565"/>
 <node TEXT="secuirity: acheck against xss" ID="ID_1037211750" CREATED="1435666679893" MODIFIED="1435666700082"/>

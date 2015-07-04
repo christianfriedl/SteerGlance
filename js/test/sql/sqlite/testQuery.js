@@ -185,7 +185,7 @@ var Tests = {
         table1.field(calcField);
         table2.field(sumField);
         var link = m_sql_fieldLink.fieldLink(id1, id2, m_sql_fieldLink.Type.manyToOne);
-        id1.link(calcField, link);
+        id1.link(link);
 
         id1.value(1);
 
