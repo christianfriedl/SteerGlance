@@ -97,8 +97,8 @@ var tests = {
             function(callback) { db1.runSql('INSERT INTO child (mainId, id) VALUES(1, 1)', [], callback); },
             function(callback) {
                 boSet.loadAllByConditions([], function(err, bos) {
-                    console.log(bos);
                     if (err) throw new Error(err);
+                    assert.strictEqual(1, _(bos[0].field('mainId').options()).keys().length);
                     callback();
                 });
             }
