@@ -93,6 +93,8 @@
 </node>
 <node TEXT="dao: dao.calculateCalcfields() - remove conditions from params, if we are a primary dao... otherwise...???" ID="ID_1556723586" CREATED="1436019216756" MODIFIED="1436019289475"/>
 <node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657" CREATED="1436029551137" MODIFIED="1436029591464"/>
+<node TEXT="remove populatelookupfields from query result processing" ID="ID_1289840725" CREATED="1436103039186" MODIFIED="1436103050307"/>
+<node TEXT="the way we curretnly avoid circular dependencies in table construction (with stuff in addLinks()) is clearly suboptimal" ID="ID_569725763" CREATED="1436103757312" MODIFIED="1436103785468"/>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="lookupfield: .clone might be suboptimal, what if user changes Field stuff between construction and cloning?" ID="ID_1528169891" CREATED="1436024303688" MODIFIED="1436024337016"/>
