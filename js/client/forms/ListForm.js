@@ -31,9 +31,29 @@
     }
 
     var ListForm = {};
+
+    ListForm.createFieldId = function(id, field) {
+        return 'field-' + id + '-' + field.name;
+    };
+    ListForm.createEditableFieldHtml = function(id, field) {
+        var fieldId = ListForm.createFieldId(id, field);
+        if ( field.className === 'sql.LookupField' ) {
+            return '<input id="' + ListForm.createFieldId(id, field) + '" name="' + field.name + '" type="hidden" value="' + (field.value ? field.value : '') + '" />'
+                + field.value + '&nbsp;<button id="lookup-opener-' + id + '-' + field.name + '">^</button>'
+                + `<script>jQuery(document).ready(function() {
+                     jQuery('#lookup-opener-` + id + `-` + field.name + `').click(function(ev) {
+                         ev.preventDefault();
+                         openLookupPopup('` + fieldId + `', '` + JSON.stringify(field.options) + `');
+                     });
+                });</script>`;
+        } else {
+            return '<input class="edit-field" id="' +  fieldId + '" name="' + field.name + '" type="text" value="' + (field.value ? field.value : '') + '" />'; 
+        }
+    };
+    
     ListForm.createFieldHtml = function(id, field) {
         if ( field.isEditable ) {
-            return '<td><input class="edit-field" id="field-' + id + '-' + field.name + '" name="' + field.name + '" type="text" value="' + (field.value ? field.value : '') + '" /></td>'; 
+            return '<td>' + ListForm.createEditableFieldHtml(id, field) + '</td>';
         } else {
             return '<td><input type="hidden" id="field-' + id + '-' + field.name + '" name="' + field.name + '" value="' + (field.value ? field.value : '') + '" />' + (field.value ? field.value : '') + '</td>'; 
         }
@@ -150,7 +170,23 @@
                     </tfoot>
                 </table>
             </form>
+            <div id="lookupPopup" class="popup"></div>
     <script>
+        function openLookupPopup(hiddenFieldId, optionsJson) {
+            var options = JSON.parse(optionsJson);
+            var html = '<select id="lookup-select-' + hiddenFieldId + '">'
+                + '<option>select...</option>'
+                + _(_(options).keys()).reduce(function(memo, key) {
+                    return memo + '<option value="' + key + '">' + options[key] + '</option>';
+                })
+                + '</select>';
+            jQuery('#lookupPopup').html(html).dialog();
+            jQuery('#lookup-select-' + hiddenFieldId).change(function(ev) {
+                console.log(jQuery(this), jQuery(this).val());
+                jQuery('#' + hiddenFieldId).val(jQuery(this).val());
+                jQuery('#lookupPopup').dialog('close');
+            });
+        }
     </script>
         `;
         return html;

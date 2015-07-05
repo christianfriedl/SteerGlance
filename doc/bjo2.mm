@@ -73,6 +73,7 @@
 <edge COLOR="#7c0000"/>
 <node TEXT="Todo" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1435663662175">
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
+<node TEXT="frontend: after selecting for lookup field, saveField must be called" ID="ID_1419094424" CREATED="1436110393500" MODIFIED="1436110408297"/>
 <node TEXT="frontend: ListForm now uses data.rows[0] for the header section" ID="ID_1419571184" CREATED="1435673318570" MODIFIED="1435673335334"/>
 <node TEXT="frontend: add lookups to listform" ID="ID_234718807" CREATED="1435663951264" MODIFIED="1435663958045"/>
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
@@ -97,6 +98,9 @@
 <node TEXT="the way we curretnly avoid circular dependencies in table construction (with stuff in addLinks()) is clearly suboptimal" ID="ID_569725763" CREATED="1436103757312" MODIFIED="1436103785468"/>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
+<node TEXT="frontend: openlookup might be suboptimal; should use real java object instead of stringified object" ID="ID_728537161" CREATED="1436108057676" MODIFIED="1436108082099">
+<node TEXT="needs naming convention for the variable" ID="ID_1918564664" CREATED="1436108083250" MODIFIED="1436108094540"/>
+</node>
 <node TEXT="lookupfield: .clone might be suboptimal, what if user changes Field stuff between construction and cloning?" ID="ID_1528169891" CREATED="1436024303688" MODIFIED="1436024337016"/>
 <node TEXT="test-app" ID="ID_799636667" CREATED="1430315839833" MODIFIED="1430315841342">
 <node TEXT="customer/ invoices" ID="ID_1907447430" CREATED="1430315841734" MODIFIED="1430315846728"/>
