@@ -123,7 +123,7 @@
 </node>
 <node TEXT="queries: add additional aggregate/join queries" ID="ID_1593921330" CREATED="1435666661730" MODIFIED="1435666676013"/>
 </node>
-<node TEXT="Prio 3" FOLDED="true" ID="ID_1852199333" CREATED="1435663677286" MODIFIED="1435663679383">
+<node TEXT="Prio 3" ID="ID_1852199333" CREATED="1435663677286" MODIFIED="1435663679383">
 <node TEXT="optimization: cache lookupfield options" ID="ID_32683467" CREATED="1435919298306" MODIFIED="1435919309328"/>
 <node TEXT="secuirity: acheck against sql injection" ID="ID_1469007336" CREATED="1435666679893" MODIFIED="1435666690886"/>
 <node TEXT="create some preprocessor for #ifdef" ID="ID_179422742" CREATED="1435664122057" MODIFIED="1435664132565"/>
@@ -131,7 +131,6 @@
 <node TEXT="server: fix error response" ID="ID_453376038" CREATED="1435762174278" MODIFIED="1435762180771"/>
 </node>
 <node TEXT="TESTS to create" ID="ID_799999024" CREATED="1436176760345" MODIFIED="1436176763330">
-<node TEXT="webized fields of all kinds must still be json-able (nonrecursive)" ID="ID_624920653" CREATED="1436176763538" MODIFIED="1436176776466"/>
 <node TEXT="all functions should have type-checks with /* @DEVELOPMENT */" ID="ID_462989029" CREATED="1436182789643" MODIFIED="1436182809364"/>
 </node>
 </node>
