@@ -47,9 +47,9 @@ var Tests = {
 
     testSetters: function() {
         var db1 = db.db(':memory:').open(':memory:');
-        var id1 = field.field('id1');
+        var id1 = field.field('id1', field.DataType.int);
         assert.strictEqual('id1', id1.accessorName());
-        var name1 = field.field('name1');
+        var name1 = field.field('name1', field.DataType.string);
         assert.strictEqual('name1', name1.accessorName());
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(db1, table1);
@@ -100,7 +100,7 @@ var Tests = {
         var db1 = db.db(':memory:').open(':memory:');
         var dao1 = dao.dao(db1, table1);
         var bo1 = bo.bo(dao1);
-        var id1 = field.field('id1').dataType(field.DataType.int);
+        var id1 = field.field('id1', field.DataType.int);
         bo1.id1(1);
         bo1.validation(function() {
             console.log('_validation', 'this', this, this.field('id1'), this.field('id1').value());

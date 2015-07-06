@@ -54,7 +54,7 @@ var Tests = {
         var field1 = m_sql_field.field('field1', m_sql_field.DataType.int);
         table1.field(field1);
         var cond = condition.condition()
-            .field(new m_sql_field.field('field1'))
+            .field(new m_sql_field.field('field1', m_sql_field.DataType.int))
             .op(condition.Op.eq)
             .compareTo('haha');
         var select = query.select(field1).from(table1).where(cond);

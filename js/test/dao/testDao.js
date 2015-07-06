@@ -38,9 +38,9 @@ var tests = {
     },
 
     testSetters: function() {
-        var id1 = field.field('id1');
+        var id1 = field.field('id1', field.DataType.int);
         assert.strictEqual('id1', id1.accessorName());
-        var name1 = field.field('name1');
+        var name1 = field.field('name1', field.DataType.string);
         assert.strictEqual('name1', name1.accessorName());
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(null, table1);

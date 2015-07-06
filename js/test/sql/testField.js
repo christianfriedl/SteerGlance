@@ -5,25 +5,25 @@ var assert = require('assert');
 var Tests = {
 
     testIdentName: function() {
-        var id1 = field.field('id1');
+        var id1 = field.field('id1', field.DataType.int);
         assert.strictEqual('id1', id1.identifierName());
-        var name1 = field.field('name1');
+        var name1 = field.field('name1', field.DataType.string);
         assert.strictEqual('name1', name1.identifierName());
         // TODO moar tests!!!
     },
 
    testGetterName: function() {
-        var id1 = field.field('id1');
+        var id1 = field.field('id1', field.DataType.int);
         assert.strictEqual('getId1', id1.getterName());
-        var name1 = field.field('name1');
+        var name1 = field.field('name1', field.DataType.string);
         assert.strictEqual('getName1', name1.getterName());
         // TODO moar tests!!!
     },
 
     testSetterName: function() {
-        var id1 = field.field('id1');
+        var id1 = field.field('id1', field.DataType.int);
         assert.strictEqual('setId1', id1.setterName());
-        var name1 = field.field('name1');
+        var name1 = field.field('name1', field.DataType.string);
         assert.strictEqual('setName1', name1.setterName());
         // TODO moar tests!!!
     },
@@ -39,11 +39,11 @@ var Tests = {
         assert.strictEqual('id1', id1.name());
     },
     testDefaultValidate: function() {
-        var id1 = field.field('id1').dataType(field.DataType.int);
+        var id1 = field.field('id1', field.DataType.int);
         id1.validate(2);
     },
     testSetValidate: function() {
-        var id1 = field.field('id1').dataType(field.DataType.int);
+        var id1 = field.field('id1', field.DataType.int);
         id1.validation(function(value) {
             // we ignore the ctx here
             if ( value < 2 ) {
