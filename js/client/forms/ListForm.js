@@ -108,11 +108,11 @@
     ListForm.refreshData = function(cssId, data) {
         jQuery('#' + cssId + ' tbody').html(
             _(data.rows).reduce(function(memo, row) { 
-                return memo + ListForm.createRowHtml(row);
+                return memo + ListForm.createRowHtml(row, data.module, data.controller);
         }.bind(ListForm), ''));
     };
 
-    ListForm.createInsertRowHtml = function(row) {
+    ListForm.createInsertRowHtml = function(row, module, controller) {
         return '<tr class="edit insert" id="insert-row">' 
             + _(row.fields).reduce(function(memo, field) { 
                 var field2 = { name: field.name, isEditable: field.isEditable, value: '' };
@@ -120,7 +120,7 @@
             }, '')
         + '</tr>';
     };
-    ListForm.createRowHtml = function(row) {
+    ListForm.createRowHtml = function(row, module, controller) {
         return '<tr class="edit" id="edit-row-' + row.id + '">' 
             + _(row.fields).reduce(function(memo, field) {
                 return memo + ListForm.createFieldHtml(row.id, field, module, controller) 
@@ -148,7 +148,7 @@
                     + `</thead>
                     <tbody>`
                     + _(data.rows).reduce(function(memo, row) { 
-                        return memo + ListForm.createRowHtml(row);
+                        return memo + ListForm.createRowHtml(row, data.module, data.controller);
                     }.bind(ListForm), '')
                     + `</tbody>
                     <tfoot>`
