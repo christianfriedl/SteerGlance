@@ -134,13 +134,13 @@
                 <table class="list-form">
                     <thead>
                         <tr class="filters head">`
-                            + _(data.rows[0].fields).reduce(function(memo, field) { 
+                            + _(data.templateRow.fields).reduce(function(memo, field) { 
                                 return memo 
                                 + '<th>' + (field.className !== 'sql.CalcField' ? ListForm.createFieldFilterHtml(cssId, field, data.module, data.controller) : '&nbsp;') + '</th>'; 
                             }, '')
                         + `</tr>
                         <tr class="head">`
-                            + _(data.rows[0].fields).reduce(function(memo, field) { 
+                            + _(data.templateRow.fields).reduce(function(memo, field) { 
                                 return memo 
                                 + '<th>' + field.label + '</th>'; 
                             }, '')
@@ -152,7 +152,7 @@
                     }.bind(ListForm), '')
                     + `</tbody>
                     <tfoot>`
-                    + this.createInsertRowHtml(data.rows[0], data.module, data.controller)
+                    + this.createInsertRowHtml(data.templateRow, data.module, data.controller)
                     + `<tr class="foot">`
                         + _(data.aggregateRow).reduce(function(memo, field) {
                             console.log('_agg',field);
@@ -209,7 +209,7 @@
         _(data.rows).each(function(row) {
             ListForm.addJQueryFieldHandlers(cssId, 'edit-row-' + row.id, row, data.module, data.controller);
         });
-        ListForm.addJQueryFieldHandlers(cssId, 'insert-row', data.rows[0], data.module, data.controller);
+        ListForm.addJQueryFieldHandlers(cssId, 'insert-row', data.templateRow, data.module, data.controller);
 
     }
 
