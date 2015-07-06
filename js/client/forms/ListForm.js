@@ -43,7 +43,7 @@
                 + `<script>jQuery(document).ready(function() {
                      jQuery('#lookup-opener-` + id + `-` + field.name + `').click(function(ev) {
                          ev.preventDefault();
-                         openLookupPopup('` + fieldId + `', '` + JSON.stringify(field.options) + `', '` + module + `'` + controller + `');
+                         openLookupPopup('` + fieldId + `', '` + JSON.stringify(field.options) + `', '` + module + `', '` + controller + `');
                      });
                 });</script>`;
         } else {
@@ -185,7 +185,7 @@
                 console.log(jQuery(this), jQuery(this).val());
                 jQuery('#' + hiddenFieldId).val(jQuery(this).val());
                 jQuery('#lookupPopup').dialog('close');
-                ListForm.handleFieldChange = function(cssId, hiddenFieldId, module, controller) {
+                ListForm.handleFieldChange('` + cssId + `', hiddenFieldId, module, controller);
             });
         }
     </script>
