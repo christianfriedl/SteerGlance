@@ -73,7 +73,10 @@
 <edge COLOR="#7c0000"/>
 <node TEXT="Todo" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1435663662175">
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
-<node TEXT="frontend: ListForm now uses data.rows[0] for the header section" ID="ID_1419571184" CREATED="1435673318570" MODIFIED="1435673335334"/>
+<node TEXT="frontend: test whether changing of lookup field actually works to do saveField" ID="ID_956917651" CREATED="1436179449883" MODIFIED="1436179464908"/>
+<node TEXT="bo: create actual objects instead of id-links" ID="ID_1271498552" CREATED="1436183076087" MODIFIED="1436183089674">
+<node TEXT="invoice.customer" ID="ID_181813701" CREATED="1436183091843" MODIFIED="1436183095933"/>
+</node>
 <node TEXT="frontend: add scrolling to listform" ID="ID_1689836394" CREATED="1435663966160" MODIFIED="1435663972313"/>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: streamline initial request by using ajax" ID="ID_587838158" CREATED="1435775497250" MODIFIED="1435775510097"/>
@@ -97,11 +100,9 @@
 <node TEXT="remove populatelookupfields from query result processing" ID="ID_1289840725" CREATED="1436103039186" MODIFIED="1436103050307"/>
 <node TEXT="the way we curretnly avoid circular dependencies in table construction (with stuff in addLinks()) is clearly suboptimal" ID="ID_569725763" CREATED="1436103757312" MODIFIED="1436103785468"/>
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
-<node TEXT="TESTS to create" FOLDED="true" ID="ID_799999024" CREATED="1436176760345" MODIFIED="1436176763330">
-<node TEXT="webized fields of all kinds must still be json-able (nonrecursive)" ID="ID_624920653" CREATED="1436176763538" MODIFIED="1436176776466"/>
 </node>
-</node>
-<node TEXT="Prio 2" FOLDED="true" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
+<node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
+<node TEXT="make forms backbutton- and bookmark-save" ID="ID_1211678358" CREATED="1436182920070" MODIFIED="1436182939178"/>
 <node TEXT="frontend: openlookup might be suboptimal; should use real java object instead of stringified object" FOLDED="true" ID="ID_728537161" CREATED="1436108057676" MODIFIED="1436108082099">
 <node TEXT="needs naming convention for the variable" ID="ID_1918564664" CREATED="1436108083250" MODIFIED="1436108094540"/>
 </node>
@@ -129,6 +130,10 @@
 <node TEXT="secuirity: acheck against xss" ID="ID_1037211750" CREATED="1435666679893" MODIFIED="1435666700082"/>
 <node TEXT="server: fix error response" ID="ID_453376038" CREATED="1435762174278" MODIFIED="1435762180771"/>
 </node>
+<node TEXT="TESTS to create" ID="ID_799999024" CREATED="1436176760345" MODIFIED="1436176763330">
+<node TEXT="webized fields of all kinds must still be json-able (nonrecursive)" ID="ID_624920653" CREATED="1436176763538" MODIFIED="1436176776466"/>
+<node TEXT="all functions should have type-checks with /* @DEVELOPMENT */" ID="ID_462989029" CREATED="1436182789643" MODIFIED="1436182809364"/>
+</node>
 </node>
 <node TEXT="Done" ID="ID_314368932" CREATED="1435663666690" MODIFIED="1435663667460">
 <node TEXT="resolve ambivalence" FOLDED="true" ID="ID_252337074" CREATED="1431782032915" MODIFIED="1431782039477">
@@ -147,6 +152,7 @@
 <node TEXT="frontend: add filters to listform" ID="ID_1625286015" CREATED="1435663937369" MODIFIED="1435663950612"/>
 <node TEXT="frontend: addd conditions to listform" ID="ID_1795841236" CREATED="1435666555225" MODIFIED="1435666575856"/>
 <node TEXT="frontend: after selecting for lookup field, saveField must be called" ID="ID_1419094424" CREATED="1436110393500" MODIFIED="1436110408297"/>
+<node TEXT="frontend: ListForm now uses data.rows[0] for the header section" ID="ID_1419571184" CREATED="1435673318570" MODIFIED="1435673335334"/>
 </node>
 </node>
 <node TEXT="Diary" FOLDED="true" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">
