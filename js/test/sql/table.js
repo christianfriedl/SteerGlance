@@ -37,7 +37,7 @@ var tests = {
         var field2 = new field.Field('field2', field.DataType.int);
         table2.field(field2);
 
-        var fieldLink1 = new fieldLink.FieldLink(field1, field2);
+        var fieldLink1 = new fieldLink.FieldLink(field1, field2, fieldLink.Type.oneToMany);
         assert.strictEqual(fieldLink.Type.oneToMany, fieldLink1.type());
     },
 
