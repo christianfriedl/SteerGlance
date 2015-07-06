@@ -75,7 +75,6 @@
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
 <node TEXT="frontend: after selecting for lookup field, saveField must be called" ID="ID_1419094424" CREATED="1436110393500" MODIFIED="1436110408297"/>
 <node TEXT="frontend: ListForm now uses data.rows[0] for the header section" ID="ID_1419571184" CREATED="1435673318570" MODIFIED="1435673335334"/>
-<node TEXT="frontend: add lookups to listform" ID="ID_234718807" CREATED="1435663951264" MODIFIED="1435663958045"/>
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
 <node TEXT="frontend: add scrolling to listform" ID="ID_1689836394" CREATED="1435663966160" MODIFIED="1435663972313"/>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
@@ -88,7 +87,10 @@
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
 <node TEXT="currently, we&apos;re just using the first" ID="ID_669468957" CREATED="1435858155342" MODIFIED="1435858163145"/>
 </node>
-<node TEXT="table: use instanceof for determining field classes" ID="ID_1320547546" CREATED="1436015161559" MODIFIED="1436015244304"/>
+<node TEXT="table: use instanceof for determining field classes" ID="ID_1320547546" CREATED="1436015161559" MODIFIED="1436015244304">
+<node TEXT="still does not work!!!" ID="ID_1866960159" CREATED="1436111141178" MODIFIED="1436111144603"/>
+<node TEXT="create small isA() framework" ID="ID_821408512" CREATED="1436111145186" MODIFIED="1436111153061"/>
+</node>
 <node TEXT="bo: use real objects for references" ID="ID_37481252" CREATED="1436018546588" MODIFIED="1436018556452">
 <node TEXT="e.g. customerBo in invoice for customerId" ID="ID_1247201555" CREATED="1436018556794" MODIFIED="1436018569704"/>
 </node>

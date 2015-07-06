@@ -35,7 +35,7 @@
     ListForm.createFieldId = function(id, field) {
         return 'field-' + id + '-' + field.name;
     };
-    ListForm.createEditableFieldHtml = function(id, field) {
+    ListForm.createEditableFieldHtml = function(id, field, module, controller) {
         var fieldId = ListForm.createFieldId(id, field);
         if ( field.className === 'sql.LookupField' ) {
             return '<input id="' + ListForm.createFieldId(id, field) + '" name="' + field.name + '" type="hidden" value="' + (field.value ? field.value : '') + '" />'
@@ -43,7 +43,7 @@
                 + `<script>jQuery(document).ready(function() {
                      jQuery('#lookup-opener-` + id + `-` + field.name + `').click(function(ev) {
                          ev.preventDefault();
-                         openLookupPopup('` + fieldId + `', '` + JSON.stringify(field.options) + `');
+                         openLookupPopup('` + fieldId + `', '` + JSON.stringify(field.options) + `', '` + module + `'` + controller + `');
                      });
                 });</script>`;
         } else {
@@ -51,9 +51,9 @@
         }
     };
     
-    ListForm.createFieldHtml = function(id, field) {
+    ListForm.createFieldHtml = function(id, field, module, controller) {
         if ( field.isEditable ) {
-            return '<td>' + ListForm.createEditableFieldHtml(id, field) + '</td>';
+            return '<td>' + ListForm.createEditableFieldHtml(id, field, module, controller) + '</td>';
         } else {
             return '<td><input type="hidden" id="field-' + id + '-' + field.name + '" name="' + field.name + '" value="' + (field.value ? field.value : '') + '" />' + (field.value ? field.value : '') + '</td>'; 
         }
@@ -116,14 +116,14 @@
         return '<tr class="edit insert" id="insert-row">' 
             + _(row.fields).reduce(function(memo, field) { 
                 var field2 = { name: field.name, isEditable: field.isEditable, value: '' };
-                return memo + ListForm.createFieldHtml('insert', field2); 
+                return memo + ListForm.createFieldHtml('insert', field2, module, controller); 
             }, '')
         + '</tr>';
     };
     ListForm.createRowHtml = function(row) {
         return '<tr class="edit" id="edit-row-' + row.id + '">' 
             + _(row.fields).reduce(function(memo, field) {
-                return memo + ListForm.createFieldHtml(row.id, field) 
+                return memo + ListForm.createFieldHtml(row.id, field, module, controller) 
             }.bind(ListForm) , '')
         + '</tr>'; 
     }
@@ -152,7 +152,7 @@
                     }.bind(ListForm), '')
                     + `</tbody>
                     <tfoot>`
-                    + this.createInsertRowHtml(data.rows[0])
+                    + this.createInsertRowHtml(data.rows[0], data.module, data.controller)
                     + `<tr class="foot">`
                         + _(data.aggregateRow).reduce(function(memo, field) {
                             console.log('_agg',field);
@@ -172,7 +172,7 @@
             </form>
             <div id="lookupPopup" class="popup"></div>
     <script>
-        function openLookupPopup(hiddenFieldId, optionsJson) {
+        function openLookupPopup(hiddenFieldId, optionsJson, module, controller) {
             var options = JSON.parse(optionsJson);
             var html = '<select id="lookup-select-' + hiddenFieldId + '">'
                 + '<option>select...</option>'
@@ -185,6 +185,7 @@
                 console.log(jQuery(this), jQuery(this).val());
                 jQuery('#' + hiddenFieldId).val(jQuery(this).val());
                 jQuery('#lookupPopup').dialog('close');
+                ListForm.handleFieldChange = function(cssId, hiddenFieldId, module, controller) {
             });
         }
     </script>
@@ -215,39 +216,7 @@
     ListForm.addJQueryFieldHandlers = function(cssId, rowCssId, row, module, controller) {
         $('#' + cssId + ' #' + rowCssId + ' input.edit-field').change(function(ev) {
             ev.preventDefault();
-            var m = undefined;
-            if ( m = ($(this).attr('id').match(/^field-(\w+)-(\w+)$/)) ) {
-                var id = m[1];
-                var fieldName = m[2];
-                var ajaxData = { row: serializeRow(cssId, id), fieldName: fieldName, id: id };
-
-                var saveFieldUrl = '/' + [module, controller, 'saveField'].join('/');
-                console.log(saveFieldUrl);
-                var countUrl = '/' + [module, controller, 'count'].join('/');
-
-                $.ajax({
-                    type: 'POST', 
-                    url: saveFieldUrl,
-                    data: JSON.stringify(ajaxData),
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function(data) {
-                        if ( data.flags.hasInserted ) {
-                            var oldRowHtml = ListForm.createRowHtml(data.row);
-                            var newInsertRowHtml = ListForm.createInsertRowHtml(data.row);
-
-                            $('#' + cssId + ' table.list-form tfoot tr#insert-row').remove();
-                            $('#' + cssId + ' table.list-form tfoot').prepend(newInsertRowHtml);
-                            $('#' + cssId + ' table.list-form tbody').append(oldRowHtml);
-                            console.log(data);
-                            ListForm.updateCount(cssId, data.count);
-                            ListForm.addJQueryFieldHandlers(cssId, 'edit-row-' + data.row.id, data.row, data.module, data.controller);
-                            ListForm.addJQueryFieldHandlers(cssId, 'insert-row', data.row, data.module, data.controller);
-                        }
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
-                });
-            }
+            ListForm.handleFieldChange(cssId, jQuery(this).attr('id'), module, controller);
         })
         .click(function(ev) {
             if ( getSelection().type === 'Caret' ) {
@@ -255,6 +224,43 @@
             }
         });
     };
+
+    ListForm.handleFieldChange = function(cssId, id, module, controller) {
+        console.log('change');
+        var m = undefined;
+        if ( m = (id).match(/^field-(\w+)-(\w+)$/) ) {
+            var id = m[1];
+            var fieldName = m[2];
+            var ajaxData = { row: serializeRow(cssId, id), fieldName: fieldName, id: id };
+
+            var saveFieldUrl = '/' + [module, controller, 'saveField'].join('/');
+            console.log(saveFieldUrl);
+            var countUrl = '/' + [module, controller, 'count'].join('/');
+
+            $.ajax({
+                type: 'POST', 
+                url: saveFieldUrl,
+                data: JSON.stringify(ajaxData),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function(data) {
+                    if ( data.flags.hasInserted ) {
+                        var oldRowHtml = ListForm.createRowHtml(data.row);
+                        var newInsertRowHtml = ListForm.createInsertRowHtml(data.row, data.module, data.controller);
+
+                        $('#' + cssId + ' table.list-form tfoot tr#insert-row').remove();
+                        $('#' + cssId + ' table.list-form tfoot').prepend(newInsertRowHtml);
+                        $('#' + cssId + ' table.list-form tbody').append(oldRowHtml);
+                        console.log(data);
+                        ListForm.updateCount(cssId, data.count);
+                        ListForm.addJQueryFieldHandlers(cssId, 'edit-row-' + data.row.id, data.row, data.module, data.controller);
+                        ListForm.addJQueryFieldHandlers(cssId, 'insert-row', data.row, data.module, data.controller);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
+            });
+        }
+    }
 
     ListForm.updateCount = function(cssId, count) {
         $('#' + cssId + ' #count').html(count);
