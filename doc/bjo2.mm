@@ -96,11 +96,12 @@
 </node>
 <node TEXT="dao: dao.calculateCalcfields() - remove conditions from params, if we are a primary dao... otherwise...???" ID="ID_1556723586" CREATED="1436019216756" MODIFIED="1436019289475"/>
 <node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657" CREATED="1436029551137" MODIFIED="1436029591464"/>
-<node TEXT="remove populatelookupfields from query result processing" ID="ID_1289840725" CREATED="1436103039186" MODIFIED="1436103050307"/>
 <node TEXT="the way we curretnly avoid circular dependencies in table construction (with stuff in addLinks()) is clearly suboptimal" ID="ID_569725763" CREATED="1436103757312" MODIFIED="1436103785468"/>
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
+<node TEXT="add locking" ID="ID_547401360" CREATED="1435666625338" MODIFIED="1435666626991"/>
+<node TEXT="add transactions" ID="ID_735663752" CREATED="1435666627223" MODIFIED="1435666630208"/>
 <node TEXT="make forms backbutton- and bookmark-save" ID="ID_1211678358" CREATED="1436182920070" MODIFIED="1436182939178"/>
 <node TEXT="bos: create convenience method for creating concrete bos (invoicebo...) without having to first create a dao" ID="ID_523156851" CREATED="1436255086778" MODIFIED="1436255116637"/>
 <node TEXT="frontend: openlookup might be suboptimal; should use real java object instead of stringified object" FOLDED="true" ID="ID_728537161" CREATED="1436108057676" MODIFIED="1436108082099">
@@ -115,8 +116,6 @@
 <node TEXT="test-app: add invoices" ID="ID_1770355614" CREATED="1435666530978" MODIFIED="1435666545758"/>
 <node TEXT="test-app: add costs" ID="ID_1058617269" CREATED="1435666546174" MODIFIED="1435666548984"/>
 <node TEXT="add method for sequences to dao(set?)" ID="ID_1234828434" CREATED="1435666584298" MODIFIED="1435666597155"/>
-<node TEXT="add locking" ID="ID_547401360" CREATED="1435666625338" MODIFIED="1435666626991"/>
-<node TEXT="add transactions" ID="ID_735663752" CREATED="1435666627223" MODIFIED="1435666630208"/>
 <node TEXT="add visible/editable to fields" ID="ID_1168237780" CREATED="1435666637826" MODIFIED="1435666645518"/>
 <node TEXT="null values when coming from form" FOLDED="true" ID="ID_958543010" CREATED="1432198757393" MODIFIED="1432198762670">
 <node TEXT="should be config&apos;able per field" ID="ID_1729806340" CREATED="1435663770561" MODIFIED="1435663777038"/>
@@ -133,6 +132,14 @@
 <node TEXT="secuirity: acheck against xss" ID="ID_1037211750" CREATED="1435666679893" MODIFIED="1435666700082"/>
 <node TEXT="server: fix error response" ID="ID_453376038" CREATED="1435762174278" MODIFIED="1435762180771"/>
 <node TEXT="probably use _.isString() instead of util.isString()" ID="ID_274455070" CREATED="1436206341377" MODIFIED="1436206359834"/>
+</node>
+<node TEXT="Prio 4" ID="ID_1921578979" CREATED="1436260571146" MODIFIED="1436260573084">
+<node TEXT="Reflect on refactoring EVERYTHING, including &quot;constructors&quot;, to be asynchronous" ID="ID_439429410" CREATED="1436260573519" MODIFIED="1436260589354">
+<node TEXT="All &quot;real&quot; constructor function like Dao() would only be there for the inheritance chain" ID="ID_81838264" CREATED="1436260678226" MODIFIED="1436260698283"/>
+<node TEXT="so we could populate lookup fields asynchronously!" ID="ID_191166938" CREATED="1436260589566" MODIFIED="1436260607602">
+<node TEXT="remove populatelookupfields from query result processing" ID="ID_1289840725" CREATED="1436103039186" MODIFIED="1436103050307"/>
+</node>
+</node>
 </node>
 <node TEXT="TESTS to create" ID="ID_799999024" CREATED="1436176760345" MODIFIED="1436176763330">
 <node TEXT="all functions should have type-checks with /* @DEVELOPMENT */" ID="ID_462989029" CREATED="1436182789643" MODIFIED="1436182809364"/>
