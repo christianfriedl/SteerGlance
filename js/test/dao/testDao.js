@@ -23,7 +23,8 @@ var tests = {
         var id1 = field.field('id1', field.DataType.int).value(1);
         var name1 = field.field('name1', field.DataType.string).value('name');
         var table1 = table.table().field(id1).field(name1);
-        var dao1 = dao.dao(null, table1);
+        var db1 = db.db(':memory:').open(':memory:');
+        var dao1 = dao.dao(db1, table1);
         assert.strictEqual('id1', dao1.field('id1').name());
         assert.strictEqual('name1', dao1.field('name1').name());
     },
@@ -31,7 +32,8 @@ var tests = {
         var id1 = field.field('id1', field.DataType.int).value(1);
         var name1 = field.field('name1', field.DataType.string).value('one');
         var table1 = table.table().field(id1).field(name1);
-        var dao1 = dao.dao(null, table1);
+        var db1 = db.db(':memory:').open(':memory:');
+        var dao1 = dao.dao(db1, table1);
         console.log(dao1.id1(), dao1.name1());
         assert.strictEqual(1, dao1.id1());
         assert.strictEqual('one', dao1.name1());
@@ -43,7 +45,8 @@ var tests = {
         var name1 = field.field('name1', field.DataType.string);
         assert.strictEqual('name1', name1.accessorName());
         var table1 = table.table().field(id1).field(name1);
-        var dao1 = dao.dao(null, table1);
+        var db1 = db.db(':memory:').open(':memory:');
+        var dao1 = dao.dao(db1, table1);
         assert.strictEqual(dao1, dao1.id1(1));
         assert.strictEqual(dao1, dao1.name1('name'));
         assert.strictEqual(1, dao1.id1());
