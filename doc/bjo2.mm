@@ -73,7 +73,6 @@
 <edge COLOR="#7c0000"/>
 <node TEXT="Todo" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1435663662175">
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
-<node TEXT="frontend: test whether changing of lookup field actually works to do saveField" ID="ID_956917651" CREATED="1436179449883" MODIFIED="1436179464908"/>
 <node TEXT="bo: create actual objects instead of id-links" ID="ID_1271498552" CREATED="1436183076087" MODIFIED="1436183089674">
 <node TEXT="invoice.customer" ID="ID_181813701" CREATED="1436183091843" MODIFIED="1436183095933"/>
 </node>
@@ -124,6 +123,9 @@
 </node>
 <node TEXT="queries: add additional aggregate/join queries" ID="ID_1593921330" CREATED="1435666661730" MODIFIED="1435666676013"/>
 </node>
+<node TEXT="HERE WE WILL BE AT v0.1alpha" ID="ID_1294412308" CREATED="1436258422769" MODIFIED="1436258459603">
+<font SIZE="22" BOLD="true"/>
+</node>
 <node TEXT="Prio 3" ID="ID_1852199333" CREATED="1435663677286" MODIFIED="1435663679383">
 <node TEXT="optimization: cache lookupfield options" ID="ID_32683467" CREATED="1435919298306" MODIFIED="1435919309328"/>
 <node TEXT="secuirity: acheck against sql injection" ID="ID_1469007336" CREATED="1435666679893" MODIFIED="1435666690886"/>
@@ -154,6 +156,7 @@
 <node TEXT="frontend: addd conditions to listform" ID="ID_1795841236" CREATED="1435666555225" MODIFIED="1435666575856"/>
 <node TEXT="frontend: after selecting for lookup field, saveField must be called" ID="ID_1419094424" CREATED="1436110393500" MODIFIED="1436110408297"/>
 <node TEXT="frontend: ListForm now uses data.rows[0] for the header section" ID="ID_1419571184" CREATED="1435673318570" MODIFIED="1435673335334"/>
+<node TEXT="frontend: test whether changing of lookup field actually works to do saveField" ID="ID_956917651" CREATED="1436179449883" MODIFIED="1436179464908"/>
 </node>
 </node>
 <node TEXT="Diary" FOLDED="true" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">
