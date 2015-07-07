@@ -71,7 +71,6 @@ var tests = {
         var table1 = table.table('table1');
         var id1 = field.field('id1', field.DataType.int);
         table1.field(id1);
-        console.log('fieldssss', id1, id1.className(), table1.field('id1').className());
         var db1 = db.db(':memory:').open(':memory:');
         async.series([
             function(callback) { db1._db.runSql('CREATE TABLE table1 (id1 int)', [], callback); },
