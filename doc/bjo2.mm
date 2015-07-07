@@ -103,6 +103,7 @@
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="make forms backbutton- and bookmark-save" ID="ID_1211678358" CREATED="1436182920070" MODIFIED="1436182939178"/>
+<node TEXT="bos: create convenience method for creating concrete bos (invoicebo...) without having to first create a dao" ID="ID_523156851" CREATED="1436255086778" MODIFIED="1436255116637"/>
 <node TEXT="frontend: openlookup might be suboptimal; should use real java object instead of stringified object" FOLDED="true" ID="ID_728537161" CREATED="1436108057676" MODIFIED="1436108082099">
 <node TEXT="needs naming convention for the variable" ID="ID_1918564664" CREATED="1436108083250" MODIFIED="1436108094540"/>
 </node>
@@ -129,6 +130,7 @@
 <node TEXT="create some preprocessor for #ifdef" ID="ID_179422742" CREATED="1435664122057" MODIFIED="1435664132565"/>
 <node TEXT="secuirity: acheck against xss" ID="ID_1037211750" CREATED="1435666679893" MODIFIED="1435666700082"/>
 <node TEXT="server: fix error response" ID="ID_453376038" CREATED="1435762174278" MODIFIED="1435762180771"/>
+<node TEXT="probably use _.isString() instead of util.isString()" ID="ID_274455070" CREATED="1436206341377" MODIFIED="1436206359834"/>
 </node>
 <node TEXT="TESTS to create" ID="ID_799999024" CREATED="1436176760345" MODIFIED="1436176763330">
 <node TEXT="all functions should have type-checks with /* @DEVELOPMENT */" ID="ID_462989029" CREATED="1436182789643" MODIFIED="1436182809364"/>
