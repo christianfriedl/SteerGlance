@@ -6,11 +6,12 @@ log4js.configure({ appenders: [ { type: "console", layout: { type: "basic" } } ]
 require('./sql/table.js').runTests();
 require('./sql/testField.js').runTests();
 require('./sql/sqlite/testQuery.js').runTests();
+require('./dao/testDaoFactory.js').runTests();
 require('./dao/testDao.js').runTests();
 require('./dao/testDaoSet.js').runTests();
-require('./dao/testLookups.js').runTests();
 require('./bo/testBo.js').runTests();
 require('./bo/testBoSet.js').runTests();
+require('./dao/testLookups.js').runTests();
 // require('./bo/testPrimaryBo.js').runTests(); -- covered via test...customerBo
 //
 // commented-out, currently is erroneous because of lookupfield test

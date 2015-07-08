@@ -1,6 +1,6 @@
 <map version="freeplane 1.3.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
-<node TEXT="BJO in JS" FOLDED="false" ID="ID_1723255651" CREATED="1283093380553" MODIFIED="1426860234514"><hook NAME="MapStyle">
+<node TEXT="BJO in Node.js" FOLDED="false" ID="ID_1723255651" CREATED="1283093380553" MODIFIED="1436340841892"><hook NAME="MapStyle">
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node">
@@ -100,6 +100,10 @@
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
+<node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
+<node TEXT="have a dao factory so the server etc do not need to know about the db" ID="ID_1050008194" CREATED="1436268660144" MODIFIED="1436268673433">
+<node TEXT="daoFactory(db).forName(&apos;customer&apos;)" ID="ID_1294922937" CREATED="1436268675652" MODIFIED="1436268693995"/>
+</node>
 <node TEXT="unify module var names to m_..." ID="ID_1238267829" CREATED="1436260847908" MODIFIED="1436260859231"/>
 <node TEXT="add locking" ID="ID_547401360" CREATED="1435666625338" MODIFIED="1435666626991"/>
 <node TEXT="add transactions" ID="ID_735663752" CREATED="1435666627223" MODIFIED="1435666630208"/>
