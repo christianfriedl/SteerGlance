@@ -16,6 +16,7 @@ require('./dao/testLookups.js').runTests();
 //
 // commented-out, currently is erroneous because of lookupfield test
 require('./app/customer/customerBo.js').runTests();
+require('./app/invoice/invoiceBo.js').runTests();
 
 // server tests
 // commented-out, currently is erroneous because of lookupfield test
