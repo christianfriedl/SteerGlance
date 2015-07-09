@@ -59,7 +59,7 @@ var tests = {
 
         var db1 = m_sql_db.db(':memory:').open(':memory:');
         var dao1 = m_dao_primaryDao.primaryDao(db1).table(childTable);
-        var bo1 = m_bo_primaryBo.primaryBo().dao(dao1);
+        var bo1 = m_bo_primaryBo.primaryBo(db1).dao(dao1);
         async.series([
             function(callback) { db1.runSql('CREATE TABLE main (id int, name text)', [], callback); },
             function(callback) { db1.runSql('CREATE TABLE child (id int, mainId int)', [], callback); },
@@ -87,9 +87,9 @@ var tests = {
 
         var db1 = m_sql_db.db(':memory:').open(':memory:');
         var dao1 = m_dao_primaryDao.primaryDao(db1).table(childTable);
-        var bo1 = m_bo_primaryBo.primaryBo().dao(dao1);
+        var bo1 = m_bo_primaryBo.primaryBo(db1).dao(dao1);
         var daoSet = m_dao_daoSet.daoSet(db1, m_dao_primaryDao.primaryDao).table(childTable);
-        var boSet = m_bo_boSet.boSet(daoSet, m_bo_primaryBo.primaryBo);
+        var boSet = m_bo_boSet.boSet(db1, daoSet, m_bo_primaryBo.primaryBo);
         async.series([
             function(callback) { db1.runSql('CREATE TABLE main (id int, name text)', [], callback); },
             function(callback) { db1.runSql('CREATE TABLE child (id int, mainId int)', [], callback); },

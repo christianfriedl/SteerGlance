@@ -104,6 +104,7 @@
 <node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
 <node TEXT="have a dao factory so the server etc do not need to know about the db" ID="ID_1050008194" CREATED="1436268660144" MODIFIED="1436268673433">
 <node TEXT="daoFactory(db).forName(&apos;customer&apos;)" ID="ID_1294922937" CREATED="1436268675652" MODIFIED="1436268693995"/>
+<node TEXT="also have a bo factory" ID="ID_220995916" CREATED="1436436014517" MODIFIED="1436436019668"/>
 </node>
 <node TEXT="unify module var names to m_..." ID="ID_1238267829" CREATED="1436260847908" MODIFIED="1436260859231"/>
 <node TEXT="add locking" ID="ID_547401360" CREATED="1435666625338" MODIFIED="1435666626991"/>

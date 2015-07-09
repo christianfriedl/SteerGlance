@@ -11,7 +11,6 @@ var tests = {
     _name: 'testCustomerBo',
     testUpdate: function() {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
-        var dao1 = m_app_customer_customerDao.customerDao(db1);
         var bo1 = m_app_customer_customerBo.customerBo(db1);
         async.series([
                 function(callback) { db1.runSql('CREATE TABLE customer (id int, firstName text, lastName text)', [], callback); },
@@ -133,8 +132,8 @@ var tests = {
     testCalcFieldLoadAllByConditions: function() {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
         var bo1 = m_app_customer_customerBo.customerBo();
-        var daoSet = m_dao_daoSet.daoSet(db1, bo1.dao().table(), m_app_customer_customerDao.customerDao);
-        var boSet = m_bo_boSet.boSet(daoSet, m_app_customer_customerBo.customerBo);
+        var daoSet = m_dao_daoSet.daoSet(db1, m_app_customer_customerDao.customerDao);
+        var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_customer_customerBo.customerBo);
         async.series([
             function(callback) {
                 db1._db._db.serialize(function() {

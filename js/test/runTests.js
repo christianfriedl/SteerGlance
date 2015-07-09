@@ -15,7 +15,7 @@ require('./dao/testLookups.js').runTests();
 // require('./bo/testPrimaryBo.js').runTests(); -- covered via test...customerBo
 //
 // commented-out, currently is erroneous because of lookupfield test
-// require('./app/customer/customerBo.js').runTests();
+require('./app/customer/customerBo.js').runTests();
 
 // server tests
 // commented-out, currently is erroneous because of lookupfield test

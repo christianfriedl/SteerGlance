@@ -34,9 +34,9 @@ var Tests = {
             if ( err ) throw err;
             db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], function(err) {
                 if ( err ) throw err;
-                var dao1 = m_dao_daoSet.daoSet(db1, m_dao_dao.dao).table(table1);
-                var bo1 = m_bo_boSet.boSet(dao1, m_bo_bo.bo);
-                bo1.loadAllByConditions([], function(err, bos) {
+                var daoSet1 = m_dao_daoSet.daoSet(db1, m_dao_dao.dao).table(table1);
+                var boSet1 = m_bo_boSet.boSet(db1, daoSet1, m_bo_bo.bo);
+                boSet1.loadAllByConditions([], function(err, bos) {
                     assert.strictEqual(false, err);
                     assert.strictEqual(1, bos.length);
                     assert.strictEqual(1, bos[0].id1());

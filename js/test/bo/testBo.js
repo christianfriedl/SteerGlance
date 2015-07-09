@@ -28,7 +28,7 @@ var Tests = {
         var name1 = field.field('name1', field.DataType.string).value('name');
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(db1).table(table1);
-        var bo1 = bo.bo().dao(dao1);
+        var bo1 = bo.bo(db1).dao(dao1);
         assert.equal(true, fieldEqual(id1, bo1.field('id1')));
         assert.equal(true, fieldEqual(name1, bo1.field('name1')));
     },
@@ -39,7 +39,7 @@ var Tests = {
         var name1 = field.field('name1', field.DataType.string).value('one');
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(db1).table(table1);
-        var bo1 = bo.bo().dao(dao1);
+        var bo1 = bo.bo(db1).dao(dao1);
         console.log(bo1.id1(), bo1.name1());
         assert.strictEqual(1, bo1.id1());
         assert.strictEqual('one', bo1.name1());
@@ -53,7 +53,7 @@ var Tests = {
         assert.strictEqual('name1', name1.accessorName());
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(db1).table(table1);
-        var bo1 = bo.bo().dao(dao1);
+        var bo1 = bo.bo(db1).dao(dao1);
         assert.strictEqual(bo1, bo1.id1(1));
         assert.strictEqual(bo1, bo1.name1('name'));
         assert.strictEqual(1, bo1.id1());
@@ -75,7 +75,6 @@ var Tests = {
             db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], function(err) {
                 if ( err ) throw err;
                 var dao1 = dao.dao(db1).table(table1);
-                debugger;
                 dao1.loadByQuery(select, function(err, dao2) {
                     if ( err ) throw new Error(err);
                     console.log('dao laoded', dao1.id1());
@@ -91,7 +90,7 @@ var Tests = {
         table1.field(id1);
         var db1 = db.db(':memory:').open(':memory:');
         var dao1 = dao.dao(db1).table(table1);
-        var bo1 = bo.bo().dao(dao1);
+        var bo1 = bo.bo(db1).dao(dao1);
         assert.doesNotThrow(function() { bo1.validate(); });
     },
     testSetValidate: function() {
@@ -100,7 +99,7 @@ var Tests = {
         table1.field(id1);
         var db1 = db.db(':memory:').open(':memory:');
         var dao1 = dao.dao(db1).table(table1);
-        var bo1 = bo.bo().dao(dao1);
+        var bo1 = bo.bo(db1).dao(dao1);
         var id1 = field.field('id1', field.DataType.int);
         bo1.id1(1);
         bo1.validation(function() {
