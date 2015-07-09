@@ -33,7 +33,7 @@ var tests = {
         // TODO check structure of q
 
         var db1 = m_sql_db.db(':memory:').open(':memory:');
-        var dao1 = m_dao_primaryDao.primaryDao(db1, childTable);
+        var dao1 = m_dao_primaryDao.primaryDao(db1).table(childTable);
         async.series([
             function(callback) { db1.runSql('CREATE TABLE main (id int, name text)', [], callback); },
             function(callback) { db1.runSql('CREATE TABLE child (id int, mainId int)', [], callback); },
@@ -59,8 +59,8 @@ var tests = {
         childTable.field('mainId').link(link);
 
         var db1 = m_sql_db.db(':memory:').open(':memory:');
-        var dao1 = m_dao_primaryDao.primaryDao(db1, childTable);
-        var bo1 = m_bo_primaryBo.primaryBo(dao1);
+        var dao1 = m_dao_primaryDao.primaryDao(db1).table(childTable);
+        var bo1 = m_bo_primaryBo.primaryBo().dao(dao1);
         async.series([
             function(callback) { db1.runSql('CREATE TABLE main (id int, name text)', [], callback); },
             function(callback) { db1.runSql('CREATE TABLE child (id int, mainId int)', [], callback); },
@@ -87,8 +87,8 @@ var tests = {
         childTable.field('mainId').link(link);
 
         var db1 = m_sql_db.db(':memory:').open(':memory:');
-        var dao1 = m_dao_primaryDao.primaryDao(db1, childTable);
-        var bo1 = m_bo_primaryBo.primaryBo(dao1);
+        var dao1 = m_dao_primaryDao.primaryDao(db1).table(childTable);
+        var bo1 = m_bo_primaryBo.primaryBo().dao(dao1);
         var df1 = m_dao_daoFactory.daoFactory(db1);
         var daoSet = m_dao_daoSet.daoSet(db1, df1, childTable, m_dao_primaryDao.primaryDao);
         var boSet = m_bo_boSet.boSet(daoSet, m_bo_primaryBo.primaryBo);
