@@ -11,6 +11,7 @@ var tests = {
     _name: 'testCustomerBo',
     testUpdate: function() {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
+        var dao1 = m_app_customer_customerDao.customerDao(db1);
         var bo1 = m_app_customer_customerBo.customerBo(db1);
         async.series([
                 function(callback) { db1.runSql('CREATE TABLE customer (id int, firstName text, lastName text)', [], callback); },

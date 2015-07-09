@@ -14,7 +14,6 @@ var m_dao_dao = require('dao/dao.js');
 var m_dao_daoSet = require('dao/daoSet.js');
 var m_bo_boSet = require('bo/boSet.js');
 var m_dao_primaryDao = require('dao/primaryDao.js');
-var m_dao_daoFactory = require('dao/daoFactory.js');
 var m_bo_primaryBo = require('bo/primaryBo.js');
 
 var tests = {
@@ -89,8 +88,7 @@ var tests = {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
         var dao1 = m_dao_primaryDao.primaryDao(db1).table(childTable);
         var bo1 = m_bo_primaryBo.primaryBo().dao(dao1);
-        var df1 = m_dao_daoFactory.daoFactory(db1);
-        var daoSet = m_dao_daoSet.daoSet(db1, df1, childTable, m_dao_primaryDao.primaryDao);
+        var daoSet = m_dao_daoSet.daoSet(db1, m_dao_primaryDao.primaryDao).table(childTable);
         var boSet = m_bo_boSet.boSet(daoSet, m_bo_primaryBo.primaryBo);
         async.series([
             function(callback) { db1.runSql('CREATE TABLE main (id int, name text)', [], callback); },

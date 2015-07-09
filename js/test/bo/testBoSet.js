@@ -17,7 +17,6 @@ var aggregate = require('sql/aggregate.js');
 var query = require('sql/query.js');
 var ddl = require('sql/ddl.js');
 var sqliteQuery = require('sql/sqlite/query.js');
-var m_dao_daoFactory = require('dao/daoFactory.js');
 
 var Tests = {
     _name: 'testBoSet',
@@ -35,8 +34,7 @@ var Tests = {
             if ( err ) throw err;
             db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], function(err) {
                 if ( err ) throw err;
-                var df1 = m_dao_daoFactory.daoFactory(db1);
-                var dao1 = m_dao_daoSet.daoSet(db1, df1, table1, m_dao_dao.dao);
+                var dao1 = m_dao_daoSet.daoSet(db1, m_dao_dao.dao).table(table1);
                 var bo1 = m_bo_boSet.boSet(dao1, m_bo_bo.bo);
                 bo1.loadAllByConditions([], function(err, bos) {
                     assert.strictEqual(false, err);

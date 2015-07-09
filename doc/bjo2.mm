@@ -98,6 +98,7 @@
 <node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657" CREATED="1436029551137" MODIFIED="1436029591464"/>
 <node TEXT="the way we curretnly avoid circular dependencies in table construction (with stuff in addLinks()) is clearly suboptimal" ID="ID_569725763" CREATED="1436103757312" MODIFIED="1436103785468"/>
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
+<node TEXT="daoset: should dao.populateLookupFields move from loadByConditions to loadByQuery?" ID="ID_3304635" CREATED="1436434490406" MODIFIED="1436434513826"/>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
