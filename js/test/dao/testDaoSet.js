@@ -17,6 +17,7 @@ var query = require('sql/query.js');
 var ddl = require('sql/ddl.js');
 var sqliteQuery = require('sql/sqlite/query.js');
 var m_dao_primaryDao = require('dao/primaryDao.js');
+var m_dao_daoFactory = require('dao/daoFactory.js');
 
 var tests = {
     _name: 'testDao',
@@ -34,7 +35,8 @@ var tests = {
             function(callback) { db1._db.runSql('CREATE TABLE table1 (id1 int)', [], callback); },
             function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], callback); },
             function(callback) {
-                var daoSet1 = m_dao_daoSet.daoSet(db1, table1, m_dao_dao.dao);
+                var df1 = m_dao_daoFactory.daoFactory(db1);
+                var daoSet1 = m_dao_daoSet.daoSet(db1, df1, table1, m_dao_dao.dao);
                 daoSet1.loadOneByQuery(select, function(err, dao2) {
                     assert.strictEqual(false, err);
                     console.log('dao laoded', dao2.id1());
@@ -56,7 +58,8 @@ var tests = {
             function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], callback); },
             function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(2)', [], callback); },
             function(callback) {
-                var dao1 = m_dao_daoSet.daoSet(db1, table1, m_dao_dao.dao);
+                var df1 = m_dao_daoFactory.daoFactory(db1);
+                var dao1 = m_dao_daoSet.daoSet(db1, df1, table1, m_dao_dao.dao);
                 dao1.loadAllByQuery(select, function(err, daos) {
                     assert.strictEqual(false, err);
                     assert.strictEqual(1, daos[0].id1());
@@ -77,7 +80,8 @@ var tests = {
             function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(1)', [], callback); },
             function(callback) { db1._db.runSql('INSERT INTO table1 (id1) VALUES(2)', [], callback); },
             function(callback) {
-                var dao1 = m_dao_daoSet.daoSet(db1, table1, m_dao_dao.dao);
+                var df1 = m_dao_daoFactory.daoFactory(db1);
+                var dao1 = m_dao_daoSet.daoSet(db1, df1, table1, m_dao_dao.dao);
                 dao1.loadAllByConditions([], function(err, daos) {
                     assert.strictEqual(false, err);
                     assert.strictEqual(1, daos[0].id1());
@@ -99,7 +103,8 @@ var tests = {
             function(callback) { db1._db.runSql('INSERT INTO counttable (id) VALUES(1)', [], callback); },
             function(callback) { db1._db.runSql('INSERT INTO counttable (id) VALUES(1)', [], callback); },
             function(callback) {
-                var daoSet = m_dao_daoSet.daoSet(db1, table1, m_dao_dao.dao);
+                var df1 = m_dao_daoFactory.daoFactory(db1);
+                var daoSet = m_dao_daoSet.daoSet(db1, df1, table1, m_dao_dao.dao);
                 daoSet.countByConditions([], function(err, count) {
                     assert.strictEqual(3, count);
                     callback();
