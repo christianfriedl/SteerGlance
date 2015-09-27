@@ -49,7 +49,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="7"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="8"/>
 <node TEXT="&quot;BJO v.2&quot;" POSITION="right" ID="ID_28794418" CREATED="1426860351617" MODIFIED="1426860356034">
 <edge COLOR="#ff00ff"/>
 </node>
@@ -65,9 +65,13 @@
 <node TEXT="how to model references" ID="ID_1518640490" CREATED="1426860536911" MODIFIED="1426860561058"/>
 <node TEXT="sqlite backend?" ID="ID_748504985" CREATED="1426861989206" MODIFIED="1426861991566"/>
 </node>
-<node TEXT="Transport" POSITION="right" ID="ID_1864574725" CREATED="1426860278599" MODIFIED="1426860280787">
+<node TEXT="Transport" FOLDED="true" POSITION="right" ID="ID_1864574725" CREATED="1426860278599" MODIFIED="1426860280787">
 <edge COLOR="#00ff00"/>
 <node TEXT="Json" ID="ID_19095344" CREATED="1426860281245" MODIFIED="1426860282448"/>
+</node>
+<node TEXT="Knowledge Base" POSITION="right" ID="ID_601035691" CREATED="1443357414932" MODIFIED="1443357419138">
+<edge COLOR="#00007c"/>
+<node TEXT="Where do we construct a field?" ID="ID_1928837733" CREATED="1443357419365" MODIFIED="1443357424724"/>
 </node>
 <node TEXT="Scrum" POSITION="right" ID="ID_1919369938" CREATED="1435663658673" MODIFIED="1435663661271">
 <edge COLOR="#7c0000"/>
@@ -75,6 +79,18 @@
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
 <node TEXT="bo: create actual objects instead of id-links" ID="ID_1271498552" CREATED="1436183076087" MODIFIED="1436183089674">
 <node TEXT="invoice.customer" ID="ID_181813701" CREATED="1436183091843" MODIFIED="1436183095933"/>
+<node TEXT="where?" ID="ID_1718271647" CREATED="1436455401012" MODIFIED="1436455402952">
+<node TEXT="x" ID="ID_1413752723" CREATED="1443193169582" MODIFIED="1443193170272">
+<node TEXT="BoField knows about its id-field" ID="ID_1279616049" CREATED="1443193233746" MODIFIED="1443193239814">
+<node TEXT="i.e., a fieldLink" ID="ID_1417406084" CREATED="1443193259279" MODIFIED="1443193386820">
+<node TEXT="of type manyToOne" ID="ID_1840146475" CREATED="1443193410157" MODIFIED="1443193424674"/>
+</node>
+</node>
+<node TEXT="Bo::_fieldsFromDao() constructs the BoField" ID="ID_1767893560" CREATED="1443193145157" MODIFIED="1443193192799"/>
+<node TEXT="BoField::value(val) sets its id field as a side-effect" ID="ID_419442135" CREATED="1443193193623" MODIFIED="1443193224230"/>
+<node TEXT="the boField is not in the writeFields(blah) list" ID="ID_320277805" CREATED="1443193632696" MODIFIED="1443193653713"/>
+</node>
+</node>
 </node>
 <node TEXT="frontend: add scrolling to listform" ID="ID_1689836394" CREATED="1435663966160" MODIFIED="1435663972313"/>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
@@ -83,6 +99,8 @@
 <node TEXT="frontend: update count after insert" ID="ID_160128588" CREATED="1435663980835" MODIFIED="1435664064870"/>
 <node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435919335285"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1435919385726"/>
+<node TEXT="daoFactory.forName(...)...... what if we have the same field name twice...?" ID="ID_1248872904" CREATED="1443358795895" MODIFIED="1443358808530"/>
+<node TEXT="the boField currently needs a db, because it will construct a bo. that is somewhat uncool and should probably be changed..." ID="ID_1454125043" CREATED="1443359085007" MODIFIED="1443359114708"/>
 <node TEXT="fieldLinks: need clarification" FOLDED="true" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
 <node TEXT="currently, we&apos;re just using the first" ID="ID_669468957" CREATED="1435858155342" MODIFIED="1435858163145"/>
@@ -102,10 +120,11 @@
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
-<node TEXT="have a dao factory so the server etc do not need to know about the db" ID="ID_1050008194" CREATED="1436268660144" MODIFIED="1436268673433">
+<node TEXT="have a dao factory so the server etc do not need to know about the db" FOLDED="true" ID="ID_1050008194" CREATED="1436268660144" MODIFIED="1436268673433">
 <node TEXT="daoFactory(db).forName(&apos;customer&apos;)" ID="ID_1294922937" CREATED="1436268675652" MODIFIED="1436268693995"/>
 <node TEXT="also have a bo factory" ID="ID_220995916" CREATED="1436436014517" MODIFIED="1436436019668"/>
 </node>
+<node TEXT="populateLookupFields() should pass a db to a function populate(db) in LookupField" ID="ID_1203408311" CREATED="1436533947090" MODIFIED="1436533967526"/>
 <node TEXT="unify module var names to m_..." ID="ID_1238267829" CREATED="1436260847908" MODIFIED="1436260859231"/>
 <node TEXT="add locking" ID="ID_547401360" CREATED="1435666625338" MODIFIED="1435666626991"/>
 <node TEXT="add transactions" ID="ID_735663752" CREATED="1435666627223" MODIFIED="1435666630208"/>
@@ -128,11 +147,26 @@
 <node TEXT="should be config&apos;able per field" ID="ID_1729806340" CREATED="1435663770561" MODIFIED="1435663777038"/>
 </node>
 <node TEXT="queries: add additional aggregate/join queries" ID="ID_1593921330" CREATED="1435666661730" MODIFIED="1435666676013"/>
+<node TEXT="fetch much more asynchronously from the frontend!" ID="ID_1921496055" CREATED="1443191513857" MODIFIED="1443191522863"/>
+<node TEXT="calcField now works by returning a query.... maybe we want more consistency with boField which will work via value()" ID="ID_1324496424" CREATED="1443356502372" MODIFIED="1443356532011"/>
+<node TEXT="Plan for fetching from FE / scrolling etc" ID="ID_1463795363" CREATED="1443191528967" MODIFIED="1443191539504">
+<node TEXT="Fetch only count" ID="ID_1444155018" CREATED="1443191540094" MODIFIED="1443191546497"/>
+<node TEXT="guesstimate height of content-div" ID="ID_1853977788" CREATED="1443191551909" MODIFIED="1443191689146"/>
+<node TEXT="find out where we are scrolled to" ID="ID_818340448" CREATED="1443191690469" MODIFIED="1443191702521"/>
+<node TEXT="fetch rows accordingly" ID="ID_1338402615" CREATED="1443191710690" MODIFIED="1443191714554"/>
+<node TEXT="for each row" ID="ID_1082341436" CREATED="1443191718066" MODIFIED="1443191719852">
+<node TEXT="fill calced fields" ID="ID_1844039011" CREATED="1443191720905" MODIFIED="1443191776590"/>
+</node>
+<node TEXT="fetch sums" ID="ID_1004679482" CREATED="1443191715175" MODIFIED="1443191716790"/>
+<node TEXT="do all of that asynchronously!" ID="ID_1213865369" CREATED="1443191803798" MODIFIED="1443191815699">
+<font BOLD="true"/>
+</node>
+</node>
 </node>
 <node TEXT="HERE WE WILL BE AT v0.1alpha" ID="ID_1294412308" CREATED="1436258422769" MODIFIED="1436258459603">
 <font SIZE="22" BOLD="true"/>
 </node>
-<node TEXT="Prio 3" ID="ID_1852199333" CREATED="1435663677286" MODIFIED="1435663679383">
+<node TEXT="Prio 3" FOLDED="true" ID="ID_1852199333" CREATED="1435663677286" MODIFIED="1435663679383">
 <node TEXT="optimization: cache lookupfield options" ID="ID_32683467" CREATED="1435919298306" MODIFIED="1435919309328"/>
 <node TEXT="secuirity: acheck against sql injection" ID="ID_1469007336" CREATED="1435666679893" MODIFIED="1435666690886"/>
 <node TEXT="create some preprocessor for #ifdef" ID="ID_179422742" CREATED="1435664122057" MODIFIED="1435664132565"/>
@@ -140,19 +174,19 @@
 <node TEXT="server: fix error response" ID="ID_453376038" CREATED="1435762174278" MODIFIED="1435762180771"/>
 <node TEXT="probably use _.isString() instead of util.isString()" ID="ID_274455070" CREATED="1436206341377" MODIFIED="1436206359834"/>
 </node>
-<node TEXT="Prio 4" ID="ID_1921578979" CREATED="1436260571146" MODIFIED="1436260573084">
-<node TEXT="Reflect on refactoring EVERYTHING, including &quot;constructors&quot;, to be asynchronous" ID="ID_439429410" CREATED="1436260573519" MODIFIED="1436260589354">
+<node TEXT="Prio 4" FOLDED="true" ID="ID_1921578979" CREATED="1436260571146" MODIFIED="1436260573084">
+<node TEXT="Reflect on refactoring EVERYTHING, including &quot;constructors&quot;, to be asynchronous" FOLDED="true" ID="ID_439429410" CREATED="1436260573519" MODIFIED="1436260589354">
 <node TEXT="All &quot;real&quot; constructor function like Dao() would only be there for the inheritance chain" ID="ID_81838264" CREATED="1436260678226" MODIFIED="1436260698283"/>
-<node TEXT="so we could populate lookup fields asynchronously!" ID="ID_191166938" CREATED="1436260589566" MODIFIED="1436260607602">
+<node TEXT="so we could populate lookup fields asynchronously!" FOLDED="true" ID="ID_191166938" CREATED="1436260589566" MODIFIED="1436260607602">
 <node TEXT="remove populatelookupfields from query result processing" ID="ID_1289840725" CREATED="1436103039186" MODIFIED="1436103050307"/>
 </node>
 </node>
 </node>
-<node TEXT="TESTS to create" ID="ID_799999024" CREATED="1436176760345" MODIFIED="1436176763330">
+<node TEXT="TESTS to create" FOLDED="true" ID="ID_799999024" CREATED="1436176760345" MODIFIED="1436176763330">
 <node TEXT="all functions should have type-checks with /* @DEVELOPMENT */" ID="ID_462989029" CREATED="1436182789643" MODIFIED="1436182809364"/>
 </node>
 </node>
-<node TEXT="Done" ID="ID_314368932" CREATED="1435663666690" MODIFIED="1435663667460">
+<node TEXT="Done" FOLDED="true" ID="ID_314368932" CREATED="1435663666690" MODIFIED="1435663667460">
 <node TEXT="resolve ambivalence" FOLDED="true" ID="ID_252337074" CREATED="1431782032915" MODIFIED="1431782039477">
 <node TEXT="bo as object or as object-fetcher" FOLDED="true" ID="ID_866162368" CREATED="1431782039758" MODIFIED="1431782047152">
 <node TEXT="boset" ID="ID_1879215516" CREATED="1431782061514" MODIFIED="1431782064169"/>
@@ -173,18 +207,14 @@
 <node TEXT="frontend: test whether changing of lookup field actually works to do saveField" ID="ID_956917651" CREATED="1436179449883" MODIFIED="1436179464908"/>
 </node>
 </node>
-<node TEXT="Diary" FOLDED="true" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">
+<node TEXT="Diary" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">
 <edge COLOR="#00ffff"/>
-<node TEXT="2015" FOLDED="true" ID="ID_964006408" CREATED="1430131958180" MODIFIED="1430131963120">
-<node TEXT="04" FOLDED="true" ID="ID_1187779950" CREATED="1430131963508" MODIFIED="1430131964377">
+<node TEXT="2015" ID="ID_964006408" CREATED="1430131958180" MODIFIED="1430131963120">
+<node TEXT="04" ID="ID_1187779950" CREATED="1430131963508" MODIFIED="1430131964377">
 <node TEXT="27" FOLDED="true" ID="ID_1341591784" CREATED="1430131965156" MODIFIED="1430131966718">
 <node TEXT="wieder mal reingekippt" ID="ID_1320836215" CREATED="1430315698987" MODIFIED="1430315706211"/>
 </node>
-<node TEXT="29" FOLDED="true" ID="ID_1031889558" CREATED="1430315708788" MODIFIED="1430315710006">
-<node TEXT="backend kann schon so einiges; fe und client-kommunikation noch extrem rudiment&#xe4;r" ID="ID_232588525" CREATED="1430315710582" MODIFIED="1430315729143"/>
-</node>
-</node>
-<node TEXT="17" FOLDED="true" ID="ID_109029675" CREATED="1431870466833" MODIFIED="1431870475897">
+<node TEXT="17" ID="ID_109029675" CREATED="1431870466833" MODIFIED="1431870475897">
 <node TEXT="was soll passieren beim feld-&#xe4;ndern?" FOLDED="true" ID="ID_1896478868" CREATED="1431870476348" MODIFIED="1431870486749">
 <node TEXT="update" ID="ID_1747475272" CREATED="1431870487071" MODIFIED="1431870488652"/>
 <node TEXT="insert" ID="ID_1829084091" CREATED="1431870488932" MODIFIED="1431870489677"/>
@@ -223,6 +253,15 @@
 <node TEXT="jetzt mal nein, ist ein TODO" ID="ID_1677446564" CREATED="1432198748087" MODIFIED="1432198754860"/>
 </node>
 </node>
+</node>
+<node TEXT="29" FOLDED="true" ID="ID_1031889558" CREATED="1430315708788" MODIFIED="1430315710006">
+<node TEXT="backend kann schon so einiges; fe und client-kommunikation noch extrem rudiment&#xe4;r" ID="ID_232588525" CREATED="1430315710582" MODIFIED="1430315729143"/>
+</node>
+</node>
+<node TEXT="09" ID="ID_667945839" CREATED="1443191433869" MODIFIED="1443191434834">
+<node TEXT="ich schau mal wieder ins boFeld..." ID="ID_536837547" CREATED="1443191435322" MODIFIED="1443191453507"/>
+<node TEXT="Handling im Frontend - Plan f&#xfc;r scrolling?" ID="ID_1409362391" CREATED="1443191454651" MODIFIED="1443191473717"/>
+<node TEXT="Wir sollten noch viel feingranularer asynchron werden... auch count etc getrennt vom FE fetchen" ID="ID_1628562964" CREATED="1443191474104" MODIFIED="1443191498367"/>
 </node>
 </node>
 </node>
