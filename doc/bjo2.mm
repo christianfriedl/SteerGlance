@@ -1,6 +1,6 @@
 <map version="freeplane 1.3.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
-<node TEXT="BJO in Node.js" ID="ID_1723255651" CREATED="1283093380553" MODIFIED="1436340841892"><hook NAME="MapStyle">
+<node TEXT="BJO in Node.js" FOLDED="false" ID="ID_1723255651" CREATED="1283093380553" MODIFIED="1436340841892"><hook NAME="MapStyle">
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node">
@@ -77,32 +77,14 @@
 <edge COLOR="#7c0000"/>
 <node TEXT="Todo" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1435663662175">
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
-<node TEXT="bo: create actual objects instead of id-links" ID="ID_1271498552" CREATED="1436183076087" MODIFIED="1436183089674">
-<node TEXT="invoice.customer" ID="ID_181813701" CREATED="1436183091843" MODIFIED="1436183095933"/>
-<node TEXT="where?" ID="ID_1718271647" CREATED="1436455401012" MODIFIED="1436455402952">
-<node TEXT="x" ID="ID_1413752723" CREATED="1443193169582" MODIFIED="1443193170272">
-<node TEXT="BoField knows about its id-field" ID="ID_1279616049" CREATED="1443193233746" MODIFIED="1443193239814">
-<node TEXT="i.e., a fieldLink" ID="ID_1417406084" CREATED="1443193259279" MODIFIED="1443193386820">
-<node TEXT="of type manyToOne" ID="ID_1840146475" CREATED="1443193410157" MODIFIED="1443193424674"/>
-</node>
-</node>
-<node TEXT="Bo::_fieldsFromDao() constructs the BoField" ID="ID_1767893560" CREATED="1443193145157" MODIFIED="1443193192799"/>
-<node TEXT="BoField::value(val) sets its id field as a side-effect" ID="ID_419442135" CREATED="1443193193623" MODIFIED="1443193224230"/>
-<node TEXT="the boField is not in the writeFields(blah) list" ID="ID_320277805" CREATED="1443193632696" MODIFIED="1443193653713"/>
-</node>
-</node>
-</node>
-<node TEXT="bo: use real objects for references" ID="ID_37481252" CREATED="1436018546588" MODIFIED="1436018556452">
-<node TEXT="e.g. customerBo in invoice for customerId" ID="ID_1247201555" CREATED="1436018556794" MODIFIED="1436018569704"/>
-<node TEXT="in reading from db" ID="ID_1962396267" CREATED="1441365229201" MODIFIED="1441365234741">
-<node TEXT="at some point, we need to add the bo for its id field" ID="ID_796949035" CREATED="1441365187056" MODIFIED="1441365221599"/>
-</node>
-<node TEXT="in writing to db" ID="ID_5620214" CREATED="1441365239335" MODIFIED="1441365241894">
-<node TEXT="at some point, we need to set the id from the bo" ID="ID_1634435108" CREATED="1441365243480" MODIFIED="1441365260486"/>
-<node TEXT="primaryBo.prototype.save() seems like the best place for this" ID="ID_1553157502" CREATED="1441365579833" MODIFIED="1441365603269"/>
-</node>
+<node TEXT="remove stupid and useless clone()" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380"/>
+<node TEXT="deal with circular deps...?" ID="ID_1175574652" CREATED="1443639118655" MODIFIED="1443639128319">
+<node TEXT="boField" ID="ID_345461857" CREATED="1443639128947" MODIFIED="1443639132773"/>
+<node TEXT="fieldLink" ID="ID_1083936208" CREATED="1443639133044" MODIFIED="1443639140646"/>
 </node>
 <node TEXT="frontend: add scrolling to listform" ID="ID_1689836394" CREATED="1435663966160" MODIFIED="1435663972313"/>
+<node TEXT="testing: add test for boField in writing to db" ID="ID_474169252" CREATED="1443639178582" MODIFIED="1443639186157"/>
+<node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437" CREATED="1443639193962" MODIFIED="1443639209876"/>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: streamline initial request by using ajax" ID="ID_587838158" CREATED="1435775497250" MODIFIED="1435775510097"/>
 <node TEXT="frontend: revisit edit form" ID="ID_1656955817" CREATED="1435663974168" MODIFIED="1435663978868"/>
@@ -125,9 +107,9 @@
 <node TEXT="create small isA() framework" ID="ID_821408512" CREATED="1436111145186" MODIFIED="1436111153061"/>
 </node>
 <node TEXT="daoset: should dao.populateLookupFields move from loadByConditions to loadByQuery?" ID="ID_3304635" CREATED="1436434490406" MODIFIED="1436434513826"/>
-<node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1435919385726"/>
+<node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_331627961" CREATED="1435919369839" MODIFIED="1435919385726"/>
 </node>
-<node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
+<node TEXT="Prio 2" FOLDED="true" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
 <node TEXT="have a dao factory so the server etc do not need to know about the db" FOLDED="true" ID="ID_1050008194" CREATED="1436268660144" MODIFIED="1436268673433">
 <node TEXT="daoFactory(db).forName(&apos;customer&apos;)" ID="ID_1294922937" CREATED="1436268675652" MODIFIED="1436268693995"/>
@@ -199,7 +181,7 @@
 <node TEXT="all functions should have type-checks with /* @DEVELOPMENT */" ID="ID_462989029" CREATED="1436182789643" MODIFIED="1436182809364"/>
 </node>
 </node>
-<node TEXT="Done" FOLDED="true" ID="ID_314368932" CREATED="1435663666690" MODIFIED="1435663667460">
+<node TEXT="Done" ID="ID_314368932" CREATED="1435663666690" MODIFIED="1435663667460">
 <node TEXT="resolve ambivalence" FOLDED="true" ID="ID_252337074" CREATED="1431782032915" MODIFIED="1431782039477">
 <node TEXT="bo as object or as object-fetcher" FOLDED="true" ID="ID_866162368" CREATED="1431782039758" MODIFIED="1431782047152">
 <node TEXT="boset" ID="ID_1879215516" CREATED="1431782061514" MODIFIED="1431782064169"/>
@@ -218,6 +200,31 @@
 <node TEXT="frontend: after selecting for lookup field, saveField must be called" ID="ID_1419094424" CREATED="1436110393500" MODIFIED="1436110408297"/>
 <node TEXT="frontend: ListForm now uses data.rows[0] for the header section" ID="ID_1419571184" CREATED="1435673318570" MODIFIED="1435673335334"/>
 <node TEXT="frontend: test whether changing of lookup field actually works to do saveField" ID="ID_956917651" CREATED="1436179449883" MODIFIED="1436179464908"/>
+<node TEXT="bo: use real objects for references" ID="ID_37481252" CREATED="1436018546588" MODIFIED="1436018556452">
+<node TEXT="e.g. customerBo in invoice for customerId" ID="ID_1247201555" CREATED="1436018556794" MODIFIED="1436018569704"/>
+<node TEXT="in reading from db" ID="ID_1962396267" CREATED="1441365229201" MODIFIED="1441365234741">
+<node TEXT="at some point, we need to add the bo for its id field" ID="ID_796949035" CREATED="1441365187056" MODIFIED="1441365221599"/>
+</node>
+<node TEXT="in writing to db" ID="ID_5620214" CREATED="1441365239335" MODIFIED="1441365241894">
+<node TEXT="at some point, we need to set the id from the bo" ID="ID_1634435108" CREATED="1441365243480" MODIFIED="1441365260486"/>
+<node TEXT="primaryBo.prototype.save() seems like the best place for this" ID="ID_1553157502" CREATED="1441365579833" MODIFIED="1441365603269"/>
+</node>
+</node>
+<node TEXT="bo: create actual objects instead of id-links" ID="ID_1271498552" CREATED="1436183076087" MODIFIED="1436183089674">
+<node TEXT="invoice.customer" ID="ID_181813701" CREATED="1436183091843" MODIFIED="1436183095933"/>
+<node TEXT="where?" ID="ID_1718271647" CREATED="1436455401012" MODIFIED="1436455402952">
+<node TEXT="x" ID="ID_1413752723" CREATED="1443193169582" MODIFIED="1443193170272">
+<node TEXT="BoField knows about its id-field" ID="ID_1279616049" CREATED="1443193233746" MODIFIED="1443193239814">
+<node TEXT="i.e., a fieldLink" ID="ID_1417406084" CREATED="1443193259279" MODIFIED="1443193386820">
+<node TEXT="of type manyToOne" ID="ID_1840146475" CREATED="1443193410157" MODIFIED="1443193424674"/>
+</node>
+</node>
+<node TEXT="Bo::_fieldsFromDao() constructs the BoField" ID="ID_1767893560" CREATED="1443193145157" MODIFIED="1443193192799"/>
+<node TEXT="BoField::value(val) sets its id field as a side-effect" ID="ID_419442135" CREATED="1443193193623" MODIFIED="1443193224230"/>
+<node TEXT="the boField is not in the writeFields(blah) list" ID="ID_320277805" CREATED="1443193632696" MODIFIED="1443193653713"/>
+</node>
+</node>
+</node>
 </node>
 </node>
 <node TEXT="Diary" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">
