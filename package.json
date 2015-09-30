@@ -1,0 +1,22 @@
+{
+  "name": "BJO2",
+  "version": "0.0.1",
+  "description": "ORM / MVC / Web Framework",
+  "main": "js/node_modules/server/index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "node js/test/runTests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "/home/cf/GitRepos/Coding/BJO2.git/"
+  },
+  "author": "Christian Friedl",
+  "license": "GPL",
+  "dependencies" : {
+      "log4js": "^0.6.26"
+      , "sqlite3": "^3.0.10"
+  }
+}
