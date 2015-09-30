@@ -3,6 +3,7 @@ log4js.configure({ appenders: [ { type: "console", layout: { type: "basic" } } ]
 
 // framework tests
 
+
 require('./sql/table.js').runTests();
 require('./sql/testField.js').runTests();
 require('./sql/sqlite/testQuery.js').runTests();
