@@ -55,7 +55,6 @@ var tests = {
                 var daoSet1 = m_dao_daoSet.daoSet(db1, m_dao_dao.dao).table(table1);
                 daoSet1.loadOneByQuery(select, function(err, dao2) {
                     assert.strictEqual(false, err);
-                    console.log('dao laoded', dao2.id1());
                     assert.strictEqual(1, dao2.id1());
                 });
             }],

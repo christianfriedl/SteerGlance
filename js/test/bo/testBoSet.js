@@ -59,7 +59,6 @@ var tests = {
                     assert.strictEqual(false, err);
                     assert.strictEqual(1, bos.length);
                     assert.strictEqual(1, bos[0].id1());
-                    console.log('row laoded id1', bos[0].id1());
                 });
             });
         });

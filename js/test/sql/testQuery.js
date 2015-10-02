@@ -63,7 +63,7 @@ var tests = {
             .compareTo('haha');
         var select = query.select(field1).from(table1).where(cond);
         var sqliteQQ = sqliteQuery.query(select);
-        console.log(sqliteQQ.queryString: function(), sqliteQQ.params());
+        console.log(sqliteQQ.queryString: function(), sqliteQQ.params()); // DO NOT delete this, until you've actually found a clever way to test it
     },
 
     testQueryWithJoin: function() {
@@ -80,7 +80,7 @@ var tests = {
                 .where(condition.condition(id1, condition.Op.eq, id2));
         var sqliteQQ = sqliteQuery.query(s);
         var ss = sqliteQQ.queryString(s);
-        console.log(ss);
+        console.log(ss); // DO NOT delete this, until you've actually found a clever way to test it
     },
 
     testAggregateQuery: function() {
@@ -98,7 +98,7 @@ var tests = {
                 .where(condition.condition(id1, condition.Op.eq, id2));
         var sqliteQQ = sqliteQuery.query(s);
         var ss = sqliteQQ.queryString(s);
-        console.log(ss);
+        console.log(ss); // DO NOT delete this, until you've actually found a clever way to test it
     },
 
     testInsertQuery: function() {
@@ -111,7 +111,7 @@ var tests = {
                 .into(table1); // all fields
         var sqliteQQ = sqliteQuery.query(s);
         var ss = sqliteQQ.queryString(s);
-        console.log(ss, sqliteQQ.params: function());
+        console.log(ss, sqliteQQ.params: function()); // DO NOT delete this, until you've actually found a clever way to test it
     },
 
     testUpdateQuery: function() {
@@ -125,7 +125,7 @@ var tests = {
                 .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
         var sqliteQQ = sqliteQuery.query(s);
         var ss = sqliteQQ.queryString(s);
-        console.log(ss, sqliteQQ.params: function());
+        console.log(ss, sqliteQQ.params: function()); // DO NOT delete this, until you've actually found a clever way to test it
     }
 };
 

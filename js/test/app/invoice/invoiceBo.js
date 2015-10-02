@@ -21,7 +21,6 @@ var tests = {
                     bo1.customerId(1);
                     bo1.amount(12.0);
                     bo1.save(function(err, bo2) {
-                        console.log('_save', bo1, bo2);
                         assert.strictEqual(false, err); 
                         assert.strictEqual(1, bo1.id());
                         assert.strictEqual(12, bo1.amount());

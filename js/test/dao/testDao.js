@@ -52,7 +52,6 @@ var tests = {
         var table1 = table.table().field(id1).field(name1);
         var db1 = db.db(':memory:').open(':memory:');
         var dao1 = dao.dao(db1).table(table1);
-        console.log(dao1.id1(), dao1.name1());
         assert.strictEqual(1, dao1.id1());
         assert.strictEqual('one', dao1.name1());
     },
@@ -84,7 +83,6 @@ var tests = {
                 var dao1 = m_dao_primaryDao.primaryDao(db1).table(table1);
                 dao1.loadById(1, function(err) {
                     if ( err ) callback(err);
-                    console.log('dao laoded', dao1.id(), dao1.name());
                     assert.strictEqual(1, dao1.id());
                     assert.strictEqual('full name', dao1.name());
                     callback();

@@ -37,9 +37,7 @@ var tests = {
                     bo1.id(1);
                     bo1.firstName('Christian');
                     bo1.lastName('Friedl');
-                    console.log('id before save', bo1.id(), bo1.fieldValue('id'));
                     bo1.save(function(err, bo2) {
-                        console.log('_save', bo1, bo2);
                         assert.strictEqual(false, err); 
                         assert.strictEqual(1, bo1.id());
                         assert.strictEqual('Christian', bo1.firstName());

@@ -78,7 +78,6 @@ var tests = {
             .compareTo('haha');
         var select = query.select(field1).from(table1).where(cond);
         var sqliteQQ = m_sql_sqlite_query.query(select);
-        console.log(sqliteQQ.queryString(), sqliteQQ.params(), sqliteQQ.params().length);
         assert.strictEqual('SELECT table1.field1 FROM table1 WHERE field1 = ?', sqliteQQ.queryString());
         assert.strictEqual(1, sqliteQQ.params().length);
         assert.strictEqual('haha', sqliteQQ.params()[0]);
@@ -98,7 +97,6 @@ var tests = {
                 .where(condition.condition(id1, condition.Op.eq, id2));
         var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString(s);
-        console.log(ss);
         assert.strictEqual('SELECT table1.id1, table1.name1, table2.id2 FROM table1, table2 WHERE table1.id1 = table2.id2', sqliteQQ.queryString());
         assert.strictEqual(0, sqliteQQ.params().length);
     },
@@ -117,7 +115,6 @@ var tests = {
                 .where(condition.condition(id1, condition.Op.eq, id2));
         var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString(s);
-        console.log(ss);
         assert.strictEqual('SELECT SUM(table2.sumField) AS sumField FROM table1, table2 WHERE table1.id1 = table2.id2', sqliteQQ.queryString());
         assert.strictEqual(0, sqliteQQ.params().length);
     },
@@ -132,7 +129,6 @@ var tests = {
                 .into(table1); // all fields
         var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString(s);
-        console.log(ss, sqliteQQ.params());
         assert.strictEqual('INSERT INTO table1 (id1, name1) VALUES (?, ?)', sqliteQQ.queryString());
         assert.strictEqual(2, sqliteQQ.params().length);
         assert.strictEqual(1, sqliteQQ.params()[0]);
@@ -150,7 +146,6 @@ var tests = {
                 .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
         var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString(s);
-        console.log(ss, sqliteQQ.params());
         assert.strictEqual('UPDATE table1 SET id1 = ?, name1 = ? WHERE table1.id1 = ?', sqliteQQ.queryString()); // TODO there should really be aliases everywhere
         assert.strictEqual(3, sqliteQQ.params().length);
         assert.strictEqual(1, sqliteQQ.params()[0]);
@@ -167,7 +162,6 @@ var tests = {
                 .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
         var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString();
-        console.log(ss, sqliteQQ.params());
         assert.strictEqual('DELETE FROM table1 WHERE id1 = ?', sqliteQQ.queryString());
         assert.strictEqual(1, sqliteQQ.params().length);
         assert.strictEqual(1, sqliteQQ.params()[0]);
@@ -181,7 +175,6 @@ var tests = {
         var s = ddl.create(table1);
         var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString();
-        console.log(ss);
     },
 
     testIndex: function() {
@@ -211,7 +204,6 @@ var tests = {
         calcField.conditions([m_sql_condition.condition(id1, m_sql_condition.Op.eq, 1)]);
         var q = calcField.query();
         var qq = m_sql_sqlite_query.query(q);
-        console.log(qq.queryString(), qq.params());
         assert.strictEqual('SELECT SUM(table2.sumField) AS calcField FROM table1, table2 WHERE table1.id1 = table2.id2 AND table1.id1 = ?', qq.queryString());
         assert.equal(1, qq.params()[0]);
 
