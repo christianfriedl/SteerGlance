@@ -37,11 +37,13 @@ var ddl = require('sql/ddl.js');
 var sqliteQuery = require('sql/sqlite/query.js');
 var boField = require('sql/boField.js');
 
+var m_TestSuite = require('TestSuite.js');
+
 function fieldEqual(f1, f2) {
     return f1.name() === f2.name() && f1.dataType() === f2.dataType() && f1.className() === f2.className() && f1.value() === f2.value();
 }
 
-var Tests = {
+var tests = {
     _name: 'testBo',
 
     testFields: function() {
@@ -175,17 +177,9 @@ var Tests = {
     }
 };
 
-function runTests() {
-    console.log('>', module.filename);
-    var f = null;
-    for (f in Tests) {
-        if ( typeof(Tests[f]) === 'function' && f.substr(0,4) === 'test' ) {
-            console.log('>>>', f);
-            Tests[f]();
-            console.log('<<<', f);
-        }
-    }
-    console.log('<', module.filename);
+function runTests(testNames) {
+    m_TestSuite.TestSuite.call(tests);
+    m_TestSuite.TestSuite.prototype.runTests.call(tests, testNames);
 }
 
 exports.runTests = runTests;

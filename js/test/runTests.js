@@ -16,26 +16,40 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
+var _ = require('underscore');
+var util = require('util');
 var log4js = require('log4js');
 log4js.configure({ appenders: [ { type: "console", layout: { type: "basic" } } ], replaceConsole: true })
 
 // framework tests
 
-
-require('./sql/table.js').runTests();
-require('./sql/testField.js').runTests();
-require('./sql/sqlite/testQuery.js').runTests();
-require('./dao/testDao.js').runTests();
-require('./dao/testDaoSet.js').runTests();
-require('./bo/testBo.js').runTests();
-require('./bo/testBoSet.js').runTests();
-require('./dao/testLookups.js').runTests();
-// require('./bo/testPrimaryBo.js').runTests(); -- covered via test...customerBo
+var testScripts = {
+    'server/testRouter.js': { 'enabled': true },
+    'sql/table.js': { 'enabled': true },
+    'sql/testField.js': { 'enabled': true },
+    'sql/sqlite/testQuery.js': { 'enabled': true },
+    'dao/testDao.js': { 'enabled': true },
+    'dao/testDaoSet.js': { 'enabled': true },
+    'bo/testBo.js': { 'enabled': true },
+    'bo/testBoSet.js': { 'enabled': true },
+    'dao/testLookups.js': { 'enabled': true },
+//     'bo/testPrimaryBo.js': { 'enabled': true }, -- covered via test...customerBo
 //
-// commented-out, currently is erroneous because of lookupfield test
-require('./app/customer/customerBo.js').runTests();
-require('./app/invoice/invoiceBo.js').runTests();
+// commented-out: { 'enabled': true }, currently is erroneous because of lookupfield test
+    'app/customer/customerBo.js': { 'enabled': true },
+    'app/invoice/invoiceBo.js': { 'enabled': true },
 
 // server tests
-// commented-out, currently is erroneous because of lookupfield test
-// require('./server/app/customer/testCustomer.js').runTests();
+// commented-out: { 'enabled': false }, currently is erroneous because of lookupfield test
+//     'server/app/customer/testCustomer.js': { 'enabled': false },
+};
+
+_(_(testScripts).keys()).each(function(scriptName) {
+    var module = require('./' + scriptName);
+    var options = testScripts[scriptName];
+    if ( options.enabled === true ) {
+        module.runTests();
+    } else if ( _.isArray(options.enabled) ) {
+        module.runTests(options.enabled);
+    } 
+});

@@ -18,6 +18,7 @@
 
 "use strict";
 
+var m_TestSuite = require('TestSuite.js');
 var _ = require('underscore');
 var assert = require('assert');
 var async = require('async');
@@ -65,17 +66,9 @@ var Tests = {
 
 };
 
-function runTests() {
-    console.log('>', module.filename);
-    var f = null;
-    for (f in Tests) {
-        if ( typeof(Tests[f]) === 'function' && f.substr(0,4) === 'test' ) {
-            console.log('>>>', f);
-            Tests[f]();
-            console.log('<<<', f);
-        }
-    }
-    console.log('<', module.filename);
+function runTests(testNames) {
+    m_TestSuite.TestSuite.call(tests);
+    m_TestSuite.TestSuite.prototype.runTests.call(tests, testNames);
 }
 
 exports.runTests = runTests;

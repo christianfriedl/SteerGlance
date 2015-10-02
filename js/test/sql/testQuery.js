@@ -24,6 +24,7 @@ var condition = require('server/sql/condition.js');
 var query = require('server/sql/query.js');
 var sqlDb = require('server/sql/db.js');
 var sqliteQuery = require('server/sql/sqlite/query.js');
+var m_TestSuite = require('TestSuite.js');
 
 
 /*
@@ -42,93 +43,95 @@ var sqliteQuery = require('server/sql/sqlite/query.js');
  *
  */
 
-function testBasicQuery() {
-    var table1 = table.table('table1');
-    var field1 = field.field('field1', field.DataType.int);
-    table1.field(field1);
-    var select = query.select(field1).from(table1);
-    assert.strictEqual(1, select._fields.length);
-    assert.strictEqual(1, select._fields.length);
+var tests = {
+    testBasicQuery: function() {
+        var table1 = table.table('table1');
+        var field1 = field.field('field1', field.DataType.int);
+        table1.field(field1);
+        var select = query.select(field1).from(table1);
+        assert.strictEqual(1, select._fields.length);
+        assert.strictEqual(1, select._fields.length);
+    },
+
+    testQueryWithCondition: function() {
+        var table1 = table.table('table1');
+        var field1 = field.field('field1', field.DataType.int);
+        table1.field(field1);
+        var cond = condition.condition: function()
+            .field(new field.Field('field1'))
+            .op(condition.Op.eq)
+            .compareTo('haha');
+        var select = query.select(field1).from(table1).where(cond);
+        var sqliteQQ = sqliteQuery.query(select);
+        console.log(sqliteQQ.queryString: function(), sqliteQQ.params());
+    },
+
+    testQueryWithJoin: function() {
+        var table1 = table.table('table1');
+        var table2 = table.table('table2');
+        var id1 = field.field('id1', field.DataType.int);
+        table1.field(id1);
+        var name1 = field.field('name1', field.DataType.string);
+        table1.field(name1);
+        var id2 = field.field('id2', field.DataType.int);
+        table2.field(id2);
+        var s = query.select(id1, name1, id2)
+                .from(table1, table2)
+                .where(condition.condition(id1, condition.Op.eq, id2));
+        var sqliteQQ = sqliteQuery.query(s);
+        var ss = sqliteQQ.queryString(s);
+        console.log(ss);
+    },
+
+    testAggregateQuery: function() {
+        var table1 = table.table('table1');
+        var table2 = table.table('table2');
+        var sumField = field.field('sumField', field.DataType.int);
+        table2.field(sumField);
+        var id1 = field.field('id1', field.DataType.int);
+        table1.field(id1);
+        var id2 = field.field('id2', field.DataType.int);
+        table2.field(id2);
+        var s = query.select(sumField)
+                .aggregate(query.Aggregate.sum)
+                .from(table1, table2)
+                .where(condition.condition(id1, condition.Op.eq, id2));
+        var sqliteQQ = sqliteQuery.query(s);
+        var ss = sqliteQQ.queryString(s);
+        console.log(ss);
+    },
+
+    testInsertQuery: function() {
+        var table1 = table.table('table1');
+        var id1 = field.field('id1', field.DataType.int).value(1);
+        table1.field(id1);
+        var name1 = field.field('name1', field.DataType.string).value('name');
+        table1.field(name1);
+        var s = query.insert: function()
+                .into(table1); // all fields
+        var sqliteQQ = sqliteQuery.query(s);
+        var ss = sqliteQQ.queryString(s);
+        console.log(ss, sqliteQQ.params: function());
+    },
+
+    testUpdateQuery: function() {
+        var table1 = table.table('table1');
+        var id1 = field.field('id1', field.DataType.int).value(1);
+        table1.field(id1);
+        var name1 = field.field('name1', field.DataType.string).value('name');
+        table1.field(name1);
+        var s = query.update: function()
+                .table(table1)
+                .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
+        var sqliteQQ = sqliteQuery.query(s);
+        var ss = sqliteQQ.queryString(s);
+        console.log(ss, sqliteQQ.params: function());
+    }
+};
+
+function runTests(testNames) {
+    m_TestSuite.TestSuite.call(tests);
+    m_TestSuite.TestSuite.prototype.runTests.call(tests, testNames);
 }
 
-function testQueryWithCondition() {
-    var table1 = table.table('table1');
-    var field1 = field.field('field1', field.DataType.int);
-    table1.field(field1);
-    var cond = condition.condition()
-        .field(new field.Field('field1'))
-        .op(condition.Op.eq)
-        .compareTo('haha');
-    var select = query.select(field1).from(table1).where(cond);
-    var sqliteQQ = sqliteQuery.query(select);
-    console.log(sqliteQQ.queryString(), sqliteQQ.params());
-}
-
-function testQueryWithJoin() {
-    var table1 = table.table('table1');
-    var table2 = table.table('table2');
-    var id1 = field.field('id1', field.DataType.int);
-    table1.field(id1);
-    var name1 = field.field('name1', field.DataType.string);
-    table1.field(name1);
-    var id2 = field.field('id2', field.DataType.int);
-    table2.field(id2);
-    var s = query.select(id1, name1, id2)
-            .from(table1, table2)
-            .where(condition.condition(id1, condition.Op.eq, id2));
-    var sqliteQQ = sqliteQuery.query(s);
-    var ss = sqliteQQ.queryString(s);
-    console.log(ss);
-}
-
-function testAggregateQuery() {
-    var table1 = table.table('table1');
-    var table2 = table.table('table2');
-    var sumField = field.field('sumField', field.DataType.int);
-    table2.field(sumField);
-    var id1 = field.field('id1', field.DataType.int);
-    table1.field(id1);
-    var id2 = field.field('id2', field.DataType.int);
-    table2.field(id2);
-    var s = query.select(sumField)
-            .aggregate(query.Aggregate.sum)
-            .from(table1, table2)
-            .where(condition.condition(id1, condition.Op.eq, id2));
-    var sqliteQQ = sqliteQuery.query(s);
-    var ss = sqliteQQ.queryString(s);
-    console.log(ss);
-}
-
-function testInsertQuery() {
-    var table1 = table.table('table1');
-    var id1 = field.field('id1', field.DataType.int).value(1);
-    table1.field(id1);
-    var name1 = field.field('name1', field.DataType.string).value('name');
-    table1.field(name1);
-    var s = query.insert()
-            .into(table1); // all fields
-    var sqliteQQ = sqliteQuery.query(s);
-    var ss = sqliteQQ.queryString(s);
-    console.log(ss, sqliteQQ.params());
-}
-
-function testUpdateQuery() {
-    var table1 = table.table('table1');
-    var id1 = field.field('id1', field.DataType.int).value(1);
-    table1.field(id1);
-    var name1 = field.field('name1', field.DataType.string).value('name');
-    table1.field(name1);
-    var s = query.update()
-            .table(table1)
-            .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
-    var sqliteQQ = sqliteQuery.query(s);
-    var ss = sqliteQQ.queryString(s);
-    console.log(ss, sqliteQQ.params());
-}
-
-testBasicQuery();
-testQueryWithCondition();
-testQueryWithJoin();
-testAggregateQuery();
-testInsertQuery();
-testUpdateQuery();
+exports.runTests = runTests;

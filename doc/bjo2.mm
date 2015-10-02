@@ -77,11 +77,17 @@
 <edge COLOR="#7c0000"/>
 <node TEXT="Todo" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1435663662175">
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
-<node TEXT="remove stupid and useless clone()" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380"/>
+<node TEXT="remove stupid and useless clone()" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380">
+<node TEXT="or rather, clarify where exactly to use fieldsFromDao" ID="ID_588673258" CREATED="1443643524415" MODIFIED="1443643534348"/>
+</node>
 <node TEXT="deal with circular deps...?" ID="ID_1175574652" CREATED="1443639118655" MODIFIED="1443639128319">
 <node TEXT="boField" ID="ID_345461857" CREATED="1443639128947" MODIFIED="1443639132773"/>
 <node TEXT="fieldLink" ID="ID_1083936208" CREATED="1443639133044" MODIFIED="1443639140646"/>
+<node TEXT="resolve by using events" ID="ID_147953381" CREATED="1443643430139" MODIFIED="1443643435837">
+<node TEXT="boField.onAfterAddToBo($bo)" ID="ID_1610959754" CREATED="1443643436041" MODIFIED="1443643460104"/>
 </node>
+</node>
+<node TEXT="order setting field values so boFields come last" ID="ID_160383201" CREATED="1443643497421" MODIFIED="1443643509166"/>
 <node TEXT="frontend: add scrolling to listform" ID="ID_1689836394" CREATED="1435663966160" MODIFIED="1435663972313"/>
 <node TEXT="testing: add test for boField in writing to db" ID="ID_474169252" CREATED="1443639178582" MODIFIED="1443639186157"/>
 <node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437" CREATED="1443639193962" MODIFIED="1443639209876"/>
@@ -92,7 +98,6 @@
 <node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
 <node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435919335285"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1435919385726"/>
-<node TEXT="daoFactory.forName(...)...... what if we have the same field name twice...?" ID="ID_1248872904" CREATED="1443358795895" MODIFIED="1443358808530"/>
 <node TEXT="the boField currently needs a db, because it will construct a bo. that is somewhat uncool and should probably be changed..." ID="ID_1454125043" CREATED="1443359085007" MODIFIED="1443359114708"/>
 <node TEXT="fieldLinks: need clarification" FOLDED="true" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
@@ -111,10 +116,6 @@
 </node>
 <node TEXT="Prio 2" FOLDED="true" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
-<node TEXT="have a dao factory so the server etc do not need to know about the db" FOLDED="true" ID="ID_1050008194" CREATED="1436268660144" MODIFIED="1436268673433">
-<node TEXT="daoFactory(db).forName(&apos;customer&apos;)" ID="ID_1294922937" CREATED="1436268675652" MODIFIED="1436268693995"/>
-<node TEXT="also have a bo factory" ID="ID_220995916" CREATED="1436436014517" MODIFIED="1436436019668"/>
-</node>
 <node TEXT="populateLookupFields() should pass a db to a function populate(db) in LookupField" ID="ID_1203408311" CREATED="1436533947090" MODIFIED="1436533967526"/>
 <node TEXT="unify module var names to m_..." ID="ID_1238267829" CREATED="1436260847908" MODIFIED="1436260859231"/>
 <node TEXT="add locking" ID="ID_547401360" CREATED="1435666625338" MODIFIED="1435666626991"/>
@@ -154,7 +155,7 @@
 </node>
 </node>
 </node>
-<node TEXT="Prio 3" ID="ID_265969861" CREATED="1441365521864" MODIFIED="1441365523877">
+<node TEXT="Prio 3" FOLDED="true" ID="ID_265969861" CREATED="1441365521864" MODIFIED="1441365523877">
 <node TEXT="Be able to insert non-primary daos/bos" ID="ID_515705090" CREATED="1441365526224" MODIFIED="1441365534286"/>
 <node TEXT="probably unroll the constructor/addLinks discrepancy in (e.g.) invoiceTable" ID="ID_640572594" CREATED="1441365708312" MODIFIED="1441365725566"/>
 </node>

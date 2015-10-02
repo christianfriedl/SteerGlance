@@ -19,8 +19,10 @@
 var field = require('sql/field.js');
 var m_sql_calcField = require('sql/calcField.js');
 var assert = require('assert');
+var m_TestSuite = require('TestSuite.js');
 
-var Tests = {
+var tests = {
+    _name: 'testField',
 
     testIdentName: function() {
         var id1 = field.field('id1', field.DataType.int);
@@ -74,17 +76,9 @@ var Tests = {
 
 };
 
-function runTests() {
-    console.log('>>>>', module.filename);
-    var f = null;
-    for (f in Tests) {
-        if ( typeof(Tests[f]) === 'function' && f.substr(0,4) === 'test' ) {
-            console.log('>>>', f);
-            Tests[f]();
-            console.log('<<<', f);
-        }
-    }
-    console.log('<<<<', module.filename);
+function runTests(testNames) {
+    m_TestSuite.TestSuite.call(tests);
+    m_TestSuite.TestSuite.prototype.runTests.call(tests, testNames);
 }
 
 

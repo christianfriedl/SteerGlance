@@ -128,10 +128,9 @@ var tests = {
     }
 };
 
-function runTests() {
+function runTests(testNames) {
     m_TestSuite.TestSuite.call(tests);
-    m_TestSuite.TestSuite.prototype.runTests.call(tests);
+    m_TestSuite.TestSuite.prototype.runTests.call(tests, testNames);
 }
-
 
 exports.runTests = runTests;

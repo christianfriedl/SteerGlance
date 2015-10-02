@@ -142,10 +142,10 @@ var tests = {
         );
     }
 };
-function runTests() {
-    m_TestSuite.TestSuite.call(tests);
-    m_TestSuite.TestSuite.prototype.runTests.call(tests);
-}
 
+function runTests(testNames) {
+    m_TestSuite.TestSuite.call(tests);
+    m_TestSuite.TestSuite.prototype.runTests.call(tests, testNames);
+}
 
 exports.runTests = runTests;
