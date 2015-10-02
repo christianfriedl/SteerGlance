@@ -64,7 +64,6 @@ var tests = {
         var table1 = table.table().field(id1).field(name1);
         var dao1 = dao.dao(db1).table(table1);
         var bo1 = bo.bo(db1).dao(dao1);
-        console.log(bo1.id1(), bo1.name1());
         assert.strictEqual(1, bo1.id1());
         assert.strictEqual('one', bo1.name1());
     },
@@ -101,7 +100,6 @@ var tests = {
                 var dao1 = dao.dao(db1).table(table1);
                 dao1.loadByQuery(select, function(err, dao2) {
                     if ( err ) throw new Error(err);
-                    console.log('dao laoded', dao1.id1());
                     assert.strictEqual(1, dao1.id1());
                     assert.strictEqual(dao1, dao2);
                 });
@@ -127,7 +125,6 @@ var tests = {
         var id1 = field.field('id1', field.DataType.int);
         bo1.id1(1);
         bo1.validation(function() {
-            console.log('_validation', 'this', this, this.field('id1'), this.field('id1').value());
             if ( this.field('id1').value() < 2 ) {
                 throw new field.ValidationException(id1, "must be at least 2");
             }
@@ -136,8 +133,7 @@ var tests = {
         bo1.id1(2);
         assert.doesNotThrow(function() { bo1.validate(); });
     },
-    // testBo.js
-    testBoFieldJustSet: function() {
+    testBoFieldGet: function() {
         var db1 = db.db(':memory:').open(':memory:');
         var tCust = table.table('customer');
         var fCustId = field.field('id', field.DataType.int);
@@ -152,12 +148,12 @@ var tests = {
         tInv.field(fInvId);
         var fInvCustId = field.field('customerId', field.DataType.int);
         tInv.field(fInvCustId);
-        var fInvCustBo = boField.boField('customer', null, 'customer', db1, custCons, null);
+        var fInvCustBo = boField.boField('customer', null, 'customer', db1, custCons, fInvCustId);
         tInv.field(fInvCustBo);
         var daoInv = primaryDao.primaryDao(db1).table(tInv);
         var boInv = primaryBo.primaryBo(db1).dao(daoInv);
         tInv.field('customerId').link(fieldLink.fieldLink(fInvCustId, fCustId, fieldLink.Type.manyToOne));
-        boInv.field('customer').idField(boInv.field('customerId'));
+        // boInv.field('customer').idField(boInv.field('customerId'));
 
 
         async.series([
@@ -167,9 +163,56 @@ var tests = {
             function(callback) { db1.runSql('INSERT INTO invoice VALUES(1, 1)', [], callback); },
             function(callback) { 
                 boInv.loadById(1, function(err, bo2) {
-                    console.log('### haha###', boInv);
                     var c = boInv.customer();
                     assert(c.id() === 1);
+                    callback();
+                });
+            },
+        ]);
+    },
+    testBoFieldSet: function() {
+        var db1 = db.db(':memory:').open(':memory:');
+        var tCust = table.table('customer');
+        var fCustId = field.field('id', field.DataType.int);
+        tCust.field(fCustId);
+        var daoCust = primaryDao.primaryDao(db1).table(tCust);
+        var boCust = primaryBo.primaryBo(db1).dao(daoCust);
+
+        var custCons = function(db) { return boCust; }
+
+        var tInv = table.table('invoice');
+        var fInvId = field.field('id', field.DataType.int);
+        tInv.field(fInvId);
+        var fInvCustId = field.field('customerId', field.DataType.int);
+        tInv.field(fInvCustId);
+        var fInvCustBo = boField.boField('customer', null, 'customer', db1, custCons, fInvCustId);
+        tInv.field(fInvCustBo);
+        var daoInv = primaryDao.primaryDao(db1).table(tInv);
+        var boInv = primaryBo.primaryBo(db1).dao(daoInv);
+        tInv.field('customerId').link(fieldLink.fieldLink(fInvCustId, fCustId, fieldLink.Type.manyToOne));
+        // boInv.field('customer').idField(boInv.field('customerId'));
+
+
+        async.series([
+            function(callback) { db1.runSql('CREATE TABLE customer (id int)', [], callback); },
+            function(callback) { db1.runSql('CREATE TABLE invoice (id int, customerId int)', [], callback); },
+            function(callback) { db1.runSql('INSERT INTO customer VALUES(1)', [], callback); },
+            function(callback) { db1.runSql('INSERT INTO invoice VALUES(1, 1)', [], callback); },
+            function(callback) { 
+                boInv.loadById(1, function(err, bo2) {
+                    var c = boInv.customer();
+                    assert(c.id() === 1);
+                    c.id(2);
+                    assert(c.id() === 2);
+                    debugger;
+                    boInv.customer(c);
+                    assert.equal(2, boInv.customerId());
+                    boInv.save(function(err, boInv2) {
+                        db1.allSql('SELECT * FROM invoice', [], function(err, rows) {
+                            if ( err ) throw new Error(err);
+                            assert.strictEqual(2, rows[0].customerId);
+                        });
+                    });
                     callback();
                 });
             },

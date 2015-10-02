@@ -24,20 +24,20 @@ log4js.configure({ appenders: [ { type: "console", layout: { type: "basic" } } ]
 // framework tests
 
 var testScripts = {
-    'server/testRouter.js': { 'enabled': true },
-    'sql/table.js': { 'enabled': true },
-    'sql/testField.js': { 'enabled': true },
-    'sql/sqlite/testQuery.js': { 'enabled': true },
-    'dao/testDao.js': { 'enabled': true },
-    'dao/testDaoSet.js': { 'enabled': true },
+    'server/testRouter.js': { 'enabled': false },
+    'sql/table.js': { 'enabled': false },
+    'sql/testField.js': { 'enabled': false },
+    'sql/sqlite/testQuery.js': { 'enabled': false },
+    'dao/testDao.js': { 'enabled': false },
+    'dao/testDaoSet.js': { 'enabled': false },
     'bo/testBo.js': { 'enabled': true },
-    'bo/testBoSet.js': { 'enabled': true },
-    'dao/testLookups.js': { 'enabled': true },
-//     'bo/testPrimaryBo.js': { 'enabled': true }, -- covered via test...customerBo
+    'bo/testBoSet.js': { 'enabled': false },
+    'dao/testLookups.js': { 'enabled': false },
+//     'bo/testPrimaryBo.js': { 'enabled': false }, -- covered via test...customerBo
 //
-// commented-out: { 'enabled': true }, currently is erroneous because of lookupfield test
-    'app/customer/customerBo.js': { 'enabled': true },
-    'app/invoice/invoiceBo.js': { 'enabled': true },
+// commented-out: { 'enabled': false }, currently is erroneous because of lookupfield test
+    'app/customer/customerBo.js': { 'enabled': false },
+    'app/invoice/invoiceBo.js': { 'enabled': false },
 
 // server tests
 // commented-out: { 'enabled': false }, currently is erroneous because of lookupfield test
