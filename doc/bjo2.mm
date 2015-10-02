@@ -80,22 +80,11 @@
 <node TEXT="remove stupid and useless clone()" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380">
 <node TEXT="or rather, clarify where exactly to use fieldsFromDao" ID="ID_588673258" CREATED="1443643524415" MODIFIED="1443643534348"/>
 </node>
-<node TEXT="add and run testBo.testBoFieldSet" ID="ID_181580310" CREATED="1443794493144" MODIFIED="1443794513919"/>
 <node TEXT="deal with circular deps...?" ID="ID_1175574652" CREATED="1443639118655" MODIFIED="1443639128319">
-<node TEXT="boField" ID="ID_345461857" CREATED="1443639128947" MODIFIED="1443794065853">
-<icon BUILTIN="button_ok"/>
-</node>
 <node TEXT="fieldLink" ID="ID_1083936208" CREATED="1443639133044" MODIFIED="1443639140646"/>
-<node TEXT="resolve by using events" ID="ID_147953381" CREATED="1443643430139" MODIFIED="1443643435837">
-<node TEXT="boField.onAfterAddToBo($bo)" ID="ID_1610959754" CREATED="1443643436041" MODIFIED="1443643460104"/>
-</node>
-</node>
-<node TEXT="order setting field values so boFields come last" ID="ID_160383201" CREATED="1443643497421" MODIFIED="1443643509166"/>
-<node TEXT="testing: enable programmatically running only one test" ID="ID_589403690" CREATED="1443675757484" MODIFIED="1443763587461">
-<icon BUILTIN="button_ok"/>
+<node TEXT="resolve by using events" ID="ID_147953381" CREATED="1443643430139" MODIFIED="1443643435837"/>
 </node>
 <node TEXT="frontend: add scrolling to listform" ID="ID_1689836394" CREATED="1435663966160" MODIFIED="1435663972313"/>
-<node TEXT="testing: add test for boField in writing to db" ID="ID_474169252" CREATED="1443639178582" MODIFIED="1443639186157"/>
 <node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437" CREATED="1443639193962" MODIFIED="1443639209876"/>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: streamline initial request by using ajax" ID="ID_587838158" CREATED="1435775497250" MODIFIED="1435775510097"/>
@@ -232,6 +221,15 @@
 <node TEXT="the boField is not in the writeFields(blah) list" ID="ID_320277805" CREATED="1443193632696" MODIFIED="1443193653713"/>
 </node>
 </node>
+</node>
+<node TEXT="boField" ID="ID_345461857" CREATED="1443639128947" MODIFIED="1443794065853">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="add and run testBo.testBoFieldSet" ID="ID_181580310" CREATED="1443794493144" MODIFIED="1443797050611">
+<icon BUILTIN="button_ok"/>
+</node>
+<node TEXT="testing: enable programmatically running only one test" ID="ID_589403690" CREATED="1443675757484" MODIFIED="1443763587461">
+<icon BUILTIN="button_ok"/>
 </node>
 </node>
 </node>
