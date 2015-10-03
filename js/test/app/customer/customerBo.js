@@ -123,21 +123,22 @@ var tests = {
     },
     testCalcFieldLoadById: function() {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
-        var bo1 = m_app_customer_customerBo.customerBo(db1);
         async.series([
             function(callback) {
-                db1._db._db.serialize(function() {
-                    db1._db._db.run('CREATE TABLE customer (id int, firstName text, lastName text)', [], function(err, res) { console.log(err, 'done', res); });
-                    db1._db._db.run('INSERT INTO customer VALUES(1, \'Karenbruck\', \'Hardnebrautz\')', [], function(err, res) { console.log(err, 'done', res); });
-                    db1._db._db.run('INSERT INTO customer VALUES(2, \'Christian\', \'Friedl\')', [], function(err, res) { console.log(err, 'done', res); });
-
-                    db1._db._db.run('CREATE TABLE invoice (id int, customerId int, amount decimal)', [], function(err, res) { console.log(err, 'done', res); });
-                    db1._db._db.run('INSERT INTO invoice VALUES(1, 1, 10.0)', [], function(err, res) { console.log(err, 'done', res); });
-                    db1._db._db.run('INSERT INTO invoice VALUES(2, 1, 20.0)', [], function(err, res) { console.log(err, 'done', res); });
-                    callback(false);
-                });
+                    db1._db._db.run('CREATE TABLE customer (id int, firstName text, lastName text)', [], callback);
+            }, function(callback) {
+                    db1._db._db.run('INSERT INTO customer VALUES(1, \'Karenbruck\', \'Hardnebrautz\')', [], callback);
+            }, function(callback) {
+                    db1._db._db.run('INSERT INTO customer VALUES(2, \'Christian\', \'Friedl\')', [], callback);
+            }, function(callback) {
+                    db1._db._db.run('CREATE TABLE invoice (id int, customerId int, amount decimal)', [], callback);
+            }, function(callback) {
+                    db1._db._db.run('INSERT INTO invoice VALUES(1, 1, 10.0)', [], callback);
+            }, function(callback) {
+                    db1._db._db.run('INSERT INTO invoice VALUES(2, 1, 20.0)', [], callback);
             },
             function (callback) {
+                var bo1 = m_app_customer_customerBo.customerBo(db1);
                 bo1.loadById(1, function(err, result) {
                     assert.strictEqual(30, bo1.field('sumInvoiceAmount').value());
                     callback(false);
@@ -152,17 +153,19 @@ var tests = {
         var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_customer_customerBo.customerBo);
         async.series([
             function(callback) {
-                db1._db._db.serialize(function() {
-                    db1._db._db.run('CREATE TABLE customer (id int, firstName text, lastName text)', [], function(err, res) { console.log(err, 'done', res); });
-                    db1._db._db.run('INSERT INTO customer VALUES(1, \'Karenbruck\', \'Hardnebrautz\')', [], function(err, res) { console.log(err, 'done', res); });
-                    db1._db._db.run('INSERT INTO customer VALUES(2, \'Christian\', \'Friedl\')', [], function(err, res) { console.log(err, 'done', res); });
-
-                    db1._db._db.run('CREATE TABLE invoice (id int, customerId int, amount decimal)', [], function(err, res) { console.log(err, 'done', res); });
-                    db1._db._db.run('INSERT INTO invoice VALUES(1, 1, 11.0)', [], function(err, res) { console.log(err, 'done', res); });
-                    db1._db._db.run('INSERT INTO invoice VALUES(2, 1, 22.0)', [], function(err, res) { console.log(err, 'done', res); });
-                    db1._db._db.run('INSERT INTO invoice VALUES(3, 2, 30.0)', [], function(err, res) { console.log(err, 'done', res); });
-                    callback(false);
-                });
+                    db1._db._db.run('CREATE TABLE customer (id int, firstName text, lastName text)', [], callback);
+            }, function(callback) {
+                    db1._db._db.run('INSERT INTO customer VALUES(1, \'Karenbruck\', \'Hardnebrautz\')', [], callback);
+            }, function(callback) {
+                    db1._db._db.run('INSERT INTO customer VALUES(2, \'Christian\', \'Friedl\')', [], callback);
+            }, function(callback) {
+                    db1._db._db.run('CREATE TABLE invoice (id int, customerId int, amount decimal)', [], callback);
+            }, function(callback) {
+                    db1._db._db.run('INSERT INTO invoice VALUES(1, 1, 11.0)', [], callback);
+            }, function(callback) {
+                    db1._db._db.run('INSERT INTO invoice VALUES(2, 1, 22.0)', [], callback);
+            }, function(callback) {
+                    db1._db._db.run('INSERT INTO invoice VALUES(3, 2, 30.0)', [], callback);
             },
             function (callback) {
                 boSet.loadAllByConditions([], function(err, bos, aggregateBo) {
