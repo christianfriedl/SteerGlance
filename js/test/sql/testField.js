@@ -72,7 +72,25 @@ var tests = {
         });
         assert.throws(function() { id1.validate(1); },  field.ValidationException);
         assert.doesNotThrow(function() { id1.validate(2); });
-    }
+    },
+    testCloning: function() {
+        var name = field.field('name', field.DataType.string);
+        var name1 = name.clone();
+        assert.notEqual(name.guid(), name1.guid());
+        assert.strictEqual(name.id(), name1.id());
+        assert.strictEqual(name.name(), name1.name());
+        assert.strictEqual(name.dataType(), name1.dataType());
+        assert.strictEqual(name.label(), name1.label());
+        assert.equal(name.value(), name1.value());
+        assert.strictEqual(name.isRequired(), name1.isRequired());
+        assert.strictEqual(name.isEditable(), name1.isEditable());
+        assert.strictEqual(name.fQName(), name1.fQName());
+        assert.strictEqual(name.accessorName(), name1.accessorName());
+        assert.strictEqual(name.getterName(), name1.getterName());
+        assert.strictEqual(name.setterName(), name1.setterName());
+        assert.strictEqual(name.identifierName(), name1.identifierName());
+    },
+
 
 };
 

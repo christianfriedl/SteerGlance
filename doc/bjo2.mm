@@ -94,7 +94,7 @@
 <node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435919335285"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1435919385726"/>
 <node TEXT="the boField currently needs a db, because it will construct a bo. that is somewhat uncool and should probably be changed..." ID="ID_1454125043" CREATED="1443359085007" MODIFIED="1443359114708"/>
-<node TEXT="fieldLinks: need clarification" FOLDED="true" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
+<node TEXT="fieldLinks: need clarification" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
 <node TEXT="currently, we&apos;re just using the first" ID="ID_669468957" CREATED="1435858155342" MODIFIED="1435858163145"/>
 </node>
@@ -109,7 +109,7 @@
 <node TEXT="daoset: should dao.populateLookupFields move from loadByConditions to loadByQuery?" ID="ID_3304635" CREATED="1436434490406" MODIFIED="1436434513826"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_331627961" CREATED="1435919369839" MODIFIED="1435919385726"/>
 </node>
-<node TEXT="Prio 2" FOLDED="true" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
+<node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
 <node TEXT="populateLookupFields() should pass a db to a function populate(db) in LookupField" ID="ID_1203408311" CREATED="1436533947090" MODIFIED="1436533967526"/>
 <node TEXT="unify module var names to m_..." ID="ID_1238267829" CREATED="1436260847908" MODIFIED="1436260859231"/>

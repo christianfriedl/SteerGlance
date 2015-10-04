@@ -24,21 +24,19 @@ log4js.configure({ appenders: [ { type: "console", layout: { type: "basic" } } ]
 // framework tests
 
 var testScripts = {
-    'server/testRouter.js': { 'enabled': false },
-    'sql/table.js': { 'enabled': false },
-    'sql/testField.js': { 'enabled': false },
-    'sql/sqlite/testQuery.js': { 'enabled': false },
-    'dao/testDao.js': { 'enabled': false },
-    'dao/testDaoSet.js': { 'enabled': false },
-    'bo/testBo.js': { 'enabled': false },
-    'bo/testBoSet.js': { 'enabled': false },
-    'dao/testLookups.js': { 'enabled': false },
-    'bo/testPrimaryBo.js': { 'enabled': false }, 
+    'server/testRouter.js': { 'enabled': true },
+    'sql/table.js': { 'enabled': true },
+    'sql/testField.js': { 'enabled': true },
+    'sql/sqlite/testQuery.js': { 'enabled': true },
+    'dao/testDao.js': { 'enabled': true },
+    'dao/testDaoSet.js': { 'enabled': true },
+    'bo/testBo.js': { 'enabled': true },
+    'bo/testBoSet.js': { 'enabled': true },
+    'dao/testLookups.js': { 'enabled': true },
+    'bo/testPrimaryBo.js': { 'enabled': true }, 
     'app/customer/customerBo.js': { 'enabled': ['testCalcFieldLoadById', 'testCalcFieldLoadAllByConditions'] }, // TODO there are async-errors in the other tests...!
-    'app/invoice/invoiceBo.js': { 'enabled': false },// TODO there are async-errors in the tests there...!
+    'app/invoice/invoiceBo.js': { 'enabled': true },// TODO there are async-errors in the tests there...!
     'app/realLife.js': { 'enabled': true },
-
-    'server/app/customer/testCustomer.js': { 'enabled': false }, // TODO currently is erroneous because of lookupfield test
 };
 
 _(_(testScripts).keys()).each(function(scriptName) {
