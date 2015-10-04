@@ -149,46 +149,49 @@
     ListForm.createHtml = function(cssId, data) {
         var html = `
             <form id="` + cssId + `">
-                <table class="list-form">
-                    <thead>
-                        <tr class="filters head">`
-                            + _(data.templateRow.fields).reduce(function(memo, field) { 
-                                return memo 
-                                + '<th>' + (field.className !== 'sql.CalcField' ? ListForm.createFieldFilterHtml(cssId, field, data.module, data.controller) : '&nbsp;') + '</th>'; 
+                <div class="list-pane">
+                    <table class="list-form">
+                        <thead>
+                            <tr class="filters head">`
+                                + _(data.templateRow.fields).reduce(function(memo, field) { 
+                                    return memo 
+                                    + '<th>' + (field.className !== 'sql.CalcField' ? ListForm.createFieldFilterHtml(cssId, field, data.module, data.controller) : '&nbsp;') + '</th>'; 
+                                }, '')
+                            + `</tr>
+                            <tr class="head">`
+                                + _(data.templateRow.fields).reduce(function(memo, field) { 
+                                    return memo 
+                                    + '<th>' + field.label + '</th>'; 
+                                }, '')
+                            + `</tr>`
+                        + `</thead>
+                        <tbody>`
+                        + _(data.rows).reduce(function(memo, row) { 
+                            return memo + ListForm.createRowHtml(row, data.module, data.controller);
+                        }.bind(ListForm), '')
+                        + `</tbody>
+                        <tfoot>`
+                        + this.createInsertRowHtml(data.templateRow, data.module, data.controller)
+                        + `<tr class="foot">`
+                            + _(data.aggregateRow).reduce(function(memo, field) {
+                                console.log('_agg',field);
+                                if ( field.className==='sql.CalcField' ) {
+                                    return memo + '<td>' + field.value + '</td>';
+                                } else {
+                                    return memo + '<td>&nbsp;</td>';
+                                }
                             }, '')
                         + `</tr>
-                        <tr class="head">`
-                            + _(data.templateRow.fields).reduce(function(memo, field) { 
-                                return memo 
-                                + '<th>' + field.label + '</th>'; 
-                            }, '')
-                        + `</tr>`
-                    + `</thead>
-                    <tbody>`
-                    + _(data.rows).reduce(function(memo, row) { 
-                        return memo + ListForm.createRowHtml(row, data.module, data.controller);
-                    }.bind(ListForm), '')
-                    + `</tbody>
-                    <tfoot>`
-                    + this.createInsertRowHtml(data.templateRow, data.module, data.controller)
-                    + `<tr class="foot">`
-                        + _(data.aggregateRow).reduce(function(memo, field) {
-                            console.log('_agg',field);
-                            if ( field.className==='sql.CalcField' ) {
-                                return memo + '<td>' + field.value + '</td>';
-                            } else {
-                                return memo + '<td>&nbsp;</td>';
-                            }
-                        }, '')
-                    + `</tr>
-                    <tr>
-                        <th>&nbsp;</th>
-                        <td>count: <span id="count">` + data.count + `</td>
-                    </tr>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <td>count: <span id="count">` + data.count + `</td>
+                        </tr>
                     </tfoot>
                 </table>
-            </form>
-            <div id="lookupPopup" class="popup"></div>
+                </div>` // list-pane
+            + `</form>
+
+        <div id="lookupPopup" class="popup"></div>
     <script>
         function openLookupPopup(hiddenFieldId, optionsJson, module, controller) {
             var options = JSON.parse(optionsJson);
