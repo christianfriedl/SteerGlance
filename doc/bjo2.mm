@@ -77,9 +77,6 @@
 <edge COLOR="#7c0000"/>
 <node TEXT="Todo" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1435663662175">
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
-<node TEXT="remove stupid and useless clone()" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380">
-<node TEXT="or rather, clarify where exactly to use fieldsFromDao" ID="ID_588673258" CREATED="1443643524415" MODIFIED="1443643534348"/>
-</node>
 <node TEXT="deal with circular deps...?" ID="ID_1175574652" CREATED="1443639118655" MODIFIED="1443639128319">
 <node TEXT="fieldLink" ID="ID_1083936208" CREATED="1443639133044" MODIFIED="1443639140646"/>
 <node TEXT="resolve by using events" ID="ID_147953381" CREATED="1443643430139" MODIFIED="1443643435837"/>
@@ -109,6 +106,9 @@
 </node>
 <node TEXT="daoset: should dao.populateLookupFields move from loadByConditions to loadByQuery?" ID="ID_3304635" CREATED="1436434490406" MODIFIED="1436434513826"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_331627961" CREATED="1435919369839" MODIFIED="1435919385726"/>
+<node TEXT="remove stupid and useless clone()" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380">
+<node TEXT="or rather, clarify where exactly to use fieldsFromDao" ID="ID_588673258" CREATED="1443643524415" MODIFIED="1443643534348"/>
+</node>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
