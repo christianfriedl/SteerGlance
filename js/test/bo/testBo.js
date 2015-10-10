@@ -163,11 +163,13 @@ var tests = {
             function(callback) { db1.runSql('INSERT INTO invoice VALUES(1, 1)', [], callback); },
             function(callback) { 
                 boInv.loadById(1, function(err, bo2) {
-                    var c = boInv.customer();
-                    assert(c.id() === 1);
-                    callback();
+                    var cf = boInv.field('customer');
+                    cf.loadBo(db1, function (err, c) {
+                        assert(c.id() === 1);
+                        callback();
+                    })
                 });
-            },
+            }
         ]);
     },
     testBoFieldSet: function() {
@@ -200,22 +202,22 @@ var tests = {
             function(callback) { db1.runSql('INSERT INTO invoice VALUES(1, 1)', [], callback); },
             function(callback) { 
                 boInv.loadById(1, function(err, bo2) {
-                    var c = boInv.customer();
-                    assert(c.id() === 1);
-                    c.id(2);
-                    assert(c.id() === 2);
-                    debugger;
-                    boInv.customer(c);
-                    assert.equal(2, boInv.customerId());
-                    boInv.save(function(err, boInv2) {
-                        db1.allSql('SELECT * FROM invoice', [], function(err, rows) {
-                            if ( err ) throw new Error(err);
-                            assert.strictEqual(2, rows[0].customerId);
+                    var cf = boInv.field('customer');
+                    cf.loadBo(db1, function (err, c) {
+                        assert(c.id() === 1);
+                        c.id(2);
+                        assert(c.id() === 2);
+                        boInv.customer(c);
+                        assert.equal(2, boInv.customerId());
+                        boInv.save(function(err, boInv2) {
+                            db1.allSql('SELECT * FROM invoice', [], function(err, rows) {
+                                if ( err ) throw new Error(err);
+                                assert.strictEqual(2, rows[0].customerId);
+                            });
                         });
-                    });
-                    callback();
+                    })
                 });
-            },
+            }
         ]);
     }
 };
