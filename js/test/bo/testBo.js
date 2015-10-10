@@ -172,6 +172,45 @@ var tests = {
             }
         ]);
     },
+    testLoadAllBoFields: function() {
+        var db1 = db.db(':memory:').open(':memory:');
+        var tCust = table.table('customer');
+        var fCustId = field.field('id', field.DataType.int);
+        tCust.field(fCustId);
+        var daoCust = primaryDao.primaryDao(db1).table(tCust);
+        var boCust = primaryBo.primaryBo(db1).dao(daoCust);
+
+        var custCons = function(db) { return boCust; }
+
+        var tInv = table.table('invoice');
+        var fInvId = field.field('id', field.DataType.int);
+        tInv.field(fInvId);
+        var fInvCustId = field.field('customerId', field.DataType.int);
+        tInv.field(fInvCustId);
+        var fInvCustBo = boField.boField('customer', null, 'customer', db1, custCons, fInvCustId);
+        tInv.field(fInvCustBo);
+        var daoInv = primaryDao.primaryDao(db1).table(tInv);
+        var boInv = primaryBo.primaryBo(db1).dao(daoInv);
+        tInv.field('customerId').link(fieldLink.fieldLink(fInvCustId, fCustId, fieldLink.Type.manyToOne));
+        // boInv.field('customer').idField(boInv.field('customerId'));
+
+
+        async.series([
+            function(callback) { db1.runSql('CREATE TABLE customer (id int)', [], callback); },
+            function(callback) { db1.runSql('CREATE TABLE invoice (id int, customerId int)', [], callback); },
+            function(callback) { db1.runSql('INSERT INTO customer VALUES(1)', [], callback); },
+            function(callback) { db1.runSql('INSERT INTO invoice VALUES(1, 1)', [], callback); },
+            function(callback) { 
+                boInv.loadById(1, function(err, bo2) {
+                    boInv.loadBos(function(err) {
+                        var c = boInv.customer();
+                        assert(c.id() === 1);
+                        callback();
+                    });
+                });
+            }
+        ]);
+    },
     testBoFieldSet: function() {
         var db1 = db.db(':memory:').open(':memory:');
         var tCust = table.table('customer');
