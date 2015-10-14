@@ -31,8 +31,35 @@ var m_bo_boSet = require('bo/boSet.js');
 var m_controller = require('server/defaultController.js');
 var util = require('util');
 
+function setupDb(db1, callback) {
+    async.series([
+        function(callback) { db1.runSql('CREATE TABLE customer (id int, firstName text, lastName text)', [], callback); },
+        function(callback) { db1.runSql('INSERT INTO customer (id, firstName, lastName) VALUES(1, \'Christian\', \'Friedl\')', [], callback); },
+        function(callback) { db1.runSql('INSERT INTO customer (id, firstName, lastName) VALUES(1, \'Hargenbrihl\', \'Zackenbruck\')', [], callback); },
+        function(callback) { db1.runSql('CREATE TABLE invoice (id int, amount int, customerId int)', [], callback); },
+        function(callback) {
+            var i=1; 
+            async.whilst(
+                function() { return i <= 10 },
+                function(callback) { 
+                    db1.runSql('INSERT INTO invoice (id, amount, customerId) VALUES(' + i + ', ' + (i*10) + ', 1)', [], function() { ++i;  callback(); }); 
+                },
+                function(err) { callback(); }
+            );
+            var j=11;
+            async.whilst(
+                function() { return j <= 20 },
+                function(callback) { 
+                    db1.runSql('INSERT INTO invoice (id, amount, customerId) VALUES(' + j + ', ' + (j*10) + ', 2)', [], function() { ++j;  callback(); }); 
+                },
+                function(err) { callback(); }
+            );
+        }
+    ], callback);
+}
+
 var tests = {
-    _name: 'testRealLife',
+    _name: 'actAsClient',
     testFetchCustomerList: function() {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
         var daoSet = m_dao_daoSet.daoSet(db1, m_app_customer_customerDao.customerDao);
@@ -40,16 +67,19 @@ var tests = {
         var request = {};
         var response = {};
         async.series([
-                function(callback) { db1.runSql('CREATE TABLE customer (id int, firstName text, lastName text)', [], callback); },
+                function(callback) { 
+                    db1.runSql('CREATE TABLE customer (id int, firstName text, lastName text)', [], callback); 
+                },
                 function(callback) { db1.runSql('CREATE TABLE invoice (id int, amount int, customerId int)', [], callback); },
                 function(callback) { db1.runSql('INSERT INTO customer (id, firstName, lastName) VALUES(1, \'Hargenbrihl\', \'Zackenbruck\')', [], callback); },
                 function(callback) { db1.runSql('INSERT INTO invoice (id, amount, customerId) VALUES(1, 10, 1)', [], callback); },
                 function(callback) { db1.runSql('INSERT INTO invoice (id, amount, customerId) VALUES(2, 20, 1)', [], callback); },
                 function(callback) {
                     return m_controller.list(boSet, request, response, function(response) {
-                        console.log('"responsecallback" received response', response, 'with rows', util.inspect(response.data.rows, { depth: 3} ));
-                        console.log('with templateRow', util.inspect(response.data.templateRow, { depth: 3} ));
-                        console.log('with aggregateRow', util.inspect(response.data.aggregateRow, { depth: 3} ));
+                        assert.strictEqual(1, response.data.rows.length);
+                        assert.strictEqual(1, response.data.rows[0].fields[0].value);
+                        assert.strictEqual(30, response.data.rows[0].fields[3].value);
+                        callback();
                     });
 
                 }
@@ -63,14 +93,67 @@ var tests = {
         var request = {};
         var response = {};
         async.series([
-                function(callback) { db1.runSql('CREATE TABLE customer (id int, firstName text, lastName text)', [], callback); },
-                function(callback) { db1.runSql('CREATE TABLE invoice (id int, amount int, customerId int)', [], callback); },
-                function(callback) { db1.runSql('INSERT INTO customer (id, firstName, lastName) VALUES(1, \'Hargenbrihl\', \'Zackenbruck\')', [], callback); },
-                function(callback) { db1.runSql('INSERT INTO invoice (id, amount, customerId) VALUES(1, 10, 1)', [], callback); },
-                function(callback) { db1.runSql('INSERT INTO invoice (id, amount, customerId) VALUES(2, 20, 1)', [], callback); },
+                function(callback) { setupDb(db1, callback); },
+                function(callback) {
+                    return m_controller.list(boSet, request, response, function(response) {
+                        assert.strictEqual(20, response.data.count);
+                        assert.strictEqual('id', response.data.rows[0].fields[0].name);
+                        assert.strictEqual(1, response.data.rows[0].fields[0].value);
+                        console.log('"responsecallback" received response', response, 'with rows', util.inspect(response.data.rows, { depth: 3} ));
+                        console.log('with templateRow', util.inspect(response.data.templateRow, { depth: 3} ));
+                        console.log('with aggregateRow', util.inspect(response.data.aggregateRow, { depth: 3} ));
+                    });
+
+                }
+        ]);
+    },
+    testFetchInvoiceListWithLimits: function() {
+        var db1 = m_sql_db.db(':memory:').open(':memory:');
+        var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
+        var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
+        var request = { body: { conditions: { limit: 3, offset: 9, count: 2 } } };
+        var response = {};
+        async.series([
+                function(callback) { setupDb(db1, callback); },
                 function(callback) {
                     return m_controller.list(boSet, request, response, function(response) {
                         console.log('"responsecallback" received response', response, 'with rows', util.inspect(response.data.rows, { depth: 3} ));
+                        assert.strictEqual(3, response.data.rows.length);
+                        assert.strictEqual('id', response.data.rows[0].fields[0].name);
+                        console.log('with templateRow', util.inspect(response.data.templateRow, { depth: 3} ));
+                        console.log('with aggregateRow', util.inspect(response.data.aggregateRow, { depth: 3} ));
+                    });
+
+                }
+        ]);
+    },
+    testFetchInvoiceListWithLimitsAndOrderby: function() {
+        var db1 = m_sql_db.db(':memory:').open(':memory:');
+        var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
+        var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
+        var request = { body: { conditions: { limit: 3, offset: 9, count: 2, orderBy: [ 'id' ] } } };
+        var response = {};
+        async.series([
+                function(callback) { setupDb(db1, callback); },
+                function(callback) {
+                    return m_controller.list(boSet, request, response, function(response) {
+                        console.log('"responsecallback" received response', response, 'with rows', util.inspect(response.data.rows, { depth: 3} ));
+                        assert.strictEqual(3, response.data.rows.length);
+                        assert.strictEqual('id', response.data.rows[0].fields[0].name);
+                        assert.strictEqual(10, response.data.rows[0].fields[0].value);
+                        assert.strictEqual(100, response.data.rows[0].fields[1].value);
+                        assert.strictEqual(1, response.data.rows[0].fields[2].value);
+
+                        assert.strictEqual('id', response.data.rows[1].fields[0].name);
+                        assert.strictEqual(11, response.data.rows[1].fields[0].value);
+                        assert.strictEqual(110, response.data.rows[1].fields[1].value);
+                        assert.strictEqual(2, response.data.rows[1].fields[2].value);
+
+                        assert.strictEqual('id', response.data.rows[2].fields[0].name);
+                        assert.strictEqual(12, response.data.rows[2].fields[0].value);
+                        assert.strictEqual(120, response.data.rows[2].fields[1].value);
+                        assert.strictEqual(2, response.data.rows[2].fields[2].value);
+
                         console.log('with templateRow', util.inspect(response.data.templateRow, { depth: 3} ));
                         console.log('with aggregateRow', util.inspect(response.data.aggregateRow, { depth: 3} ));
                     });

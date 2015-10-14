@@ -30,7 +30,7 @@ var table = require('sql/table.js');
 var field = require('sql/field.js');
 var fieldLink = require('sql/fieldLink.js');
 var index = require('sql/index.js');
-var condition = require('sql/condition.js');
+var filter = require('sql/filter.js');
 var aggregate = require('sql/aggregate.js');
 var query = require('sql/query.js');
 var ddl = require('sql/ddl.js');
@@ -87,9 +87,9 @@ var tests = {
         var table1 = table.table('table1');
         var id1 = field.field('id1', field.DataType.int);
         table1.field(id1);
-        var cond = condition.condition()
+        var cond = filter.filter()
             .field(id1)
-            .op(condition.Op.eq)
+            .op(filter.Op.eq)
             .compareTo(1);
         var select = query.select(id1).from(table1).where(cond);
         var db1 = db.db(':memory:').open(':memory:');

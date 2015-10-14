@@ -23,7 +23,7 @@ log4js.configure({ appenders: [ { type: "console", layout: { type: "basic" } } ]
 
 // framework tests
 
-var testScripts = {
+var allTestScripts = {
     'server/testRouter.js': { 'enabled': true },
     'sql/table.js': { 'enabled': true },
     'sql/testField.js': { 'enabled': true },
@@ -35,10 +35,16 @@ var testScripts = {
     'dao/testLookups.js': { 'enabled': true },
     'bo/testPrimaryBo.js': { 'enabled': true }, 
     'app/customer/customerBo.js': { 'enabled': ['testCalcFieldLoadById', 'testCalcFieldLoadAllByConditions'] }, // TODO there are async-errors in the other tests...!
-    'app/realLife.js': { 'enabled': true },
+    'app/actAsClient.js': { 'enabled': ['testFetchInvoiceListWithLimits'] },
 
     'app/invoice/invoiceBo.js': { 'enabled': false },// TODO there are async-errors in the tests there...!
 };
+
+var focusedTestScripts = {
+    'app/actAsClient.js': { 'enabled': [ 'testFetchInvoiceListWithLimitsAndOrderby' ]},
+};
+
+var testScripts = focusedTestScripts;
 
 _(_(testScripts).keys()).each(function(scriptName) {
     var module = require('./' + scriptName);

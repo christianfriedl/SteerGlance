@@ -28,7 +28,6 @@ var dao = require('dao/dao.js');
 var table = require('sql/table.js');
 var field = require('sql/field.js');
 var index = require('sql/index.js');
-var condition = require('sql/condition.js');
 var aggregate = require('sql/aggregate.js');
 var query = require('sql/query.js');
 var ddl = require('sql/ddl.js');

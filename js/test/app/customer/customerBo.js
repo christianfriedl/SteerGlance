@@ -24,6 +24,7 @@ var m_bo_boSet = require('bo/boSet.js');
 var m_sql_db = require('sql/db.js');
 var assert = require('assert');
 var m_TestSuite = require('TestSuite.js');
+var m_sql_conditionSet = require('sql/conditionSet.js');
 
 var tests = {
     _name: 'testCustomerBo',
@@ -168,7 +169,7 @@ var tests = {
                     db1._db._db.run('INSERT INTO invoice VALUES(3, 2, 30.0)', [], callback);
             },
             function (callback) {
-                boSet.loadAllByConditions([], function(err, bos, aggregateBo) {
+                boSet.loadAllByConditions(m_sql_conditionSet.conditionSet([]), function(err, bos, aggregateBo) {
                     assert.strictEqual(33.0, bos[0].field('sumInvoiceAmount').value());
                     assert.strictEqual(30.0, bos[1].field('sumInvoiceAmount').value());
                     assert.strictEqual(63.0, aggregateBo.field('sumInvoiceAmount').value());

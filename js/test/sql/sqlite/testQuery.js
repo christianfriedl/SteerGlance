@@ -26,9 +26,9 @@ var table = require('sql/table.js');
 var m_sql_field = require('sql/field.js');
 var m_sql_calcField = require('sql/calcField.js');
 var m_sql_fieldLink = require('sql/fieldLink.js');
-var m_sql_condition = require('sql/condition.js');
 var index = require('sql/index.js');
-var condition = require('sql/condition.js');
+var filter = require('sql/filter.js');
+var m_sql_filter = require('sql/filter.js');
 var aggregate = require('sql/aggregate.js');
 var query = require('sql/query.js');
 var ddl = require('sql/ddl.js');
@@ -72,9 +72,9 @@ var tests = {
         var table1 = table.table('table1');
         var field1 = m_sql_field.field('field1', m_sql_field.DataType.int);
         table1.field(field1);
-        var cond = condition.condition()
+        var cond = m_sql_filter.filter()
             .field(new m_sql_field.field('field1', m_sql_field.DataType.int))
-            .op(condition.Op.eq)
+            .op(m_sql_filter.Op.eq)
             .compareTo('haha');
         var select = query.select(field1).from(table1).where(cond);
         var sqliteQQ = m_sql_sqlite_query.query(select);
@@ -94,7 +94,7 @@ var tests = {
         table2.field(id2);
         var s = query.select(id1, name1, id2)
                 .from(table1, table2)
-                .where(condition.condition(id1, condition.Op.eq, id2));
+                .where(m_sql_filter.filter(id1, m_sql_filter.Op.eq, id2));
         var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString(s);
         assert.strictEqual('SELECT table1.id1, table1.name1, table2.id2 FROM table1, table2 WHERE table1.id1 = table2.id2', sqliteQQ.queryString());
@@ -112,7 +112,7 @@ var tests = {
         table2.field(id2);
         var s = query.select(aggregate.aggregate(aggregate.Type.sum, sumField))
                 .from(table1, table2)
-                .where(condition.condition(id1, condition.Op.eq, id2));
+                .where(m_sql_filter.filter(id1, m_sql_filter.Op.eq, id2));
         var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString(s);
         assert.strictEqual('SELECT SUM(table2.sumField) AS sumField FROM table1, table2 WHERE table1.id1 = table2.id2', sqliteQQ.queryString());
@@ -143,7 +143,7 @@ var tests = {
         table1.field(name1);
         var s = query.update()
                 .table(table1)
-                .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
+                .where(m_sql_filter.filter(id1, m_sql_filter.Op.eq, 1)); // all fields
         var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString(s);
         assert.strictEqual('UPDATE table1 SET id1 = ?, name1 = ? WHERE table1.id1 = ?', sqliteQQ.queryString()); // TODO there should really be aliases everywhere
@@ -159,7 +159,7 @@ var tests = {
         table1.field(id1);
         var s = query.delete()
                 .table(table1)
-                .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
+                .where(m_sql_filter.filter(id1, m_sql_filter.Op.eq, 1)); // all fields
         var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString();
         assert.strictEqual('DELETE FROM table1 WHERE id1 = ?', sqliteQQ.queryString());
@@ -201,7 +201,7 @@ var tests = {
 
         id1.value(1);
 
-        calcField.conditions([m_sql_condition.condition(id1, m_sql_condition.Op.eq, 1)]);
+        calcField.filters([m_sql_filter.filter(id1, m_sql_filter.Op.eq, 1)]);
         var q = calcField.query();
         var qq = m_sql_sqlite_query.query(q);
         assert.strictEqual('SELECT SUM(table2.sumField) AS calcField FROM table1, table2 WHERE table1.id1 = table2.id2 AND table1.id1 = ?', qq.queryString());

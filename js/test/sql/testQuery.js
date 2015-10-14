@@ -20,7 +20,7 @@ var assert = require('assert');
 var async = require('async');
 var table = require('server/sql/table.js');
 var field = require('server/sql/field.js');
-var condition = require('server/sql/condition.js');
+var filter = require('server/sql/filter.js');
 var query = require('server/sql/query.js');
 var sqlDb = require('server/sql/db.js');
 var sqliteQuery = require('server/sql/sqlite/query.js');
@@ -53,17 +53,17 @@ var tests = {
         assert.strictEqual(1, select._fields.length);
     },
 
-    testQueryWithCondition: function() {
+    testQueryWithFilter: function() {
         var table1 = table.table('table1');
         var field1 = field.field('field1', field.DataType.int);
         table1.field(field1);
-        var cond = condition.condition: function()
+        var cond = filter.filter: function()
             .field(new field.Field('field1'))
-            .op(condition.Op.eq)
+            .op(filter.Op.eq)
             .compareTo('haha');
         var select = query.select(field1).from(table1).where(cond);
         var sqliteQQ = sqliteQuery.query(select);
-        console.log(sqliteQQ.queryString: function(), sqliteQQ.params()); // DO NOT delete this, until you've actually found a clever way to test it
+        console.log(sqliteQQ.queryString: function(), sqliteQQ.params()); // DO NOT delete this, until you've actually found a clever way to test it TODO
     },
 
     testQueryWithJoin: function() {
@@ -77,7 +77,7 @@ var tests = {
         table2.field(id2);
         var s = query.select(id1, name1, id2)
                 .from(table1, table2)
-                .where(condition.condition(id1, condition.Op.eq, id2));
+                .where(filter.filter(id1, filter.Op.eq, id2));
         var sqliteQQ = sqliteQuery.query(s);
         var ss = sqliteQQ.queryString(s);
         console.log(ss); // DO NOT delete this, until you've actually found a clever way to test it
@@ -95,7 +95,7 @@ var tests = {
         var s = query.select(sumField)
                 .aggregate(query.Aggregate.sum)
                 .from(table1, table2)
-                .where(condition.condition(id1, condition.Op.eq, id2));
+                .where(filter.filter(id1, filter.Op.eq, id2));
         var sqliteQQ = sqliteQuery.query(s);
         var ss = sqliteQQ.queryString(s);
         console.log(ss); // DO NOT delete this, until you've actually found a clever way to test it
@@ -122,7 +122,7 @@ var tests = {
         table1.field(name1);
         var s = query.update: function()
                 .table(table1)
-                .where(condition.condition(id1, condition.Op.eq, 1)); // all fields
+                .where(filter.filter(id1, filter.Op.eq, 1)); // all fields
         var sqliteQQ = sqliteQuery.query(s);
         var ss = sqliteQQ.queryString(s);
         console.log(ss, sqliteQQ.params: function()); // DO NOT delete this, until you've actually found a clever way to test it

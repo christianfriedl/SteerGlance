@@ -81,6 +81,8 @@
 <node TEXT="fieldLink" ID="ID_1083936208" CREATED="1443639133044" MODIFIED="1443639140646"/>
 <node TEXT="resolve by using events" ID="ID_147953381" CREATED="1443643430139" MODIFIED="1443643435837"/>
 </node>
+<node TEXT="conditions: add filters, limits" ID="ID_922616479" CREATED="1444566127632" MODIFIED="1444566140478"/>
+<node TEXT="add ordering to daoset.loadallbyconditions" ID="ID_579797318" CREATED="1444509797988" MODIFIED="1444509809607"/>
 <node TEXT="frontend: add scrolling to listform" ID="ID_1689836394" CREATED="1435663966160" MODIFIED="1435663972313"/>
 <node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437" CREATED="1443639193962" MODIFIED="1443639209876"/>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
@@ -111,6 +113,10 @@
 </node>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
+<node TEXT="oop: do we want a defined conditions object?" ID="ID_692837098" CREATED="1444566090921" MODIFIED="1444566113116">
+<node TEXT="currently we don&apos;t have it" ID="ID_226726835" CREATED="1444566114861" MODIFIED="1444566120775"/>
+</node>
+<node TEXT="sql.query.conditions can currently only do AND" ID="ID_1842917786" CREATED="1444509897101" MODIFIED="1444509907238"/>
 <node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
 <node TEXT="populateLookupFields() should pass a db to a function populate(db) in LookupField" ID="ID_1203408311" CREATED="1436533947090" MODIFIED="1436533967526"/>
 <node TEXT="unify module var names to m_..." ID="ID_1238267829" CREATED="1436260847908" MODIFIED="1436260859231"/>

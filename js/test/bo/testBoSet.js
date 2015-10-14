@@ -31,11 +31,12 @@ var m_bo_boSet = require('bo/boSet.js');
 var table = require('sql/table.js');
 var field = require('sql/field.js');
 var index = require('sql/index.js');
-var condition = require('sql/condition.js');
+var filter = require('sql/filter.js');
 var aggregate = require('sql/aggregate.js');
 var query = require('sql/query.js');
 var ddl = require('sql/ddl.js');
 var sqliteQuery = require('sql/sqlite/query.js');
+var m_sql_conditionSet = require('sql/conditionSet.js');
 
 var tests = {
     _name: 'testBoSet',
@@ -44,9 +45,9 @@ var tests = {
         var table1 = table.table('table1');
         var id1 = field.field('id1', field.DataType.int);
         table1.field(id1);
-        var cond = condition.condition()
+        var cond = filter.filter()
             .field(id1)
-            .op(condition.Op.eq)
+            .op(filter.Op.eq)
             .compareTo(1);
         var db1 = db.db(':memory:').open(':memory:');
         db1._db.runSql('CREATE TABLE table1 (id1 int)', [], function(err) {
@@ -55,7 +56,7 @@ var tests = {
                 if ( err ) throw err;
                 var daoSet1 = m_dao_daoSet.daoSet(db1, m_dao_dao.dao).table(table1);
                 var boSet1 = m_bo_boSet.boSet(db1, daoSet1, m_bo_bo.bo);
-                boSet1.loadAllByConditions([], function(err, bos) {
+                boSet1.loadAllByConditions(m_sql_conditionSet.conditionSet([]), function(err, bos) {
                     assert.strictEqual(false, err);
                     assert.strictEqual(1, bos.length);
                     assert.strictEqual(1, bos[0].id1());

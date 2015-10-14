@@ -33,6 +33,7 @@ var m_dao_daoSet = require('dao/daoSet.js');
 var m_bo_boSet = require('bo/boSet.js');
 var m_dao_primaryDao = require('dao/primaryDao.js');
 var m_bo_primaryBo = require('bo/primaryBo.js');
+var m_sql_conditionSet = require('sql/conditionSet.js');
 
 var tests = {
     _name: 'testLookups',
@@ -114,7 +115,7 @@ var tests = {
             function(callback) { db1.runSql('INSERT INTO main (id, name) VALUES(1, \'eins\')', [], callback); },
             function(callback) { db1.runSql('INSERT INTO child (mainId, id) VALUES(1, 1)', [], callback); },
             function(callback) {
-                boSet.loadAllByConditions([], function(err, bos) {
+                boSet.loadAllByConditions(m_sql_conditionSet.conditionSet([]), function(err, bos) {
                     if (err) throw new Error(err);
                     assert.strictEqual(1, _(bos[0].field('mainId').options()).keys().length);
                     callback();
