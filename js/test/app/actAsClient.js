@@ -131,7 +131,7 @@ var tests = {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
         var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
         var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
-        var request = { body: { conditions: { limit: 3, offset: 9, count: 2, orderBy: [ 'id' ] } } };
+        var request = { body: { conditions: { limit: 3, offset: 9, count: 2, orderBy: [ { field: 'id' } ] } } };
         var response = {};
         async.series([
                 function(callback) { setupDb(db1, callback); },

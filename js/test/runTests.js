@@ -28,6 +28,7 @@ var allTestScripts = {
     'sql/table.js': { 'enabled': true },
     'sql/testField.js': { 'enabled': true },
     'sql/sqlite/testQuery.js': { 'enabled': true },
+    'sql/testOrderBy.js': { 'enabled' : true },
     'dao/testDao.js': { 'enabled': true },
     'dao/testDaoSet.js': { 'enabled': true },
     'bo/testBo.js': { 'enabled': true },
@@ -41,6 +42,7 @@ var allTestScripts = {
 };
 
 var focusedTestScripts = {
+    'sql/testOrderBy.js': { 'enabled': true },
     'app/actAsClient.js': { 'enabled': [ 'testFetchInvoiceListWithLimitsAndOrderby' ]},
 };
 
