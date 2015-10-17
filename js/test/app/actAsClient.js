@@ -100,8 +100,6 @@ var tests = {
                         assert.strictEqual('id', response.data.rows[0].fields[0].name);
                         assert.strictEqual(1, response.data.rows[0].fields[0].value);
                         console.log('"responsecallback" received response', response, 'with rows', util.inspect(response.data.rows, { depth: 3} ));
-                        console.log('with templateRow', util.inspect(response.data.templateRow, { depth: 3} ));
-                        console.log('with aggregateRow', util.inspect(response.data.aggregateRow, { depth: 3} ));
                     });
 
                 }

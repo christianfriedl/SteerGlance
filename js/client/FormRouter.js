@@ -19,10 +19,10 @@
 (function(window) {
     "use strict";
 
-    var Clazz = function() {}
+    var FormRouter = function() {};
 
-    Clazz.route = function(data) {
-        switch ( data.action ) {
+    FormRouter.route = function(data) {
+        switch ( data.form ) {
             case 'edit':
                 return new EditForm(data);
                 break;
@@ -34,5 +34,5 @@
         }
     };
 
-    window.FormRouter = Clazz;
+    window.FormRouter = FormRouter;
 })(window);

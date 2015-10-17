@@ -105,7 +105,7 @@
                                 }
                             });
 
-                            $.ajax({
+                            jQuery.ajax({
                                 type: 'POST', 
                                 url: '` + filterFieldUrl + `',
                                 data: JSON.stringify(data),
@@ -147,6 +147,104 @@
     }
 
     ListForm.createHtml = function(cssId, data) {
+        console.log('listform data', data);
+        switch (data.action) {
+            case 'prepare':
+                return ListForm.createPrepareHtml(cssId, data);
+                break;
+            case 'list':
+                return ListForm.createListHtml(cssId, data);
+                break;
+        }
+    };
+    ListForm.createPrepareHtml = function(cssId, data) {
+        var listUrl = '/' + [data.module, data.controller, 'list'].join('/');
+        var countUrl = '/' + [data.module, data.controller, 'count'].join('/');
+        var html = `
+            <form id="` + cssId + `">
+                <div class="list-pane">
+                    <table class="list-form">
+                        <thead>
+                            <tr class="filters head">`
+                                + _(data.templateRow.fields).reduce(function(memo, field) { 
+                                    return memo 
+                                    + '<th>' + (field.className !== 'sql.CalcField' ? ListForm.createFieldFilterHtml(cssId, field, data.module, data.controller) : '&nbsp;') + '</th>'; 
+                                }, '')
+                            + `</tr>
+                            <tr class="head">`
+                                + _(data.templateRow.fields).reduce(function(memo, field) { 
+                                    return memo 
+                                    + '<th>' + field.label + '</th>'; 
+                                }, '')
+                            + `</tr>`
+                        + `</thead>
+                        <tbody>`
+                        + `</tbody>
+                    </table>
+                </div>
+            </form>
+            <script type="text/javascript">
+                jQuery(document).ready(function() {
+                    jQuery.ajax('`+ countUrl + `', {
+                            success: function(data2) {
+                                var datax = JSON.parse(data2);
+                                jQuery('#` + cssId + ` tbody').html(ListForm.createDummyListHtml('` + cssId + `', datax));
+                            }
+                        }
+                    );
+                    jQuery('.list-pane').scroll(function(ev) {
+                        var self = this;
+                        var oldScrollTop = jQuery(this).scrollTop();
+                        setTimeout(function() {
+                            if ( jQuery(self).scrollTop() == oldScrollTop ) {
+                                var count = jQuery('.list-pane tr').length;
+                                var trHeight = jQuery('.list-pane tr:first-child').height();
+                                var tableHeight = jQuery('table.list-form').height();
+                                var startPos = Math.max(0, Math.round(oldScrollTop / tableHeight * count) - 5);
+                                var limit = Math.round(jQuery('#bjo-main-form').height() / trHeight) + 10;
+                                console.log('count', count, 'scrollTop', oldScrollTop, 'tableheight', tableHeight, 'trheight', trHeight, 'startpos', startPos, 'limit', limit);
+                                var start = new Date().getTime();
+                                jQuery.ajax({ url: '/invoice/invoice/list', 
+                                    type: 'POST', 
+                                    data: JSON.stringify({ conditions: { offset: startPos, limit: limit } }),
+                                    dataType: 'json',
+                                    contentType: 'application/json',
+                                    success: function(datax) {
+                                        console.log('success data', datax);
+                                        var end = new Date().getTime();
+                                        // var datax = JSON.parse(data);
+                                        console.log('fetched data in', end-start, 'row count is', datax.rows.length);
+                                        _(datax.rows).each(function(row) {
+                                            if ( jQuery('#edit-row-' + row.id).hasClass('dummy') ) {
+                                                jQuery('#edit-row-' + row.id).replaceWith(ListForm.createRowHtml(row, 'invoice', 'invoice'));
+                                            }
+                                        });
+                                        var end2 = new Date().getTime();
+                                        console.log('displayed data in', end2-end);
+
+                                    }
+                                });
+                            } else {
+                                oldScrollTop = jQuery(self).scrollTop();
+                            }
+                        } , 100);
+                    });
+                });
+            </script>
+        `;
+        return html;
+    };
+
+    ListForm.createDummyListHtml = function(cssId, data) {
+        var html = '';
+        data.rows = [];
+        _(data.count).times(function(n) {
+            html += '<tr id="edit-row-' + n + '" class="dummy"><td><input type="text"/></td></tr>';
+        });
+        return html;
+    };
+
+    ListForm.createListHtml = function(cssId, data) {
         var html = `
             <form id="` + cssId + `">
                 <div class="list-pane">

@@ -77,10 +77,6 @@
 <edge COLOR="#7c0000"/>
 <node TEXT="Todo" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1435663662175">
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
-<node TEXT="orderby should work via fields, not strings" ID="ID_1403086015" CREATED="1444852696646" MODIFIED="1444852708590"/>
-<node TEXT="add ordering to daoset.loadallbyconditions" ID="ID_579797318" CREATED="1444509797988" MODIFIED="1444509809607"/>
-<node TEXT="create test for m_sql_orderby.orderby" ID="ID_518838018" CREATED="1445007275099" MODIFIED="1445007282132"/>
-<node TEXT="frontend: add scrolling to listform" ID="ID_1689836394" CREATED="1435663966160" MODIFIED="1435663972313"/>
 <node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437" CREATED="1443639193962" MODIFIED="1443639209876"/>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: streamline initial request by using ajax" ID="ID_587838158" CREATED="1435775497250" MODIFIED="1435775510097"/>
@@ -89,7 +85,6 @@
 <node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
 <node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435919335285"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1435919385726"/>
-<node TEXT="the boField currently needs a db, because it will construct a bo. that is somewhat uncool and should probably be changed..." ID="ID_1454125043" CREATED="1443359085007" MODIFIED="1443359114708"/>
 <node TEXT="fieldLinks: need clarification" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
 <node TEXT="currently, we&apos;re just using the first" ID="ID_669468957" CREATED="1435858155342" MODIFIED="1435858163145"/>
@@ -110,9 +105,8 @@
 </node>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
-<node TEXT="oop: do we want a defined conditions object?" ID="ID_692837098" CREATED="1444566090921" MODIFIED="1444566113116">
-<node TEXT="currently we don&apos;t have it" ID="ID_226726835" CREATED="1444566114861" MODIFIED="1444566120775"/>
-</node>
+<node TEXT="frontend: optimize scrolling" ID="ID_1658048524" CREATED="1445105902102" MODIFIED="1445105910476"/>
+<node TEXT="daoset/boset: populateLookupFields, calculateCalcfields should be options on the daoset/boset, not on the load... function" ID="ID_1766615146" CREATED="1445106055736" MODIFIED="1445106106630"/>
 <node TEXT="sql.query.conditions can currently only do AND" ID="ID_1842917786" CREATED="1444509897101" MODIFIED="1444509907238"/>
 <node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
 <node TEXT="populateLookupFields() should pass a db to a function populate(db) in LookupField" ID="ID_1203408311" CREATED="1436533947090" MODIFIED="1436533967526"/>
@@ -240,6 +234,13 @@
 <icon BUILTIN="button_ok"/>
 </node>
 <node TEXT="conditions: add filters, limits" ID="ID_922616479" CREATED="1444566127632" MODIFIED="1444566140478"/>
+<node TEXT="oop: do we want a defined conditions object?" ID="ID_692837098" CREATED="1444566090921" MODIFIED="1444566113116">
+<node TEXT="currently we don&apos;t have it" ID="ID_226726835" CREATED="1444566114861" MODIFIED="1444566120775"/>
+</node>
+<node TEXT="orderby should work via fields, not strings" ID="ID_1403086015" CREATED="1444852696646" MODIFIED="1444852708590"/>
+<node TEXT="add ordering to daoset.loadallbyconditions" ID="ID_579797318" CREATED="1444509797988" MODIFIED="1444509809607"/>
+<node TEXT="create test for m_sql_orderby.orderby" ID="ID_518838018" CREATED="1445007275099" MODIFIED="1445007282132"/>
+<node TEXT="frontend: add scrolling to listform" ID="ID_1689836394" CREATED="1435663966160" MODIFIED="1435663972313"/>
 </node>
 </node>
 <node TEXT="Diary" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">

@@ -28,7 +28,7 @@ db.serialize(function() {
     db.run('DROP TABLE IF EXISTS invoice', [], function(err, res) { console.log(err, 'done', res); });
     db.run('CREATE TABLE invoice (id int, customerId int, amount decimal)', [], function(err, res) { console.log(err, 'done', res); });
 
-    for (i = 1; i < 200; ++i) {
+    for (i = 1; i < 2000; ++i) {
         db.run('INSERT INTO invoice VALUES(?, ?, ?)', [i, Math.floor(Math.random() * 2) + 1, Math.round(Math.random() * 20000) / 100], function(err, res) { console.log(err, 'done', res); });
     }
 });
