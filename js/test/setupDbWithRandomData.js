@@ -17,6 +17,7 @@
  */
 
 var sqlite3 = require('sqlite3').verbose();
+var async = require('async');
 
 var db = new sqlite3.Database('test.db');
 db.serialize(function() {
@@ -28,9 +29,15 @@ db.serialize(function() {
     db.run('DROP TABLE IF EXISTS invoice', [], function(err, res) { console.log(err, 'done', res); });
     db.run('CREATE TABLE invoice (id int, customerId int, amount decimal)', [], function(err, res) { console.log(err, 'done', res); });
 
-    for (i = 1; i < 2000; ++i) {
-        db.run('INSERT INTO invoice VALUES(?, ?, ?)', [i, Math.floor(Math.random() * 2) + 1, Math.round(Math.random() * 20000) / 100], function(err, res) { console.log(err, 'done', res); });
-    }
+    i = 0;
+    async.whilst(
+        function() { return i < 20000; },
+        function(callback) {
+            db.run('INSERT INTO invoice VALUES(?, ?, ?)', [i, Math.floor(Math.random() * 2) + 1, Math.round(Math.random() * 20000) / 100], function(err, res) { console.log(err, 'done', res); callback(); });
+            ++i;
+        }, function(err) {
+            console.log('all done');
+        });
 });
 
 
