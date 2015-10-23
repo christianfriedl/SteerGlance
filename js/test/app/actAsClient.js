@@ -109,17 +109,14 @@ var tests = {
         var db1 = m_sql_db.db(':memory:').open(':memory:');
         var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
         var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
-        var request = { body: { conditions: { limit: 3, offset: 9, count: 2 } } };
+        var request = { body: { conditions: { limit: 3, offset: 9 } } };
         var response = {};
         async.series([
                 function(callback) { setupDb(db1, callback); },
                 function(callback) {
                     return m_controller.list(boSet, request, response, function(response) {
-                        console.log('"responsecallback" received response', response, 'with rows', util.inspect(response.data.rows, { depth: 3} ));
                         assert.strictEqual(3, response.data.rows.length);
                         assert.strictEqual('id', response.data.rows[0].fields[0].name);
-                        console.log('with templateRow', util.inspect(response.data.templateRow, { depth: 3} ));
-                        console.log('with aggregateRow', util.inspect(response.data.aggregateRow, { depth: 3} ));
                     });
 
                 }

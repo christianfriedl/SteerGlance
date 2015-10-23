@@ -21,13 +21,13 @@
 
     var FormRouter = function() {};
 
-    FormRouter.route = function(data) {
+    FormRouter.route = function(data, cssId) {
         switch ( data.form ) {
             case 'edit':
                 return new EditForm(data);
                 break;
             case 'list':
-                return ListForm;
+                return new ListForm(data, cssId);
                 break;
             default:
                 throw 'no such action as ' + data.action;

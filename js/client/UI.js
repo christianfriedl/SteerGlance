@@ -15,11 +15,12 @@
             this.setData(data);
         }
 
-        var form = FormRouter.route(data);
+        var form = FormRouter.route(data, cssId);
+        console.log('uidisplay form data', data);
 
-        var html = form.createHtml(cssId, data);
+        var html = form.toHtml();
         $('#bjo-ui').html(html);
-        form.afterCreateHtml(cssId, data);
+        // form.afterCreateHtml(cssId, data);
     };
 
     window.UI = UI;

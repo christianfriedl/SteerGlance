@@ -43,7 +43,7 @@ var allTestScripts = {
 
 var focusedTestScripts = {
     'sql/testOrderBy.js': { 'enabled': false },
-    'app/actAsClient.js': { 'enabled': [ 'testFetchInvoiceList' ]},
+    'app/actAsClient.js': { 'enabled': true },
 };
 
 var testScripts = focusedTestScripts;
