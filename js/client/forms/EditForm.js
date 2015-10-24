@@ -19,64 +19,56 @@
 (function(window) {
     "use strict";
 
-    var Clazz = function(data) {
+    function EditForm(data, cssId) {
         this._data = data;
-        this._template = `
-            <form id="bjo-main-form">
-                <table class="card-form">
-                    {{#each row}}
-                        <tr>
-                            <th>{{label}}</th>
-                            <td><input name="{{name}}" type="text" value="{{value}}" /></td>
-                        </tr>
-                    {{/each}}
-                    <tr>
-                        <th>&nbsp;</th>
-                        <td><button class="save">save</button></td>
-                    </tr>
-                </table>
-            </form>
-    <script>
-            $(document).ready(function() {
-                $('#bjo-main-form button.save').click(function(evt) {
-                    console.log('saving...');
-                    evt.preventDefault();
-                    console.log('serailize', $('#bjo-main-form').serialize());
-                    $.ajax( 
-                        {
-                            type: 'POST', 
-                            url: '/{{module}}/{{controller}}/save',
-                            data: $('#bjo-main-form').serialize(),
-                            dataType: 'json',
-                            success: function(data) {
-                                console.log('success!', data);
-                            },
-                            error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
-                        }
-                    );
+        this._cssId = cssId;
+    }
+
+    EditForm.prototype.toHtml = function() {
+        var html = Tags.form({ 'id': 'bjo-main-form'}, [
+            Tags.table({ 'class': 'card-form' }, [], 
+                (new EditForm.Row(this._data.row, this._cssId).toHtml()))
+            ]) + Tags.script({ 'type': 'text/javascript' },
+                [],
+                `jQuery(document).ready(function() {
+                    jQuery('#bjo-main-form input').change(function(evt) {
+                        console.log('saving...', this.name);
+                        evt.preventDefault();
+                        var row = {};
+                        _(jQuery('#bjo-main-form .edit-field')).map(function(f) { row[f.name] = jQuery(f).val(); });
+                        var data = { fieldName: this.name, row: row };
+                        console.log('serailize data', data);
+                        jQuery.ajax( 
+                            {
+                                type: 'POST', 
+                                url: '/` + [ this._data.module, this._data.controller, 'saveField' ].join('/') + `',
+                                data: JSON.stringify(data),
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                success: function(data) {
+                                    console.log('success!', data);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
+                            }
+                        );
+                    });
                 });
-            });
-    </script>
-        `;
+            `);
+            return html;
     };
 
-    Clazz.prototype.createHtml = function() {
-        var hbTemplate = Handlebars.compile(this._template);
-        var html = hbTemplate(this._data);
-        return html;
+    /*
+     * EditForm.Row: returns the html for one data row (row is NOT a tr here!)
+     */
+    EditForm.Row = function(row) {
+        this._row = row;
     };
 
-    Clazz.prototype.save = function(formId) {
-        $.ajax(this._data.url, {
-            type: 'POST',
-            data: $('#' + formId).serialize(),
-            success: function(data) {
-                console.log(data);
-            }
-
-        });
-
+    EditForm.Row.prototype.toHtml = function() {
+        return _(this._row).reduce(function(memo, field) {
+                    return memo + Tags.tr({}, [], Tags.th({}, [], field.label) + Tags.td({}, [ Tags.input({ 'name': field.name, 'class': 'edit-field', 'type': 'text', 'value': field.value}) ]));
+                }, '');
     };
 
-    window.EditForm = Clazz;
+    window.EditForm = EditForm;
 })(window);

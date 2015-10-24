@@ -24,7 +24,7 @@
     FormRouter.route = function(data, cssId) {
         switch ( data.form ) {
             case 'edit':
-                return new EditForm(data);
+                return new EditForm(data, cssId);
                 break;
             case 'list':
                 return new ListForm(data, cssId);

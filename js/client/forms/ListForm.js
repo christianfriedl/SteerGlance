@@ -19,46 +19,6 @@
 (function(window) {
     "use strict";
 
-    function attr(name, value) {
-        return { name: name, value: value };
-    }
-
-    /*
-     * optional object attrs
-     * optional array subTags
-     * optional string text
-     */
-    function tag(name, attrs, subTags, text) {
-        if ( typeof(subTags) === 'undefined' ) {
-            subTags = {};
-        }
-        if ( typeof(text) === 'undefined' ) {
-            text = '';
-        }
-        return '<' + name
-            +_(_(attrs).keys()).reduce(function(memo, name) { return memo + ' ' + name + '="' + attrs[name] + '"'; }, '')
-            + '>'
-            + _(subTags).reduce(function(memo, text) { return memo + text; }, '')
-            + text
-            + '</' + name + '>';
-    }
-
-    var Tags = {
-        form: function(attrs, subTags, text) { return tag('form', attrs, subTags, text); },
-        div: function(attrs, subTags, text) { return tag('div', attrs, subTags, text); },
-        script: function(attrs, subTags, text) { return tag('script', attrs, subTags, text); },
-        table: function(attrs, subTags, text) { return tag('table', attrs, subTags, text); },
-        thead: function(attrs, subTags, text) { return tag('thead', attrs, subTags, text); },
-        tbody: function(attrs, subTags, text) { return tag('tbody', attrs, subTags, text); },
-        tr: function(attrs, subTags, text) { return tag('tr', attrs, subTags, text); },
-        th: function(attrs, subTags, text) { return tag('th', attrs, subTags, text); },
-        td: function(attrs, subTags, text) { return tag('td', attrs, subTags, text); },
-        option: function(attrs, subTags, text) { return tag('option', attrs, subTags, text); },
-        select: function(attrs, subTags, text) { return tag('select', attrs, subTags, text); },
-        input: function(attrs, subTags, text) { return tag('input', attrs, subTags, text); },
-        button: function(attrs, subTags, text) { return tag('button', attrs, subTags, text); },
-    };
-
     function Form(data, cssId) {
         this._data = data;
         this._cssId = cssId;
@@ -130,14 +90,10 @@
 
     ListForm.DummyList.prototype.toHtml = function() {
         var html = '';
-        var start = new Date().getTime();
-        console.log('template row', this._data.templateRow);
         _(this._data.count).times(function(n) {
             html += '<tr id="edit-row-' + n + '" class="dummy">' 
                 + _(this._data.templateRow.fields.length).times(function() { return '<td><input type="text"/></td>'; }) + '</tr>';
         }.bind(this));
-        var end = new Date().getTime();
-        console.log('dummylist display took', end-start);
         return html;
     };
 
@@ -155,10 +111,8 @@
                         success: function(data2) {
                             var datax = JSON.parse(data2);
                             var end = new Date().getTime();
-                            console.log('dummylistscript loading took', end-start);
                             jQuery('#` + this._data.cssId + ` tbody').html(new ListForm.DummyList('` + this._data.cssId + `', datax).toHtml());
                             var end2 = new Date().getTime();
-                            console.log('dummylistscript to afterdisp took', end2-end);
                         }
                     }
                 );
@@ -205,17 +159,12 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function(datax) {
-                    var end = new Date().getTime();
-                    console.log('fetched this._data in', end-start, 'row count is', datax.rows.length);
                     _(datax.rows).each(function(row) {
                         if ( jQuery('#edit-row-' + rowNr).hasClass('dummy') ) {
                             jQuery('#edit-row-' + rowNr).replaceWith(new ListForm.Row(row, module, controller, rowNr).toHtml()); // TODO hardcoded invoice
                         }
                         ++rowNr;
                     });
-                    var end2 = new Date().getTime();
-                    console.log('displayed this._data in', end2-end);
-
                 }
             });
         }
@@ -300,6 +249,9 @@
              + _(this._row.fields).reduce(function(memo, field) {
                  return memo + (new ListForm.Field(this._row.id, field, this._module, this._controller, this._rowNr).toHtml())
              }.bind(this), '')
+            + Tags.td({}, [
+                Tags.a({ 'href': '#', 'onClick': "loadUI('/" + [ this._module, this._controller, 'edit' ].join('/') + "?id=" + this._row.id + "')" }, [], 'Edit')
+            ])
          + '</tr>';
      };
 
@@ -356,7 +308,6 @@
         }
     };
 
-    window.Tags = Tags;
     window.Form = Form;
     window.ListForm = ListForm;
 })(window);
