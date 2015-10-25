@@ -169,12 +169,14 @@ var tests = {
                     db1._db._db.run('INSERT INTO invoice VALUES(3, 2, 30.0)', [], callback);
             },
             function (callback) {
+                boSet.calculateDetailCalcFields(true);
+                boSet.calculateAggregatedCalcFields(true);
                 boSet.loadAllByConditions(m_sql_conditionSet.conditionSet([]), function(err, bos, aggregateBo) {
                     assert.strictEqual(33.0, bos[0].field('sumInvoiceAmount').value());
                     assert.strictEqual(30.0, bos[1].field('sumInvoiceAmount').value());
                     assert.strictEqual(63.0, aggregateBo.field('sumInvoiceAmount').value());
                     callback(false);
-                }, true);
+                });
             }
         ]);
     }
