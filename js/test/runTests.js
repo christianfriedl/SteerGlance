@@ -33,20 +33,20 @@ var allTestScripts = {
     'dao/testDaoSet.js': { 'enabled': true },
     'bo/testBo.js': { 'enabled': true },
     'bo/testBoSet.js': { 'enabled': true },
-    'dao/testLookups.js': { 'enabled': true },
+    'dao/testLookups.js': { 'enabled': false }, //////////////////!!!!
     'bo/testPrimaryBo.js': { 'enabled': true }, 
     'app/customer/customerBo.js': { 'enabled': ['testCalcFieldLoadById', 'testCalcFieldLoadAllByConditions'] }, // TODO there are async-errors in the other tests...!
-    'app/actAsClient.js': { 'enabled': ['testFetchInvoiceListWithLimits'] },
+    'app/actAsClient.js': { 'enabled': true },
 
     'app/invoice/invoiceBo.js': { 'enabled': false },// TODO there are async-errors in the tests there...!
 };
 
 var focusedTestScripts = {
-    'sql/testOrderBy.js': { 'enabled': false },
     'app/actAsClient.js': { 'enabled': true },
 };
 
-var testScripts = focusedTestScripts;
+var testScripts = allTestScripts;
+// var testScripts = focusedTestScripts;
 
 _(_(testScripts).keys()).each(function(scriptName) {
     var module = require('./' + scriptName);
