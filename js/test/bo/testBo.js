@@ -40,7 +40,7 @@ var boField = require('sql/boField.js');
 var m_TestSuite = require('TestSuite.js');
 
 function fieldEqual(f1, f2) {
-    return f1.name() === f2.name() && f1.dataType() === f2.dataType() && f1.className() === f2.className() && f1.value() === f2.value();
+    return f1.name() === f2.name() && f1.dataType() === f2.dataType() && f1.constructor === f2.constructor && f1.value() === f2.value();
 }
 
 var tests = {

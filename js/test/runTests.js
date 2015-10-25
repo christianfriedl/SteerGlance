@@ -27,6 +27,7 @@ var allTestScripts = {
     'server/testRouter.js': { 'enabled': true },
     'sql/table.js': { 'enabled': true },
     'sql/testField.js': { 'enabled': true },
+    'sql/testCalcField.js': { 'enabled': true },
     'sql/sqlite/testQuery.js': { 'enabled': true },
     'sql/testOrderBy.js': { 'enabled' : true },
     'dao/testDao.js': { 'enabled': true },

@@ -35,10 +35,6 @@ var query = require('sql/query.js');
 var ddl = require('sql/ddl.js');
 var sqliteQuery = require('sql/sqlite/query.js');
 
-function fieldEqual(f1, f2) {
-    return f1.name() === f2.name() && f1.dataType() === f2.dataType() && f1.className() === f2.className() && f1.value() === f2.value();
-}
-
 var tests = {
     _name: 'testPrimaryBo',
 

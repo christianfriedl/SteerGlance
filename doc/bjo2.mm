@@ -88,6 +88,9 @@
 <node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435919335285"/>
 <node TEXT="frontend: edit in list probably doesn&apos;t work now" ID="ID_1653320881" CREATED="1445690608858" MODIFIED="1445690618140"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1435919385726"/>
+<node TEXT="dao/bo..." ID="ID_131649401" CREATED="1445782712855" MODIFIED="1445782719339">
+<node TEXT="populateLookupFields, calculateCalcFields (loadBoFields?) should be options in constructors" ID="ID_1591555340" CREATED="1445782719858" MODIFIED="1445782770736"/>
+</node>
 <node TEXT="fieldLinks: need clarification" FOLDED="true" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
 <node TEXT="currently, we&apos;re just using the first" ID="ID_669468957" CREATED="1435858155342" MODIFIED="1435858163145"/>
@@ -97,9 +100,12 @@
 <node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657" CREATED="1436029551137" MODIFIED="1436029591464"/>
 <node TEXT="the way we curretnly avoid circular dependencies in table construction (with stuff in addLinks()) is clearly suboptimal" ID="ID_569725763" CREATED="1436103757312" MODIFIED="1436103785468"/>
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
-<node TEXT="table: use instanceof for determining field classes" FOLDED="true" ID="ID_1320547546" CREATED="1436015161559" MODIFIED="1436015244304">
+<node TEXT="table: use instanceof for determining field classes" ID="ID_1320547546" CREATED="1436015161559" MODIFIED="1436015244304">
 <node TEXT="still does not work!!!" ID="ID_1866960159" CREATED="1436111141178" MODIFIED="1436111144603"/>
 <node TEXT="create small isA() framework" ID="ID_821408512" CREATED="1436111145186" MODIFIED="1436111153061"/>
+</node>
+<node TEXT="conditions for which fields to use are sometimes wrong" ID="ID_106910296" CREATED="1445784195689" MODIFIED="1445784214014">
+<node TEXT="DaoDataProvider.prototype.writableFieldsAsList = function() {&#xa;    return _(this._fields).values().filter(function(f) {&#xa;        return !(f instanceof m_sql_calcField.CalcField)&#xa;            &amp;&amp; !(f instanceof m_sql_boField.BoField) }); // TODO this condition is not exactly right&#xa;        return !f.isEditable(); // TODO this SHOULD be the correct condition, but it does not work&#xa;};" ID="ID_1988996891" CREATED="1445784214643" MODIFIED="1445784216358"/>
 </node>
 <node TEXT="daoset: should dao.populateLookupFields move from loadByConditions to loadByQuery?" ID="ID_3304635" CREATED="1436434490406" MODIFIED="1436434513826"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_331627961" CREATED="1435919369839" MODIFIED="1435919385726"/>
