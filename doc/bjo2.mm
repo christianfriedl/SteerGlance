@@ -104,7 +104,7 @@
 <node TEXT="still does not work!!!" ID="ID_1866960159" CREATED="1436111141178" MODIFIED="1436111144603"/>
 <node TEXT="create small isA() framework" ID="ID_821408512" CREATED="1436111145186" MODIFIED="1436111153061"/>
 </node>
-<node TEXT="conditions for which fields to use are sometimes wrong" ID="ID_106910296" CREATED="1445784195689" MODIFIED="1445784214014">
+<node TEXT="conditions for which fields to use are sometimes wrong" FOLDED="true" ID="ID_106910296" CREATED="1445784195689" MODIFIED="1445784214014">
 <node TEXT="DaoDataProvider.prototype.writableFieldsAsList = function() {&#xa;    return _(this._fields).values().filter(function(f) {&#xa;        return !(f instanceof m_sql_calcField.CalcField)&#xa;            &amp;&amp; !(f instanceof m_sql_boField.BoField) }); // TODO this condition is not exactly right&#xa;        return !f.isEditable(); // TODO this SHOULD be the correct condition, but it does not work&#xa;};" ID="ID_1988996891" CREATED="1445784214643" MODIFIED="1445784216358"/>
 </node>
 <node TEXT="daoset: should dao.populateLookupFields move from loadByConditions to loadByQuery?" ID="ID_3304635" CREATED="1436434490406" MODIFIED="1436434513826"/>
@@ -112,6 +112,7 @@
 <node TEXT="remove stupid and useless clone()" FOLDED="true" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380">
 <node TEXT="or rather, clarify where exactly to use fieldsFromDao" ID="ID_588673258" CREATED="1443643524415" MODIFIED="1443643534348"/>
 </node>
+<node TEXT="have a system for routing frontend forms" ID="ID_1633725770" CREATED="1445786273721" MODIFIED="1445786282962"/>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="list response: aggregateRow is just an array, should be a row &quot;object&quot; with fields: []" ID="ID_947876021" CREATED="1445170661755" MODIFIED="1445170694430"/>

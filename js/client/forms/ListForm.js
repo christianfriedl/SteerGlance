@@ -286,7 +286,7 @@
 
     ListForm.EditableField.prototype.toHtml = function() {
         var fieldId = ListForm.createFieldId(this._rowNr, this._field);
-        if ( this._field.className === 'sql.LookupField' ) {
+        if ( this._field.className === 'LookupField' ) {
             return Tags.input({ 'id': fieldId,
                     'name': this._field.name,
                     'type': 'hidden',
