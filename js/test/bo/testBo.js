@@ -138,7 +138,9 @@ var tests = {
         var tCust = table.table('customer');
         var fCustId = field.field('id', field.DataType.int);
         tCust.field(fCustId);
+        assert.strictEqual(tCust.field('id'), fCustId);
         var daoCust = primaryDao.primaryDao(db1).table(tCust);
+        assert.strictEqual(daoCust.field('id').name(), fCustId.name());
         var boCust = primaryBo.primaryBo(db1).dao(daoCust);
 
         var custCons = function(db) { return boCust; }

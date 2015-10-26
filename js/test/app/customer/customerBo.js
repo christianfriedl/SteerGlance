@@ -139,7 +139,8 @@ var tests = {
                     db1._db._db.run('INSERT INTO invoice VALUES(2, 1, 20.0)', [], callback);
             },
             function (callback) {
-                var bo1 = m_app_customer_customerBo.customerBo(db1);
+                var bo1 = m_app_customer_customerBo.customerBo(db1).willCalculateCalcFields(true);
+
                 bo1.loadById(1, function(err, result) {
                     assert.strictEqual(30, bo1.field('sumInvoiceAmount').value());
                     callback(false);
@@ -169,8 +170,8 @@ var tests = {
                     db1._db._db.run('INSERT INTO invoice VALUES(3, 2, 30.0)', [], callback);
             },
             function (callback) {
-                boSet.calculateDetailCalcFields(true);
-                boSet.calculateAggregatedCalcFields(true);
+                boSet.willCalculateDetailCalcFields(true);
+                boSet.willCalculateAggregatedCalcFields(true);
                 boSet.loadAllByConditions(m_sql_conditionSet.conditionSet([]), function(err, bos, aggregateBo) {
                     assert.strictEqual(33.0, bos[0].field('sumInvoiceAmount').value());
                     assert.strictEqual(30.0, bos[1].field('sumInvoiceAmount').value());
