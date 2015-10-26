@@ -99,7 +99,6 @@ var tests = {
                         assert.strictEqual(20, response.data.count);
                         assert.strictEqual('id', response.data.rows[0].fields[0].name);
                         assert.strictEqual(1, response.data.rows[0].fields[0].value);
-                        console.log('"responsecallback" received response', response, 'with rows', util.inspect(response.data.rows, { depth: 3} ));
                     });
 
                 }

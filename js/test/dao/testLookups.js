@@ -58,6 +58,7 @@ var tests = {
             function(callback) { db1.runSql('INSERT INTO main (id, name) VALUES(1, \'eins\')', [], callback); },
             function(callback) { db1.runSql('INSERT INTO child (mainId, id) VALUES(1, 1)', [], callback); },
             function(callback) {
+                dao1.willPopulateLookupFields(true);
                 dao1.loadById(1, function(err, dao2) {
                     if (err) throw new Error(err);
                     callback();
@@ -85,6 +86,7 @@ var tests = {
             function(callback) { db1.runSql('INSERT INTO main (id, name) VALUES(1, \'eins\')', [], callback); },
             function(callback) { db1.runSql('INSERT INTO child (mainId, id) VALUES(1, 1)', [], callback); },
             function(callback) {
+                bo1.willPopulateLookupFields(true);
                 bo1.loadById(1, function(err, bo2) {
                     assert.strictEqual(1, _(bo2.field('mainId').options()).keys().length);
                     if (err) throw new Error(err);
@@ -115,8 +117,10 @@ var tests = {
             function(callback) { db1.runSql('INSERT INTO main (id, name) VALUES(1, \'eins\')', [], callback); },
             function(callback) { db1.runSql('INSERT INTO child (mainId, id) VALUES(1, 1)', [], callback); },
             function(callback) {
+                boSet.willPopulateLookupFields(true);
                 boSet.loadAllByConditions(m_sql_conditionSet.conditionSet([]), function(err, bos) {
                     if (err) throw new Error(err);
+                    console.log('### yes, in testlookup, and options are ', bos[0].field('mainId').options());
                     assert.strictEqual(1, _(bos[0].field('mainId').options()).keys().length);
                     callback();
                 });

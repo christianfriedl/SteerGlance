@@ -34,7 +34,7 @@ var allTestScripts = {
     'dao/testDaoSet.js': { 'enabled': true },
     'bo/testBo.js': { 'enabled': true },
     'bo/testBoSet.js': { 'enabled': true },
-    'dao/testLookups.js': { 'enabled': false }, //////////////////!!!!
+    'dao/testLookups.js': { 'enabled': true }, 
     'bo/testPrimaryBo.js': { 'enabled': true }, 
     'app/customer/customerBo.js': { 'enabled': ['testCalcFieldLoadById', 'testCalcFieldLoadAllByConditions'] }, // TODO there are async-errors in the other tests...!
     'app/actAsClient.js': { 'enabled': true },
