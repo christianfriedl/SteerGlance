@@ -19,11 +19,6 @@
 (function(window) {
     "use strict";
 
-    function Form(data, cssId) {
-        this._data = data;
-        this._cssId = cssId;
-    }
-
     function ListForm(data, cssId) {
         Form.call(this, data, cssId);
     }
@@ -76,7 +71,7 @@
                 + `
                     ListForm.ScrollingScript.refreshScrolledData(jQuery('.list-pane'), jQuery('.list-pane').scrollTop(), '` + this._cssId + `','` + this._data.module + `','` + this._data.controller + `');
                 `
-            );
+            ) + (new Form.OpenLookupScript(this._data, this._cssId).toHtml());
         return html;
     };
 
@@ -308,6 +303,5 @@
         }
     };
 
-    window.Form = Form;
     window.ListForm = ListForm;
 })(window);

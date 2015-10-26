@@ -91,6 +91,7 @@
 <node TEXT="dao/bo..." ID="ID_131649401" CREATED="1445782712855" MODIFIED="1445782719339">
 <node TEXT="populateLookupFields, calculateCalcFields (loadBoFields?) should be options in constructors" ID="ID_1591555340" CREATED="1445782719858" MODIFIED="1445782770736"/>
 </node>
+<node TEXT="we need a way to fetch the data for lookupfields dynamically on clicking the button, since there might be millions of rows there" ID="ID_1552141340" CREATED="1445867608723" MODIFIED="1445867654325"/>
 <node TEXT="fieldLinks: need clarification" FOLDED="true" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
 <node TEXT="currently, we&apos;re just using the first" ID="ID_669468957" CREATED="1435858155342" MODIFIED="1435858163145"/>
