@@ -98,7 +98,9 @@
 <node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
 <node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435919335285"/>
 <node TEXT="frontend: edit in list probably doesn&apos;t work now" ID="ID_1653320881" CREATED="1445690608858" MODIFIED="1445690618140"/>
-<node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1435919385726"/>
+<node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1445871999847">
+<icon BUILTIN="button_ok"/>
+</node>
 <node TEXT="we need a way to fetch the data for lookupfields dynamically on clicking the button, since there might be millions of rows there" ID="ID_1552141340" CREATED="1445867608723" MODIFIED="1445867654325"/>
 <node TEXT="fieldLinks: need clarification" FOLDED="true" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
@@ -106,7 +108,6 @@
 </node>
 <node TEXT="backend: when setting the customer id from the frontend, fairly certainly we now do not set the customer() object" ID="ID_1137170107" CREATED="1443976632816" MODIFIED="1443976745650"/>
 <node TEXT="dao: dao.calculateCalcfields() - remove conditions from params, if we are a primary dao... otherwise...???" ID="ID_1556723586" CREATED="1436019216756" MODIFIED="1436019289475"/>
-<node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657" CREATED="1436029551137" MODIFIED="1436029591464"/>
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
 <node TEXT="conditions for which fields to use are sometimes wrong" FOLDED="true" ID="ID_106910296" CREATED="1445784195689" MODIFIED="1445784214014">
 <node TEXT="DaoDataProvider.prototype.writableFieldsAsList = function() {&#xa;    return _(this._fields).values().filter(function(f) {&#xa;        return !(f instanceof m_sql_calcField.CalcField)&#xa;            &amp;&amp; !(f instanceof m_sql_boField.BoField) }); // TODO this condition is not exactly right&#xa;        return !f.isEditable(); // TODO this SHOULD be the correct condition, but it does not work&#xa;};" ID="ID_1988996891" CREATED="1445784214643" MODIFIED="1445784216358"/>
@@ -116,7 +117,9 @@
 <node TEXT="remove stupid and useless clone()" FOLDED="true" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380">
 <node TEXT="or rather, clarify where exactly to use fieldsFromDao" ID="ID_588673258" CREATED="1443643524415" MODIFIED="1443643534348"/>
 </node>
-<node TEXT="have a system for routing frontend forms" ID="ID_1633725770" CREATED="1445786273721" MODIFIED="1445786282962"/>
+<node TEXT="have a system for routing frontend forms" ID="ID_1633725770" CREATED="1445786273721" MODIFIED="1445786282962">
+<node TEXT="especially, user-defined forms" ID="ID_1477318880" CREATED="1445872024578" MODIFIED="1445872034486"/>
+</node>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="list response: aggregateRow is just an array, should be a row &quot;object&quot; with fields: []" ID="ID_947876021" CREATED="1445170661755" MODIFIED="1445170694430"/>
@@ -167,6 +170,7 @@
 <node TEXT="fieldLink" ID="ID_1083936208" CREATED="1443639133044" MODIFIED="1443639140646"/>
 <node TEXT="resolve by using events" ID="ID_147953381" CREATED="1443643430139" MODIFIED="1443643435837"/>
 </node>
+<node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657" CREATED="1436029551137" MODIFIED="1436029591464"/>
 </node>
 <node TEXT="Prio 3" ID="ID_265969861" CREATED="1441365521864" MODIFIED="1441365523877">
 <node TEXT="There is no explicit test for bo.calculateCalcFields and dao.calculateCalcFields in our test suites" ID="ID_1702884024" CREATED="1445871708250" MODIFIED="1445871729569"/>
