@@ -79,6 +79,17 @@
 <node TEXT="Scrum" POSITION="right" ID="ID_1919369938" CREATED="1435663658673" MODIFIED="1435663661271">
 <edge COLOR="#7c0000"/>
 <node TEXT="Todo" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1435663662175">
+<node TEXT="Legende" ID="ID_1817376766" CREATED="1445871749715" MODIFIED="1445871751094">
+<node TEXT="simple" ID="ID_478141887" CREATED="1445871752740" MODIFIED="1445871781396">
+<icon BUILTIN="flag-green"/>
+</node>
+<node TEXT="hard" ID="ID_170487360" CREATED="1445871754889" MODIFIED="1445871790877">
+<icon BUILTIN="flag-yellow"/>
+</node>
+<node TEXT="nigh-impossible" ID="ID_1781414113" CREATED="1445871760729" MODIFIED="1445871795986">
+<icon BUILTIN="flag-orange"/>
+</node>
+</node>
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
 <node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437" CREATED="1443639193962" MODIFIED="1443639209876"/>
 <node TEXT="clarify / document client/server interface" ID="ID_1707431123" CREATED="1445169720167" MODIFIED="1445169728273"/>
@@ -88,9 +99,6 @@
 <node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435919335285"/>
 <node TEXT="frontend: edit in list probably doesn&apos;t work now" ID="ID_1653320881" CREATED="1445690608858" MODIFIED="1445690618140"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1435919385726"/>
-<node TEXT="dao/bo..." ID="ID_131649401" CREATED="1445782712855" MODIFIED="1445782719339">
-<node TEXT="populateLookupFields, calculateCalcFields (loadBoFields?) should be options in constructors" ID="ID_1591555340" CREATED="1445782719858" MODIFIED="1445782770736"/>
-</node>
 <node TEXT="we need a way to fetch the data for lookupfields dynamically on clicking the button, since there might be millions of rows there" ID="ID_1552141340" CREATED="1445867608723" MODIFIED="1445867654325"/>
 <node TEXT="fieldLinks: need clarification" FOLDED="true" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
@@ -99,7 +107,6 @@
 <node TEXT="backend: when setting the customer id from the frontend, fairly certainly we now do not set the customer() object" ID="ID_1137170107" CREATED="1443976632816" MODIFIED="1443976745650"/>
 <node TEXT="dao: dao.calculateCalcfields() - remove conditions from params, if we are a primary dao... otherwise...???" ID="ID_1556723586" CREATED="1436019216756" MODIFIED="1436019289475"/>
 <node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657" CREATED="1436029551137" MODIFIED="1436029591464"/>
-<node TEXT="the way we curretnly avoid circular dependencies in table construction (with stuff in addLinks()) is clearly suboptimal" ID="ID_569725763" CREATED="1436103757312" MODIFIED="1436103785468"/>
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
 <node TEXT="conditions for which fields to use are sometimes wrong" FOLDED="true" ID="ID_106910296" CREATED="1445784195689" MODIFIED="1445784214014">
 <node TEXT="DaoDataProvider.prototype.writableFieldsAsList = function() {&#xa;    return _(this._fields).values().filter(function(f) {&#xa;        return !(f instanceof m_sql_calcField.CalcField)&#xa;            &amp;&amp; !(f instanceof m_sql_boField.BoField) }); // TODO this condition is not exactly right&#xa;        return !f.isEditable(); // TODO this SHOULD be the correct condition, but it does not work&#xa;};" ID="ID_1988996891" CREATED="1445784214643" MODIFIED="1445784216358"/>
@@ -116,6 +123,7 @@
 <node TEXT="frontend: optimize scrolling" ID="ID_1658048524" CREATED="1445105902102" MODIFIED="1445105910476"/>
 <node TEXT="daoset/boset: populateLookupFields, calculateCalcfields should be options on the daoset/boset, not on the load... function" ID="ID_1766615146" CREATED="1445106055736" MODIFIED="1445106106630"/>
 <node TEXT="sql.query.conditions can currently only do AND" ID="ID_1842917786" CREATED="1444509897101" MODIFIED="1444509907238"/>
+<node TEXT="the way we curretnly avoid circular dependencies in table construction (with stuff in addLinks()) is clearly suboptimal" ID="ID_569725763" CREATED="1436103757312" MODIFIED="1436103785468"/>
 <node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
 <node TEXT="populateLookupFields() should pass a db to a function populate(db) in LookupField" ID="ID_1203408311" CREATED="1436533947090" MODIFIED="1436533967526"/>
 <node TEXT="unify module var names to m_..." ID="ID_1238267829" CREATED="1436260847908" MODIFIED="1436260859231"/>
@@ -161,6 +169,7 @@
 </node>
 </node>
 <node TEXT="Prio 3" ID="ID_265969861" CREATED="1441365521864" MODIFIED="1441365523877">
+<node TEXT="There is no explicit test for bo.calculateCalcFields and dao.calculateCalcFields in our test suites" ID="ID_1702884024" CREATED="1445871708250" MODIFIED="1445871729569"/>
 <node TEXT="Be able to insert non-primary daos/bos" ID="ID_515705090" CREATED="1441365526224" MODIFIED="1441365534286"/>
 <node TEXT="probably unroll the constructor/addLinks discrepancy in (e.g.) invoiceTable" ID="ID_640572594" CREATED="1441365708312" MODIFIED="1441365725566"/>
 <node TEXT="possibly use id() instead of name() to identify fields internally" ID="ID_1908235904" CREATED="1443763773814" MODIFIED="1443763783180"/>
@@ -257,6 +266,9 @@
 <node TEXT="table: use instanceof for determining field classes" ID="ID_1320547546" CREATED="1436015161559" MODIFIED="1436015244304">
 <node TEXT="still does not work!!!" ID="ID_1866960159" CREATED="1436111141178" MODIFIED="1436111144603"/>
 <node TEXT="create small isA() framework" ID="ID_821408512" CREATED="1436111145186" MODIFIED="1436111153061"/>
+</node>
+<node TEXT="dao/bo..." FOLDED="true" ID="ID_131649401" CREATED="1445782712855" MODIFIED="1445782719339">
+<node TEXT="populateLookupFields, calculateCalcFields (loadBoFields?) should be options in constructors" ID="ID_1591555340" CREATED="1445782719858" MODIFIED="1445782770736"/>
 </node>
 </node>
 </node>
