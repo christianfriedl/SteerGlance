@@ -33,6 +33,9 @@ var query = require('sql/query.js');
 var ddl = require('sql/ddl.js');
 var sqliteQuery = require('sql/sqlite/query.js');
 var m_dao_primaryDao = require('dao/primaryDao.js');
+var m_sql_lookupField = require('sql/lookupField.js');
+var m_sql_boField = require('sql/boField.js');
+var m_sql_calcField = require('sql/calcField.js');
 
 var tests = {
     _name: 'testDao',
@@ -44,6 +47,8 @@ var tests = {
         var dao1 = dao.dao(db1).table(table1);
         assert.strictEqual('id1', dao1.field('id1').name());
         assert.strictEqual('name1', dao1.field('name1').name());
+        assert.strictEqual(id1.id(), dao1.field('id1').id());
+        assert.strictEqual(name1.id(), dao1.field('name1').id());
     },
     testGetters: function() {
         var id1 = field.field('id1', field.DataType.int).value(1);
@@ -68,7 +73,38 @@ var tests = {
         assert.strictEqual(1, dao1.id1());
         assert.strictEqual('name', dao1.name1());
     },
+    testFieldLists: function() {
+        var db1 = db.db(':memory:').open(':memory:');
 
+        var f1 = field.field('f1', field.DataType.int);
+        var lf1 = m_sql_lookupField.lookupField('lf1', field.DataType.int, null, 'lf1', f1);
+        var bf1 = m_sql_boField.boField('bf1', null, 'bf1', db1, function(){}, f1);
+        var cf1 = m_sql_calcField.calcField('cf1', field.DataType.int, m_sql_calcField.CalcType.sum, {});
+
+        var table1 = table.table().field(f1).field(lf1).field(bf1).field(cf1);
+        var dao1 = dao.dao(db1).table(table1);
+
+        var flist = dao1.fieldsAsList();
+        var lflist = dao1.lookupFieldsAsList();
+        var bflist = dao1.boFieldsAsList();
+        var cflist = dao1.calcFieldsAsList();
+
+        assert.strictEqual(4, flist.length);
+        assert.ok(_(flist).filter(function(f) { return f1.id() === f.id(); }), 'field missing in list');
+        assert.ok(_(flist).filter(function(f) { return lf1.id() === f.id(); }), 'lookupfield missing in list');
+        assert.ok(_(flist).filter(function(f) { return bf1.id() === f.id(); }), 'bofield missing in list');
+        assert.ok(_(flist).filter(function(f) { return cf1.id() === f.id(); }), 'calcfield missing in list');
+
+        assert.strictEqual(1, lflist.length);
+        assert.strictEqual(lf1.id(), lflist[0].id());
+
+        assert.strictEqual(1, cflist.length);
+        assert.strictEqual(cf1.id(), cflist[0].id());
+
+        assert.strictEqual(1, bflist.length);
+        assert.strictEqual(bf1.id(), bflist[0].id());
+
+    },
     testPrimaryDao: function() {
         var table1 = table.table('table1')
                         .name('table1')
