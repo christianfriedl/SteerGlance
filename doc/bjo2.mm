@@ -91,7 +91,6 @@
 </node>
 </node>
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
-<node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437" CREATED="1443639193962" MODIFIED="1443639209876"/>
 <node TEXT="clarify / document client/server interface" ID="ID_1707431123" CREATED="1445169720167" MODIFIED="1445169728273"/>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: update count after insert" ID="ID_160128588" CREATED="1435663980835" MODIFIED="1435664064870"/>
@@ -173,12 +172,19 @@
 <node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657" CREATED="1436029551137" MODIFIED="1436029591464"/>
 </node>
 <node TEXT="Prio 3" ID="ID_265969861" CREATED="1441365521864" MODIFIED="1441365523877">
+<node TEXT="Reflect on using q/Promises instead of async" ID="ID_137781395" CREATED="1446141520797" MODIFIED="1446141546456"/>
 <node TEXT="There is no explicit test for bo.calculateCalcFields and dao.calculateCalcFields in our test suites" ID="ID_1702884024" CREATED="1445871708250" MODIFIED="1445871729569"/>
 <node TEXT="Be able to insert non-primary daos/bos" ID="ID_515705090" CREATED="1441365526224" MODIFIED="1441365534286"/>
 <node TEXT="probably unroll the constructor/addLinks discrepancy in (e.g.) invoiceTable" ID="ID_640572594" CREATED="1441365708312" MODIFIED="1441365725566"/>
 <node TEXT="possibly use id() instead of name() to identify fields internally" ID="ID_1908235904" CREATED="1443763773814" MODIFIED="1443763783180"/>
 <node TEXT="frontend: optimize list scrolling" ID="ID_331420556" CREATED="1445601005397" MODIFIED="1445601026366">
 <node TEXT="the actual putting it on the display is slow" ID="ID_1591595761" CREATED="1445601026675" MODIFIED="1445601042541"/>
+</node>
+<node TEXT="split codebase" ID="ID_804344542" CREATED="1446141369160" MODIFIED="1446141377823">
+<node TEXT="NodeSqlCore" ID="ID_1240592179" CREATED="1446141378971" MODIFIED="1446141387021"/>
+<node TEXT="NodeSqlORM" ID="ID_764954713" CREATED="1446141388094" MODIFIED="1446141409850"/>
+<node TEXT="NodeSqlWeb" ID="ID_1151111862" CREATED="1446141397509" MODIFIED="1446141424188"/>
+<node TEXT="NodeSqlClient" ID="ID_361673061" CREATED="1446141416959" MODIFIED="1446141421445"/>
 </node>
 </node>
 <node TEXT="HERE WE WILL BE AT v0.1alpha" ID="ID_1294412308" CREATED="1436258422769" MODIFIED="1436258459603">
@@ -274,6 +280,7 @@
 <node TEXT="dao/bo..." FOLDED="true" ID="ID_131649401" CREATED="1445782712855" MODIFIED="1445782719339">
 <node TEXT="populateLookupFields, calculateCalcFields (loadBoFields?) should be options in constructors" ID="ID_1591555340" CREATED="1445782719858" MODIFIED="1445782770736"/>
 </node>
+<node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437" CREATED="1443639193962" MODIFIED="1443639209876"/>
 </node>
 </node>
 <node TEXT="Diary" FOLDED="true" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">

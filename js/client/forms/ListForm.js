@@ -156,7 +156,7 @@
                 success: function(datax) {
                     _(datax.rows).each(function(row) {
                         if ( jQuery('#edit-row-' + rowNr).hasClass('dummy') ) {
-                            jQuery('#edit-row-' + rowNr).replaceWith(new ListForm.Row(row, module, controller, rowNr).toHtml()); // TODO hardcoded invoice
+                            jQuery('#edit-row-' + rowNr).replaceWith(new ListForm.Row(row, module, controller, rowNr).toHtml());
                         }
                         ++rowNr;
                     });

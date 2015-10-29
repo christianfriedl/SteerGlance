@@ -65,7 +65,7 @@
     };
 
     EditForm.Row.prototype.toHtml = function() {
-        return _(this._row).reduce(function(memo, field) {
+        return _(this._row.fields).reduce(function(memo, field) {
                     return memo + Tags.tr({}, [], Tags.th({}, [], field.label) + Tags.td({}, [ Tags.input({ 'name': field.name, 'class': 'edit-field', 'type': 'text', 'value': field.value}) ]));
                 }, '');
     };
