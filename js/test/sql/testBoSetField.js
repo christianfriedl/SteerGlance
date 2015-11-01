@@ -34,10 +34,10 @@ var tests = {
     _name: 'testBoSetField',
     tesCreationEtc: function() {
         var f_customer_id = m_sql_field.field('id', field.DataType.int);
-        var f_customer_name = m_sql_field.field(name', field.DataType.string);
+        var f_customer_name = m_sql_field.field('name', field.DataType.string);
         var f_invoice_customerId = m_sql_field.field('customerId', field.DataType.int);
         var fl_invoice_customerId = m_sql_fieldLink.fieldLink(f_invoice_customerId, f_customer_id, m_sql_fieldLink.Type.manyToOne);
-        var f_invoice_customerBoSet = m_sql_boSetField.boSetField('customerBoSet', ....testitet
+        var f_invoice_customerBoSet = m_sql_boSetField.boSetField('customerBoSet', field.DataType.boSet, bs_customer, fl_invoice_customerId);
         var t_customer = table.table().field(f_customer_id).field(f_customer_name);
         var t_invoice = table.table().field(f_invoice_customerId).field(f_invoice_customerBoSet);
 
