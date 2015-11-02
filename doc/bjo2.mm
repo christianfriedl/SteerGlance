@@ -49,7 +49,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="9"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="8"/>
 <node TEXT="&quot;BJO v.2&quot;" POSITION="right" ID="ID_28794418" CREATED="1426860351617" MODIFIED="1426860356034">
 <edge COLOR="#ff00ff"/>
 </node>
@@ -72,34 +72,9 @@
 <node TEXT="response { data: &#xa;   { action:  &apos;list&apos;,&#xa;     rows: &#xa;      [ { fields: &#xa;           [ { className:  &lt;&gt;,&#xa;               name:  &apos;...&apos;,&#xa;               dataType:  &lt;&gt;,&#xa;               value:  &lt;&gt;,&#xa;               label:  &lt;&gt;,&#xa;               seq: &lt;&gt;,&#xa;               isEditable:  &lt;&gt;,&#xa;               isRequired:  &lt;&gt;,&#xa;               links:  [] } ],&#xa;          id:  &lt;&gt; } ],&#xa;     aggregateRow: &#xa;      [  ],&#xa;     count:  20, // general count, not heeding limit&#xa;     templateRow: &#xa;      { fields: &#xa;         [] } } }" ID="ID_1860102900" CREATED="1445170418375" MODIFIED="1445170621010"/>
 </node>
 </node>
-<node TEXT="How we want our api to look like" POSITION="right" ID="ID_1035226401" CREATED="1446219458837" MODIFIED="1446219466743">
-<edge COLOR="#007c00"/>
-<node TEXT="var customer = m_app_customer_customerBo.customerBo(db...);&#xa;customer.loadById(1, function(err) {&#xa;    customer.lastName(&apos;haxk&apos;);&#xa;    customer.save(function(err) {});&#xa;});&#xa;&#xa;customer.loadInvoices(function(err) {&#xa;    var length = customer.invoices().length;&#xa;});&#xa;&#xa;customer.loadAllSubBos(...);&#xa;&#xa;var boSet = m_app_invoice_invoiceBoSet.invoiceBoSet(db...);&#xa;boSet.willLoadBos(true);&#xa;boSet.calculateCalcFields(true);&#xa;boSet.populateLookupFields(true);&#xa;invoices.loadByConditions([]..., function(err, invoice) {&#xa;    invoice.calculateCalcFields(function(err) {&#xa;        console.log(&apos;invoice nr &apos; + invoice.nr() + &apos; has customer &apos; + invoice.customer().firstName() + &apos; and sum &apos; + invoice.amount());&#xa;    });&#xa;});" ID="ID_949797603" CREATED="1446219507135" MODIFIED="1446219509072"/>
-</node>
-<node TEXT="Knowledge Base" POSITION="right" ID="ID_601035691" CREATED="1443357414932" MODIFIED="1443357419138">
+<node TEXT="Knowledge Base" FOLDED="true" POSITION="right" ID="ID_601035691" CREATED="1443357414932" MODIFIED="1443357419138">
 <edge COLOR="#00007c"/>
-<node TEXT="Classes" ID="ID_612375141" CREATED="1446220582759" MODIFIED="1446220584978">
-<node TEXT="BO" ID="ID_461845358" CREATED="1446220585227" MODIFIED="1446220585962">
-<node TEXT="knows how to translate business data to/from daos" ID="ID_1123427629" CREATED="1446220586206" MODIFIED="1446220614650"/>
-<node TEXT="does never directly interact with sql" ID="ID_1333404937" CREATED="1446220615980" MODIFIED="1446220623890"/>
-</node>
-<node TEXT="DAO" ID="ID_1547528990" CREATED="1446220628612" MODIFIED="1446220632179">
-<node TEXT="creates sql statements, sends them to the sql driver, and translates the results back to the bo" ID="ID_1687979988" CREATED="1446220632557" MODIFIED="1446220662921"/>
-</node>
-<node TEXT="fields" ID="ID_1971987857" CREATED="1446220685867" MODIFIED="1446220686797">
-<node TEXT="Field" ID="ID_1307517979" CREATED="1446220668849" MODIFIED="1446220673883"/>
-<node TEXT="LookupField" ID="ID_649024401" CREATED="1446220688950" MODIFIED="1446220692081">
-<node TEXT="knows how to fetch id and label from another table" ID="ID_1185471187" CREATED="1446220709537" MODIFIED="1446220720475"/>
-<node TEXT="useful for smallish lookup tables" ID="ID_478574289" CREATED="1446220757069" MODIFIED="1446220763741"/>
-</node>
-<node TEXT="BoSetField" ID="ID_550010704" CREATED="1446220702418" MODIFIED="1446220706353">
-<node TEXT="holds a boSet for later lookups" ID="ID_1081677686" CREATED="1446220967934" MODIFIED="1446220981901"/>
-<node TEXT="useful for lookups in larger tables" ID="ID_1633472121" CREATED="1446220982230" MODIFIED="1446220988023"/>
-</node>
-<node TEXT="BoField" ID="ID_1201412558" CREATED="1446220692451" MODIFIED="1446220696248"/>
-<node TEXT="CalcField" ID="ID_1754045492" CREATED="1446220697841" MODIFIED="1446220700019"/>
-</node>
-</node>
+<node TEXT="Where do we construct a field?" ID="ID_1928837733" CREATED="1443357419365" MODIFIED="1443357424724"/>
 </node>
 <node TEXT="Scrum" POSITION="right" ID="ID_1919369938" CREATED="1435663658673" MODIFIED="1435663661271">
 <edge COLOR="#7c0000"/>
@@ -116,29 +91,21 @@
 </node>
 </node>
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
+<node TEXT="clarify / document client/server interface" ID="ID_1707431123" CREATED="1445169720167" MODIFIED="1445169728273"/>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: update count after insert" ID="ID_160128588" CREATED="1435663980835" MODIFIED="1435664064870"/>
 <node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
 <node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435919335285"/>
-<node TEXT="replace Mapitor -&gt; BJO2 in license decs" ID="ID_993556786" CREATED="1446222304285" MODIFIED="1446222312040"/>
-<node TEXT="why does bo NOT have a populateLookupFields()?" ID="ID_537865975" CREATED="1446221703159" MODIFIED="1446221712052"/>
-<node TEXT="think aboutbofield and lookupfield" ID="ID_132563282" CREATED="1446185883137" MODIFIED="1446185895732">
-<node TEXT="lookupfield" ID="ID_541832043" CREATED="1446185895960" MODIFIED="1446185898295">
-<node TEXT="use dao" ID="ID_799322988" CREATED="1446185898919" MODIFIED="1446219438010"/>
-</node>
-</node>
 <node TEXT="frontend: edit in list probably doesn&apos;t work now" ID="ID_1653320881" CREATED="1445690608858" MODIFIED="1445690618140"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1445871999847">
 <icon BUILTIN="button_ok"/>
 </node>
 <node TEXT="we need a way to fetch the data for lookupfields dynamically on clicking the button, since there might be millions of rows there" ID="ID_1552141340" CREATED="1445867608723" MODIFIED="1445867654325"/>
-<node TEXT="fieldLinks: need clarification" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
+<node TEXT="fieldLinks: need clarification" FOLDED="true" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
 <node TEXT="currently, we&apos;re just using the first" ID="ID_669468957" CREATED="1435858155342" MODIFIED="1435858163145"/>
 </node>
-<node TEXT="backend: when setting the customer id from the frontend, fairly certainly we now do not set the customer() object" ID="ID_1137170107" CREATED="1443976632816" MODIFIED="1443976745650">
-<node TEXT="call" ID="ID_391087790" CREATED="1446142542697" MODIFIED="1446185862618"/>
-</node>
+<node TEXT="backend: when setting the customer id from the frontend, fairly certainly we now do not set the customer() object" ID="ID_1137170107" CREATED="1443976632816" MODIFIED="1443976745650"/>
 <node TEXT="dao: dao.calculateCalcfields() - remove conditions from params, if we are a primary dao... otherwise...???" ID="ID_1556723586" CREATED="1436019216756" MODIFIED="1436019289475"/>
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
 <node TEXT="conditions for which fields to use are sometimes wrong" FOLDED="true" ID="ID_106910296" CREATED="1445784195689" MODIFIED="1445784214014">
@@ -203,10 +170,6 @@
 <node TEXT="resolve by using events" ID="ID_147953381" CREATED="1443643430139" MODIFIED="1443643435837"/>
 </node>
 <node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657" CREATED="1436029551137" MODIFIED="1436029591464"/>
-<node TEXT="Create a boClassCreator" ID="ID_270749813" CREATED="1446219591203" MODIFIED="1446219665584">
-<node TEXT="input: json" ID="ID_903033074" CREATED="1446219647158" MODIFIED="1446219650720"/>
-<node TEXT="output: bo classes" ID="ID_1911708243" CREATED="1446219652320" MODIFIED="1446219661000"/>
-</node>
 </node>
 <node TEXT="Prio 3" ID="ID_265969861" CREATED="1441365521864" MODIFIED="1441365523877">
 <node TEXT="Reflect on using q/Promises instead of async" ID="ID_137781395" CREATED="1446141520797" MODIFIED="1446141546456"/>
@@ -318,7 +281,6 @@
 <node TEXT="populateLookupFields, calculateCalcFields (loadBoFields?) should be options in constructors" ID="ID_1591555340" CREATED="1445782719858" MODIFIED="1445782770736"/>
 </node>
 <node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437" CREATED="1443639193962" MODIFIED="1443639209876"/>
-<node TEXT="clarify / document client/server interface" ID="ID_1707431123" CREATED="1445169720167" MODIFIED="1445169728273"/>
 </node>
 </node>
 <node TEXT="Diary" FOLDED="true" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">
