@@ -30,7 +30,6 @@ var allTestScripts = {
     'sql/testCalcField.js': { 'enabled': true },
     'sql/sqlite/testQuery.js': { 'enabled': true },
     'sql/testOrderBy.js': { 'enabled' : true },
-    'sql/testBoSetField.js': { 'enabled' : true },
     'dao/testDao.js': { 'enabled': true },
     'dao/testDaoSet.js': { 'enabled': true },
     'bo/testBo.js': { 'enabled': true },
