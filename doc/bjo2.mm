@@ -116,9 +116,6 @@
 </node>
 </node>
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
-<node TEXT="boSetField" ID="ID_695804019" CREATED="1446371303194" MODIFIED="1446371309634">
-<node TEXT="needs link to frontend moule / controller / action" ID="ID_1526145535" CREATED="1446371310479" MODIFIED="1446371323012"/>
-</node>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: update count after insert" ID="ID_160128588" CREATED="1435663980835" MODIFIED="1435664064870"/>
 <node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
@@ -157,13 +154,6 @@
 </node>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
-<node TEXT="have some config.json file per module" ID="ID_1504668" CREATED="1446371235712" MODIFIED="1446371243319">
-<node TEXT="{ bo: .., boSet..., frontendModule: }" ID="ID_1282897167" CREATED="1446371243597" MODIFIED="1446371280789"/>
-<node TEXT="so we can automatically glue frontend and backend data together" ID="ID_1917019631" CREATED="1446371286817" MODIFIED="1446371296458"/>
-</node>
-<node TEXT="boSetField frontend link" ID="ID_305147234" CREATED="1446371365496" MODIFIED="1446371378983">
-<node TEXT="should later default to the modue ocnfig.json defaults" ID="ID_793032179" CREATED="1446371325297" MODIFIED="1446371336892"/>
-</node>
 <node TEXT="list response: aggregateRow is just an array, should be a row &quot;object&quot; with fields: []" ID="ID_947876021" CREATED="1445170661755" MODIFIED="1445170694430"/>
 <node TEXT="frontend: optimize scrolling" ID="ID_1658048524" CREATED="1445105902102" MODIFIED="1445105910476"/>
 <node TEXT="daoset/boset: populateLookupFields, calculateCalcfields should be options on the daoset/boset, not on the load... function" ID="ID_1766615146" CREATED="1445106055736" MODIFIED="1445106106630"/>
