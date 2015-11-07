@@ -72,9 +72,20 @@
 <node TEXT="response { data: &#xa;   { action:  &apos;list&apos;,&#xa;     rows: &#xa;      [ { fields: &#xa;           [ { className:  &lt;&gt;,&#xa;               name:  &apos;...&apos;,&#xa;               dataType:  &lt;&gt;,&#xa;               value:  &lt;&gt;,&#xa;               label:  &lt;&gt;,&#xa;               seq: &lt;&gt;,&#xa;               isEditable:  &lt;&gt;,&#xa;               isRequired:  &lt;&gt;,&#xa;               links:  [] } ],&#xa;          id:  &lt;&gt; } ],&#xa;     aggregateRow: &#xa;      [  ],&#xa;     count:  20, // general count, not heeding limit&#xa;     templateRow: &#xa;      { fields: &#xa;         [] } } }" ID="ID_1860102900" CREATED="1445170418375" MODIFIED="1445170621010"/>
 </node>
 </node>
-<node TEXT="Knowledge Base" FOLDED="true" POSITION="right" ID="ID_601035691" CREATED="1443357414932" MODIFIED="1443357419138">
+<node TEXT="Knowledge Base" POSITION="right" ID="ID_601035691" CREATED="1443357414932" MODIFIED="1443357419138">
 <edge COLOR="#00007c"/>
 <node TEXT="Where do we construct a field?" ID="ID_1928837733" CREATED="1443357419365" MODIFIED="1443357424724"/>
+<node TEXT="Lookup" ID="ID_1701295977" CREATED="1446572716558" MODIFIED="1446572721442">
+<node TEXT="Frontend Settings" ID="ID_156495861" CREATED="1446572643685" MODIFIED="1446572652671">
+<node TEXT="Table has frontendSettings" ID="ID_258887503" CREATED="1446572652930" MODIFIED="1446572658559">
+<node TEXT="default for module, controller, action in lookup" ID="ID_1571360157" CREATED="1446572665097" MODIFIED="1446572678884"/>
+<node TEXT="default for labelField" ID="ID_208378221" CREATED="1446572742548" MODIFIED="1446572769655"/>
+</node>
+</node>
+<node TEXT="lookupField has a fieldLink" ID="ID_1506697839" CREATED="1446572728268" MODIFIED="1446572735019">
+<node TEXT="links to a field" ID="ID_1820494825" CREATED="1446572735306" MODIFIED="1446572739577"/>
+</node>
+</node>
 </node>
 <node TEXT="Scrum" POSITION="right" ID="ID_1919369938" CREATED="1435663658673" MODIFIED="1435663661271">
 <edge COLOR="#7c0000"/>
@@ -122,6 +133,7 @@
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="list response: aggregateRow is just an array, should be a row &quot;object&quot; with fields: []" ID="ID_947876021" CREATED="1445170661755" MODIFIED="1445170694430"/>
+<node TEXT="reflect whether we should separate frontend-fields from sql/fields" ID="ID_1013306220" CREATED="1446572848294" MODIFIED="1446572864568"/>
 <node TEXT="frontend: optimize scrolling" ID="ID_1658048524" CREATED="1445105902102" MODIFIED="1445105910476"/>
 <node TEXT="daoset/boset: populateLookupFields, calculateCalcfields should be options on the daoset/boset, not on the load... function" ID="ID_1766615146" CREATED="1445106055736" MODIFIED="1445106106630"/>
 <node TEXT="sql.query.conditions can currently only do AND" ID="ID_1842917786" CREATED="1444509897101" MODIFIED="1444509907238"/>
