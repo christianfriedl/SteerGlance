@@ -17,7 +17,9 @@
  */
 
 var assert = require('assert');
-var m_sql_field = require('sql/Field.js');
+var m_sql_table = require('sql/table.js');
+var m_sql_field = require('sql/field.js');
+var m_sql_calcField = require('sql/calcField.js');
 var m_sql_lookupField = require('sql/lookupField.js');
 var m_TestSuite = require('TestSuite.js');
 
@@ -26,7 +28,9 @@ var tests = {
 
     testCreate: function() {
         var f_customer_id = m_sql_field.field('id', m_sql_field.DataType.int, 1);
+        assert.ok('instanceof field', f_customer_id instanceof m_sql_field.Field);
         var f_customer_name = m_sql_field.field('name', m_sql_field.DataType.string, 'name');
+        var t = m_sql_table.table('t').field(f_customer_id).field(f_customer_name);
         var f_invoice_customerId = m_sql_lookupField.lookupField('customerId', 1, 'customerId', f_customer_id, f_customer_name);
         assert.ok('instanceof calcfield', f_invoice_customerId instanceof m_sql_calcField.CalcField);
         assert.ok('instanceof field', f_invoice_customerId instanceof m_sql_field.Field);

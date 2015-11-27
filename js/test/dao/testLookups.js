@@ -42,7 +42,7 @@ var tests = {
         mainTable.field(m_sql_field.field('id', m_sql_field.DataType.int, 1, 'id'));
         mainTable.field(m_sql_field.field('name', m_sql_field.DataType.string, 1, 'id'));
         var childTable = m_sql_table.table('child');
-        var lf = m_sql_lookupField.lookupField('mainId', m_sql_field.DataType.int, 1, 'mainId', mainTable.field('name'));
+        var lf = m_sql_lookupField.lookupField('mainId', 1, 'mainId', mainTable.field('id'), mainTable.field('name'));
         childTable.field(lf);
         var link = m_sql_fieldLink.fieldLink(childTable.field('mainId'), mainTable.field('id'), m_sql_fieldLink.Type.manyToOne);
         childTable.field('mainId').link(link);
@@ -72,7 +72,7 @@ var tests = {
         mainTable.field(m_sql_field.field('id', m_sql_field.DataType.int, 1, 'id'));
         mainTable.field(m_sql_field.field('name', m_sql_field.DataType.string, 1, 'id'));
         var childTable = m_sql_table.table('child');
-        var lf = m_sql_lookupField.lookupField('mainId', m_sql_field.DataType.int, 1, 'mainId', mainTable.field('name'));
+        var lf = m_sql_lookupField.lookupField('mainId', 1, 'mainId', mainTable.field('id'), mainTable.field('name'));
         childTable.field(lf);
         var link = m_sql_fieldLink.fieldLink(childTable.field('mainId'), mainTable.field('id'), m_sql_fieldLink.Type.manyToOne);
         childTable.field('mainId').link(link);
@@ -101,7 +101,7 @@ var tests = {
         mainTable.field(m_sql_field.field('id', m_sql_field.DataType.int, 1, 'id'));
         mainTable.field(m_sql_field.field('name', m_sql_field.DataType.string, 1, 'id'));
         var childTable = m_sql_table.table('child');
-        var lf = m_sql_lookupField.lookupField('mainId', m_sql_field.DataType.int, 1, 'mainId', mainTable.field('name'));
+        var lf = m_sql_lookupField.lookupField('mainId', 1, 'mainId', mainTable.field('id'), mainTable.field('name'));
         childTable.field(lf);
         var link = m_sql_fieldLink.fieldLink(childTable.field('mainId'), mainTable.field('id'), m_sql_fieldLink.Type.manyToOne);
         childTable.field('mainId').link(link);
