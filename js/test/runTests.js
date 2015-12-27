@@ -39,16 +39,18 @@ var allTestScripts = {
     'bo/testPrimaryBo.js': { 'enabled': true }, 
     'app/customer/customerBo.js': { 'enabled': true },
     'app/actAsClient.js': { 'enabled': true },
+    'sql/testLazyFieldLinkManager.js': { 'enabled': true },
 
     'app/invoice/invoiceBo.js': { 'enabled': false },// TODO there are async-errors in the tests there...!
 };
 
 var focusedTestScripts = {
-    'app/actAsClient.js': { 'enabled': true },
+    // 'app/actAsClient.js': { 'enabled': true },
+    'sql/testLazyFieldLinkManager.js': { 'enabled': true },
 };
 
-var testScripts = allTestScripts;
-// var testScripts = focusedTestScripts;
+// var testScripts = allTestScripts;
+var testScripts = focusedTestScripts;
 
 _(_(testScripts).keys()).each(function(scriptName) {
     var module = require('./' + scriptName);
