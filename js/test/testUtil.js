@@ -3,7 +3,7 @@
  *
  * This file is part of BJO2.
  *
- * BJO2 is free software; you can redistribute it and/or modify
+ * Mapitor is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
  *
@@ -16,24 +16,23 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-var _ = require('underscore');
+var assert = require('assert');
+var m_TestSuite = require('TestSuite.js');
+var m_util = require('util.js');
 
-function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4();
+var tests = {
+    _name: 'testUtil',
+    testIsInEnum: function() {
+        var E = { one: '1', two: '2' };
+        assert.ok(m_util.isInEnum(E.one, E));
+        assert.ok(!m_util.isInEnum('haha', E));
+    },
+};
+
+function runTests(testNames) {
+    m_TestSuite.TestSuite.call(tests);
+    m_TestSuite.TestSuite.prototype.runTests.call(tests, testNames);
 }
 
-function isString(s) { return (s instanceof String || typeof(s) === 'string') }
 
-function isInEnum(value, enumeration) { 
-            return _(_(enumeration).values()).contains(value);
-}
-
-exports.guid = guid;
-exports.isString = isString;
-exports.isInEnum = isInEnum;
+exports.runTests = runTests;
