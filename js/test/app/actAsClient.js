@@ -76,7 +76,6 @@ var tests = {
                 function(callback) { db1.runSql('INSERT INTO invoice (id, amount, customerId) VALUES(2, 20, 1)', [], callback); },
                 function(callback) {
                     return m_controller.list(boSet, request, response, function(response) {
-                        console.log('ABRACA', response);
                         assert.strictEqual(1, response.data.rows.length);
                         assert.strictEqual(1, response.data.rows[0].fields[0].value);
                         assert.strictEqual(30, response.data.rows[0].fields[3].value);
@@ -149,8 +148,8 @@ var tests = {
                         assert.strictEqual(120, response.data.rows[2].fields[1].value);
                         assert.strictEqual(2, response.data.rows[2].fields[2].value);
 
-                        console.log('with templateRow', util.inspect(response.data.templateRow, { depth: 3} ));
-                        console.log('with aggregateRow', util.inspect(response.data.aggregateRow, { depth: 3} ));
+                        console.log('"responsecallback" with templateRow', util.inspect(response.data.templateRow, { depth: 3} ));
+                        console.log('"responsecallback" with aggregateRow', util.inspect(response.data.aggregateRow, { depth: 3} ));
                     });
 
                 }
