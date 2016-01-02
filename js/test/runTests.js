@@ -38,9 +38,9 @@ var allTestScripts = {
     'bo/testBoSet.js': { 'enabled': true },
     'bo/testPrimaryBo.js': { 'enabled': true }, 
     'app/customer/customerBo.js': { 'enabled': true },
-    'app/actAsClient.js': { 'enabled': true },
     'sql/testLazyFieldLinkManager.js': { 'enabled': true },
     'app/invoice/invoiceBo.js': { 'enabled': false },// TODO there are async-errors in the tests there...!
+    'app/actAsClient.js': { 'enabled': true },
 };
 
 var focusedTestScripts = {
