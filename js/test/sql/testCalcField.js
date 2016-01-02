@@ -26,13 +26,13 @@ var tests = {
     _name: 'testCalcField',
 
     testInstanceof: function() {
-        var f= m_sql_calcField.calcField('test', m_sql_field.DataType.int, m_sql_calcField.CalcType.sum, {});
+        var f= m_sql_calcField.calcField('test', m_sql_field.DataType.int, 'test', m_sql_calcField.CalcType.sum);
         assert.ok('instanceof calcfield', f instanceof m_sql_calcField.CalcField);
         assert.ok('instanceof field', f instanceof m_sql_field.Field);
         assert.ok('not instanceof lookupfield', !(f instanceof m_sql_lookupField.LookupField));
     },
     testConstructorName: function() {
-        var f= m_sql_calcField.calcField('test', m_sql_field.DataType.int, m_sql_calcField.CalcType.sum, {});
+        var f= m_sql_calcField.calcField('test', m_sql_field.DataType.int, 'test', m_sql_calcField.CalcType.sum);
         assert.strictEqual('CalcField', f.constructor.name);
     },
 };

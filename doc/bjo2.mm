@@ -1,6 +1,6 @@
 <map version="freeplane 1.3.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
-<node TEXT="BJO in Node.js" FOLDED="false" ID="ID_1723255651" CREATED="1283093380553" MODIFIED="1436340841892"><hook NAME="MapStyle">
+<node TEXT="BJO in Node.js" FOLDED="false" ID="ID_1723255651" CREATED="1283093380553" MODIFIED="1436340841892"><hook NAME="MapStyle" zoom="0.75">
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node">
@@ -86,6 +86,15 @@
 <node TEXT="links to a field" ID="ID_1820494825" CREATED="1446572735306" MODIFIED="1446572739577"/>
 </node>
 </node>
+<node TEXT="SumField, LookupField, Lazy Fields..." ID="ID_909088666" CREATED="1451657957753" MODIFIED="1451657967106">
+<node TEXT="SumField" ID="ID_1049992680" CREATED="1451657967377" MODIFIED="1451657969110">
+<node TEXT="has a fieldLink" ID="ID_1542350452" CREATED="1451657969543" MODIFIED="1451657974386"/>
+</node>
+<node TEXT="LookupField" ID="ID_1713406169" CREATED="1451657979972" MODIFIED="1451657986458">
+<node TEXT="has a fieldLink" ID="ID_1246376414" CREATED="1451658013830" MODIFIED="1451658016258"/>
+<node TEXT="cons can optionally be called with 5 params, and will then construct its own link via link()" ID="ID_1292093337" CREATED="1451658018717" MODIFIED="1451658036454"/>
+</node>
+</node>
 </node>
 <node TEXT="Scrum" POSITION="right" ID="ID_1919369938" CREATED="1435663658673" MODIFIED="1435663661271">
 <edge COLOR="#7c0000"/>
@@ -130,6 +139,9 @@
 </node>
 <node TEXT="have a system for routing frontend forms" ID="ID_1633725770" CREATED="1445786273721" MODIFIED="1445786282962">
 <node TEXT="especially, user-defined forms" ID="ID_1477318880" CREATED="1445872024578" MODIFIED="1445872034486"/>
+</node>
+<node TEXT="reflect on a possible interface for lazy links" ID="ID_409789283" CREATED="1451248863815" MODIFIED="1451248885808">
+<node TEXT="enforce apply()" ID="ID_1453889016" CREATED="1451248902625" MODIFIED="1451248906022"/>
 </node>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
@@ -183,6 +195,10 @@
 <node TEXT="resolve by using events" ID="ID_147953381" CREATED="1443643430139" MODIFIED="1443643435837"/>
 </node>
 <node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657" CREATED="1436029551137" MODIFIED="1436029591464"/>
+<node TEXT="specialize lazyFieldLink: currently a little abused in calcFields, which don&apos;t actually use a fieldLink, (oneToMany?!), but something a little different..." ID="ID_882852207" CREATED="1451670069587" MODIFIED="1451670106251"/>
+<node TEXT="We now create field links per dao, but we should really only create them once per application" ID="ID_384555377" CREATED="1451741950476" MODIFIED="1451741966243">
+<node TEXT="sadly, this involves changing the signatures of daos and bos" ID="ID_518037629" CREATED="1451741966809" MODIFIED="1451741976142"/>
+</node>
 </node>
 <node TEXT="Prio 3" ID="ID_265969861" CREATED="1441365521864" MODIFIED="1441365523877">
 <node TEXT="Reflect on using q/Promises instead of async" ID="ID_137781395" CREATED="1446141520797" MODIFIED="1446141546456"/>
@@ -193,12 +209,17 @@
 <node TEXT="frontend: optimize list scrolling" ID="ID_331420556" CREATED="1445601005397" MODIFIED="1445601026366">
 <node TEXT="the actual putting it on the display is slow" ID="ID_1591595761" CREATED="1445601026675" MODIFIED="1445601042541"/>
 </node>
+<node TEXT="field-derived clone() functions might use field::clone()" ID="ID_1471968401" CREATED="1451685169783" MODIFIED="1451685189407">
+<node TEXT="" ID="ID_362738841" CREATED="1451685190681" MODIFIED="1451685190681"/>
+</node>
 <node TEXT="split codebase" ID="ID_804344542" CREATED="1446141369160" MODIFIED="1446141377823">
 <node TEXT="NodeSqlCore" ID="ID_1240592179" CREATED="1446141378971" MODIFIED="1446141387021"/>
 <node TEXT="NodeSqlORM" ID="ID_764954713" CREATED="1446141388094" MODIFIED="1446141409850"/>
 <node TEXT="NodeSqlWeb" ID="ID_1151111862" CREATED="1446141397509" MODIFIED="1446141424188"/>
 <node TEXT="NodeSqlClient" ID="ID_361673061" CREATED="1446141416959" MODIFIED="1446141421445"/>
 </node>
+<node TEXT="rename LazyFieldLinkManager to LazyLinkManager" ID="ID_798753087" CREATED="1451740462566" MODIFIED="1451740497217"/>
+<node TEXT="The LazyLinks should probably derive from a common baseclass to simulate an interface" ID="ID_246307817" CREATED="1451740606158" MODIFIED="1451740622805"/>
 </node>
 <node TEXT="HERE WE WILL BE AT v0.1alpha" ID="ID_1294412308" CREATED="1436258422769" MODIFIED="1436258459603">
 <font SIZE="22" BOLD="true"/>

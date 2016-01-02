@@ -78,7 +78,7 @@ var tests = {
 
         var f1 = field.field('f1', field.DataType.int);
         var bf1 = m_sql_boField.boField('bf1', null, 'bf1', db1, function(){}, f1);
-        var cf1 = m_sql_calcField.calcField('cf1', field.DataType.int, m_sql_calcField.CalcType.sum, {});
+        var cf1 = m_sql_calcField.calcField('cf1', field.DataType.int, 'cf1', m_sql_calcField.CalcType.sum);
 
         var table1 = table.table().field(f1).field(bf1).field(cf1);
         var lf1 = m_sql_lookupField.lookupField('lf1', null, 'lf1', f1, f1);

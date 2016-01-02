@@ -35,22 +35,20 @@ var allTestScripts = {
     'dao/testDaoSet.js': { 'enabled': true },
     'bo/testBo.js': { 'enabled': true },
     'bo/testBoSet.js': { 'enabled': true },
-    'dao/testLookups.js': { 'enabled': true }, 
     'bo/testPrimaryBo.js': { 'enabled': true }, 
     'app/customer/customerBo.js': { 'enabled': true },
     'app/actAsClient.js': { 'enabled': true },
     'sql/testLazyFieldLinkManager.js': { 'enabled': true },
-
     'app/invoice/invoiceBo.js': { 'enabled': false },// TODO there are async-errors in the tests there...!
 };
 
 var focusedTestScripts = {
-    // 'app/actAsClient.js': { 'enabled': true },
-    'sql/testLazyFieldLinkManager.js': { 'enabled': true },
+    'app/actAsClient.js': { 'enabled': ['testFetchInvoiceList'] },
+    // 'app/actAsClient.js': { 'enabled': ['testFetchCustomerList'] },
 };
 
-// var testScripts = allTestScripts;
-var testScripts = focusedTestScripts;
+var testScripts = allTestScripts;
+// var testScripts = focusedTestScripts;
 
 _(_(testScripts).keys()).each(function(scriptName) {
     var module = require('./' + scriptName);

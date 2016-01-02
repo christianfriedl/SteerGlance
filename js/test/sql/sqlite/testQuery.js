@@ -191,7 +191,7 @@ var tests = {
         var id1 = m_sql_field.field('id1', m_sql_field.DataType.int);
         var id2 = m_sql_field.field('id2', m_sql_field.DataType.int);
         var sumField = m_sql_field.field('sumField', m_sql_field.DataType.int, m_sql_calcField.CalcType.sum, { label: 'Sum1' });
-        var calcField = m_sql_calcField.calcField('calcField', m_sql_field.DataType.int, m_sql_calcField.CalcType.sum, { label: 'Label', sumField: sumField, byField: id1 });
+        var calcField = m_sql_calcField.calcField('calcField', m_sql_field.DataType.int, 'Label', m_sql_calcField.CalcType.sum, sumField, id1);
         table1.field(id1);
         table2.field(id2);
         table1.field(calcField);

@@ -72,7 +72,7 @@ var tests = {
 
     testFieldWebizable: function() {
         var field1 = new field.Field('field1', field.DataType.int);
-        var field4 = m_sql_calcField.calcField('id1', field.DataType.int, m_sql_calcField.CalcType.sum, { label: 'Label' });
+        var field4 = m_sql_calcField.calcField('id1', field.DataType.int, 'Label', m_sql_calcField.CalcType.sum);
 
         var mainTable = m_sql_table.table('main');
         mainTable.field(m_sql_field.field('id', m_sql_field.DataType.int, 1, 'id'));
