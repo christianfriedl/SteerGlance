@@ -111,8 +111,9 @@
 </node>
 </node>
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
-<node TEXT="get rid of nasty circular dependency issue" ID="ID_1182543855" CREATED="1450803979218" MODIFIED="1450803994466"/>
-<node TEXT="clarify / document client/server interface" ID="ID_1707431123" CREATED="1445169720167" MODIFIED="1445169728273"/>
+<node TEXT="clarify / document client/server interface" ID="ID_1707431123" CREATED="1445169720167" MODIFIED="1445169728273">
+<node TEXT="use json-schema" ID="ID_1693580485" CREATED="1451768906327" MODIFIED="1451768910160"/>
+</node>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: update count after insert" ID="ID_160128588" CREATED="1435663980835" MODIFIED="1435664064870"/>
 <node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
@@ -121,10 +122,10 @@
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1445871999847">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="we need a way to fetch the data for lookupfields dynamically on clicking the button, since there might be millions of rows there" ID="ID_1552141340" CREATED="1445867608723" MODIFIED="1445867654325"/>
-<node TEXT="fieldLinks: need clarification" FOLDED="true" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
+<node TEXT="fieldLinks: need clarification" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
 <node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
 <node TEXT="currently, we&apos;re just using the first" ID="ID_669468957" CREATED="1435858155342" MODIFIED="1435858163145"/>
+<node TEXT="lookupField/calcField ::link() might compose the link on call" ID="ID_629041098" CREATED="1451768855817" MODIFIED="1451768877666"/>
 </node>
 <node TEXT="backend: when setting the customer id from the frontend, fairly certainly we now do not set the customer() object" ID="ID_1137170107" CREATED="1443976632816" MODIFIED="1443976745650"/>
 <node TEXT="dao: dao.calculateCalcfields() - remove conditions from params, if we are a primary dao... otherwise...???" ID="ID_1556723586" CREATED="1436019216756" MODIFIED="1436019289475"/>
@@ -140,9 +141,6 @@
 <node TEXT="have a system for routing frontend forms" ID="ID_1633725770" CREATED="1445786273721" MODIFIED="1445786282962">
 <node TEXT="especially, user-defined forms" ID="ID_1477318880" CREATED="1445872024578" MODIFIED="1445872034486"/>
 </node>
-<node TEXT="reflect on a possible interface for lazy links" ID="ID_409789283" CREATED="1451248863815" MODIFIED="1451248885808">
-<node TEXT="enforce apply()" ID="ID_1453889016" CREATED="1451248902625" MODIFIED="1451248906022"/>
-</node>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="list response: aggregateRow is just an array, should be a row &quot;object&quot; with fields: []" ID="ID_947876021" CREATED="1445170661755" MODIFIED="1445170694430"/>
@@ -157,6 +155,7 @@
 <node TEXT="add locking" ID="ID_547401360" CREATED="1435666625338" MODIFIED="1435666626991"/>
 <node TEXT="add transactions" ID="ID_735663752" CREATED="1435666627223" MODIFIED="1435666630208"/>
 <node TEXT="make forms backbutton- and bookmark-save" ID="ID_1211678358" CREATED="1436182920070" MODIFIED="1436182939178"/>
+<node TEXT="add more data types" ID="ID_1894023975" CREATED="1451769595503" MODIFIED="1451769601127"/>
 <node TEXT="bos: create convenience method for creating concrete bos (invoicebo...) without having to first create a dao" ID="ID_523156851" CREATED="1436255086778" MODIFIED="1436255116637"/>
 <node TEXT="frontend: openlookup might be suboptimal; should use real java object instead of stringified object" FOLDED="true" ID="ID_728537161" CREATED="1436108057676" MODIFIED="1436108082099">
 <node TEXT="needs naming convention for the variable" ID="ID_1918564664" CREATED="1436108083250" MODIFIED="1436108094540"/>
