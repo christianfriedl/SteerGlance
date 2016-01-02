@@ -24,6 +24,7 @@ log4js.configure({ appenders: [ { type: "console", layout: { type: "basic" } } ]
 // framework tests
 
 var allTestScripts = {
+    'testUtil.js': { 'enabled': true },
     'server/testRouter.js': { 'enabled': true },
     'sql/table.js': { 'enabled': true },
     'sql/testField.js': { 'enabled': true },
