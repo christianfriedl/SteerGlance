@@ -18,11 +18,31 @@
 
 (function(window) {
     "use strict";
+    function guid() {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      }
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+    }
 
     function Form(data, cssId) {
+        this._id = guid();
+
         this._data = data;
         this._cssId = cssId;
+        if ( typeof(window.BJO2) === 'undefined' ) {
+            window.BJO2 = { forms: {} };
+        }
+        if ( typeof(window.BJO2.forms[this._id]) !== 'undefined' ) { console.log('nonu', window.BJO2.forms[this._id]); throw new Error('id not unique'); }
+        window.BJO2.forms[this._id] = this;
     }
+
+    Form.prototype._thisFormHtml = function() {
+        return 'window.BJO2.forms[\'' + this._id + '\']';
+    };
 
     Form.OpenLookupScript = function(data, cssId) {
         Form.call(this, data, cssId);
