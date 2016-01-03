@@ -114,6 +114,7 @@
 <node TEXT="clarify / document client/server interface" ID="ID_1707431123" CREATED="1445169720167" MODIFIED="1445169728273">
 <node TEXT="use json-schema" ID="ID_1693580485" CREATED="1451768906327" MODIFIED="1451768910160"/>
 </node>
+<node TEXT="frontend: make form an object and make it callable from text" ID="ID_1962257032" CREATED="1451814929459" MODIFIED="1451814946328"/>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: update count after insert" ID="ID_160128588" CREATED="1435663980835" MODIFIED="1435664064870"/>
 <node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
