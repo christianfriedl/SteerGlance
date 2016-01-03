@@ -78,9 +78,18 @@ var tests = {
                         console.log('testFetchCustomerList: "responsecallback" received response', response, 'with rows', util.inspect(response.data.rows, { depth: 3} ));
                         console.log('testFetchCustomerList: "responsecallback" with templateRow', util.inspect(response.data.templateRow, { depth: 3} ));
                         console.log('testFetchCustomerList: "responsecallback" with aggregateRow', util.inspect(response.data.aggregateRow, { depth: 3} ));
+                        assert.strictEqual('list', response.action);
+                        assert.strictEqual(2, response.data.count);
+                        assert.ok(response.data.rows);
                         assert.strictEqual(2, response.data.rows.length);
+                        assert.ok(response.data.aggregateRow);
+                        assert.ok(response.data.aggregateRow.fields);
+                        assert.ok(response.data.templateRow.fields);
+                        assert.ok(response.data.rows[0].fields);
+                        assert.strictEqual(1, response.data.rows[0].id);
                         assert.strictEqual(1, _(response.data.rows[0].fields).findWhere({ name: 'id' }).value);
                         assert.strictEqual(550, _(response.data.rows[0].fields).findWhere({ name: 'sumInvoiceAmount' }).value);
+                        assert.strictEqual(2, response.data.rows[1].id);
                         assert.strictEqual(2, _(response.data.rows[1].fields).findWhere({ name: 'id' }).value);
                         assert.strictEqual(1550, _(response.data.rows[1].fields).findWhere({ name: 'sumInvoiceAmount' }).value);
                         assert.strictEqual(2100, _(response.data.aggregateRow.fields).findWhere({ name: 'sumInvoiceAmount' }).value);
