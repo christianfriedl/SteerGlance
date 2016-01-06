@@ -1,10 +1,11 @@
 (function(window) {
     var document = window.document;
-    function LazyTable(cssId, count, fetchFunc) {
+    function LazyTable(cssId, count, fetchRowsFunc, fetchTemplateRowFunc) {
         this._cssId = cssId;
         this._viewportEl = jQuery('#' + cssId);
         this._viewportEl.css({ position: 'relative' });
-        this._fetchFunc = fetchFunc;
+        this._fetchRowsFunc = fetchRowsFunc;
+        this._fetchTemplateRowFunc = fetchTemplateRowFunc;
         this._fetchedRows = [];
         this._count = count;
         this._cellRenderFunc = renderCell;
@@ -18,13 +19,11 @@
         this._screenSizeGraceRows = 10;
 
 
-        this._fetchData(0, 1, this._mergeFetchedRows.bind(this)); // TODO interface to outside for templaterow -- we need it now for code below
+        this._fetchTemplateRowFunc().done(function(row) {
+            this._templateRow = row;
+        }.bind(this));
 
-        this._rowWidth = 1000;
-        if ( this._fetchedRows.length > 0 ) {
-            this._rowWidth = this._fetchedRows[0].fields.length * this._cellWidth;
-        }
-        //console.log('rw', this._rowWidth);
+        this._rowWidth = this._templateRow.fields.length * this._cellWidth;
         this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative', width: (this._rowWidth + 'px'), height: (this._rowHeight * this._count) + 'px' });
     }
 
@@ -32,7 +31,7 @@
 
     LazyTable.prototype._fetchData = function(startIdx, count, callback) {
         //console.log('fetchdata', startIdx, count);
-        this._fetchFunc(startIdx, count).done(function(rows) { callback(startIdx, rows); });
+        this._fetchRowsFunc(startIdx, count).done(function(rows) { callback(startIdx, rows); });
     };
 
     /**
@@ -45,7 +44,7 @@
         jQuery(this._viewportEl).scroll(scrollFunc);
         jQuery(this._viewportEl).resize(scrollFunc);
         jQuery(this._viewportEl).append(this._tableEl);
-        this._fetchData(1, this._viewportRows() + this._screenSizeGraceRows, function(startIdx, rows) {
+        this._fetchData(0, this._viewportRows() + this._screenSizeGraceRows, function(startIdx, rows) {
             this._mergeFetchedRows(startIdx, rows);
             this._renderFetchedRows();
         }.bind(this)); // TODO interface to outside for templaterow -- we need it now for code below
