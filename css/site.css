@@ -29,3 +29,9 @@
 
 .dummy { background-color: #ccc; width: 100%; }
 .dummy input { visibility: hidden; }
+
+
+.lazy-table .header-cell {
+    font-weight: bold;
+    text-align: center;
+}
