@@ -30,8 +30,38 @@
 .dummy { background-color: #ccc; width: 100%; }
 .dummy input { visibility: hidden; }
 
+.lazy-table.viewport {
+    position: relative;
+    z-index: 3;
+}
+.lazy-table .cell {
+    position: relative;
+    float: left;
+    display: block;
+    overflow: hidden;
+}
 
-.lazy-table .header-cell {
+.lazy-table .cell.last {
+    float: right;
+}
+
+
+.lazy-table .header.cell {
+    z-index: 2;
     font-weight: bold;
     text-align: center;
+    border: 1px solid #999;
+    background-color: #333;
+    color: #fff;
+}
+
+.lazy-table .body.cell {
+    border: 1px solid #aaa;
+}
+
+.lazy-table .body.cell.even {
+    background-color: #fff;
+}
+.lazy-table .body.cell.odd {
+    background-color: #ccc;
 }

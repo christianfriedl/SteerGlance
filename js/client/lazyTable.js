@@ -2,9 +2,6 @@
     var document = window.document;
     function LazyTable(cssId, count, fetchRowsFunc, fetchTemplateRowFunc) {
         this._cssId = cssId;
-        this._viewportEl = jQuery('#' + cssId);
-        this._viewportEl.css({ position: 'relative' });
-        this._viewportEl.addClass('lazy-table viewport');
         this._fetchRowsFunc = fetchRowsFunc;
         this._fetchTemplateRowFunc = fetchTemplateRowFunc;
         this._fetchedRows = [];
@@ -16,30 +13,14 @@
         var inputDimensions = this._getDefaultInputDimensions();
         this._rowHeight = inputDimensions.height + 2;
         this._cellWidth = inputDimensions.width + 4;
+        this._rowWidth = 1000;
         this._scrollTimeoutMsec = 100;
 
         this._lastScrollTop = null;
         this._screenSizeGraceRows = 10;
 
 
-        this._fetchTemplateRowFunc().done(function(row) {
-            this._templateRow = row;
-        }.bind(this));
 
-        this._rowWidth = this._templateRow.fields.length * this._cellWidth;
-        this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative', width: (this._rowWidth + 'px'), height: (this._rowHeight * (this._count + 1)) + 'px' });
-        var headerRowCss = { 
-                top: 0,
-                left: 0,
-                width: (this._cellWidth * this._templateRow.fields.length) + 'px',
-                height: this._rowHeight + 'px',
-                position: 'absolute',
-                border: '1px solid green',
-                overflow: 'hidden'
-        };
-        this._headerRowEl = jQuery('<div>').attr('id', 'header-row').css(headerRowCss);
-        jQuery(this._headerRowEl).addClass('header-row');
-        this._tableEl.append(this._headerRowEl);
     }
 
     LazyTable.prototype.constructor = LazyTable;
@@ -53,31 +34,60 @@
      * initial rendering
      */
     LazyTable.prototype.render = function() {
-        for (var i=0; i < this._templateRow.fields.length; ++i ) {
-            var css = { 
-                    width: this._cellWidth + 'px',
+        this._fetchTemplateRowFunc().done(function(row) {
+            this._templateRow = row;
+            this._rowWidth = this._templateRow.fields.length * (this._cellWidth + 2);
+            var dfd = jQuery.Deferred();
+            dfd.resolve();
+            return dfd;
+        }.bind(this)).done(function() {
+            this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative',  });
+            LazyTable.allWidths(this._tableEl, this._rowWidth);
+            LazyTable.allHeights(this._tableEl, (this._rowHeight * (this._count + 1)));
+
+            var headerRowCss = { 
                     height: this._rowHeight + 'px',
-                    position: 'relative',
-                    float: 'left',
-                    border: '1px solid red',
+                    position: 'fixed',
+                    'z-index': 1,
+                    border: '1px solid green',
                     overflow: 'hidden'
             };
-            var el = jQuery('<div/>').css(css).attr('id', 'header-cell-' + i);
-            jQuery(el).addClass('header-cell');
-            jQuery(this._headerRowEl).append(el);
-            this._headerCellRenderFunc(el, i, this._templateRow.fields[i]);
-        }
+            this._headerRowEl = jQuery('<div>').attr('id', 'header-row').css(headerRowCss);
+            LazyTable.allWidths(this._headerRowEl, this._rowWidth);
+            jQuery(this._headerRowEl).addClass('header-row');
+            this._tableEl.append(this._headerRowEl);
+            for (var i=0; i < this._templateRow.fields.length; ++i ) {
+                var css = { 
+                        width: this._cellWidth + 'px',
+                        height: this._rowHeight + 'px',
+                };
+                var el = jQuery('<div/>').css(css).attr('id', 'header-cell-' + i);
+                jQuery(el).css(css);
+                jQuery(el).addClass('header cell');
+                if ( i === this._templateRow.fields.length - 1 ) {
+                    jQuery(el).addClass('last');
+                }
+                jQuery(this._headerRowEl).append(el);
+                this._headerCellRenderFunc(el, i, this._templateRow.fields[i]);
+            }
 
-        jQuery(this._viewportEl).css({ border: '1px solid red', height: '100%', position: 'relative', width: '100%', overflow: 'scroll' });
-        jQuery(this._viewportEl).attr('id', 'myid');
-        var scrollFunc = function() { this._scrollTo(jQuery(this._viewportEl).scrollTop()); }.bind(this);
-        jQuery(this._viewportEl).scroll(scrollFunc);
-        jQuery(this._viewportEl).resize(scrollFunc);
-        jQuery(this._viewportEl).append(this._tableEl);
-        this._fetchData(0, this._viewportRows() + this._screenSizeGraceRows, function(startIdx, rows) {
-            this._mergeFetchedRows(startIdx, rows);
-            this._renderFetchedRows();
-        }.bind(this)); // TODO interface to outside for templaterow -- we need it now for code below
+            this._viewportEl = jQuery('#' + this._cssId);
+            this._viewportEl.addClass('lazy-table viewport');
+            jQuery(this._viewportEl).css({ height: '100%', position: 'relative', width: '100%', overflow: 'scroll' });
+            jQuery(this._viewportEl).attr('id', 'myid');
+            var scrollFunc = function() { this._scrollTo(jQuery(this._viewportEl).scrollTop(), jQuery(this._viewportEl).scrollLeft()); }.bind(this);
+            jQuery(this._viewportEl).scroll(scrollFunc);
+            jQuery(this._viewportEl).resize(scrollFunc);
+            jQuery(this._viewportEl).append(this._tableEl);
+            jQuery(this._headerRowEl).css({
+                top: (jQuery(this._tableEl).offset().top),
+                left: (jQuery(this._tableEl).offset().left)
+            });
+            this._fetchData(0, this._viewportRows() + this._screenSizeGraceRows, function(startIdx, rows) {
+                this._mergeFetchedRows(startIdx, rows);
+                this._renderFetchedRows();
+            }.bind(this)); // TODO interface to outside for templaterow -- we need it now for code below
+        }.bind(this));
     };
 
     LazyTable.prototype._viewportRows = function() {
@@ -85,7 +95,7 @@
         return Math.floor(height / this._rowHeight);
     };
 
-    LazyTable.prototype._scrollTo = function(scrollTop) {
+    LazyTable.prototype._scrollTo = function(scrollTop, scrollLeft) {
         this._lastScrollTop = scrollTop;
         if ( this._shouldCheckScroll ) {
             this._shouldCheckScroll = false;
@@ -94,6 +104,10 @@
                 this._shouldCheckScroll = true;
             }.bind(this), this._scrollTimeoutMsec);
         }
+
+        // TODO I have no clue why the following formula seems to work...!
+        var headerLeft = ( jQuery(this._tableEl).offset().left - scrollLeft / (2 * this._templateRow.fields.length * this._templateRow.fields.length) );
+        jQuery(this._headerRowEl).css({ left: headerLeft + 'px' });
     };
 
     LazyTable.prototype._innerScrollTo = function(scrollTop) {
@@ -140,14 +154,14 @@
                 var rowCss = { 
                         top: ((rowIdx + 1) * this._rowHeight) + 'px',
                         left: 0,
-                        width: (this._cellWidth * fieldsLength) + 'px',
-                        height: this._rowHeight + 'px',
                         position: 'absolute',
-                        border: '1px solid blue',
                         overflow: 'hidden'
                 };
+
                 var rowDiv = jQuery('<div/>').attr('id', 'row-' + rowIdx);
                 rowDiv.css(rowCss);
+                LazyTable.allWidths(rowDiv, this._rowWidth);
+                LazyTable.allHeights(rowDiv, this._rowHeight);
                 if ( jQuery('#row-' + rowIdx).length ) {
                     jQuery('#row-' + rowIdx).replaceWith(rowDiv);
                 } else {
@@ -169,10 +183,18 @@
                 height: this._rowHeight + 'px',
                 position: 'relative',
                 float: 'left',
-                border: '1px solid red',
                 overflow: 'hidden'
         };
         var el = jQuery('<div/>').css(css).attr('id', 'cell-' + fieldIdx);
+        jQuery(el).addClass('body cell');
+        if ( fieldIdx === this._templateRow.fields.length - 1 ) {
+            jQuery(el).addClass('last');
+        }
+        if ( rowIdx % 2 === 0 ) {
+            jQuery(el).addClass('even');
+        } else {
+            jQuery(el).addClass('odd');
+        }
         jQuery(div).append(el);
         this._bodyCellRenderFunc(el, rowIdx, fieldIdx, field);
     };
@@ -185,12 +207,7 @@
     };
 
     LazyTable.prototype._getDefaultInputDimensions = function() {
-        var el = jQuery('<input type="text" />');
-        jQuery(this._viewportEl).append(el);
-        var dims = { width: jQuery(el).width(), height: jQuery(el).height() };
-        console.log('dims', dims);
-        jQuery(el).remove();
-        return dims;
+        return { width: 200, height: 25 };
     };
 
     /////////////////////////
@@ -199,6 +216,14 @@
      * static functions, default renderers...
      */
 
+    LazyTable.allWidths = function(el, width) {
+        jQuery(el).css({ 'min-width': width + 'px', 'width': width + 'px', 'max-width': width  + 'px'});
+    };
+
+    LazyTable.allHeights = function(el, height) {
+        jQuery(el).css({ 'min-height': height + 'px', 'height': height + 'px', 'max-height': height  + 'px'});
+    };
+
     LazyTable._renderHeaderCell = function(el, fieldIdx, field) {
         jQuery(el).html(field.name);
     };
@@ -206,6 +231,7 @@
     LazyTable._renderBodyCell = function(el, rowIdx, fieldIdx, field) {
         jQuery(el).html(field.value);
     };
+
 
 
     window.LazyTable = LazyTable;
