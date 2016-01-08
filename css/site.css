@@ -71,6 +71,12 @@
     height: 100%;
 }
 
+.lazy-table .body.cell .number, .lazy-table .body.cell .bool {
+    width: 100%;
+}
 .lazy-table .body.cell .number {
     text-align: right;
+}
+.lazy-table .body.cell .bool {
+    text-align: center;
 }

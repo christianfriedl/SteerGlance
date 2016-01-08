@@ -17,7 +17,8 @@
                 var dfd = jQuery.Deferred();
                 var row = { fields: [ 
                         { name: 'id', label: 'ID' },
-                        {  name: 'name', label: 'Name' }
+                        {  name: 'name', label: 'Name' },
+                        {  name: 'isOverdue', label: 'Is Overdue' },
                 ] };
                 for (var j=0; j < cols; ++j) {
                     row.fields.push({ name: 'field' + j });
@@ -45,6 +46,14 @@
                                 value: 'name' + i,  
                                 isEditable:  true,
                                 isRequired:  true,
+                            },
+                            { 
+                                name: 'isOverdue', 
+                                className:  'Field',
+                                dataType:  'bool',
+                                value: true,
+                                isEditable:  true,
+                                isRequired:  false,
                             },
                     ] };
                     for (var j=0; j < cols; ++j) {

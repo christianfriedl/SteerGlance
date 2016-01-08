@@ -31,8 +31,9 @@ db.serialize(function() {
 
     i = 0;
     async.whilst(
-        function() { return i < 200; },
+        function() { return i < 20000; },
         function(callback) {
+            console.log(i);
             db.run('INSERT INTO invoice VALUES(?, ?, ?)', [i, Math.floor(Math.random() * 2) + 1, Math.round(Math.random() * 20000) / 100], function(err, res) { console.log(err, 'done', res); callback(); });
             ++i;
         }, function(err) {

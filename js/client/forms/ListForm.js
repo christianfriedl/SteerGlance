@@ -51,7 +51,9 @@
 
     ListForm.Prepare.prototype.toHtml = function() {
         var listUrl = '/' + [this._data.module, this._data.controller, 'list'].join('/');
-        var html = Tags.form({ 'id': this._data.cssId }, 
+        var trHeight = jQuery('.list-pane tr:first-child').height();
+        var tableHeight = trHeight * this._data.count;
+        var html = Tags.form({ 'id': this._cssId }, 
                 Tags.div({ 'class': 'list-pane' }, [ 
                     Tags.table({ 'class': 'list-form' }, [ 
                         Tags.thead({}, [], 
@@ -83,14 +85,38 @@
         this._cssId = cssId;
     };
 
-    ListForm.DummyList.prototype.toHtml = function() {
+    ListForm.DummyList.prototype.toHtml_depre = function() {
         var html = '';
-        _(this._data.count).times(function(n) {
-            html += '<tr id="edit-row-' + n + '" class="dummy">' 
-                + _(this._data.templateRow.fields.length).times(function() { return '<td><input type="text"/></td>'; }) + '</tr>';
-        }.bind(this));
+        var c, l;
+        var rowCount = this._data.count;
+        var fieldsLength = this._data.templateRow.fields.length;
+        html += '<tr id="edit-row-0" class="dummy">';
+        for ( l=0; l < fieldsLength; ++l ) {
+            html += '<td><input type="text"/></td>'; 
+        }
+        html += '</tr>';
+        for ( c=1; c < rowCount; ++c ) {
+            html += '<tr id="edit-row-' + c + '" class="dummy"></tr>';
+        }
         return html;
     };
+    ListForm.DummyList.prototype.toHtml = function() {
+        var rowCount = this._data.count;
+        var fieldsLength = this._data.templateRow.fields.length;
+        var html = '';
+        var c, l;
+
+        var tdhtml = '';
+            for ( l=0; l < fieldsLength; ++l ) {
+                tdhtml += '<td><input type="text"/></td>'; 
+            }
+            var trhtml1 = '<tr id="edit-row-';
+            var trhtml2 = '" class="dummy">' + tdhtml + '</tr>';
+        for ( c=1; c < rowCount; ++c ) {
+            html += trhtml1 + c + trhtml2;
+        }
+        return html;
+    }
 
     ListForm.DummyListScript = function(data, cssId) {
         this._data = data;
@@ -106,8 +132,19 @@
                         success: function(data2) {
                             var datax = JSON.parse(data2);
                             var end = new Date().getTime();
-                            jQuery('#` + this._data.cssId + ` tbody').html(new ListForm.DummyList('` + this._data.cssId + `', datax).toHtml());
+                            var html = new ListForm.DummyList('` + this._cssId + `', datax).toHtml();
+                            var el = document.querySelector('#` + this._cssId + ` tbody');
+                            window.setTimeout(function() {
+                            el.innerHTML = html;
+                            }, 10);
                             var end2 = new Date().getTime();
+                            console.log('time for adding dummy rows', (end2-start));
+                            var trHeight = jQuery('.list-pane tr:first-child').height();
+                            var tableHeight = trHeight * datax.count;
+                            console.log('tableHeight is', tableHeight, 'trheight is', trHeight);
+                            // jQuery('#` + this._cssId + ` .list-form').css('height', tableHeight + 'px');
+                            //jQuery('#` + this._cssId + ` tbody').css('height', tableHeight + 'px');
+                            //jQuery('#` + this._cssId + ` .list-pane').css('height', tableHeight + 'px');
                         }
                     }
                 );

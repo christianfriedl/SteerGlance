@@ -1,26 +1,24 @@
 (function(window) {
     var document = window.document;
-    function LazyTable(cssId, count, fetchRowsFunc, fetchTemplateRowFunc) {
+    function LazyTable(cssId, count, fetchRowsFunc, fetchTemplateRowFunc, saveFieldFunc) {
         this._cssId = cssId;
         this._fetchRowsFunc = fetchRowsFunc;
         this._fetchTemplateRowFunc = fetchTemplateRowFunc;
         this._fetchedRows = [];
         this._count = count;
-        this._headerCellRenderFunc = LazyTable._renderHeaderCell;
-        this._bodyCellRenderFunc = LazyTable._renderBodyCell;
+        this._headerCellRenderFunc = CellRenderer.renderHeaderCell;
+        this._bodyCellRenderFunc = CellRenderer.renderBodyCell;
+        this._saveFieldFunc = saveFieldFunc;
         this._shouldCheckScroll = true;
 
         var inputDimensions = this._getDefaultInputDimensions();
         this._rowHeight = inputDimensions.height + 2;
         this._cellWidth = inputDimensions.width + 4;
         this._rowWidth = 1000;
-        this._scrollTimeoutMsec = 100;
+        this._scrollTimeoutMsec = 10;
 
         this._lastScrollTop = null;
         this._screenSizeGraceRows = 10;
-
-
-
     }
 
     LazyTable.prototype.constructor = LazyTable;
@@ -100,17 +98,14 @@
         if ( this._shouldCheckScroll ) {
             this._shouldCheckScroll = false;
             window.setTimeout(function() {
-                this._innerScrollTo(jQuery(this._viewportEl).scrollTop());
+                this._innerScrollTo(jQuery(this._viewportEl).scrollTop(), scrollLeft);
                 this._shouldCheckScroll = true;
             }.bind(this), this._scrollTimeoutMsec);
         }
 
-        // TODO I have no clue why the following formula seems to work...!
-        var headerLeft = ( jQuery(this._tableEl).offset().left - scrollLeft / (2 * this._templateRow.fields.length * this._templateRow.fields.length) );
-        jQuery(this._headerRowEl).css({ left: headerLeft + 'px' });
     };
 
-    LazyTable.prototype._innerScrollTo = function(scrollTop) {
+    LazyTable.prototype._innerScrollTo = function(scrollTop, scrollLeft) {
         if ( this._lastScrollTop === scrollTop ) {
             var startIdx = Math.round(scrollTop / this._rowHeight);
             var fetchStartIdx = Math.max(startIdx - this._screenSizeGraceRows, 0)
@@ -121,6 +116,9 @@
                 this._emptyCache(startIdx);
             }.bind(this));
         }
+        // TODO I have no clue why the following formula seems to work...!
+        var headerLeft = ( jQuery(this._tableEl).offset().left - scrollLeft / (2 * this._templateRow.fields.length * this._templateRow.fields.length) );
+        jQuery(this._headerRowEl).css({ left: headerLeft + 'px' });
     };
 
     LazyTable.prototype._emptyCache = function(startIdx) {
@@ -224,15 +222,76 @@
         jQuery(el).css({ 'min-height': height + 'px', 'height': height + 'px', 'max-height': height  + 'px'});
     };
 
-    LazyTable._renderHeaderCell = function(el, fieldIdx, field) {
-        jQuery(el).html(field.name);
+    ///////////////////////////////////
+
+    function CellRenderer() {}
+
+    CellRenderer.Editable = function() {}
+
+    CellRenderer.NonEditable = function() {}
+
+    CellRenderer.renderHeaderCell = function(el, fieldIdx, field) {
+        jQuery(el).html(field.label);
     };
 
-    LazyTable._renderBodyCell = function(el, rowIdx, fieldIdx, field) {
+    CellRenderer.renderBodyCell = function(el, rowIdx, fieldIdx, field) {
+        var matrixLine = _(CellRenderer.BodyCellRenderingMatrix).find(function(desc) {
+            var rv = ( desc.isEditable === field.isEditable || desc.isEditable === null )
+                && ( desc.className === null || desc.className.toString() === field.className.toString() )
+                && ( desc.dataType === field.dataType || desc.dataType === null);
+                // console.log('matrix find', field.name, desc, rv);
+            return rv;
+        });
+
+        if ( typeof(matrixLine) === 'undefined' ) {
+            console.error('matrixLine not found', field);
+            throw new Error('matrixLine not found for field ' + field.name);
+        }
+        matrixLine.func.bind(this)(el, rowIdx, fieldIdx, field);
+    };
+
+    CellRenderer.Editable.renderStringField = function(el, rowIdx, fieldIdx, field) {
+        var input = jQuery('<input type="text" id="' + this._getFieldId + '" name="' + field.name + '" value="' + field.value + '" />');
+        jQuery(input).addClass('edit');
+        jQuery(el).append(input);
+        var self = this;
+        jQuery(input).change(function() {
+            self._saveFieldFunc({ id: self._fetchedRows[rowIdx].id, field: { name: field.name, value: jQuery(this).val() }}).done(function(resp) { console.log(resp); });
+        });
+    };
+
+    CellRenderer.Editable.renderBoolField = function(el, rowIdx, fieldIdx, field) {
+        var inner = jQuery('<div/>');
+        inner.addClass('bool');
+        var input = jQuery('<input type="checkbox" id="' + this._getFieldId + '" name="' + field.name + '" value="' + (field.value ? 'checked="checked"' : '' )+ ' />');
+        inner.append(input);
+        jQuery(el).append(inner);
+    };
+
+    CellRenderer.NonEditable.renderStringField = function(el, rowIdx, fieldIdx, field) {
         jQuery(el).html(field.value);
     };
 
+    CellRenderer.NonEditable.renderNumberField = function(el, rowIdx, fieldIdx, field) {
+        var inner = jQuery('<div/>');
+        inner.html(field.value);
+        inner.addClass('number');
+        jQuery(el).append(inner);
+    };
 
+    CellRenderer._getFieldId = function(el, rowIdx, fieldIdx, field) {
+        return 'edit-' + field.name + '-' + rowIdx + '-' + fieldIdx;
+    };
+
+    CellRenderer.BodyCellRenderingMatrix = [
+        { isEditable: true, className: 'Field', dataType: 'string', func: CellRenderer.Editable.renderStringField },
+        { isEditable: true, className: 'Field', dataType: 'int', func: CellRenderer.Editable.renderStringField },
+        { isEditable: null, className: 'Field', dataType: 'bool', func: CellRenderer.Editable.renderBoolField },
+        { isEditable: false, className: 'Field', dataType: 'string', func: CellRenderer.NonEditable.renderStringField },
+        { isEditable: false, className: 'Field', dataType: 'int', func: CellRenderer.NonEditable.renderNumberField },
+        { isEditable: null, className: null, dataType: null, func: CellRenderer.NonEditable.renderStringField },
+        // TODO: date, (time), options, lookup
+    ];
 
     window.LazyTable = LazyTable;
 })(window);
