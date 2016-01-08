@@ -17,6 +17,12 @@
         this._rowWidth = 1000;
         this._scrollTimeoutMsec = 10;
 
+        // largest tables:
+        // firefox - 17895697px
+        // chrome -- larger than ff!
+        // ie - 10737418px
+
+        this._maxTableHeight = 10737418;
         this._lastScrollTop = null;
         this._screenSizeGraceRows = 10;
     }
@@ -40,6 +46,7 @@
             return dfd;
         }.bind(this)).done(function() {
             this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative',  });
+            jQuery(this._tableEl).change(function(ev) { console.log('change!', ev); alert('change');});
             LazyTable.allWidths(this._tableEl, this._rowWidth);
             LazyTable.allHeights(this._tableEl, (this._rowHeight * (this._count + 1)));
 
@@ -247,6 +254,10 @@
             console.error('matrixLine not found', field);
             throw new Error('matrixLine not found for field ' + field.name);
         }
+        if ( matrixLine.func === undefined ) {
+            console.error('matrixLine func is undef:', field, matrixLine);
+            throw new Error('matrixLine func is undef' + field.name);
+        }
         matrixLine.func.bind(this)(el, rowIdx, fieldIdx, field);
     };
 
@@ -260,13 +271,33 @@
         });
     };
 
+    /**
+     * also handles noneditable
+     */
     CellRenderer.Editable.renderBoolField = function(el, rowIdx, fieldIdx, field) {
         var inner = jQuery('<div/>');
         inner.addClass('bool');
-        var input = jQuery('<input type="checkbox" id="' + this._getFieldId + '" name="' + field.name + '" value="' + (field.value ? 'checked="checked"' : '' )+ ' />');
+        var input = jQuery('<input type="checkbox" id="' + this._getFieldId + '" name="' + field.name + '" value="1"' + (field.value ? ' checked="checked"' : '' )+ ' />');
         inner.append(input);
+        if ( !field.isEditable ) {
+            jQuery(input).attr('disabled', 'disabled');
+        }
         jQuery(el).append(inner);
     };
+
+    CellRenderer.Editable.renderEnumField = function(el, rowIdx, fieldIdx, field) {
+        var inner = jQuery('<div/>');
+        inner.addClass('enum');
+        var html = '<select id="' + this._getFieldId + '" name="' + field.name + '">';
+        html += _(field.options).map(function(o) { 
+            return '<option value="' + o.value + '"' + (field.value === o.value ? ' selected="selected"' : '') + '>' + o.label + '</option>'; 
+        }).join('');
+        inner.html(html);
+
+        jQuery(el).append(inner);
+    };
+
+
 
     CellRenderer.NonEditable.renderStringField = function(el, rowIdx, fieldIdx, field) {
         jQuery(el).html(field.value);
@@ -286,10 +317,12 @@
     CellRenderer.BodyCellRenderingMatrix = [
         { isEditable: true, className: 'Field', dataType: 'string', func: CellRenderer.Editable.renderStringField },
         { isEditable: true, className: 'Field', dataType: 'int', func: CellRenderer.Editable.renderStringField },
+        { isEditable: true, className: 'Field', dataType: 'int', func: CellRenderer.Editable.renderStringField },
+        { isEditable: true, className: 'EnumField', dataType: null, func: CellRenderer.Editable.renderEnumField },
         { isEditable: null, className: 'Field', dataType: 'bool', func: CellRenderer.Editable.renderBoolField },
         { isEditable: false, className: 'Field', dataType: 'string', func: CellRenderer.NonEditable.renderStringField },
         { isEditable: false, className: 'Field', dataType: 'int', func: CellRenderer.NonEditable.renderNumberField },
-        { isEditable: null, className: null, dataType: null, func: CellRenderer.NonEditable.renderStringField },
+        { isEditable: null, className: null, dataType: null, func: CellRenderer.NonEditable.renderStringField }, // fallback
         // TODO: date, (time), options, lookup
     ];
 

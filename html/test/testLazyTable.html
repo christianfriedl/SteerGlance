@@ -7,8 +7,8 @@
         <script type="text/javascript" src="../../js/client/Util.js"></script> <!-- functional -->
         <script type="text/javascript">
             var rows = [];
-            var rowCount = 100;
-            var cols = 50;
+            var rowCount = 1000000;
+            var cols = 5;
             jQuery(document).ready(function() {
                 var t = new LazyTable('ui', rowCount, fetch, fetchTemplate, saveField);
                 t.render();
@@ -18,7 +18,9 @@
                 var row = { fields: [ 
                         { name: 'id', label: 'ID' },
                         {  name: 'name', label: 'Name' },
-                        {  name: 'isOverdue', label: 'Is Overdue' },
+                        {  name: 'isOverdue', label: 'Is Overdue - editable' },
+                        {  name: 'isResident', label: 'Is Resident - noneditable' },
+                        {  name: 'alliance', label: 'Alliance - noneditable' },
                 ] };
                 for (var j=0; j < cols; ++j) {
                     row.fields.push({ name: 'field' + j });
@@ -51,9 +53,35 @@
                                 name: 'isOverdue', 
                                 className:  'Field',
                                 dataType:  'bool',
-                                value: true,
+                                value: Math.random() > 0.5,
                                 isEditable:  true,
                                 isRequired:  false,
+                            },
+                            { 
+                                name: 'isResident', 
+                                className:  'Field',
+                                dataType:  'bool',
+                                value: Math.random() > 0.5,
+                                isEditable:  false,
+                                isRequired:  false,
+                            },
+                            { 
+                                name: 'group', 
+                                className:  'EnumField',
+                                dataType:  'string',
+                                value: Math.random() > 0.5 ? 'normal' : 'competition',
+                                isEditable:  true,
+                                isRequired:  false,
+                                options: [{ value: 'competition', label: 'Competition' }, { value: 'normal', label: 'Normal' }],
+                            },
+                            { 
+                                name: 'alliance', 
+                                className:  'EnumField',
+                                dataType:  'string',
+                                value: Math.random() > 0.5 ? 'normal' : 'competition',
+                                isEditable:  false,
+                                isRequired:  false,
+                                options: [{ value: 'competition', label: 'Competition' }, { value: 'normal', label: 'Normal' }],
                             },
                     ] };
                     for (var j=0; j < cols; ++j) {

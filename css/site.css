@@ -77,6 +77,6 @@
 .lazy-table .body.cell .number {
     text-align: right;
 }
-.lazy-table .body.cell .bool {
+.lazy-table .body.cell .enum, .lazy-table .body.cell .bool {
     text-align: center;
 }
