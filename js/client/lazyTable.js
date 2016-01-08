@@ -15,17 +15,16 @@
         this._rowHeight = inputDimensions.height + 2;
         this._cellWidth = inputDimensions.width + 4;
         this._rowWidth = 1000;
-        this._scrollTimeoutMsec = 10;
+        this._scrollTimeoutMsec = 100;
 
-        // largest tables:
-        // firefox - 17895697px
-        // chrome -- larger than ff!
-        // ie - 10737418px
+        // largest possible div height:
+        //      firefox - 17895697px
+        //      chrome -- larger than ff!
+        //      ie - 10737418px
 
-        this._maxTableHeight = 10000;
-        // this._maxTableHeight = 10737418;
+        this._maxTableHeight = 10737418;
         this._heightIsOverflowed = (count * this._rowHeight > this._maxTableHeight);
-        console.log('_heightIsOverflowed', this._heightIsOverflowed, 'count', count, 'maxheight', this._maxTableHeight, 'height', count * this._rowHeight);
+        // console.log('_heightIsOverflowed', this._heightIsOverflowed, 'count', count, 'maxheight', this._maxTableHeight, 'height', count * this._rowHeight);
         this._lastScrollTop = null;
         this._screenSizeGraceRows = 10;
     }
@@ -130,7 +129,6 @@
             this._fetchData(fetchStartIdx, fetchCount, function(startIdx, rows) {
                 this._mergeFetchedRows(startIdx, rows);
                 (function(callback) {
-                    console.log('in anon');
                     if ( this._heightIsOverflowed ) {
                         this._fetchData(this._count - fetchCount, fetchCount, callback);
                     } else {
@@ -138,7 +136,7 @@
                     }
                 }(function() {
                     this._renderFetchedRows();
-                    // this._emptyCache(startIdx);
+                    this._emptyCache(startIdx);
                 }.bind(this)));
             }.bind(this));
         }
