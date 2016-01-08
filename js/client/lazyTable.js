@@ -20,7 +20,6 @@
         //      ie - 10737418px
 
         this._maxTableHeight = 10737418;
-        // console.log('_heightIsOverflowed', this._heightIsOverflowed, 'count', count, 'maxheight', this._maxTableHeight, 'height', count * this._rowHeight);
         this._lastScrollTop = null;
         this._screenSizeGraceRows = 10;
     }
@@ -54,6 +53,8 @@
             this._cellWidth = inputDimensions.width + 4;
             var count = this._count;
             this._heightIsOverflowed = (count * this._rowHeight > this._maxTableHeight);
+            this._heightIsOverflowed = false;
+        console.log('_heightIsOverflowed', this._heightIsOverflowed);
             this._rowWidth = this._templateRow.fields.length * (this._cellWidth + 2);
             LazyTable.allWidths(this._tableEl, this._rowWidth);
             if ( this._heightIsOverflowed ) {
@@ -200,7 +201,6 @@
                 var topPx = (5 + (rowIdx + 1) * this._rowHeight) + 'px';
                 if ( this._heightIsOverflowed && rowIdx >= this._count * 0.9) {
                     topPx = (5 + jQuery(this._tableEl).height() - ((this._count - rowIdx + 1) * this._rowHeight)) + 'px';
-                    // console.log('calc alternate', jQuery(this._tableEl).height(), this._count, rowIdx, this._rowHeight, '->', topPx);
                 }
                 var rowCss = { 
                         top: topPx,
