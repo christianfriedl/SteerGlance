@@ -22,8 +22,8 @@
         // chrome -- larger than ff!
         // ie - 10737418px
 
-        // this._maxTableHeight = 80000;
-        this._maxTableHeight = 10737418;
+        this._maxTableHeight = 10000;
+        // this._maxTableHeight = 10737418;
         this._heightIsOverflowed = (count * this._rowHeight > this._maxTableHeight);
         console.log('_heightIsOverflowed', this._heightIsOverflowed, 'count', count, 'maxheight', this._maxTableHeight, 'height', count * this._rowHeight);
         this._lastScrollTop = null;
@@ -120,19 +120,26 @@
                 console.log('startIdx old', startIdx);
                 startIdx = Math.round(scrollTop / jQuery(this._tableEl).height() * this._count);
                 console.log('startIdx new', startIdx);
-                /*
                 if ( startIdx >= this._count * 0.9 ) {
-                    startIdx = this.count - this._viewportRows();
+                    startIdx = this._count - this._viewportRows();
                     console.log('startIdx very new', startIdx);
                 }
-                */
             }
             var fetchStartIdx = Math.max(startIdx - this._screenSizeGraceRows, 0)
             var fetchCount = Math.min(this._viewportRows() + 2 * this._screenSizeGraceRows, this._count - fetchStartIdx) + 1;
             this._fetchData(fetchStartIdx, fetchCount, function(startIdx, rows) {
                 this._mergeFetchedRows(startIdx, rows);
-                this._renderFetchedRows();
-                this._emptyCache(startIdx);
+                (function(callback) {
+                    console.log('in anon');
+                    if ( this._heightIsOverflowed ) {
+                        this._fetchData(this._count - fetchCount, fetchCount, callback);
+                    } else {
+                        callback();
+                    }
+                }(function() {
+                    this._renderFetchedRows();
+                    // this._emptyCache(startIdx);
+                }.bind(this)));
             }.bind(this));
         }
         // TODO I have no clue why the following formula seems to work...!
@@ -169,8 +176,13 @@
             if ( typeof(rows[rowIdx]) !== 'undefined' ) {
                 //console.log('render', rowIdx);
                 var fieldsLength = rows[rowIdx].fields.length;
+                var topPx = (5 + (rowIdx + 1) * this._rowHeight) + 'px';
+                if ( this._heightIsOverflowed && rowIdx >= this._count * 0.9) {
+                    topPx = (5 + jQuery(this._tableEl).height() - ((this._count - rowIdx + 1) * this._rowHeight)) + 'px';
+                    console.log('calc alternate', jQuery(this._tableEl).height(), this._count, rowIdx, this._rowHeight, '->', topPx);
+                }
                 var rowCss = { 
-                        top: (5 + (rowIdx + 1) * this._rowHeight) + 'px',
+                        top: topPx,
                         left: 0,
                         position: 'absolute',
                         overflow: 'hidden'
