@@ -36,6 +36,7 @@
      * initial rendering
      */
     LazyTable.prototype.render = function() {
+        var self = this;
         this._fetchTemplateRowFunc(function(error, row) {
             this._templateRow = row;
             this._viewportEl = jQuery('#' + this._cssId);
@@ -92,6 +93,27 @@
                 this._renderFetchedRows();
             }.bind(this)); // TODO interface to outside for templaterow -- we need it now for code below
         }.bind(this));
+
+        jQuery(this._tableEl).change(function(ev) {
+            var value;
+            console.log('change', ev);
+            var input = ev.target;
+            var id = jQuery(input).attr('id');
+            console.log('changeid', id);
+            var parts = id.split('-');
+            var rowIdx = parts[2];
+            var fieldIdx = parts[3];
+
+            var field = self._fetchedRows[rowIdx].fields[fieldIdx];
+
+
+            if ( jQuery(input).attr('type') === 'checkbox' ) {
+                value = jQuery(input).prop('checked');
+            } else {
+                value = jQuery(input).val();
+            }
+            self._saveFieldFunc({ id: self._fetchedRows[rowIdx].id, field: { name: field.name, value: value }}, function(resp) { console.log(resp); });
+        });
     };
 
     LazyTable.prototype._viewportRows = function() {
@@ -196,8 +218,14 @@
                 } else {
                     jQuery(this._tableEl).append(rowDiv);
                 }
-                for ( var fieldIdx = 0; fieldIdx < fieldsLength; ++fieldIdx ) {
-                    this._renderCell(rowDiv[0], rowIdx, fieldIdx, fields[fieldIdx]);
+                var tableWidth = jQuery(this._viewportEl).width();
+                var fieldIdx = 0;
+                var lastEl = null;
+                var vEl = jQuery(this._viewportEl);
+                var vElWidth = vEl.width();
+                while ( fieldIdx === 0 || (fieldIdx > 0 && fieldIdx < fieldsLength && lastEl.offsetLeft <= vEl.scrollLeft() + vElWidth) ) {
+                    lastEl = this._renderCell(rowDiv[0], rowIdx, fieldIdx, fields[fieldIdx]);
+                    ++fieldIdx;
                 }
             }
         }
@@ -210,7 +238,7 @@
         var css = { 
         };
         var div = document.createElement('div');
-        div.setAttribute('id', 'cell-' + fieldIdx);
+        div.setAttribute('id', 'cell-' + rowIdx + '-' + fieldIdx);
         var divClass = 'body cell';
         if ( fieldIdx === this._templateRow.fields.length - 1 ) {
             divClass += ' last';
@@ -228,6 +256,7 @@
         div.style.height = this._rowHeight + 'px';
         rowDiv.appendChild(div);
         this._bodyCellRenderFunc(div, rowIdx, fieldIdx, field);
+        return div;
     };
 
     LazyTable.prototype._mergeFetchedRows = function(startIdx, rows) {
@@ -289,16 +318,6 @@
             throw new Error('matrixLine func is undef' + field.name);
         }
         var input = matrixLine.func.bind(this)(el, rowIdx, fieldIdx, field);
-        var self = this;
-        jQuery(input).change(function() {
-            var value;
-            if ( jQuery(this).attr('type') === 'checkbox' ) {
-                value = jQuery(this).prop('checked');
-            } else {
-                value = jQuery(this).val();
-            }
-            self._saveFieldFunc({ id: self._fetchedRows[rowIdx].id, field: { name: field.name, value: value }}, function(resp) { console.log(resp); });
-        });
     };
 
     CellRenderer.Editable.renderStringField = function(el, rowIdx, fieldIdx, field) {
