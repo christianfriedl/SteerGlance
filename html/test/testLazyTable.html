@@ -19,6 +19,7 @@
                 var row = { fields: [ 
                         { name: 'id', label: 'ID' },
                         {  name: 'name', label: 'Name' },
+                        {  name: 'name2', label: 'Name 2' },
                         {  name: 'isOverdue', label: 'Is Overdue - editable' },
                         {  name: 'isResident', label: 'Is Resident - noneditable' },
                         {  name: 'group', label: 'Group - editable' },
@@ -47,6 +48,14 @@
                                 className:  'Field',
                                 dataType:  'string',
                                 value: 'name' + i,  
+                                isEditable:  true,
+                                isRequired:  true,
+                            },
+                            { 
+                                name: 'name2', 
+                                className:  'Field',
+                                dataType:  'string',
+                                value: 'name2 ' + i,  
                                 isEditable:  true,
                                 isRequired:  true,
                             },

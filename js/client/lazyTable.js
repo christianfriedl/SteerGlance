@@ -46,7 +46,7 @@
             jQuery(this._viewportEl).scroll(scrollFunc);
             jQuery(this._viewportEl).resize(scrollFunc);
             this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative',  }).addClass('lazy-table');
-            jQuery(this._tableEl).change(function(ev) { console.log('change!', ev); alert('change');});
+            // jQuery(this._tableEl).change(function(ev) { console.log('change!', ev); alert('change');});
             jQuery(this._viewportEl).append(this._tableEl);
             var inputDimensions = this._getDefaultInputDimensions(); // depends on tableEl!
             this._rowHeight = inputDimensions.height + 2;
@@ -154,12 +154,10 @@
         var keepStart = Math.max(0, Math.min(startIdx - 2 * this._screenSizeGraceRows));
         var keepEnd = Math.min(this._count, startIdx + this._viewportRows() + 2 * this._screenSizeGraceRows);
         for (i = 0; i < keepStart; ++i) {
-            //console.log('remove', i);
             delete this._fetchedRows[i];
             jQuery('#row-' + i).remove();
         }
         for (i = keepEnd; i < count; ++i) {
-            //console.log('remove', i);
             delete this._fetchedRows[i];
             jQuery('#row-' + i).remove();
         }
@@ -178,7 +176,7 @@
                 var topPx = (5 + (rowIdx + 1) * this._rowHeight) + 'px';
                 if ( this._heightIsOverflowed && rowIdx >= this._count * 0.9) {
                     topPx = (5 + jQuery(this._tableEl).height() - ((this._count - rowIdx + 1) * this._rowHeight)) + 'px';
-                    console.log('calc alternate', jQuery(this._tableEl).height(), this._count, rowIdx, this._rowHeight, '->', topPx);
+                    // console.log('calc alternate', jQuery(this._tableEl).height(), this._count, rowIdx, this._rowHeight, '->', topPx);
                 }
                 var rowCss = { 
                         top: topPx,
@@ -291,17 +289,24 @@
             console.error('matrixLine func is undef:', field, matrixLine);
             throw new Error('matrixLine func is undef' + field.name);
         }
-        matrixLine.func.bind(this)(el, rowIdx, fieldIdx, field);
+        var input = matrixLine.func.bind(this)(el, rowIdx, fieldIdx, field);
+        var self = this;
+        jQuery(input).change(function() {
+            var value;
+            if ( jQuery(this).attr('type') === 'checkbox' ) {
+                value = jQuery(this).prop('checked');
+            } else {
+                value = jQuery(this).val();
+            }
+            self._saveFieldFunc({ id: self._fetchedRows[rowIdx].id, field: { name: field.name, value: value }}, function(resp) { console.log(resp); });
+        });
     };
 
     CellRenderer.Editable.renderStringField = function(el, rowIdx, fieldIdx, field) {
-        var input = jQuery('<input type="text" id="' + this._getFieldId + '" name="' + field.name + '" value="' + field.value + '" />');
+        var input = jQuery('<input type="text" id="' + CellRenderer._getFieldId(rowIdx, fieldIdx, field) + '" name="' + field.name + '" value="' + field.value + '" />');
         jQuery(input).addClass('edit');
         jQuery(el).append(input);
-        var self = this;
-        jQuery(input).change(function() {
-            self._saveFieldFunc({ id: self._fetchedRows[rowIdx].id, field: { name: field.name, value: jQuery(this).val() }}, function(resp) { console.log(resp); });
-        });
+        return input;
     };
 
     /**
@@ -310,24 +315,26 @@
     CellRenderer.Editable.renderBoolField = function(el, rowIdx, fieldIdx, field) {
         var inner = jQuery('<div/>');
         inner.addClass('bool');
-        var input = jQuery('<input type="checkbox" id="' + this._getFieldId + '" name="' + field.name + '" value="1"' + (field.value ? ' checked="checked"' : '' )+ ' />');
+        var input = jQuery('<input type="checkbox" id="' + CellRenderer._getFieldId(rowIdx, fieldIdx, field) + '" name="' + field.name + '" value="1"' + (field.value ? ' checked="checked"' : '' )+ ' />');
         inner.append(input);
         if ( !field.isEditable ) {
             jQuery(input).attr('disabled', 'disabled');
         }
         jQuery(el).append(inner);
+        return input;
     };
 
     CellRenderer.Editable.renderEnumField = function(el, rowIdx, fieldIdx, field) {
         var inner = jQuery('<div/>');
         inner.addClass('enum');
-        var html = '<select id="' + this._getFieldId + '" name="' + field.name + '">';
+        var html = '<select id="' + CellRenderer._getFieldId(rowIdx, fieldIdx, field) + '" name="' + field.name + '">';
         html += _(field.options).map(function(o) { 
             return '<option value="' + o.value + '"' + (field.value === o.value ? ' selected="selected"' : '') + '>' + o.label + '</option>'; 
         }).join('');
         inner.html(html);
 
         jQuery(el).append(inner);
+        return jQuery('#' + CellRenderer._getFieldId(rowIdx, fieldIdx, field));
     };
 
 
@@ -343,7 +350,7 @@
         jQuery(el).append(inner);
     };
 
-    CellRenderer._getFieldId = function(el, rowIdx, fieldIdx, field) {
+    CellRenderer._getFieldId = function(rowIdx, fieldIdx, field) {
         return 'edit-' + field.name + '-' + rowIdx + '-' + fieldIdx;
     };
 
