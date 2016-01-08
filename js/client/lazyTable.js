@@ -11,9 +11,6 @@
         this._saveFieldFunc = saveFieldFunc;
         this._shouldCheckScroll = true;
 
-        var inputDimensions = this._getDefaultInputDimensions();
-        this._rowHeight = inputDimensions.height + 2;
-        this._cellWidth = inputDimensions.width + 4;
         this._rowWidth = 1000;
         this._scrollTimeoutMsec = 100;
 
@@ -23,7 +20,6 @@
         //      ie - 10737418px
 
         this._maxTableHeight = 10737418;
-        this._heightIsOverflowed = (count * this._rowHeight > this._maxTableHeight);
         // console.log('_heightIsOverflowed', this._heightIsOverflowed, 'count', count, 'maxheight', this._maxTableHeight, 'height', count * this._rowHeight);
         this._lastScrollTop = null;
         this._screenSizeGraceRows = 10;
@@ -42,9 +38,22 @@
     LazyTable.prototype.render = function() {
         this._fetchTemplateRowFunc(function(error, row) {
             this._templateRow = row;
-            this._rowWidth = this._templateRow.fields.length * (this._cellWidth + 2);
+            this._viewportEl = jQuery('#' + this._cssId);
+            this._viewportEl.addClass('viewport');
+            jQuery(this._viewportEl).css({ height: '100%', position: 'relative', width: '100%', overflow: 'scroll' });
+            jQuery(this._viewportEl).attr('id', 'myid');
+            var scrollFunc = function() { this._scrollTo(jQuery(this._viewportEl).scrollTop(), jQuery(this._viewportEl).scrollLeft()); }.bind(this);
+            jQuery(this._viewportEl).scroll(scrollFunc);
+            jQuery(this._viewportEl).resize(scrollFunc);
             this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative',  }).addClass('lazy-table');
             jQuery(this._tableEl).change(function(ev) { console.log('change!', ev); alert('change');});
+            jQuery(this._viewportEl).append(this._tableEl);
+            var inputDimensions = this._getDefaultInputDimensions(); // depends on tableEl!
+            this._rowHeight = inputDimensions.height + 2;
+            this._cellWidth = inputDimensions.width + 4;
+            var count = this._count;
+            this._heightIsOverflowed = (count * this._rowHeight > this._maxTableHeight);
+            this._rowWidth = this._templateRow.fields.length * (this._cellWidth + 2);
             LazyTable.allWidths(this._tableEl, this._rowWidth);
             if ( this._heightIsOverflowed ) {
                 LazyTable.allHeights(this._tableEl, this._maxTableHeight);
@@ -74,14 +83,6 @@
                 this._headerCellRenderFunc(el, i, this._templateRow.fields[i]);
             }
 
-            this._viewportEl = jQuery('#' + this._cssId);
-            this._viewportEl.addClass('viewport');
-            jQuery(this._viewportEl).css({ height: '100%', position: 'relative', width: '100%', overflow: 'scroll' });
-            jQuery(this._viewportEl).attr('id', 'myid');
-            var scrollFunc = function() { this._scrollTo(jQuery(this._viewportEl).scrollTop(), jQuery(this._viewportEl).scrollLeft()); }.bind(this);
-            jQuery(this._viewportEl).scroll(scrollFunc);
-            jQuery(this._viewportEl).resize(scrollFunc);
-            jQuery(this._viewportEl).append(this._tableEl);
             jQuery(this._headerRowEl).css({
                 top: (jQuery(this._tableEl).offset().top),
                 left: (jQuery(this._tableEl).offset().left)
@@ -225,6 +226,9 @@
         } else {
             jQuery(el).addClass('odd');
         }
+        if ( field.isEditable ) {
+            jQuery(el).addClass('editable');
+        }
         jQuery(div).append(el);
         this._bodyCellRenderFunc(el, rowIdx, fieldIdx, field);
     };
@@ -237,7 +241,11 @@
     };
 
     LazyTable.prototype._getDefaultInputDimensions = function() {
-        return { width: 200, height: 25 };
+        var input = jQuery('<input type="text"/>');
+        jQuery(this._tableEl).append(input);
+        var rv= { width: jQuery(input).width(), height: jQuery(input).height() };
+        jQuery(input).remove();
+        return rv;
     };
 
     /////////////////////////
