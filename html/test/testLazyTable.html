@@ -7,8 +7,9 @@
         <script type="text/javascript" src="../../js/client/Util.js"></script> <!-- functional -->
         <script type="text/javascript">
             var rows = [];
+            // var rowCount = 10000000;
             var rowCount = 1000000;
-            var cols = 5;
+            var cols = 50;
             jQuery(document).ready(function() {
                 var t = new LazyTable('ui', rowCount, fetch, fetchTemplate, saveField);
                 t.render();
@@ -20,6 +21,7 @@
                         {  name: 'name', label: 'Name' },
                         {  name: 'isOverdue', label: 'Is Overdue - editable' },
                         {  name: 'isResident', label: 'Is Resident - noneditable' },
+                        {  name: 'group', label: 'Group - editable' },
                         {  name: 'alliance', label: 'Alliance - noneditable' },
                 ] };
                 for (var j=0; j < cols; ++j) {

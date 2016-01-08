@@ -22,7 +22,10 @@
         // chrome -- larger than ff!
         // ie - 10737418px
 
+        // this._maxTableHeight = 80000;
         this._maxTableHeight = 10737418;
+        this._heightIsOverflowed = (count * this._rowHeight > this._maxTableHeight);
+        console.log('_heightIsOverflowed', this._heightIsOverflowed, 'count', count, 'maxheight', this._maxTableHeight, 'height', count * this._rowHeight);
         this._lastScrollTop = null;
         this._screenSizeGraceRows = 10;
     }
@@ -45,21 +48,21 @@
             dfd.resolve();
             return dfd;
         }.bind(this)).done(function() {
-            this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative',  });
+            this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative',  }).addClass('lazy-table');
             jQuery(this._tableEl).change(function(ev) { console.log('change!', ev); alert('change');});
             LazyTable.allWidths(this._tableEl, this._rowWidth);
-            LazyTable.allHeights(this._tableEl, (this._rowHeight * (this._count + 1)));
+            if ( this._heightIsOverflowed ) {
+                LazyTable.allHeights(this._tableEl, this._maxTableHeight);
+            } else {
+                LazyTable.allHeights(this._tableEl, (this._rowHeight * (this._count + 1)));
+            }
 
             var headerRowCss = { 
-                    height: this._rowHeight + 'px',
-                    position: 'fixed',
-                    'z-index': 1,
-                    border: '1px solid green',
-                    overflow: 'hidden'
+                    height: (this._rowHeight + 4) + 'px',
             };
             this._headerRowEl = jQuery('<div>').attr('id', 'header-row').css(headerRowCss);
             LazyTable.allWidths(this._headerRowEl, this._rowWidth);
-            jQuery(this._headerRowEl).addClass('header-row');
+            jQuery(this._headerRowEl).addClass('header row');
             this._tableEl.append(this._headerRowEl);
             for (var i=0; i < this._templateRow.fields.length; ++i ) {
                 var css = { 
@@ -77,7 +80,7 @@
             }
 
             this._viewportEl = jQuery('#' + this._cssId);
-            this._viewportEl.addClass('lazy-table viewport');
+            this._viewportEl.addClass('viewport');
             jQuery(this._viewportEl).css({ height: '100%', position: 'relative', width: '100%', overflow: 'scroll' });
             jQuery(this._viewportEl).attr('id', 'myid');
             var scrollFunc = function() { this._scrollTo(jQuery(this._viewportEl).scrollTop(), jQuery(this._viewportEl).scrollLeft()); }.bind(this);
@@ -114,7 +117,20 @@
 
     LazyTable.prototype._innerScrollTo = function(scrollTop, scrollLeft) {
         if ( this._lastScrollTop === scrollTop ) {
+            console.log('scroll to ', scrollTop, 'of', jQuery(this._tableEl).height());
+
             var startIdx = Math.round(scrollTop / this._rowHeight);
+            if (this._heightIsOverflowed ) {
+                console.log('startIdx old', startIdx);
+                startIdx = Math.round(scrollTop / jQuery(this._tableEl).height() * this._count);
+                console.log('startIdx new', startIdx);
+                /*
+                if ( startIdx >= this._count * 0.9 ) {
+                    startIdx = this.count - this._viewportRows();
+                    console.log('startIdx very new', startIdx);
+                }
+                */
+            }
             var fetchStartIdx = Math.max(startIdx - this._screenSizeGraceRows, 0)
             var fetchCount = Math.min(this._viewportRows() + 2 * this._screenSizeGraceRows, this._count - fetchStartIdx) + 1;
             this._fetchData(fetchStartIdx, fetchCount, function(startIdx, rows) {
@@ -152,12 +168,13 @@
         var rows = this._fetchedRows;
         var rowsLength = rows.length;
         var rowIdx, fieldIdx;
+        Timer.start('_renderFetchedRows');
         for ( rowIdx = 0; rowIdx  < rowsLength; ++rowIdx ) {
             if ( typeof(rows[rowIdx]) !== 'undefined' ) {
                 //console.log('render', rowIdx);
                 var fieldsLength = rows[rowIdx].fields.length;
                 var rowCss = { 
-                        top: ((rowIdx + 1) * this._rowHeight) + 'px',
+                        top: (5 + (rowIdx + 1) * this._rowHeight) + 'px',
                         left: 0,
                         position: 'absolute',
                         overflow: 'hidden'
@@ -177,6 +194,8 @@
                 }
             }
         }
+        Timer.end('_renderFetchedRows');
+        Timer.log('_renderFetchedRows');
     };
 
     LazyTable.prototype._renderCell = function(div, rowIdx, fieldIdx, field) {
@@ -325,6 +344,23 @@
         { isEditable: null, className: null, dataType: null, func: CellRenderer.NonEditable.renderStringField }, // fallback
         // TODO: date, (time), options, lookup
     ];
+
+
+    Timer = {
+        times: {},
+        start: function(name) {
+            Timer.times[name] = { start: new Date(), end: null, diffMsec: null };
+        },
+        end: function(name) {
+            var time = Timer.times[name];
+            time.end = new Date();
+            time.diffMsec = time.end - time.start;
+        },
+        log: function(name) {
+            var time = Timer.times[name];
+            console.log('Timer', name, 'diffMsec', time.diffMsec);
+        }
+    };
 
     window.LazyTable = LazyTable;
 })(window);
