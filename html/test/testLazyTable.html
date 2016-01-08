@@ -8,14 +8,13 @@
         <script type="text/javascript">
             var rows = [];
             // var rowCount = 10000000;
-            var rowCount = 1000000;
+            var rowCount = 1000;
             var cols = 50;
             jQuery(document).ready(function() {
                 var t = new LazyTable('ui', rowCount, fetch, fetchTemplate, saveField);
                 t.render();
             });
-            function fetchTemplate() {
-                var dfd = jQuery.Deferred();
+            function fetchTemplate(callback) {
                 var row = { fields: [ 
                         { name: 'id', label: 'ID' },
                         {  name: 'name', label: 'Name' },
@@ -27,11 +26,9 @@
                 for (var j=0; j < cols; ++j) {
                     row.fields.push({ name: 'field' + j });
                 }
-                dfd.resolve(row);
-                return dfd;
+                callback(false, row);
             }
-            function fetch(offset, limit) {
-                var dfd = jQuery.Deferred();
+            function fetch(offset, limit, callback) {
                 var rows = [];
                 for (var i=offset; i < limit + offset && i < rowCount; ++i) {
                     var row = { rowNr: i, id: i, fields: [ 
@@ -91,8 +88,7 @@
                     }
                     rows.push(row);
                 }
-                dfd.resolve(rows);
-                return dfd;
+                callback(false, rows);
             }
 
             function saveField(fieldName, row) {

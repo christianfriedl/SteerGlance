@@ -2,8 +2,8 @@
     var document = window.document;
     function LazyTable(cssId, count, fetchRowsFunc, fetchTemplateRowFunc, saveFieldFunc) {
         this._cssId = cssId;
-        this._fetchRowsFunc = fetchRowsFunc;
-        this._fetchTemplateRowFunc = fetchTemplateRowFunc;
+        this._fetchRowsFunc = fetchRowsFunc; // async
+        this._fetchTemplateRowFunc = fetchTemplateRowFunc; // async
         this._fetchedRows = [];
         this._count = count;
         this._headerCellRenderFunc = CellRenderer.renderHeaderCell;
@@ -34,20 +34,16 @@
 
     LazyTable.prototype._fetchData = function(startIdx, count, callback) {
         //console.log('fetchdata', startIdx, count);
-        this._fetchRowsFunc(startIdx, count).done(function(rows) { callback(startIdx, rows); });
+        this._fetchRowsFunc(startIdx, count, function(error, rows) { callback(startIdx, rows); });
     };
 
     /**
      * initial rendering
      */
     LazyTable.prototype.render = function() {
-        this._fetchTemplateRowFunc().done(function(row) {
+        this._fetchTemplateRowFunc(function(error, row) {
             this._templateRow = row;
             this._rowWidth = this._templateRow.fields.length * (this._cellWidth + 2);
-            var dfd = jQuery.Deferred();
-            dfd.resolve();
-            return dfd;
-        }.bind(this)).done(function() {
             this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative',  }).addClass('lazy-table');
             jQuery(this._tableEl).change(function(ev) { console.log('change!', ev); alert('change');});
             LazyTable.allWidths(this._tableEl, this._rowWidth);
@@ -286,7 +282,7 @@
         jQuery(el).append(input);
         var self = this;
         jQuery(input).change(function() {
-            self._saveFieldFunc({ id: self._fetchedRows[rowIdx].id, field: { name: field.name, value: jQuery(this).val() }}).done(function(resp) { console.log(resp); });
+            self._saveFieldFunc({ id: self._fetchedRows[rowIdx].id, field: { name: field.name, value: jQuery(this).val() }}, function(resp) { console.log(resp); });
         });
     };
 
