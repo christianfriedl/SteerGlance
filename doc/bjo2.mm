@@ -111,6 +111,7 @@
 </node>
 </node>
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
+<node TEXT="rename webize() to toJson() and ...Webized() to ...ToJson()" ID="ID_372599290" CREATED="1451927016653" MODIFIED="1451927045292"/>
 <node TEXT="frontend: optimize scrolling" ID="ID_1890576359" CREATED="1451839099023" MODIFIED="1451839107961">
 <node TEXT="calculate top" ID="ID_1590919464" CREATED="1451839108415" MODIFIED="1451839117304">
 <node TEXT="row-height = first row height" ID="ID_1381244649" CREATED="1451839421665" MODIFIED="1451839428321"/>
@@ -151,6 +152,11 @@
 </node>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
+<node TEXT="reflect on cleaner interface between layers" ID="ID_1983523684" CREATED="1451926981623" MODIFIED="1451926988767">
+<node TEXT="bo/dao" ID="ID_1891991254" CREATED="1451926990464" MODIFIED="1451926993841"/>
+<node TEXT="dao/sql" ID="ID_134085748" CREATED="1451926994289" MODIFIED="1451926995633"/>
+<node TEXT="split sql?" ID="ID_1742725425" CREATED="1451926998835" MODIFIED="1451927003318"/>
+</node>
 <node TEXT="list response: aggregateRow is just an array, should be a row &quot;object&quot; with fields: []" ID="ID_947876021" CREATED="1445170661755" MODIFIED="1445170694430"/>
 <node TEXT="reflect whether we should separate frontend-fields from sql/fields" ID="ID_1013306220" CREATED="1446572848294" MODIFIED="1446572864568"/>
 <node TEXT="frontend: optimize scrolling" ID="ID_1658048524" CREATED="1445105902102" MODIFIED="1445105910476"/>
