@@ -113,7 +113,7 @@
 
     LazyTable.prototype._innerScrollTo = function(scrollTop, scrollLeft) {
         if ( this._lastScrollTop === scrollTop ) {
-            console.log('scroll to ', scrollTop, 'of', jQuery(this._tableEl).height());
+            // console.log('scroll to ', scrollTop, 'of', jQuery(this._tableEl).height());
 
             var startIdx = Math.round(scrollTop / this._rowHeight);
             if (this._heightIsOverflowed ) {
@@ -172,7 +172,9 @@
         for ( rowIdx = 0; rowIdx  < rowsLength; ++rowIdx ) {
             if ( typeof(rows[rowIdx]) !== 'undefined' ) {
                 //console.log('render', rowIdx);
-                var fieldsLength = rows[rowIdx].fields.length;
+                var row = rows[rowIdx];
+                var fields = row.fields;
+                var fieldsLength =fields.length;
                 var topPx = (5 + (rowIdx + 1) * this._rowHeight) + 'px';
                 if ( this._heightIsOverflowed && rowIdx >= this._count * 0.9) {
                     topPx = (5 + jQuery(this._tableEl).height() - ((this._count - rowIdx + 1) * this._rowHeight)) + 'px';
@@ -194,8 +196,8 @@
                 } else {
                     jQuery(this._tableEl).append(rowDiv);
                 }
-                for ( fieldIdx = 0; fieldIdx < fieldsLength; ++fieldIdx ) {
-                    this._renderCell(rowDiv, rowIdx, fieldIdx, rows[rowIdx].fields[fieldIdx]);
+                for ( var fieldIdx = 0; fieldIdx < fieldsLength; ++fieldIdx ) {
+                    this._renderCell(rowDiv[0], rowIdx, fieldIdx, fields[fieldIdx]);
                 }
             }
         }
@@ -203,32 +205,29 @@
         Timer.log('_renderFetchedRows');
     };
 
-    LazyTable.prototype._renderCell = function(div, rowIdx, fieldIdx, field) {
+    LazyTable.prototype._renderCell = function(rowDiv, rowIdx, fieldIdx, field) {
         // console.log('_renderCell', rowIdx, fieldIdx);
         var css = { 
-                // top: 0,
-                // left: (fieldIdx * this._cellWidth) + 'px',
-                width: this._cellWidth + 'px',
-                height: this._rowHeight + 'px',
-                position: 'relative',
-                float: 'left',
-                overflow: 'hidden'
         };
-        var el = jQuery('<div/>').css(css).attr('id', 'cell-' + fieldIdx);
-        jQuery(el).addClass('body cell');
+        var div = document.createElement('div');
+        div.setAttribute('id', 'cell-' + fieldIdx);
+        var divClass = 'body cell';
         if ( fieldIdx === this._templateRow.fields.length - 1 ) {
-            jQuery(el).addClass('last');
+            divClass += ' last';
         }
         if ( rowIdx % 2 === 0 ) {
-            jQuery(el).addClass('even');
+            divClass += ' even';
         } else {
-            jQuery(el).addClass('odd');
+            divClass += ' odd';
         }
         if ( field.isEditable ) {
-            jQuery(el).addClass('editable');
+            divClass += ' editable';
         }
-        jQuery(div).append(el);
-        this._bodyCellRenderFunc(el, rowIdx, fieldIdx, field);
+        div.setAttribute('class', divClass);
+        div.style.width = this._cellWidth + 'px';
+        div.style.height = this._rowHeight + 'px';
+        rowDiv.appendChild(div);
+        this._bodyCellRenderFunc(div, rowIdx, fieldIdx, field);
     };
 
     LazyTable.prototype._mergeFetchedRows = function(startIdx, rows) {
