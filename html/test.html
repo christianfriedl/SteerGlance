@@ -1,0 +1,16 @@
+<head>
+    <script type="text/javascript" src="../js/extlib/jquery-2.1.1.min.js"></script> <!-- general goodness -->
+</head>
+<body>
+<form>
+    <input type="text" value="abc" id="a"/>
+    <script>
+        $(document).ready(function() {
+                $('#a').val('hahaha');
+                $('#a')[0].setSelectionRange(3,3);
+                $('#a').focus();
+                });
+    </script>
+</form>
+</body>
+        

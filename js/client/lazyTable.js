@@ -46,7 +46,6 @@
             jQuery(this._viewportEl).scroll(scrollFunc);
             jQuery(this._viewportEl).resize(scrollFunc);
             this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative',  }).addClass('lazy-table');
-            // jQuery(this._tableEl).change(function(ev) { console.log('change!', ev); alert('change');});
             jQuery(this._viewportEl).append(this._tableEl);
             var inputDimensions = this._getDefaultInputDimensions(); // depends on tableEl!
             this._rowHeight = inputDimensions.height + 2;
@@ -100,7 +99,6 @@
             console.log('change', ev);
             var input = ev.target;
             var id = jQuery(input).attr('id');
-            console.log('changeid', id);
             var parts = id.split('-');
             var rowIdx = parts[2];
             var fieldIdx = parts[3];
@@ -114,6 +112,29 @@
                 value = jQuery(input).val();
             }
             self._saveFieldFunc({ id: self._fetchedRows[rowIdx].id, field: { name: field.name, value: value }}, function(resp) { console.log(resp); });
+        }).keydown(function(ev) {
+            console.log(ev.target, ev);
+            if ( ev.keyCode === 40 ) { // down
+                var input = ev.target;
+                var id = jQuery(input).attr('id');// todo abstract into func
+                var parts = id.split('-');
+                var name = parts[1];
+                var rowIdx = window.parseInt(parts[2]);
+                var fieldIdx = window.parseInt(parts[3]);
+                if ( jQuery('#edit-' + name + '-' + (rowIdx + 1) + '-' + fieldIdx).length ) {
+                    jQuery('#edit-' + name + '-' + (rowIdx + 1) + '-' + fieldIdx).putCursorAtEnd();
+                }
+            } else if ( ev.keyCode === 38 ) { // up
+                var input = ev.target;
+                var id = jQuery(input).attr('id');// todo abstract into func
+                var parts = id.split('-');
+                var name = parts[1];
+                var rowIdx = window.parseInt(parts[2]);
+                var fieldIdx = window.parseInt(parts[3]);
+                if ( jQuery('#edit-' + name + '-' + (rowIdx - 1) + '-' + fieldIdx).length ) {
+                    jQuery('#edit-' + name + '-' + (rowIdx - 1) + '-' + fieldIdx).putCursorAtEnd();
+                }
+            }
         });
     };
 
@@ -192,6 +213,7 @@
         var rowsLength = rows.length;
         var rowIdx, fieldIdx;
         Timer.start('_renderFetchedRows');
+        var activeElId = jQuery(window.document.activeElement).attr('id');
         for ( rowIdx = 0; rowIdx  < rowsLength; ++rowIdx ) {
             if ( typeof(rows[rowIdx]) !== 'undefined' ) {
                 //console.log('render', rowIdx);
@@ -229,6 +251,7 @@
                 }
             }
         }
+        jQuery('#' + activeElId).focus();
         Timer.end('_renderFetchedRows');
         Timer.log('_renderFetchedRows');
     };
