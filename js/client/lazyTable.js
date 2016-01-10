@@ -117,7 +117,16 @@
                         value = jQuery(input).val();
                     }
                     self._saveField.bind(self);
-                    self._saveField(field.name, self._createRow(rowIdx), function(resp) { console.log(resp); });
+                    self._saveField(field.name, self._createRow(rowIdx), function(err, resp) { 
+                        console.log(resp);
+                        if ( resp.flags.hasSaved ) {
+                            if ( resp.flags.hasInserted ) {
+                                self._handleInsert();
+                            } else {
+                                self._handleUpdate(rowIdx, resp.row);
+                            }
+                        }
+                    }.bind(self));
                 }).keydown(function(ev) {
                     console.log(ev.target, ev);
                     if ( ev.keyCode === 40 ) { // down
@@ -155,7 +164,6 @@
     };
 
     LazyTable.prototype._saveField = function(fieldName, row, callback) {
-        console.log('_saveField', fieldName, row);
         return this._saveFieldFunc(fieldName, row, callback);
     };
 
@@ -168,10 +176,8 @@
         for ( var i = 0; i < tr.length; ++i ) {
             var value = jQuery('#edit-' + tr[i].name + '-' + rowIdx + '-' + i).val();
             row.fields[tr[i].name] = value;
-            console.log('createrow loop', '#edit-' + tr[i].name + '-' + rowIdx + '-' + i, i, this._templateRow, this._templateRow.fields, value);
         }
         row.id = row.fields.id;
-        console.log('createrow after loop', row);
         return row;
     };
 
@@ -356,6 +362,15 @@
         if (evalType === "visible") return ((y < (vpH + st)) && (y > (st - elementHeight)));
         if (evalType === "above") return ((y < (vpH + st)));
     }
+
+    LazyTable.prototype._handleInsert = function(row) {
+    };
+
+    LazyTable.prototype._handleUpdate = function(rowIdx, row) {
+        console.log('handle update row', rowIdx, row);
+        this._fetchedRows[rowIdx] = row;
+        this._renderFetchedRows(true);
+    };
 
     /////////////////////////
 
