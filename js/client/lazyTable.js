@@ -121,9 +121,9 @@
                         console.log(resp);
                         if ( resp.flags.hasSaved ) {
                             if ( resp.flags.hasInserted ) {
-                                self._handleInsert();
+                                self._afterInsert();
                             } else {
-                                self._handleUpdate(rowIdx, resp.row);
+                                self._afterUpdate(rowIdx, resp.row);
                             }
                         }
                     }.bind(self));
@@ -363,10 +363,10 @@
         if (evalType === "above") return ((y < (vpH + st)));
     }
 
-    LazyTable.prototype._handleInsert = function(row) {
+    LazyTable.prototype._afterInsert = function(row) {
     };
 
-    LazyTable.prototype._handleUpdate = function(rowIdx, row) {
+    LazyTable.prototype._afterUpdate = function(rowIdx, row) {
         console.log('handle update row', rowIdx, row);
         this._fetchedRows[rowIdx] = row;
         this._renderFetchedRows(true);

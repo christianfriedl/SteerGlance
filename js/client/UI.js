@@ -26,8 +26,7 @@
         this._data = data;
     };
 
-    UI.prototype.display = function(url, data) {
-        var cssId = 'bjo-main-form';
+    UI.prototype.display = function(cssId, url, data) {
         data.url = url;
         if ( typeof(data) !== 'undefinded' ) {
             this.setData(data);
@@ -37,7 +36,7 @@
         console.log('uidisplay form data', data);
 
         var html = form.toHtml();
-        $('#bjo-ui').html(html);
+        $('#' + cssId).html(html);
     };
 
     window.UI = UI;
