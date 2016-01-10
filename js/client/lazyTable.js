@@ -57,7 +57,7 @@
                 this._heightIsOverflowed = (count * this._rowHeight > this._maxTableHeight);
                 this._heightIsOverflowed = false;
                 console.log('_heightIsOverflowed', this._heightIsOverflowed);
-                this._rowWidth = this._templateRow.fields.length * (this._cellWidth + 2);
+                this._rowWidth = this._templateRow.fields.length * (this._cellWidth + 4);
                 LazyTable.allWidths(this._tableEl, this._rowWidth);
                 if ( this._heightIsOverflowed ) {
                     LazyTable.allHeights(this._tableEl, this._maxTableHeight);
@@ -96,59 +96,84 @@
                     this._renderFetchedRows();
                     jQuery('input', this._tableEl)[0].focus();
                 }.bind(this)); // TODO interface to outside for templaterow -- we need it now for code below
+
+                console.log('table is', this._tableEl);
+                jQuery(this._tableEl).change(function(ev) {
+                    var value;
+                    console.log('change', ev);
+                    var input = ev.target;
+                    var id = jQuery(input).attr('id');
+                    var parts = id.split('-');
+                    var rowIdx = parts[2];
+                    var fieldIdx = parts[3];
+
+                    var field = self._fetchedRows[rowIdx].fields[fieldIdx];
+                    console.log('change: field',field,'rowidx', rowIdx, 'fieldidx', fieldIdx);
+
+
+                    if ( jQuery(input).attr('type') === 'checkbox' ) {
+                        value = jQuery(input).prop('checked');
+                    } else {
+                        value = jQuery(input).val();
+                    }
+                    self._saveField.bind(self);
+                    self._saveField(field.name, self._createRow(rowIdx), function(resp) { console.log(resp); });
+                }).keydown(function(ev) {
+                    console.log(ev.target, ev);
+                    if ( ev.keyCode === 40 ) { // down
+                        var input = ev.target;
+                        var id = jQuery(input).attr('id');// todo abstract into func
+                        var parts = id.split('-');
+                        var name = parts[1];
+                        var rowIdx = window.parseInt(parts[2]);
+                        var fieldIdx = window.parseInt(parts[3]);
+                        if ( jQuery('#edit-' + name + '-' + (rowIdx + 1) + '-' + fieldIdx).length ) {
+                            jQuery('#edit-' + name + '-' + (rowIdx + 1) + '-' + fieldIdx).putCursorAtEnd();
+                        }
+                    } else if ( ev.keyCode === 38 ) { // up
+                        var input = ev.target;
+                        var id = jQuery(input).attr('id');// todo abstract into func
+                        var parts = id.split('-');
+                        var name = parts[1];
+                        var rowIdx = window.parseInt(parts[2]);
+                        var fieldIdx = window.parseInt(parts[3]);
+                        if ( jQuery('#edit-' + name + '-' + (rowIdx - 1) + '-' + fieldIdx).length ) {
+                            jQuery('#edit-' + name + '-' + (rowIdx - 1) + '-' + fieldIdx).putCursorAtEnd();
+                        }
+                    }
+                });
             }.bind(this));
-
-            jQuery(this._tableEl).change(function(ev) {
-                var value;
-                console.log('change', ev);
-                var input = ev.target;
-                var id = jQuery(input).attr('id');
-                var parts = id.split('-');
-                var rowIdx = parts[2];
-                var fieldIdx = parts[3];
-
-                var field = self._fetchedRows[rowIdx].fields[fieldIdx];
-
-
-                if ( jQuery(input).attr('type') === 'checkbox' ) {
-                    value = jQuery(input).prop('checked');
-                } else {
-                    value = jQuery(input).val();
-                }
-                self._saveFieldFunc({ id: self._fetchedRows[rowIdx].id, field: { name: field.name, value: value }}, function(resp) { console.log(resp); });
-            }).keydown(function(ev) {
-                console.log(ev.target, ev);
-                if ( ev.keyCode === 40 ) { // down
-                    var input = ev.target;
-                    var id = jQuery(input).attr('id');// todo abstract into func
-                    var parts = id.split('-');
-                    var name = parts[1];
-                    var rowIdx = window.parseInt(parts[2]);
-                    var fieldIdx = window.parseInt(parts[3]);
-                    if ( jQuery('#edit-' + name + '-' + (rowIdx + 1) + '-' + fieldIdx).length ) {
-                        jQuery('#edit-' + name + '-' + (rowIdx + 1) + '-' + fieldIdx).putCursorAtEnd();
-                    }
-                } else if ( ev.keyCode === 38 ) { // up
-                    var input = ev.target;
-                    var id = jQuery(input).attr('id');// todo abstract into func
-                    var parts = id.split('-');
-                    var name = parts[1];
-                    var rowIdx = window.parseInt(parts[2]);
-                    var fieldIdx = window.parseInt(parts[3]);
-                    if ( jQuery('#edit-' + name + '-' + (rowIdx - 1) + '-' + fieldIdx).length ) {
-                        jQuery('#edit-' + name + '-' + (rowIdx - 1) + '-' + fieldIdx).putCursorAtEnd();
-                    }
-                }
-            });
         }.bind(this));
     };
 
     LazyTable.prototype._fetchTemplateRow = function(callback) {
         return this._fetchTemplateRowFunc(callback);
-    }
+    };
+
     LazyTable.prototype._countRows = function(callback) {
         return this._countFunc(callback);
-    }
+    };
+
+    LazyTable.prototype._saveField = function(fieldName, row, callback) {
+        console.log('_saveField', fieldName, row);
+        return this._saveFieldFunc(fieldName, row, callback);
+    };
+
+    /**
+     * creates the row for saveField()
+     */
+    LazyTable.prototype._createRow = function(rowIdx) {
+        var tr = this._templateRow.fields;
+        var row = { fields: {} };
+        for ( var i = 0; i < tr.length; ++i ) {
+            var value = jQuery('#edit-' + tr[i].name + '-' + rowIdx + '-' + i).val();
+            row.fields[tr[i].name] = value;
+            console.log('createrow loop', '#edit-' + tr[i].name + '-' + rowIdx + '-' + i, i, this._templateRow, this._templateRow.fields, value);
+        }
+        row.id = row.fields.id;
+        console.log('createrow after loop', row);
+        return row;
+    };
 
     LazyTable.prototype._viewportRows = function() {
         var height = jQuery(this._viewportEl).height();
@@ -438,6 +463,7 @@
         { isEditable: null, className: 'Field', dataType: 'bool', func: CellRenderer.Editable.renderBoolField },
         { isEditable: false, className: 'Field', dataType: 'string', func: CellRenderer.NonEditable.renderStringField },
         { isEditable: false, className: 'Field', dataType: 'int', func: CellRenderer.NonEditable.renderNumberField },
+        { isEditable: true, className: null, dataType: null, func: CellRenderer.Editable.renderStringField }, // fallback
         { isEditable: null, className: null, dataType: null, func: CellRenderer.NonEditable.renderStringField }, // fallback
         // TODO: date, (time), options, lookup
     ];

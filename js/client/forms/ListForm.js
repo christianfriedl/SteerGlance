@@ -100,8 +100,21 @@
         });
     };
 
-    ListForm.prototype.saveField = function() {
-        console.log('will saveField');
+    ListForm.prototype.saveField = function(fieldName, row, callback) {
+        console.log('listform will saveField');
+        var url = '/' + [ this._data.module, this._data.controller, 'saveField'].join('/');
+        var data = { fieldName: fieldName, row: row };
+        jQuery.ajax({
+            type: 'POST', 
+            url: url,
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data) {
+                console.log('saveField successs, got data', data);
+                callback(false, data);
+            }
+        });
     };
 
 
