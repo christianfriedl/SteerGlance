@@ -13,9 +13,14 @@
             var rowCount = 10000;
             var cols = 50;
             jQuery(document).ready(function() {
-                var t = new LazyTable('ui', rowCount, fetch, fetchTemplate, saveField);
+                var t = new LazyTable('ui', countRows, fetch, fetchTemplate, saveField);
                 t.render();
             });
+
+            function countRows() {
+                return rowCount;
+            }
+
             function fetchTemplate(callback) {
                 var row = { fields: [ 
                         { name: 'id', label: 'ID' },

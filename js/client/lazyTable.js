@@ -1,14 +1,14 @@
 (function(window) {
     var document = window.document;
-    function LazyTable(cssId, count, fetchRowsFunc, fetchTemplateRowFunc, saveFieldFunc) {
+    function LazyTable(cssId, functionObject) {
         this._cssId = cssId;
-        this._fetchRowsFunc = fetchRowsFunc; // async
-        this._fetchTemplateRowFunc = fetchTemplateRowFunc; // async
+        this._countFunc = functionObject.count;
+        this._fetchRowsFunc = functionObject.fetchRows; // async
+        this._fetchTemplateRowFunc = functionObject.fetchTemplateRow; // async
+        this._saveFieldFunc = functionObject.saveField;
         this._fetchedRows = [];
-        this._count = count;
         this._headerCellRenderFunc = CellRenderer.renderHeaderCell;
         this._bodyCellRenderFunc = CellRenderer.renderBodyCell;
-        this._saveFieldFunc = saveFieldFunc;
         this._shouldCheckScroll = true;
 
         this._rowWidth = 1000;
@@ -37,108 +37,118 @@
      */
     LazyTable.prototype.render = function() {
         var self = this;
-        this._fetchTemplateRowFunc(function(error, row) {
-            this._templateRow = row;
-            this._viewportEl = jQuery('#' + this._cssId);
-            this._viewportEl.addClass('viewport');
-            jQuery(this._viewportEl).css({ height: '100%', position: 'relative', width: '100%', overflow: 'scroll' });
-            jQuery(this._viewportEl).attr('id', 'myid');
-            var scrollFunc = function() { this._scrollTo(jQuery(this._viewportEl).scrollTop(), jQuery(this._viewportEl).scrollLeft()); }.bind(this);
-            jQuery(this._viewportEl).scroll(scrollFunc);
-            jQuery(this._viewportEl).resize(scrollFunc);
-            this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative',  }).addClass('lazy-table');
-            jQuery(this._viewportEl).append(this._tableEl);
-            var inputDimensions = this._getDefaultInputDimensions(); // depends on tableEl!
-            this._rowHeight = inputDimensions.height + 2;
-            this._cellWidth = inputDimensions.width + 4;
-            var count = this._count;
-            this._heightIsOverflowed = (count * this._rowHeight > this._maxTableHeight);
-            this._heightIsOverflowed = false;
-        console.log('_heightIsOverflowed', this._heightIsOverflowed);
-            this._rowWidth = this._templateRow.fields.length * (this._cellWidth + 2);
-            LazyTable.allWidths(this._tableEl, this._rowWidth);
-            if ( this._heightIsOverflowed ) {
-                LazyTable.allHeights(this._tableEl, this._maxTableHeight);
-            } else {
-                LazyTable.allHeights(this._tableEl, (this._rowHeight * (this._count + 1)));
-            }
+        this._countRows(function(err, count) {
+            this._count = count;
+            this._fetchTemplateRow(function(error, row) {
+                this._templateRow = row;
+                this._viewportEl = jQuery('#' + this._cssId);
+                this._viewportEl.addClass('viewport');
+                jQuery(this._viewportEl).css({ height: '100%', position: 'relative', width: '100%', overflow: 'scroll' });
+                jQuery(this._viewportEl).attr('id', 'myid');
+                var scrollFunc = function() { this._scrollTo(jQuery(this._viewportEl).scrollTop(), jQuery(this._viewportEl).scrollLeft()); }.bind(this);
+                jQuery(this._viewportEl).scroll(scrollFunc);
+                jQuery(this._viewportEl).resize(scrollFunc);
+                this._tableEl = jQuery('<div/>').attr('id', 'table').css({ position: 'relative',  }).addClass('lazy-table');
+                jQuery(this._viewportEl).append(this._tableEl);
+                var inputDimensions = this._getDefaultInputDimensions(); // depends on tableEl!
+                this._rowHeight = inputDimensions.height + 2;
+                this._cellWidth = inputDimensions.width + 4;
+                var count = this._count;
+                this._heightIsOverflowed = (count * this._rowHeight > this._maxTableHeight);
+                this._heightIsOverflowed = false;
+                console.log('_heightIsOverflowed', this._heightIsOverflowed);
+                this._rowWidth = this._templateRow.fields.length * (this._cellWidth + 2);
+                LazyTable.allWidths(this._tableEl, this._rowWidth);
+                if ( this._heightIsOverflowed ) {
+                    LazyTable.allHeights(this._tableEl, this._maxTableHeight);
+                } else {
+                    LazyTable.allHeights(this._tableEl, (this._rowHeight * (this._count + 1)));
+                }
 
-            var headerRowCss = { 
-                    height: (this._rowHeight + 4) + 'px',
-            };
-            this._headerRowEl = jQuery('<div>').attr('id', 'header-row').css(headerRowCss);
-            LazyTable.allWidths(this._headerRowEl, this._rowWidth);
-            jQuery(this._headerRowEl).addClass('header row');
-            this._tableEl.append(this._headerRowEl);
-            for (var i=0; i < this._templateRow.fields.length; ++i ) {
-                var css = { 
-                        width: this._cellWidth + 'px',
-                        height: this._rowHeight + 'px',
+                var headerRowCss = { 
+                        height: (this._rowHeight + 4) + 'px',
                 };
-                var el = jQuery('<div/>').css(css).attr('id', 'header-cell-' + i);
-                jQuery(el).css(css);
-                jQuery(el).addClass('header cell');
-                if ( i === this._templateRow.fields.length - 1 ) {
-                    jQuery(el).addClass('last');
+                this._headerRowEl = jQuery('<div>').attr('id', 'header-row').css(headerRowCss);
+                LazyTable.allWidths(this._headerRowEl, this._rowWidth);
+                jQuery(this._headerRowEl).addClass('header row');
+                this._tableEl.append(this._headerRowEl);
+                for (var i=0; i < this._templateRow.fields.length; ++i ) {
+                    var css = { 
+                            width: this._cellWidth + 'px',
+                            height: this._rowHeight + 'px',
+                    };
+                    var el = jQuery('<div/>').css(css).attr('id', 'header-cell-' + i);
+                    jQuery(el).css(css);
+                    jQuery(el).addClass('header cell');
+                    if ( i === this._templateRow.fields.length - 1 ) {
+                        jQuery(el).addClass('last');
+                    }
+                    jQuery(this._headerRowEl).append(el);
+                    this._headerCellRenderFunc(el, i, this._templateRow.fields[i]);
                 }
-                jQuery(this._headerRowEl).append(el);
-                this._headerCellRenderFunc(el, i, this._templateRow.fields[i]);
-            }
 
-            jQuery(this._headerRowEl).css({
-                top: (jQuery(this._tableEl).offset().top),
-                left: (jQuery(this._tableEl).offset().left)
+                jQuery(this._headerRowEl).css({
+                    top: (jQuery(this._tableEl).offset().top),
+                    left: (jQuery(this._tableEl).offset().left)
+                });
+                this._fetchData(0, this._viewportRows() + this._screenSizeGraceRows, function(startIdx, rows) {
+                    this._mergeFetchedRows(startIdx, rows);
+                    this._renderFetchedRows();
+                    jQuery('input', this._tableEl)[0].focus();
+                }.bind(this)); // TODO interface to outside for templaterow -- we need it now for code below
+            }.bind(this));
+
+            jQuery(this._tableEl).change(function(ev) {
+                var value;
+                console.log('change', ev);
+                var input = ev.target;
+                var id = jQuery(input).attr('id');
+                var parts = id.split('-');
+                var rowIdx = parts[2];
+                var fieldIdx = parts[3];
+
+                var field = self._fetchedRows[rowIdx].fields[fieldIdx];
+
+
+                if ( jQuery(input).attr('type') === 'checkbox' ) {
+                    value = jQuery(input).prop('checked');
+                } else {
+                    value = jQuery(input).val();
+                }
+                self._saveFieldFunc({ id: self._fetchedRows[rowIdx].id, field: { name: field.name, value: value }}, function(resp) { console.log(resp); });
+            }).keydown(function(ev) {
+                console.log(ev.target, ev);
+                if ( ev.keyCode === 40 ) { // down
+                    var input = ev.target;
+                    var id = jQuery(input).attr('id');// todo abstract into func
+                    var parts = id.split('-');
+                    var name = parts[1];
+                    var rowIdx = window.parseInt(parts[2]);
+                    var fieldIdx = window.parseInt(parts[3]);
+                    if ( jQuery('#edit-' + name + '-' + (rowIdx + 1) + '-' + fieldIdx).length ) {
+                        jQuery('#edit-' + name + '-' + (rowIdx + 1) + '-' + fieldIdx).putCursorAtEnd();
+                    }
+                } else if ( ev.keyCode === 38 ) { // up
+                    var input = ev.target;
+                    var id = jQuery(input).attr('id');// todo abstract into func
+                    var parts = id.split('-');
+                    var name = parts[1];
+                    var rowIdx = window.parseInt(parts[2]);
+                    var fieldIdx = window.parseInt(parts[3]);
+                    if ( jQuery('#edit-' + name + '-' + (rowIdx - 1) + '-' + fieldIdx).length ) {
+                        jQuery('#edit-' + name + '-' + (rowIdx - 1) + '-' + fieldIdx).putCursorAtEnd();
+                    }
+                }
             });
-            this._fetchData(0, this._viewportRows() + this._screenSizeGraceRows, function(startIdx, rows) {
-                this._mergeFetchedRows(startIdx, rows);
-                this._renderFetchedRows();
-                jQuery('input', this._tableEl)[0].focus();
-            }.bind(this)); // TODO interface to outside for templaterow -- we need it now for code below
         }.bind(this));
-
-        jQuery(this._tableEl).change(function(ev) {
-            var value;
-            console.log('change', ev);
-            var input = ev.target;
-            var id = jQuery(input).attr('id');
-            var parts = id.split('-');
-            var rowIdx = parts[2];
-            var fieldIdx = parts[3];
-
-            var field = self._fetchedRows[rowIdx].fields[fieldIdx];
-
-
-            if ( jQuery(input).attr('type') === 'checkbox' ) {
-                value = jQuery(input).prop('checked');
-            } else {
-                value = jQuery(input).val();
-            }
-            self._saveFieldFunc({ id: self._fetchedRows[rowIdx].id, field: { name: field.name, value: value }}, function(resp) { console.log(resp); });
-        }).keydown(function(ev) {
-            console.log(ev.target, ev);
-            if ( ev.keyCode === 40 ) { // down
-                var input = ev.target;
-                var id = jQuery(input).attr('id');// todo abstract into func
-                var parts = id.split('-');
-                var name = parts[1];
-                var rowIdx = window.parseInt(parts[2]);
-                var fieldIdx = window.parseInt(parts[3]);
-                if ( jQuery('#edit-' + name + '-' + (rowIdx + 1) + '-' + fieldIdx).length ) {
-                    jQuery('#edit-' + name + '-' + (rowIdx + 1) + '-' + fieldIdx).putCursorAtEnd();
-                }
-            } else if ( ev.keyCode === 38 ) { // up
-                var input = ev.target;
-                var id = jQuery(input).attr('id');// todo abstract into func
-                var parts = id.split('-');
-                var name = parts[1];
-                var rowIdx = window.parseInt(parts[2]);
-                var fieldIdx = window.parseInt(parts[3]);
-                if ( jQuery('#edit-' + name + '-' + (rowIdx - 1) + '-' + fieldIdx).length ) {
-                    jQuery('#edit-' + name + '-' + (rowIdx - 1) + '-' + fieldIdx).putCursorAtEnd();
-                }
-            }
-        });
     };
+
+    LazyTable.prototype._fetchTemplateRow = function(callback) {
+        return this._fetchTemplateRowFunc(callback);
+    }
+    LazyTable.prototype._countRows = function(callback) {
+        return this._countFunc(callback);
+    }
 
     LazyTable.prototype._viewportRows = function() {
         var height = jQuery(this._viewportEl).height();

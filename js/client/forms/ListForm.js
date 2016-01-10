@@ -22,6 +22,7 @@
     function ListForm(data, cssId) {
         Form.call(this, data, cssId);
     }
+    ListForm.prototype = new Form();
 
     ListForm.fromJson = function(json, cssId) {
             console.log('lfe json', json);
@@ -29,178 +30,82 @@
             return new ListForm(js, cssId);
     };
 
-    ListForm.prototype.toHtml = function() {
-        console.log('listform tohtml this', this);
-        switch (this._data.action) {
-            case 'prepare':
-                return (new ListForm.Prepare(this._data, this._cssId)).toHtml();
-                break;
-            case 'list':
-                return new ListFormBody(this._data, this._cssId).toHtml();
-                break;
-        }
-    };
-
     ListForm.createFieldId = function(id, field) {
         return 'field-' + id + '-' + field.name;
     };
 
-    ListForm.Prepare = function(data, cssId) {
-        Form.call(this, data, cssId);
-    };
+    ListForm.prototype.toHtml = function() {
+        return Tags.script({ type: 'text/javascript' }, [], `
+                jQuery(document).ready(function() { 
+                    console.log('schtargting', this._cssId); 
+                    var table = new LazyTable(` + this._thisFormHtml() + `._cssId, ` + this._thisFormHtml() + `.getFunctionObject());
+                    table.render();
+                });`);
+                // var t = new LazyTable('ui', countRows, fetch, fetchTemplate, saveField);
+     };
 
-    ListForm.Prepare.prototype.toHtml = function() {
-        var listUrl = '/' + [this._data.module, this._data.controller, 'list'].join('/');
-        var trHeight = jQuery('.list-pane tr:first-child').height();
-        var tableHeight = trHeight * this._data.count;
-        var html = Tags.form({ 'id': this._cssId }, 
-                Tags.div({ 'class': 'list-pane' }, [ 
-                    Tags.table({ 'class': 'list-form' }, [ 
-                        Tags.thead({}, [], 
-                            (new ListForm.Filters(this._data, this._cssId).toHtml())
-                            + Tags.tr({'class': 'head'}, [],
-                                _(this._data.templateRow.fields).reduce(function(memo, field) { 
-                                    return memo + Tags.th({}, [], field.label);
-                                }, '')
-                            )
-                        ),
-                        Tags.tbody()
-                        ]
-                    )
-                ])
-            ) + Tags.script({'type': 'text/javascript' }, [],
-                (new ListForm.DummyListScript(this._data, this._cssId).toHtml()) + (new ListForm.ScrollingScript(this._data, this._cssId).toHtml())
-                + `
-                    ListForm.ScrollingScript.refreshScrolledData(jQuery('.list-pane'), jQuery('.list-pane').scrollTop(), '` + this._cssId + `','` + this._data.module + `','` + this._data.controller + `');
-                `
-            ) + (new Form.OpenLookupScript(this._data, this._cssId).toHtml());
-        return html;
-    };
-
-    /*
-     * prefill the list with empty "dummy" trs
-     */
-    ListForm.DummyList = function(cssId, data) {
-        this._data = data;
-        this._cssId = cssId;
-    };
-
-    ListForm.DummyList.prototype.toHtml_depre = function() {
-        var html = '';
-        var c, l;
-        var rowCount = this._data.count;
-        var fieldsLength = this._data.templateRow.fields.length;
-        html += '<tr id="edit-row-0" class="dummy">';
-        for ( l=0; l < fieldsLength; ++l ) {
-            html += '<td><input type="text"/></td>'; 
-        }
-        html += '</tr>';
-        for ( c=1; c < rowCount; ++c ) {
-            html += '<tr id="edit-row-' + c + '" class="dummy"></tr>';
-        }
-        return html;
-    };
-    ListForm.DummyList.prototype.toHtml = function() {
-        var rowCount = this._data.count;
-        var fieldsLength = this._data.templateRow.fields.length;
-        var html = '';
-        var c, l;
-
-        var tdhtml = '';
-            for ( l=0; l < fieldsLength; ++l ) {
-                tdhtml += '<td><input type="text"/></td>'; 
-            }
-            var trhtml1 = '<tr id="edit-row-';
-            var trhtml2 = '" class="dummy">' + tdhtml + '</tr>';
-        for ( c=1; c < rowCount; ++c ) {
-            html += trhtml1 + c + trhtml2;
-        }
-        return html;
-    }
-
-    ListForm.DummyListScript = function(data, cssId) {
-        this._data = data;
-        this._cssId = cssId;
-    };
-
-    ListForm.DummyListScript.prototype.toHtml = function() {
-        var countUrl = '/' + [this._data.module, this._data.controller, 'count'].join('/');
-        var html = `
-            jQuery(document).ready(function() {
-                var start = new Date().getTime();
-                jQuery.ajax('`+ countUrl + `', {
-                        success: function(data2) {
-                            var datax = JSON.parse(data2);
-                            var end = new Date().getTime();
-                            var html = new ListForm.DummyList('` + this._cssId + `', datax).toHtml();
-                            var el = document.querySelector('#` + this._cssId + ` tbody');
-                            window.setTimeout(function() {
-                            el.innerHTML = html;
-                            }, 10);
-                            var end2 = new Date().getTime();
-                            console.log('time for adding dummy rows', (end2-start));
-                            var trHeight = jQuery('.list-pane tr:first-child').height();
-                            var tableHeight = trHeight * datax.count;
-                            console.log('tableHeight is', tableHeight, 'trheight is', trHeight);
-                            // jQuery('#` + this._cssId + ` .list-form').css('height', tableHeight + 'px');
-                            //jQuery('#` + this._cssId + ` tbody').css('height', tableHeight + 'px');
-                            //jQuery('#` + this._cssId + ` .list-pane').css('height', tableHeight + 'px');
-                        }
-                    }
-                );
-            });
-        `;
-        return html;
-    };
-
-    ListForm.ScrollingScript = function(data, cssId) {
-        this._data = data;
-        this._cssId = cssId;
-    };
-
-    ListForm.ScrollingScript.getScrollCoords = function(cssId, scrollTop) {
-        var overFlow = 30;
-        var count = jQuery('.list-pane tr').length;
-        var trHeight = jQuery('.list-pane tr:first-child').height();
-        var tableHeight = jQuery('table.list-form').height();
+    ListForm.prototype.getFunctionObject = function() {
         return {
-            startPos: Math.max(0, Math.round(scrollTop / tableHeight * count) - overFlow), // TODO this works but is somewhat hacky, the formula is not quite correct
-            limit: Math.round(jQuery('#bjo-main-form').height() / trHeight) + 2 * overFlow
+            'count': this.countRows.bind(this),
+            'fetchTemplateRow': this.fetchTemplateRow.bind(this),
+            'fetchRows': this.fetchRows.bind(this),
+            'saveField': this.saveField.bind(this),
         }
     };
 
-    ListForm.ScrollingScript.prototype.toHtml = function() {
-        var html = `
-            jQuery(document).ready(function() {
-                jQuery('.list-pane').scroll(function(ev) {
-                    var oldScrollTop = jQuery(this).scrollTop();
-                    setTimeout(ListForm.ScrollingScript.refreshScrolledData(this, oldScrollTop, '` + this._cssId + `','` + this._data.module + `','` + this._data.controller + `'), 100);
-                });
-            });`;
-        return html;
+    ListForm.prototype.countRows = function(callback) {
+        var fetchUrl = '/' + [ this._data.module, this._data.controller, 'count'].join('/');
+        var data = { conditions: {} };
+        jQuery.ajax({
+            type: 'POST', 
+            url: fetchUrl,
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data) {
+                console.log('fetchRows successs, got data', data);
+                callback(false, data.count);
+            }
+        });
     };
 
-    ListForm.ScrollingScript.refreshScrolledData = function(el, oldScrollTop, cssId, module, controller) {
-        if ( jQuery(el).scrollTop() == oldScrollTop ) {
-            var coords = ListForm.ScrollingScript.getScrollCoords(cssId, oldScrollTop);
-            var rowNr = coords.startPos;
-            var start = new Date().getTime();
-            jQuery.ajax({ url: '/' + [ module, controller, 'list' ].join('/'),
-                type: 'POST', 
-                data: JSON.stringify({ conditions: { offset: coords.startPos, limit: coords.limit } }),
-                dataType: 'json',
-                contentType: 'application/json',
-                success: function(datax) {
-                    _(datax.rows).each(function(row) {
-                        if ( jQuery('#edit-row-' + rowNr).hasClass('dummy') ) {
-                            jQuery('#edit-row-' + rowNr).replaceWith(new ListForm.Row(row, module, controller, rowNr).toHtml());
-                        }
-                        ++rowNr;
-                    });
-                }
-            });
-        }
+    ListForm.prototype.fetchRows = function(offset, limit, callback) {
+        var fetchUrl = '/' + [ this._data.module, this._data.controller, 'list'].join('/');
+        var data = { conditions: { limit: limit, offset: offset } };
+        jQuery.ajax({
+            type: 'POST', 
+            url: fetchUrl,
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data) {
+                console.log('fetchRows successs, got data', data);
+                callback(false, data.rows);
+            }
+        });
     };
+
+    ListForm.prototype.fetchTemplateRow = function(callback) {
+        var fetchUrl = '/' + [ this._data.module, this._data.controller, 'templateRow'].join('/');
+        jQuery.ajax({
+            type: 'POST', 
+            url: fetchUrl,
+            data: JSON.stringify({}),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data) {
+                console.log('fetchTemplateRow successs, got data', data);
+                callback(false, data);
+            }
+        });
+    };
+
+    ListForm.prototype.saveField = function() {
+        console.log('will saveField');
+    };
+
+
+
 
     ListForm.Filters = function(data, cssId) {
         Form.call(this, data, cssId);
@@ -268,24 +173,6 @@
                 });`
         );
     };
-
-    ListForm.Row = function(row, module, controller, rowNr) {
-        this._row = row;
-        this._module = module;
-        this._controller = controller;
-        this._rowNr = rowNr;
-    };
-
-    ListForm.Row.prototype.toHtml = function() {
-         return '<tr class="edit" id="edit-row-' + this._rowNr + '">'
-             + _(this._row.fields).reduce(function(memo, field) {
-                 return memo + (new ListForm.Field(this._row.id, field, this._module, this._controller, this._rowNr).toHtml())
-             }.bind(this), '')
-            + Tags.td({}, [
-                Tags.a({ 'href': '#', 'onClick': "loadUI('/" + [ this._module, this._controller, 'edit' ].join('/') + "?id=" + this._row.id + "')" }, [], 'Edit')
-            ])
-         + '</tr>';
-     };
 
     ListForm.Field = function(id, field, module, controller, rowNr) {
         this._id = id;

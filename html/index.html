@@ -14,12 +14,13 @@
         <script type="text/javascript" src="../js/client/forms/Form.js"></script>
         <script type="text/javascript" src="../js/client/forms/EditForm.js"></script>
         <script type="text/javascript" src="../js/client/forms/ListForm.js"></script>
+        <script type="text/javascript" src="../js/client/LazyTable.js"></script>
         <script type="text/javascript">
             function loadUI(url) {
                 jQuery.ajax(url, {
                     async: true,
                     success: function(data) {
-                        console.log('success', data);
+                        console.log('loadui success', data);
                         var ui = new UI();
                         var datax = JSON.parse(data);
                         ui.display(url, datax);
@@ -35,6 +36,8 @@
                 <a href="#" onClick="loadUI('http://localhost:8888/invoice/invoice/prepare?form=list');return false;">invoice list</a><br/>
             </div>
         </div>
+            <div id="bjo-main-form">
+            </div>
         <div class="bjo-license">
             <a rel="license" href="http://www.gnu.org/licenses/">BJO2 by Christian Friedl is licenced under the GNU General Public License.</a>
         </div>

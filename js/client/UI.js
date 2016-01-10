@@ -38,7 +38,6 @@
 
         var html = form.toHtml();
         $('#bjo-ui').html(html);
-        // form.afterCreateHtml(cssId, data);
     };
 
     window.UI = UI;
