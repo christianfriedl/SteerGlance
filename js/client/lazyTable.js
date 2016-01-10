@@ -21,6 +21,7 @@
 
         this._maxTableHeight = 10737418;
         this._lastScrollTop = null;
+        this._lastScrollLeft = null;
         this._screenSizeGraceRows = 10;
     }
 
@@ -91,6 +92,7 @@
             this._fetchData(0, this._viewportRows() + this._screenSizeGraceRows, function(startIdx, rows) {
                 this._mergeFetchedRows(startIdx, rows);
                 this._renderFetchedRows();
+                jQuery('input', this._tableEl)[0].focus();
             }.bind(this)); // TODO interface to outside for templaterow -- we need it now for code below
         }.bind(this));
 
@@ -145,6 +147,7 @@
 
     LazyTable.prototype._scrollTo = function(scrollTop, scrollLeft) {
         this._lastScrollTop = scrollTop;
+        this._lastScrollLeft = scrollLeft;
         if ( this._shouldCheckScroll ) {
             this._shouldCheckScroll = false;
             window.setTimeout(function() {
@@ -180,10 +183,15 @@
                         callback();
                     }
                 }(function() {
-                    this._renderFetchedRows();
+                    this._renderFetchedRows(scrollLeft === this._lastScrollLeft);
                     this._emptyCache(startIdx);
                 }.bind(this)));
             }.bind(this));
+        } else {
+            this._lastDifferentScrollTop = this._lastScrollTop;
+        }
+        if ( this._lastScrollLeft !== scrollLeft ) {
+            this._lastDifferentScrollLeft = this._lastScrollLeft;
         }
         // TODO I have no clue why the following formula seems to work...!
         var headerLeft = ( jQuery(this._tableEl).offset().left - scrollLeft / (2 * this._templateRow.fields.length * this._templateRow.fields.length) );
@@ -208,7 +216,10 @@
     };
 
 
-    LazyTable.prototype._renderFetchedRows = function() {
+    LazyTable.prototype._renderFetchedRows = function(doFocusAfterwards) {
+        if ( typeof(doFocusAfterwards) === 'undefined') {
+            doFocusAfterwards = false;
+        }
         var rows = this._fetchedRows;
         var rowsLength = rows.length;
         var rowIdx, fieldIdx;
@@ -251,7 +262,9 @@
                 }
             }
         }
-        jQuery('#' + activeElId).focus();
+        if ( doFocusAfterwards && jQuery('#' + activeElId).length > 0 && this._isElementVisible(jQuery('#' + activeElId)) ) {
+            jQuery('#' + activeElId).focus();
+        }
         Timer.end('_renderFetchedRows');
         Timer.log('_renderFetchedRows');
     };
@@ -296,6 +309,18 @@
         jQuery(input).remove();
         return rv;
     };
+
+    LazyTable.prototype._isElementVisible = function(elm, evalType) {
+        evalType = evalType || "visible";
+
+        var vpH = jQuery(window).height(), // Viewport Height
+            st = jQuery(window).scrollTop(), // Scroll Top
+            y = jQuery(elm).offset().top,
+            elementHeight = jQuery(elm).height();
+
+        if (evalType === "visible") return ((y < (vpH + st)) && (y > (st - elementHeight)));
+        if (evalType === "above") return ((y < (vpH + st)));
+    }
 
     /////////////////////////
 
