@@ -14,7 +14,7 @@
         <script type="text/javascript" src="../js/client/forms/Form.js"></script>
         <script type="text/javascript" src="../js/client/forms/EditForm.js"></script>
         <script type="text/javascript" src="../js/client/forms/ListForm.js"></script>
-        <script type="text/javascript" src="../js/client/LazyTable.js"></script>
+        <script type="text/javascript" src="../js/client/lazyTable.js"></script>
         <script type="text/javascript">
             function loadUI(url) {
                 jQuery.ajax(url, {
@@ -32,8 +32,8 @@
     <body>
         <div id="bjo-ui" class="bjo-ui">
             <div class="bjo-links">
-                <a href="#" onClick="loadUI('http://localhost:8888/customer/customer/prepare?form=list');return false;">customer list</a><br/>
-                <a href="#" onClick="loadUI('http://localhost:8888/invoice/invoice/prepare?form=list');return false;">invoice list</a><br/>
+                <a href="#" onClick="loadUI('http://' + window.location.hostname + ':8888/customer/customer/prepare?form=list');return false;">customer list</a><br/>
+                <a href="#" onClick="loadUI('http://' + window.location.hostname + ':8888/invoice/invoice/prepare?form=list');return false;">invoice list</a><br/>
             </div>
         </div>
             <div id="bjo-main-form">
