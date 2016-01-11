@@ -10,3 +10,4 @@ test.db
 tags
 COMMANDS
 .ctags
+*-journal
