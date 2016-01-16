@@ -1,33 +1,19 @@
 (function(window) {
     var document = window.document;
-    function LazyTable(cssId, functionObject) {
+    function SingleRowTable(cssId, functionObject) {
         this._cssId = cssId;
         this._countFunc = functionObject.count;
-        this._fetchRowsFunc = functionObject.fetchRows; // async
-        this._fetchTemplateRowFunc = functionObject.fetchTemplateRow; // async
+        this._fetchRowFunc = functionObject.fetchRows;
+        this._fetchTemplateRowFunc = functionObject.fetchTemplateRow;
         this._saveFieldFunc = functionObject.saveField;
         this._fetchedRows = [];
         this._headerCellRenderFunc = CellRenderer.renderHeaderCell;
         this._bodyCellRenderFunc = CellRenderer.renderBodyCell;
-        this._shouldCheckScroll = true;
-
-        this._rowWidth = 1000;
-        this._scrollTimeoutMsec = 100;
-
-        // largest possible div height:
-        //      firefox - 17895697px
-        //      chrome -- larger than ff!
-        //      ie - 10737418px
-
-        this._maxTableHeight = 10737418;
-        this._lastScrollTop = null;
-        this._lastScrollLeft = null;
-        this._screenSizeGraceRows = 10;
     }
 
-    LazyTable.prototype.constructor = LazyTable;
+    SingleRowTable.prototype.constructor = SingleRowTable;
 
-    LazyTable.prototype._fetchData = function(startIdx, count, callback) {
+    SingleRowTable.prototype._fetchData = function(startIdx, count, callback) {
         //console.log('fetchdata', startIdx, count);
         this._fetchRowsFunc(startIdx, count, function(error, rows) { callback(startIdx, rows); });
     };
@@ -35,7 +21,7 @@
     /**
      * initial rendering
      */
-    LazyTable.prototype.render = function() {
+    SingleRowTable.prototype.render = function() {
         var self = this;
         this._countRows(function(err, count) {
             this._count = count;
@@ -58,18 +44,18 @@
                 this._heightIsOverflowed = false;
                 console.log('_heightIsOverflowed', this._heightIsOverflowed);
                 this._rowWidth = this._templateRow.fields.length * (this._cellWidth + 4);
-                LazyTable.allWidths(this._tableEl, this._rowWidth);
+                SingleRowTable.allWidths(this._tableEl, this._rowWidth);
                 if ( this._heightIsOverflowed ) {
-                    LazyTable.allHeights(this._tableEl, this._maxTableHeight);
+                    SingleRowTable.allHeights(this._tableEl, this._maxTableHeight);
                 } else {
-                    LazyTable.allHeights(this._tableEl, (this._rowHeight * (this._count + 1)));
+                    SingleRowTable.allHeights(this._tableEl, (this._rowHeight * (this._count + 1)));
                 }
 
                 var headerRowCss = { 
                         height: (this._rowHeight + 4) + 'px',
                 };
                 this._headerRowEl = jQuery('<div/>').attr('id', 'header-row').css(headerRowCss);
-                LazyTable.allWidths(this._headerRowEl, this._rowWidth);
+                SingleRowTable.allWidths(this._headerRowEl, this._rowWidth);
                 jQuery(this._headerRowEl).addClass('header row');
                 this._tableEl.append(this._headerRowEl);
                 for (var i=0; i < this._templateRow.fields.length; ++i ) {
@@ -161,22 +147,22 @@
         }.bind(this));
     };
 
-    LazyTable.prototype._fetchTemplateRow = function(callback) {
+    SingleRowTable.prototype._fetchTemplateRow = function(callback) {
         return this._fetchTemplateRowFunc(callback);
     };
 
-    LazyTable.prototype._countRows = function(callback) {
+    SingleRowTable.prototype._countRows = function(callback) {
         return this._countFunc(callback);
     };
 
-    LazyTable.prototype._saveField = function(fieldName, row, callback) {
+    SingleRowTable.prototype._saveField = function(fieldName, row, callback) {
         return this._saveFieldFunc(fieldName, row, callback);
     };
 
     /**
      * creates the row for saveField()
      */
-    LazyTable.prototype._createRow = function(rowIdx) {
+    SingleRowTable.prototype._createRow = function(rowIdx) {
         var tr = this._templateRow.fields;
         var row = { fields: {} };
         for ( var i = 0; i < tr.length; ++i ) {
@@ -193,12 +179,12 @@
         return row;
     };
 
-    LazyTable.prototype._viewportRows = function() {
+    SingleRowTable.prototype._viewportRows = function() {
         var height = jQuery(this._viewportEl).height();
         return Math.floor(height / this._rowHeight);
     };
 
-    LazyTable.prototype._scrollTo = function(scrollTop, scrollLeft) {
+    SingleRowTable.prototype._scrollTo = function(scrollTop, scrollLeft) {
         this._lastScrollTop = scrollTop;
         this._lastScrollLeft = scrollLeft;
         if ( this._shouldCheckScroll ) {
@@ -211,7 +197,7 @@
 
     };
 
-    LazyTable.prototype._innerScrollTo = function(scrollTop, scrollLeft) {
+    SingleRowTable.prototype._innerScrollTo = function(scrollTop, scrollLeft) {
         if ( this._lastScrollTop === scrollTop ) {
             // console.log('scroll to ', scrollTop, 'of', jQuery(this._tableEl).height());
 
@@ -252,7 +238,7 @@
         jQuery(this._headerRowEl).css({ left: headerLeft + 'px' });
     };
 
-    LazyTable.prototype._emptyCache = function(startIdx) {
+    SingleRowTable.prototype._emptyCache = function(startIdx) {
         var i;
         var count = this._count;
         var startBlockEnd = 2 * this._viewportRows();
@@ -270,7 +256,7 @@
     };
 
 
-    LazyTable.prototype._renderFetchedRows = function(doFocusAfterwards) {
+    SingleRowTable.prototype._renderFetchedRows = function(doFocusAfterwards) {
         if ( typeof(doFocusAfterwards) === 'undefined') {
             doFocusAfterwards = false;
         }
@@ -293,7 +279,7 @@
         Timer.log('_renderFetchedRows');
     }
 
-    LazyTable.prototype._renderRow = function(rowIdx, row) {
+    SingleRowTable.prototype._renderRow = function(rowIdx, row) {
         console.log('rendering', rowIdx, row);
         var fields = row.fields;
         var fieldsLength =fields.length;
@@ -315,8 +301,8 @@
 
         var rowDiv = jQuery('<div/>').attr('id', 'row-' + rowIdx);
         rowDiv.css(rowCss);
-        LazyTable.allWidths(rowDiv, this._rowWidth);
-        LazyTable.allHeights(rowDiv, this._rowHeight);
+        SingleRowTable.allWidths(rowDiv, this._rowWidth);
+        SingleRowTable.allHeights(rowDiv, this._rowHeight);
         if ( jQuery('#row-' + rowIdx).length ) {
             console.log('replacing', rowIdx, row);
             jQuery('#row-' + rowIdx).replaceWith(rowDiv);
@@ -336,11 +322,11 @@
         }
     };
 
-    LazyTable.prototype._renderInsertRow = function() {
+    SingleRowTable.prototype._renderInsertRow = function() {
         this._renderRow('insert', this._templateRow);
     };
 
-    LazyTable.prototype._renderCell = function(rowDiv, rowIdx, fieldIdx, field) {
+    SingleRowTable.prototype._renderCell = function(rowDiv, rowIdx, fieldIdx, field) {
         // console.log('_renderCell', rowIdx, fieldIdx);
         var css = { 
         };
@@ -366,14 +352,14 @@
         return div;
     };
 
-    LazyTable.prototype._mergeFetchedRows = function(startIdx, rows) {
+    SingleRowTable.prototype._mergeFetchedRows = function(startIdx, rows) {
         for ( var i = 0; i < rows.length; ++i ) { // TODO optimize
             //console.log('merge', startIdx + i);
             this._fetchedRows[startIdx + i] = rows[i];
         }
     };
 
-    LazyTable.prototype._getDefaultInputDimensions = function() {
+    SingleRowTable.prototype._getDefaultInputDimensions = function() {
         var input = jQuery('<input type="text"/>');
         jQuery(this._tableEl).append(input);
         var rv= { width: jQuery(input).width(), height: jQuery(input).height() };
@@ -381,7 +367,7 @@
         return rv;
     };
 
-    LazyTable.prototype._isElementVisible = function(elm, evalType) {
+    SingleRowTable.prototype._isElementVisible = function(elm, evalType) {
         evalType = evalType || "visible";
 
         var vpH = jQuery(window).height(), // Viewport Height
@@ -393,13 +379,13 @@
         if (evalType === "above") return ((y < (vpH + st)));
     }
 
-    LazyTable.prototype._afterInsert = function(row) {
+    SingleRowTable.prototype._afterInsert = function(row) {
         console.log('handle insert row', rowIdx, row);
         this._renderFetchedRows(true);
         this._renderInsertRow();
     };
 
-    LazyTable.prototype._afterUpdate = function(rowIdx, row) {
+    SingleRowTable.prototype._afterUpdate = function(rowIdx, row) {
         console.log('handle update row', rowIdx, row);
         this._fetchedRows[rowIdx] = row;
         this._renderFetchedRows(true);
@@ -412,129 +398,15 @@
      * static functions, default renderers...
      */
 
-    LazyTable.allWidths = function(el, width) {
+    SingleRowTable.allWidths = function(el, width) {
         jQuery(el).css({ 'min-width': width + 'px', 'width': width + 'px', 'max-width': width  + 'px'});
     };
 
-    LazyTable.allHeights = function(el, height) {
+    SingleRowTable.allHeights = function(el, height) {
         jQuery(el).css({ 'min-height': height + 'px', 'height': height + 'px', 'max-height': height  + 'px'});
     };
 
     ///////////////////////////////////
 
-    function CellRenderer() {}
-
-    CellRenderer.Editable = function() {}
-
-    CellRenderer.NonEditable = function() {}
-
-    CellRenderer.renderHeaderCell = function(el, fieldIdx, field) {
-        jQuery(el).html(field.label);
-    };
-
-    CellRenderer.fieldValueString = function(v) { return v === null ? '' : v; }
-
-    CellRenderer.renderBodyCell = function(el, rowIdx, fieldIdx, field) {
-        var matrixLine = _(CellRenderer.BodyCellRenderingMatrix).find(function(desc) {
-            var rv = ( desc.isEditable === field.isEditable || desc.isEditable === null )
-                && ( desc.className === null || desc.className.toString() === field.className.toString() )
-                && ( desc.dataType === field.dataType || desc.dataType === null);
-                // console.log('matrix find', field.name, desc, rv);
-            return rv;
-        });
-
-        if ( typeof(matrixLine) === 'undefined' ) {
-            console.error('matrixLine not found', field);
-            throw new Error('matrixLine not found for field ' + field.name);
-        }
-        if ( matrixLine.func === undefined ) {
-            console.error('matrixLine func is undef:', field, matrixLine);
-            throw new Error('matrixLine func is undef' + field.name);
-        }
-        var input = matrixLine.func.bind(this)(el, rowIdx, fieldIdx, field);
-    };
-
-    CellRenderer.Editable.renderStringField = function(el, rowIdx, fieldIdx, field) {
-        var input = jQuery('<input type="text" id="' + CellRenderer._getFieldId(rowIdx, fieldIdx, field) + '" name="' + field.name + '" value="' + CellRenderer.fieldValueString(field.value) + '" />');
-        jQuery(input).addClass('edit');
-        jQuery(el).append(input);
-        return input;
-    };
-
-    /**
-     * also handles noneditable
-     */
-    CellRenderer.Editable.renderBoolField = function(el, rowIdx, fieldIdx, field) {
-        var inner = jQuery('<div/>');
-        inner.addClass('bool');
-        var input = jQuery('<input type="checkbox" id="' + CellRenderer._getFieldId(rowIdx, fieldIdx, field) + '" name="' + field.name + '" value="1"' + (field.value ? ' checked="checked"' : '' )+ ' />');
-        inner.append(input);
-        if ( !field.isEditable ) {
-            jQuery(input).attr('disabled', 'disabled');
-        }
-        jQuery(el).append(inner);
-        return input;
-    };
-
-    CellRenderer.Editable.renderEnumField = function(el, rowIdx, fieldIdx, field) {
-        var inner = jQuery('<div/>');
-        inner.addClass('enum');
-        var html = '<select id="' + CellRenderer._getFieldId(rowIdx, fieldIdx, field) + '" name="' + field.name + '">';
-        html += _(field.options).map(function(o) { 
-            return '<option value="' + o.value + '"' + (field.value === o.value ? ' selected="selected"' : '') + '>' + o.label + '</option>'; 
-        }).join('');
-        inner.html(html);
-
-        jQuery(el).append(inner);
-        return jQuery('#' + CellRenderer._getFieldId(rowIdx, fieldIdx, field));
-    };
-
-
-
-    CellRenderer.NonEditable.renderStringField = function(el, rowIdx, fieldIdx, field) {
-        jQuery(el).html(field.value);
-    };
-
-    CellRenderer.NonEditable.renderNumberField = function(el, rowIdx, fieldIdx, field) {
-        var inner = jQuery('<div/>');
-        inner.html(field.value);
-        inner.addClass('number');
-        jQuery(el).append(inner);
-    };
-
-    CellRenderer._getFieldId = function(rowIdx, fieldIdx, field) {
-        return 'edit-' + field.name + '-' + rowIdx + '-' + fieldIdx;
-    };
-
-    CellRenderer.BodyCellRenderingMatrix = [
-        { isEditable: true, className: 'Field', dataType: 'string', func: CellRenderer.Editable.renderStringField },
-        { isEditable: true, className: 'Field', dataType: 'int', func: CellRenderer.Editable.renderStringField },
-        { isEditable: true, className: 'Field', dataType: 'int', func: CellRenderer.Editable.renderStringField },
-        { isEditable: true, className: 'EnumField', dataType: null, func: CellRenderer.Editable.renderEnumField },
-        { isEditable: null, className: 'Field', dataType: 'bool', func: CellRenderer.Editable.renderBoolField },
-        { isEditable: false, className: 'Field', dataType: 'string', func: CellRenderer.NonEditable.renderStringField },
-        { isEditable: false, className: 'Field', dataType: 'int', func: CellRenderer.NonEditable.renderNumberField },
-        { isEditable: true, className: null, dataType: null, func: CellRenderer.Editable.renderStringField }, // fallback
-        { isEditable: null, className: null, dataType: null, func: CellRenderer.NonEditable.renderStringField }, // fallback
-        // TODO: date, (time), options, lookup
-    ];
-
-
-    Timer = {
-        times: {},
-        start: function(name) {
-            Timer.times[name] = { start: new Date(), end: null, diffMsec: null };
-        },
-        end: function(name) {
-            var time = Timer.times[name];
-            time.end = new Date();
-            time.diffMsec = time.end - time.start;
-        },
-        log: function(name) {
-            var time = Timer.times[name];
-            console.log('Timer', name, 'diffMsec', time.diffMsec);
-        }
-    };
-
-    window.LazyTable = LazyTable;
+    window.SingleRowTable = SingleRowTable;
 })(window);

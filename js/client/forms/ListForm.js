@@ -37,11 +37,9 @@
     ListForm.prototype.toHtml = function() {
         return Tags.script({ type: 'text/javascript' }, [], `
                 jQuery(document).ready(function() { 
-                    console.log('schtargting', this._cssId); 
                     var table = new LazyTable(` + this._thisFormHtml() + `._cssId, ` + this._thisFormHtml() + `.getFunctionObject());
                     table.render();
                 });`);
-                // var t = new LazyTable('ui', countRows, fetch, fetchTemplate, saveField);
      };
 
     ListForm.prototype.getFunctionObject = function() {

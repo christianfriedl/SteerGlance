@@ -112,14 +112,7 @@
 </node>
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
 <node TEXT="rename webize() to toJson() and ...Webized() to ...ToJson()" ID="ID_372599290" CREATED="1451927016653" MODIFIED="1451927045292"/>
-<node TEXT="frontend: optimize scrolling" ID="ID_1890576359" CREATED="1451839099023" MODIFIED="1451839107961">
-<node TEXT="calculate top" ID="ID_1590919464" CREATED="1451839108415" MODIFIED="1451839117304">
-<node TEXT="row-height = first row height" ID="ID_1381244649" CREATED="1451839421665" MODIFIED="1451839428321"/>
-<node TEXT="determine offset and limit" ID="ID_51970493" CREATED="1451839437754" MODIFIED="1451839448246"/>
-<node TEXT="= row-number * row-height" ID="ID_1939587224" CREATED="1451839123076" MODIFIED="1451839129403"/>
-</node>
-<node TEXT="s" ID="ID_1816070652" CREATED="1451839117885" MODIFIED="1451839121662"/>
-</node>
+<node TEXT="sql: distinguish between frontendField and field?" ID="ID_1707574978" CREATED="1452949249911" MODIFIED="1452949650322"/>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: update count after insert" ID="ID_160128588" CREATED="1435663980835" MODIFIED="1435664064870"/>
 <node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
@@ -328,6 +321,13 @@
 <node TEXT="populateLookupFields, calculateCalcFields (loadBoFields?) should be options in constructors" ID="ID_1591555340" CREATED="1445782719858" MODIFIED="1445782770736"/>
 </node>
 <node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437" CREATED="1443639193962" MODIFIED="1443639209876"/>
+<node TEXT="frontend: optimize scrolling" ID="ID_1890576359" CREATED="1451839099023" MODIFIED="1451839107961">
+<node TEXT="calculate top" ID="ID_1590919464" CREATED="1451839108415" MODIFIED="1451839117304">
+<node TEXT="row-height = first row height" ID="ID_1381244649" CREATED="1451839421665" MODIFIED="1451839428321"/>
+<node TEXT="determine offset and limit" ID="ID_51970493" CREATED="1451839437754" MODIFIED="1451839448246"/>
+<node TEXT="= row-number * row-height" ID="ID_1939587224" CREATED="1451839123076" MODIFIED="1451839129403"/>
+</node>
+</node>
 </node>
 </node>
 <node TEXT="Diary" FOLDED="true" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">
