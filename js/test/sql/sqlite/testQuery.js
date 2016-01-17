@@ -153,7 +153,7 @@ var tests = {
         assert.strictEqual(1, sqliteQQ.params()[2]);
     },
 
-    DEACTIVATEDtestDeleteQuery: function() {
+    testDeleteQuery: function() {
         var table1 = table.table('table1');
         var id1 = m_sql_field.field('id1', m_sql_field.DataType.int).value(1);
         table1.field(id1);
@@ -162,7 +162,7 @@ var tests = {
                 .where(m_sql_filter.filter(id1, m_sql_filter.Op.eq, 1)); // all fields
         var sqliteQQ = m_sql_sqlite_query.query(s);
         var ss = sqliteQQ.queryString();
-        assert.strictEqual('DELETE FROM table1 WHERE id1 = ?', sqliteQQ.queryString());
+        assert.strictEqual('DELETE FROM table1 WHERE table1.id1 = ?', sqliteQQ.queryString());
         assert.strictEqual(1, sqliteQQ.params().length);
         assert.strictEqual(1, sqliteQQ.params()[0]);
     },

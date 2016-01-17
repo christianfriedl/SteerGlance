@@ -260,6 +260,35 @@ var tests = {
                 });
             }
         ]);
+    },
+
+    testDelete: function() {
+        var table1 = table.table('deletetable')
+                        .name('deletetable')
+                        .field(field.field('id', field.DataType.int))
+                        .field(field.field('name', field.DataType.string));
+        var db1 = db.db(':memory:').open(':memory:');
+        async.series([
+            function(callback) { db1._db.runSql('CREATE TABLE deletetable (id int, name text)', [], callback); },
+            function(callback) { db1._db.runSql('INSERT INTO deletetable (id, name ) VALUES(?, ?)', [ 1, 'name' ], callback); },
+            function(callback) {
+                var dao1 = primaryDao.primaryDao(db1).table(table1);
+                var bo1 = primaryBo.primaryBo(db1).dao(dao1);
+                bo1.id(1);
+                bo1.delete(function(err) {
+                    console.log('after delete received', err);
+                    assert(!err);
+                    callback();
+                });
+            },
+            function(callback) { db1._db._db.get('SELECT COUNT(*) AS c FROM deletetable', [], 
+                function(err, row) {
+                    console.log('row after delete', row);
+                    assert.equal(row.c, 0);
+                }); 
+            }],
+            function(err, result) { if ( err ) throw err; console.log(result); }
+        );
     }
 };
 
