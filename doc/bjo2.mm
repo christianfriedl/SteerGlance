@@ -112,12 +112,12 @@
 </node>
 <node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
 <node TEXT="rename webize() to toJson() and ...Webized() to ...ToJson()" ID="ID_372599290" CREATED="1451927016653" MODIFIED="1451927045292"/>
-<node TEXT="sql: distinguish between frontendField and field?" ID="ID_1707574978" CREATED="1452949249911" MODIFIED="1452949650322"/>
+<node TEXT="sql: distinguish between frontendField and field?" ID="ID_1707574978" CREATED="1452949249911" MODIFIED="1452949650322">
+<node TEXT="rather NO, does that little bit of additional info really hurt?" ID="ID_447815348" CREATED="1453039372058" MODIFIED="1453039393856"/>
+</node>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: update count after insert" ID="ID_160128588" CREATED="1435663980835" MODIFIED="1435664064870"/>
-<node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
 <node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435919335285"/>
-<node TEXT="frontend: edit in list probably doesn&apos;t work now" ID="ID_1653320881" CREATED="1445690608858" MODIFIED="1445690618140"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1445871999847">
 <icon BUILTIN="button_ok"/>
 </node>
@@ -137,9 +137,6 @@
 <node TEXT="remove stupid and useless clone()" FOLDED="true" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380">
 <node TEXT="or rather, clarify where exactly to use fieldsFromDao" ID="ID_588673258" CREATED="1443643524415" MODIFIED="1443643534348"/>
 </node>
-<node TEXT="have a system for routing frontend forms" ID="ID_1633725770" CREATED="1445786273721" MODIFIED="1445786282962">
-<node TEXT="especially, user-defined forms" ID="ID_1477318880" CREATED="1445872024578" MODIFIED="1445872034486"/>
-</node>
 <node TEXT="clarify / document client/server interface" ID="ID_1707431123" CREATED="1445169720167" MODIFIED="1445169728273">
 <node TEXT="use json-schema" ID="ID_1693580485" CREATED="1451768906327" MODIFIED="1451768910160"/>
 </node>
@@ -150,10 +147,15 @@
 <node TEXT="dao/sql" ID="ID_134085748" CREATED="1451926994289" MODIFIED="1451926995633"/>
 <node TEXT="split sql?" ID="ID_1742725425" CREATED="1451926998835" MODIFIED="1451927003318"/>
 </node>
+<node TEXT="frontend really does not have to fetch anything from backend before instantiating a form" ID="ID_1971642777" CREATED="1453039328962" MODIFIED="1453039344113">
+<node TEXT="have a clean interface call for determining which form to use" ID="ID_1182499475" CREATED="1453039344332" MODIFIED="1453039356740"/>
+<node TEXT="have a system for routing frontend forms" ID="ID_1633725770" CREATED="1445786273721" MODIFIED="1445786282962">
+<node TEXT="especially, user-defined forms" ID="ID_1477318880" CREATED="1445872024578" MODIFIED="1445872034486"/>
+</node>
+</node>
 <node TEXT="list response: aggregateRow is just an array, should be a row &quot;object&quot; with fields: []" ID="ID_947876021" CREATED="1445170661755" MODIFIED="1445170694430"/>
 <node TEXT="reflect whether we should separate frontend-fields from sql/fields" ID="ID_1013306220" CREATED="1446572848294" MODIFIED="1446572864568"/>
-<node TEXT="frontend: optimize scrolling" ID="ID_1658048524" CREATED="1445105902102" MODIFIED="1445105910476"/>
-<node TEXT="daoset/boset: populateLookupFields, calculateCalcfields should be options on the daoset/boset, not on the load... function" ID="ID_1766615146" CREATED="1445106055736" MODIFIED="1445106106630"/>
+<node TEXT="frontend: if pixel height gets really really large, then we run into issues with browser" ID="ID_1658048524" CREATED="1445105902102" MODIFIED="1453039653719"/>
 <node TEXT="sql.query.conditions can currently only do AND" ID="ID_1842917786" CREATED="1444509897101" MODIFIED="1444509907238"/>
 <node TEXT="the way we curretnly avoid circular dependencies in table construction (with stuff in addLinks()) is clearly suboptimal" ID="ID_569725763" CREATED="1436103757312" MODIFIED="1436103785468"/>
 <node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
@@ -328,6 +330,9 @@
 <node TEXT="= row-number * row-height" ID="ID_1939587224" CREATED="1451839123076" MODIFIED="1451839129403"/>
 </node>
 </node>
+<node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
+<node TEXT="frontend: edit in list probably doesn&apos;t work now" ID="ID_1653320881" CREATED="1445690608858" MODIFIED="1445690618140"/>
+<node TEXT="daoset/boset: populateLookupFields, calculateCalcfields should be options on the daoset/boset, not on the load... function" ID="ID_1766615146" CREATED="1445106055736" MODIFIED="1445106106630"/>
 </node>
 </node>
 <node TEXT="Diary" FOLDED="true" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">

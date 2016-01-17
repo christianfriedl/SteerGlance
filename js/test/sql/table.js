@@ -81,9 +81,9 @@ var tests = {
         var field5 = m_sql_lookupField.lookupField('mainId', 1, 'mainId', mainTable.field('id'), mainTable.field('name'));
         childTable.field(field5);
 
-        assert.ok(field1.webize());
-        assert.ok(field4.webize());
-        assert.ok(field5.webize());
+        assert.ok(field1.toJson());
+        assert.ok(field4.toJson());
+        assert.ok(field5.toJson());
 
     }
 };

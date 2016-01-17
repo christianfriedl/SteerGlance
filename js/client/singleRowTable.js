@@ -193,8 +193,6 @@
         if ( inputs.length > 0 ) inputs[0].focus();
     };
 
-    /////////////////////////
-
     /*
      * static functions, default renderers...
      */
