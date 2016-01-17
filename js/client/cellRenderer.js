@@ -112,4 +112,6 @@
             console.log('Timer', name, 'diffMsec', time.diffMsec);
         }
     };
+
+    window.CellRenderer = CellRenderer;
 })(window);

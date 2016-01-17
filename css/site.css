@@ -6,9 +6,6 @@
     width: 99.5%;
     border: 1px solid #999;
 }
-.bjo-links {
-    float: left;
-}
 .bjo-license {
     position: absolute;
     bottom: 10px;
@@ -111,4 +108,17 @@
 }
 .lazy-table .body.cell .bool {
     padding-top: 3px;
+}
+
+.single-row-table {
+    display: table;
+}
+.single-row-table .single-row {
+    display: table-row;
+}
+
+.single-row-table .cell {
+    display: table-cell;
+}
+.single-row-table .header.cell {
 }

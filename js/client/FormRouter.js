@@ -30,6 +30,7 @@
                 return new ListForm(data, cssId);
                 break;
             default:
+                console.log('fr action wtf "' + data.action + '"');
                 throw 'no such action as ' + data.action;
         }
     };
