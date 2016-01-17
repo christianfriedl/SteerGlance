@@ -19,24 +19,17 @@
 (function(window) {
     "use strict";
     var UI = function() {
-        this._data = null;
     };
 
-    UI.prototype.setData = function(data) {
-        this._data = data;
-    };
+    /**
+     * formName is "editForm", not EditForm!
+     */
+    UI.prototype.displayForm = function(cssId, formName, data) {
+        data.form = formName;
 
-    UI.prototype.display = function(cssId, url, data) {
-        data.url = url;
-        if ( typeof(data) !== 'undefinded' ) {
-            this.setData(data);
-        }
-
-        var form = FormRouter.route(data, cssId);
-        console.log('uidisplay form data', data);
-
+        var form = window[formName].call({}, data, cssId);
         var html = form.toHtml();
-        $('#' + cssId).html(html);
+        jQuery('#' + cssId).html(html);
     };
 
     window.UI = UI;

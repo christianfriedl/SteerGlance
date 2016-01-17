@@ -30,6 +30,23 @@
                     }
                 });
             }
+            function loadUInew(cssId, baseUrl, data) {
+                jQuery.ajax(baseUrl + '/' + [ 'client', 'formRouter', 'byRoute' ].join('/'), {
+                    method: 'get',
+                    data: data,
+                    async: true,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(routerData) {
+                        console.log('loaduinew success routerData', routerData);
+                        var form = window[routerData.formName];
+                        if ( typeof(form === 'function') ) {
+                            var ui = new UI();
+                            ui.displayForm(cssId, routerData.formName, data);
+                        }
+                    }
+                });
+            }
         </script>
     </head>
     <body>
@@ -37,7 +54,7 @@
             <div class="bjo-links">
                 <a href="#" onClick="loadUI('bjo-main-form', 'http://' + window.location.hostname + ':8888/customer/customer/prepare?form=list');return false;">customer list</a><br/>
                 <a href="#" onClick="loadUI('bjo-main-form', 'http://' + window.location.hostname + ':8888/invoice/invoice/prepare?form=list');return false;">invoice list</a><br/>
-                <a href="#" onClick="loadUI('bjo-main-form', 'http://' + window.location.hostname + ':8888/invoice/invoice/edit?id=1');return false;">invoice edit</a><br/>
+                <a href="#" onClick="loadUInew('bjo-main-form', 'http://' + window.location.hostname + ':8888', { module: 'invoice', controller: 'invoice', action: 'edit', id: 1} );return false;">invoice edit</a><br/>
             </div>
             <div id="bjo-main-form">
             </div>

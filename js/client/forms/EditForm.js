@@ -25,9 +25,18 @@
         this._cssId = cssId;
         console.log('ef data', data);
     }
+
+    function editForm(data, cssId) { return new EditForm(data, cssId); }
     EditForm.prototype = new Form();
 
     EditForm.prototype.toHtml = function() {
+        this.fetchRow(this._data.id, function(err, row) {
+            this._data.row = row;
+            var table = new SingleRowTable(this._cssId, this._data.row, this.getSaveFieldFunc());
+            table.render();
+        }.bind(this));
+        return;
+
         return Tags.script({ type: 'text/javascript' }, [], `
             jQuery(document).ready(function() { 
                 var table = new SingleRowTable(` + this._thisFormHtml() + `._cssId, ` + this._thisFormHtml() + `._data.row, ` + this._thisFormHtml() + `.getSaveFieldFunc());
@@ -52,16 +61,13 @@
     };
 
     EditForm.prototype.fetchRow = function(id, callback) {
-        console.log('ef fetchrow will call', callback, 'with row', this._data.row);
-        callback(false, this._data.row);
-        /*
         var fetchUrl = '/' + [ this._data.module, this._data.controller, 'edit'].join('/');
         var data = { id: id };
         console.log('fetchrow sends data', data, JSON.stringify(data));
         jQuery.ajax({
             type: 'GET', 
             url: fetchUrl,
-            data: JSON.stringify(data),
+            data: data,
             dataType: 'json',
             contentType: 'application/json',
             success: function(data) {
@@ -69,7 +75,6 @@
                 callback(false, data.row);
             }
         });
-        */
     };
 
     EditForm.prototype.fetchTemplateRow = function(callback) {
@@ -108,52 +113,6 @@
         return this.saveField.bind(this);
     };
 
-
-    function nononono() {
-        var html = Tags.form({ 'id': 'bjo-main-form'}, [
-            Tags.table({ 'class': 'card-form' }, [], 
-                (new EditForm.Row(this._data.row, this._cssId).toHtml()))
-            ]) + Tags.script({ 'type': 'text/javascript' },
-                [],
-                `jQuery(document).ready(function() {
-                    jQuery('#bjo-main-form input').change(function(evt) {
-                        console.log('saving...', this.name);
-                        evt.preventDefault();
-                        var row = {};
-                        _(jQuery('#bjo-main-form .edit-field')).map(function(f) { row[f.name] = jQuery(f).val(); });
-                        var data = { fieldName: this.name, row: row };
-                        console.log('serailize data', data);
-                        jQuery.ajax( 
-                            {
-                                type: 'POST', 
-                                url: '/` + [ this._data.module, this._data.controller, 'saveField' ].join('/') + `',
-                                data: JSON.stringify(data),
-                                dataType: 'json',
-                                contentType: 'application/json',
-                                success: function(data) {
-                                    console.log('success!', data);
-                                },
-                                error: function (xhr, ajaxOptions, thrownError) {alert("ERROR:" + xhr.responseText+" - "+thrownError);} 
-                            }
-                        );
-                    });
-                });
-            `);
-            return html;
-    };
-
-    /*
-     * EditForm.Row: returns the html for one data row (row is NOT a tr here!)
-     */
-    EditForm.Row = function(row) {
-        this._row = row;
-    };
-
-    EditForm.Row.prototype.toHtml = function() {
-        return _(this._row.fields).reduce(function(memo, field) {
-                    return memo + Tags.tr({}, [], Tags.th({}, [], field.label) + Tags.td({}, [ Tags.input({ 'name': field.name, 'class': 'edit-field', 'type': 'text', 'value': field.value}) ]));
-                }, '');
-    };
-
     window.EditForm = EditForm;
+    window.editForm = editForm;
 })(window);

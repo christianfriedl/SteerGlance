@@ -110,14 +110,14 @@
 <icon BUILTIN="flag-orange"/>
 </node>
 </node>
-<node TEXT="Prio 1" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
-<node TEXT="rename webize() to toJson() and ...Webized() to ...ToJson()" ID="ID_372599290" CREATED="1451927016653" MODIFIED="1451927045292"/>
+<node TEXT="is in bugzilla" ID="ID_431300306" CREATED="1453058103226" MODIFIED="1453058105992">
+<node TEXT="Prio 1" FOLDED="true" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
 <node TEXT="sql: distinguish between frontendField and field?" ID="ID_1707574978" CREATED="1452949249911" MODIFIED="1452949650322">
 <node TEXT="rather NO, does that little bit of additional info really hurt?" ID="ID_447815348" CREATED="1453039372058" MODIFIED="1453039393856"/>
 </node>
 <node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
 <node TEXT="frontend: update count after insert" ID="ID_160128588" CREATED="1435663980835" MODIFIED="1435664064870"/>
-<node TEXT="implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1435919335285"/>
+<node TEXT="frontend: implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1453042435435"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1445871999847">
 <icon BUILTIN="button_ok"/>
 </node>
@@ -129,16 +129,17 @@
 <node TEXT="backend: when setting the customer id from the frontend, fairly certainly we now do not set the customer() object" ID="ID_1137170107" CREATED="1443976632816" MODIFIED="1443976745650"/>
 <node TEXT="dao: dao.calculateCalcfields() - remove conditions from params, if we are a primary dao... otherwise...???" ID="ID_1556723586" CREATED="1436019216756" MODIFIED="1436019289475"/>
 <node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
-<node TEXT="conditions for which fields to use are sometimes wrong" FOLDED="true" ID="ID_106910296" CREATED="1445784195689" MODIFIED="1445784214014">
+<node TEXT="conditions for which fields to use are sometimes wrong" ID="ID_106910296" CREATED="1445784195689" MODIFIED="1445784214014">
 <node TEXT="DaoDataProvider.prototype.writableFieldsAsList = function() {&#xa;    return _(this._fields).values().filter(function(f) {&#xa;        return !(f instanceof m_sql_calcField.CalcField)&#xa;            &amp;&amp; !(f instanceof m_sql_boField.BoField) }); // TODO this condition is not exactly right&#xa;        return !f.isEditable(); // TODO this SHOULD be the correct condition, but it does not work&#xa;};" ID="ID_1988996891" CREATED="1445784214643" MODIFIED="1445784216358"/>
 </node>
 <node TEXT="daoset: should dao.populateLookupFields move from loadByConditions to loadByQuery?" ID="ID_3304635" CREATED="1436434490406" MODIFIED="1436434513826"/>
 <node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_331627961" CREATED="1435919369839" MODIFIED="1435919385726"/>
-<node TEXT="remove stupid and useless clone()" FOLDED="true" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380">
+<node TEXT="remove stupid and useless clone()" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380">
 <node TEXT="or rather, clarify where exactly to use fieldsFromDao" ID="ID_588673258" CREATED="1443643524415" MODIFIED="1443643534348"/>
 </node>
 <node TEXT="clarify / document client/server interface" ID="ID_1707431123" CREATED="1445169720167" MODIFIED="1445169728273">
 <node TEXT="use json-schema" ID="ID_1693580485" CREATED="1451768906327" MODIFIED="1451768910160"/>
+</node>
 </node>
 </node>
 <node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
@@ -333,6 +334,8 @@
 <node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
 <node TEXT="frontend: edit in list probably doesn&apos;t work now" ID="ID_1653320881" CREATED="1445690608858" MODIFIED="1445690618140"/>
 <node TEXT="daoset/boset: populateLookupFields, calculateCalcfields should be options on the daoset/boset, not on the load... function" ID="ID_1766615146" CREATED="1445106055736" MODIFIED="1445106106630"/>
+<node TEXT="rename webize() to toJson() and ...Webized() to ...ToJson()" ID="ID_372599290" CREATED="1451927016653" MODIFIED="1451927045292"/>
+<node TEXT="backend: implement delete" ID="ID_1745908832" CREATED="1453042438683" MODIFIED="1453042442701"/>
 </node>
 </node>
 <node TEXT="Diary" FOLDED="true" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">
