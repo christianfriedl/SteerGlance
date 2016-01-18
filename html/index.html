@@ -6,55 +6,13 @@
         <script type="text/javascript" src="../js/extlib/jquery-2.1.1.min.js"></script> <!-- general goodness -->
         <script type="text/javascript" src="../js/extlib/jquery-ui-1.11.4/jquery-ui.min.js"></script> <!-- general goodness -->
         <script type="text/javascript" src="../js/extlib/underscore.js"></script> <!-- functional -->
-        <script type="text/javascript" src="../js/extlib/handlebars-v3.0.0.js"></script> <!-- templates -->
-        <script type="text/javascript" src="../js/client/Util.js"></script>
-        <script type="text/javascript" src="../js/client/UI.js"></script>
-        <script type="text/javascript" src="../js/client/FormRouter.js"></script>
-        <script type="text/javascript" src="../js/client/Html.js"></script>
-        <script type="text/javascript" src="../js/client/forms/Form.js"></script>
-        <script type="text/javascript" src="../js/client/forms/EditForm.js"></script>
-        <script type="text/javascript" src="../js/client/forms/ListForm.js"></script>
-        <script type="text/javascript" src="../js/client/lazyTable.js"></script>
-        <script type="text/javascript" src="../js/client/singleRowTable.js"></script>
-        <script type="text/javascript" src="../js/client/timer.js"></script>
-        <script type="text/javascript" src="../js/client/cellRenderer.js"></script>
-        <script type="text/javascript">
-            function loadUI(cssId, url) {
-                jQuery.ajax(url, {
-                    async: true,
-                    success: function(data) {
-                        console.log('loadui success', data);
-                        var ui = new UI();
-                        var datax = JSON.parse(data);
-                        ui.display(cssId, url, datax);
-                    }
-                });
-            }
-            function loadUInew(cssId, baseUrl, data) {
-                jQuery.ajax(baseUrl + '/' + [ 'client', 'formRouter', 'byRoute' ].join('/'), {
-                    method: 'get',
-                    data: data,
-                    async: true,
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function(routerData) {
-                        console.log('loaduinew success routerData', routerData);
-                        var form = window[routerData.formName];
-                        if ( typeof(form === 'function') ) {
-                            var ui = new UI();
-                            ui.displayForm(cssId, routerData.formName, data);
-                        }
-                    }
-                });
-            }
-        </script>
+        <script type="text/javascript" src="../js/client.bundle.js"></script>
     </head>
     <body>
         <div id="bjo-ui" class="bjo-ui">
             <div class="bjo-links">
-                <a href="#" onClick="loadUI('bjo-main-form', 'http://' + window.location.hostname + ':8888/customer/customer/prepare?form=list');return false;">customer list</a><br/>
-                <a href="#" onClick="loadUI('bjo-main-form', 'http://' + window.location.hostname + ':8888/invoice/invoice/prepare?form=list');return false;">invoice list</a><br/>
-                <a href="#" onClick="loadUInew('bjo-main-form', 'http://' + window.location.hostname + ':8888', { module: 'invoice', controller: 'invoice', action: 'edit', id: 1} );return false;">invoice edit</a><br/>
+                <a href="#" onClick="loadUI('bjo-main-form', 'http://' + window.location.hostname + ':8888', { module: 'invoice', controller: 'invoice', action: 'list', id: 1} );return false;">invoice list</a><br/>
+                <a href="#" onClick="loadUI('bjo-main-form', 'http://' + window.location.hostname + ':8888', { module: 'invoice', controller: 'invoice', action: 'edit', id: 1} );return false;">invoice edit</a><br/>
             </div>
             <div id="bjo-main-form">
             </div>

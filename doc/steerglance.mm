@@ -227,9 +227,6 @@
 <node TEXT="probably use _.isString() instead of util.isString()" ID="ID_274455070" CREATED="1436206341377" MODIFIED="1436206359834"/>
 </node>
 </node>
-<node TEXT="HERE WE WILL BE AT v0.1alpha" ID="ID_1294412308" CREATED="1436258422769" MODIFIED="1436258459603">
-<font SIZE="22" BOLD="true"/>
-</node>
 <node TEXT="TESTS to create" FOLDED="true" ID="ID_799999024" CREATED="1436176760345" MODIFIED="1436176763330">
 <node TEXT="all functions should have type-checks with /* @DEVELOPMENT */" ID="ID_462989029" CREATED="1436182789643" MODIFIED="1436182809364"/>
 </node>
