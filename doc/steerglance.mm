@@ -99,18 +99,7 @@
 <node TEXT="Scrum" POSITION="right" ID="ID_1919369938" CREATED="1435663658673" MODIFIED="1435663661271">
 <edge COLOR="#7c0000"/>
 <node TEXT="Todo" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1435663662175">
-<node TEXT="Legende" ID="ID_1817376766" CREATED="1445871749715" MODIFIED="1445871751094">
-<node TEXT="simple" ID="ID_478141887" CREATED="1445871752740" MODIFIED="1445871781396">
-<icon BUILTIN="flag-green"/>
-</node>
-<node TEXT="hard" ID="ID_170487360" CREATED="1445871754889" MODIFIED="1445871790877">
-<icon BUILTIN="flag-yellow"/>
-</node>
-<node TEXT="nigh-impossible" ID="ID_1781414113" CREATED="1445871760729" MODIFIED="1445871795986">
-<icon BUILTIN="flag-orange"/>
-</node>
-</node>
-<node TEXT="is in bugzilla" ID="ID_431300306" CREATED="1453058103226" MODIFIED="1453058105992">
+<node TEXT="is in bugzilla" FOLDED="true" ID="ID_431300306" CREATED="1453058103226" MODIFIED="1453058105992">
 <node TEXT="Prio 1" FOLDED="true" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
 <node TEXT="sql: distinguish between frontendField and field?" ID="ID_1707574978" CREATED="1452949249911" MODIFIED="1452949650322">
 <node TEXT="rather NO, does that little bit of additional info really hurt?" ID="ID_447815348" CREATED="1453039372058" MODIFIED="1453039393856"/>
@@ -141,8 +130,7 @@
 <node TEXT="use json-schema" ID="ID_1693580485" CREATED="1451768906327" MODIFIED="1451768910160"/>
 </node>
 </node>
-</node>
-<node TEXT="Prio 2" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
+<node TEXT="Prio 2" FOLDED="true" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
 <node TEXT="reflect on cleaner interface between layers" ID="ID_1983523684" CREATED="1451926981623" MODIFIED="1451926988767">
 <node TEXT="bo/dao" ID="ID_1891991254" CREATED="1451926990464" MODIFIED="1451926993841"/>
 <node TEXT="dao/sql" ID="ID_134085748" CREATED="1451926994289" MODIFIED="1451926995633"/>
@@ -171,7 +159,7 @@
 <node TEXT="needs naming convention for the variable" ID="ID_1918564664" CREATED="1436108083250" MODIFIED="1436108094540"/>
 </node>
 <node TEXT="lookupfield: .clone might be suboptimal, what if user changes Field stuff between construction and cloning?" ID="ID_1528169891" CREATED="1436024303688" MODIFIED="1436024337016"/>
-<node TEXT="test-app" FOLDED="true" ID="ID_799636667" CREATED="1430315839833" MODIFIED="1430315841342">
+<node TEXT="test-app" ID="ID_799636667" CREATED="1430315839833" MODIFIED="1430315841342">
 <node TEXT="customer/ invoices" ID="ID_1907447430" CREATED="1430315841734" MODIFIED="1430315846728"/>
 <node TEXT="costs" ID="ID_376143007" CREATED="1430315847016" MODIFIED="1430315851573"/>
 </node>
@@ -209,7 +197,7 @@
 <node TEXT="sadly, this involves changing the signatures of daos and bos" ID="ID_518037629" CREATED="1451741966809" MODIFIED="1451741976142"/>
 </node>
 </node>
-<node TEXT="Prio 3" ID="ID_265969861" CREATED="1441365521864" MODIFIED="1441365523877">
+<node TEXT="Prio 3" FOLDED="true" ID="ID_265969861" CREATED="1441365521864" MODIFIED="1441365523877">
 <node TEXT="Reflect on using q/Promises instead of async" ID="ID_137781395" CREATED="1446141520797" MODIFIED="1446141546456"/>
 <node TEXT="There is no explicit test for bo.calculateCalcFields and dao.calculateCalcFields in our test suites" ID="ID_1702884024" CREATED="1445871708250" MODIFIED="1445871729569"/>
 <node TEXT="Be able to insert non-primary daos/bos" ID="ID_515705090" CREATED="1441365526224" MODIFIED="1441365534286"/>
@@ -230,9 +218,6 @@
 <node TEXT="rename LazyFieldLinkManager to LazyLinkManager" ID="ID_798753087" CREATED="1451740462566" MODIFIED="1451740497217"/>
 <node TEXT="The LazyLinks should probably derive from a common baseclass to simulate an interface" ID="ID_246307817" CREATED="1451740606158" MODIFIED="1451740622805"/>
 </node>
-<node TEXT="HERE WE WILL BE AT v0.1alpha" ID="ID_1294412308" CREATED="1436258422769" MODIFIED="1436258459603">
-<font SIZE="22" BOLD="true"/>
-</node>
 <node TEXT="Prio 3" FOLDED="true" ID="ID_1852199333" CREATED="1435663677286" MODIFIED="1435663679383">
 <node TEXT="optimization: cache lookupfield options" ID="ID_32683467" CREATED="1435919298306" MODIFIED="1435919309328"/>
 <node TEXT="secuirity: acheck against sql injection" ID="ID_1469007336" CREATED="1435666679893" MODIFIED="1435666690886"/>
@@ -241,13 +226,9 @@
 <node TEXT="server: fix error response" ID="ID_453376038" CREATED="1435762174278" MODIFIED="1435762180771"/>
 <node TEXT="probably use _.isString() instead of util.isString()" ID="ID_274455070" CREATED="1436206341377" MODIFIED="1436206359834"/>
 </node>
-<node TEXT="Prio 4" FOLDED="true" ID="ID_1921578979" CREATED="1436260571146" MODIFIED="1436260573084">
-<node TEXT="Reflect on refactoring EVERYTHING, including &quot;constructors&quot;, to be asynchronous" FOLDED="true" ID="ID_439429410" CREATED="1436260573519" MODIFIED="1436260589354">
-<node TEXT="All &quot;real&quot; constructor function like Dao() would only be there for the inheritance chain" ID="ID_81838264" CREATED="1436260678226" MODIFIED="1436260698283"/>
-<node TEXT="so we could populate lookup fields asynchronously!" FOLDED="true" ID="ID_191166938" CREATED="1436260589566" MODIFIED="1436260607602">
-<node TEXT="remove populatelookupfields from query result processing" ID="ID_1289840725" CREATED="1436103039186" MODIFIED="1436103050307"/>
 </node>
-</node>
+<node TEXT="HERE WE WILL BE AT v0.1alpha" ID="ID_1294412308" CREATED="1436258422769" MODIFIED="1436258459603">
+<font SIZE="22" BOLD="true"/>
 </node>
 <node TEXT="TESTS to create" FOLDED="true" ID="ID_799999024" CREATED="1436176760345" MODIFIED="1436176763330">
 <node TEXT="all functions should have type-checks with /* @DEVELOPMENT */" ID="ID_462989029" CREATED="1436182789643" MODIFIED="1436182809364"/>
