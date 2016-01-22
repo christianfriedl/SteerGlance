@@ -40,14 +40,14 @@
 }
 
 
-.lazy-table .header.row {
+.lazy-table .header.row, .lazy-table .filter.row {
     border: 0;
     position: fixed;
     z-index: 1;
     overflow: hidden;
 }
 
-.lazy-table .header.cell {
+.lazy-table .header.cell{
     z-index: 2;
     font-weight: bold;
     text-align: center;
@@ -55,6 +55,22 @@
     border: 2px outset #eee;
     color: #000;
     cursor: pointer;
+}
+
+.lazy-table .filter.cell {
+    z-index: 2;
+    border: 2px outset #eee;
+    color: #000;
+}
+
+.lazy-table .filter.cell .filter-value {
+    width: 80px;
+    height: 20px;
+    border: 1px inset #999;
+}
+.lazy-table .filter.cell .filter-op {
+    height: 20px;
+    border: 1px inset #999;
 }
 
 .lazy-table .body.cell {

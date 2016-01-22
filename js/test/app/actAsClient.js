@@ -169,6 +169,24 @@ var tests = {
                 }
         ]);
 
+    },
+    testFetchInvoiceListWithFilter: function() {
+        var db1 = m_sql_db.db(':memory:').open(':memory:');
+        var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
+        var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
+        var request = { body: { conditions: { limit: 3, offset: 0, orderBy: [ { field: 'id' } ], filters: [ { fieldName: 'customerId', opName: 'eq', value: '2' } ] } } };
+        var response = {};
+        async.series([
+            function(callback) { setupDb(db1, callback); },
+            function(callback) {
+                return m_controller.list(boSet, request, response, function(response) {
+                    console.log('"responsecallback" in testFetchInvoiceListWithFilter received response', response, 'with rows', util.inspect(response.data.rows, { depth: 10} ));
+                    assert.strictEqual(response.data.rows.length, 3);
+                    var f = _(response.data.rows[0].fields).find(function(f) { return f.name === 'customerId' });
+                    assert.strictEqual(2, f.value);
+                });
+            }
+        ]);
     }
 };
 
