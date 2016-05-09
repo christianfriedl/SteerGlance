@@ -1,3 +1,8 @@
 - have data description in one place
 - save an object with one save() method
 - retrieve data in a unified way so the result is a hierarchy of objects
+
+
+- query language:
+    var customers = QO(Customer).where({ 'lastName': 'Friedl' });
+    QO(Customer).where({ 'lastName': 'Friedl' }).first().lastName('Augeneder').save();
