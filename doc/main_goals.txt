@@ -4,9 +4,17 @@
 
 
 - query language:
+    - qsl
+    - should be layered atop of sql
+    - should be usable for all our queries
+    - should be a generic way to express calcfield relations
+
     var customers = qsl(CustomerBo).where({ 'lastName': 'Friedl' });
     var customers = qsl(CustomerBo).where( (c) => { return c.lastName() === 'Friedl'} ); // in this case we HAVE to perform the condition in the application!!!!
     qsl(CustomerBo).where({ 'lastName': 'Friedl' }).first().lastName('Augeneder').save();
     var customerBo = qsl(CustomerBo).where({ 'lastName': 'Friedl' }).first(); // => simply returns a Bo!!!
     var invoiceNetSum = qsl(InvoiceBo).where({ 'customerId': customer.id() }).sum('netAmount'); // here we can create one sql statement
     var invoiceNetSum = qsl(InvoiceBo).where((c) => { return c.lastName() === 'Friedl'}{ 'customerId': customer.id() }).sum('netAmount'); // here we can create one sql statement
+
+    use as calcfield relation: ~: 
+        qsl(InvoiceBo).where({ 'customerId': this.id() }).sum('netAmount'); // here we can create one sql statement

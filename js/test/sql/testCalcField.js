@@ -18,7 +18,7 @@
 
 var assert = require('assert');
 var m_sql_calcField = require('sql/calcField.js');
-var m_sql_field = require('sql/Field.js');
+var m_sql_field = require('sql/field.js');
 var m_sql_lookupField = require('sql/lookupField.js');
 var m_TestSuite = require('TestSuite.js');
 
