@@ -45,7 +45,7 @@ function setupDb(db1, callback) {
                 function(callback) { 
                     db1.runSql('INSERT INTO invoice (id, amount, customerId) VALUES(' + i + ', ' + (i*10) + ', 1)', [], function() { ++i;  callback(); }); 
                 },
-                function(err) { callback(); }
+                function(err, res) { }
                 // 10 + 20 + ... + 100 = 550 => custid 1
             );
             var j=11;
@@ -54,7 +54,7 @@ function setupDb(db1, callback) {
                 function(callback) { 
                     db1.runSql('INSERT INTO invoice (id, amount, customerId) VALUES(' + j + ', ' + (j*10) + ', 2)', [], function() { ++j;  callback(); }); 
                 },
-                function(err) { callback(); }
+                function(err, res) { callback(); }
                 // 110 + 120 + ... + 200 = 1550 => custid 2
 
                 // custid 1 + custid 2 => 550 + 1550 = 2100
