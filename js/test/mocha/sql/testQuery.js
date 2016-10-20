@@ -1,7 +1,9 @@
 "use strict";
 
 var assert = require('assert');
-var model_EntityModel = require('model/EntityModel.js');
+var sql_Table = require('sql/Table.js');
+var sql_Field = require('sql/Field.js');
+var sql_Query = require('sql/Query.js');
 
 describe('model_EntityModel', function() {
     describe('create', function() {
