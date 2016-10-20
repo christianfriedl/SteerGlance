@@ -4,6 +4,7 @@ var assert = require('assert');
 var sql_Table = require('sql/Table.js');
 var sql_Field = require('sql/Field.js');
 var sql_Query = require('sql/Query.js');
+var sql_Filter = require('sql/Filter.js');
 
 describe('model_EntityModel', function() {
     describe('create', function() {
@@ -11,15 +12,16 @@ describe('model_EntityModel', function() {
             var table1 = sql_Table.create('table1');
             var field1 = sql_Field.create('field1', sql_Field.DataType.int);
             table1.addField(field1);
-            /*
-            var cond = filter.filter: function()
-                .field(new field.Field('field1'))
-                .op(filter.Op.eq)
-                .compareTo('haha');
-                */
-            var select = sql_Query.select(field1).from(table1);
+            var cond = sql_Filter.create(field1, sql_Filter.Op.eq, 'haha');
 
-            assert.strictEqual(1, select.getFields().length);
+            var select = sql_Query.select(field1).from(table1).where(cond);
+
+            assert.strictEqual(1, select.getFields().length, '# of fields');
+            assert.strictEqual(1, select.getTables().length, '# of tables');
+
+            assert.strictEqual('field1', select.getFields()[0].getName());
+            assert.strictEqual('table1', select.getTables()[0].getName());
+            console.log(select);
             // var sqliteQQ = sqlite_Query.create(select);
         });
     });
