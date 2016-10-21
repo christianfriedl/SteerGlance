@@ -95,6 +95,13 @@
 <node TEXT="cons can optionally be called with 5 params, and will then construct its own link via link()" ID="ID_1292093337"/>
 </node>
 </node>
+<node TEXT="Table, Field, ValueField, Entity...." ID="ID_174335512">
+<node TEXT="table.getFields() -&gt; object" ID="ID_1543629485">
+<node TEXT="via EntityUtil?" ID="ID_1960591336"/>
+</node>
+<node TEXT="object -&gt; Entity" ID="ID_715086752"/>
+<node TEXT="Entity -&gt; EntityModel" ID="ID_739431472"/>
+</node>
 </node>
 <node TEXT="Scrum" POSITION="right" ID="ID_1919369938">
 <edge COLOR="#7c0000"/>
@@ -375,10 +382,20 @@
 </node>
 <node TEXT="2016" ID="ID_1275888629">
 <node TEXT="Yay, another revamp" ID="ID_877807473">
-<node TEXT="customer.save()" ID="ID_1028571099"/>
+<node TEXT="customer.save()" ID="ID_1028571099">
+<node TEXT="YAY" ID="ID_369627934"/>
+</node>
 <node TEXT="SteerGlance.save(customer);" ID="ID_294885178"/>
+<node TEXT="SteerGlance.Entity.create(customer).save()" ID="ID_921435715"/>
+<node TEXT="SteerGlance.save(customer) -&gt; SteerGlance.Entity.create(customer).save()" ID="ID_1044482333"/>
 <node TEXT="CustomerSet.loadById(1);" ID="ID_1451454720"/>
-<node TEXT="SteerGlance.loadById(Customer, 1);" ID="ID_1702672354"/>
+<node TEXT="SteerGlance.loadById(Customer, 1);" ID="ID_1702672354">
+<node TEXT="YAY" ID="ID_396307954"/>
+</node>
+<node TEXT="or EntitySet.loadEntityById(Customer, 1);" ID="ID_887239172">
+<node TEXT="--- can always do shortcut" ID="ID_670856316"/>
+<node TEXT="CustomerSet.loadEntityById(1) { return EntitySet.load...(); }" ID="ID_1753725607"/>
+</node>
 </node>
 </node>
 </node>
