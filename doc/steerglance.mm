@@ -1,6 +1,6 @@
 <map version="freeplane 1.3.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
-<node TEXT="BJO in Node.js" FOLDED="false" ID="ID_1723255651" CREATED="1283093380553" MODIFIED="1436340841892"><hook NAME="MapStyle" zoom="0.75">
+<node TEXT="BJO in Node.js" ID="ID_1723255651"><hook NAME="MapStyle" zoom="0.75">
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node">
@@ -50,327 +50,335 @@
 </map_styles>
 </hook>
 <hook NAME="AutomaticEdgeColor" COUNTER="8"/>
-<node TEXT="&quot;BJO v.2&quot;" POSITION="right" ID="ID_28794418" CREATED="1426860351617" MODIFIED="1426860356034">
+<node TEXT="&quot;BJO v.2&quot;" POSITION="right" ID="ID_28794418">
 <edge COLOR="#ff00ff"/>
 </node>
-<node TEXT="Client" FOLDED="true" POSITION="right" ID="ID_71224373" CREATED="1426860235091" MODIFIED="1426860239211">
+<node TEXT="Client" POSITION="right" ID="ID_71224373">
 <edge COLOR="#ff0000"/>
-<node TEXT="Node?" ID="ID_1913239834" CREATED="1426860239623" MODIFIED="1426860244082"/>
+<node TEXT="Node?" ID="ID_1913239834"/>
 </node>
-<node TEXT="Server" FOLDED="true" POSITION="right" ID="ID_1263539102" CREATED="1426860245235" MODIFIED="1426860246563">
+<node TEXT="Server" POSITION="right" ID="ID_1263539102">
 <edge COLOR="#0000ff"/>
-<node TEXT="Node?" ID="ID_282683585" CREATED="1426860246943" MODIFIED="1426860248118"/>
-<node TEXT="transactional" ID="ID_285528198" CREATED="1426860502310" MODIFIED="1426860510878"/>
-<node TEXT="all in sql?" ID="ID_51335204" CREATED="1426860519519" MODIFIED="1426860536589"/>
-<node TEXT="how to model references" ID="ID_1518640490" CREATED="1426860536911" MODIFIED="1426860561058"/>
-<node TEXT="sqlite backend?" ID="ID_748504985" CREATED="1426861989206" MODIFIED="1426861991566"/>
+<node TEXT="Node?" ID="ID_282683585"/>
+<node TEXT="transactional" ID="ID_285528198"/>
+<node TEXT="all in sql?" ID="ID_51335204"/>
+<node TEXT="how to model references" ID="ID_1518640490"/>
+<node TEXT="sqlite backend?" ID="ID_748504985"/>
 </node>
-<node TEXT="Transport" POSITION="right" ID="ID_1864574725" CREATED="1426860278599" MODIFIED="1426860280787">
+<node TEXT="Transport" POSITION="right" ID="ID_1864574725">
 <edge COLOR="#00ff00"/>
-<node TEXT="Json" ID="ID_19095344" CREATED="1426860281245" MODIFIED="1426860282448"/>
-<node TEXT="list response" ID="ID_617404892" CREATED="1445170409869" MODIFIED="1445170416912">
-<node TEXT="response { data: &#xa;   { action:  &apos;list&apos;,&#xa;     rows: &#xa;      [ { fields: &#xa;           [ { className:  &lt;&gt;,&#xa;               name:  &apos;...&apos;,&#xa;               dataType:  &lt;&gt;,&#xa;               value:  &lt;&gt;,&#xa;               label:  &lt;&gt;,&#xa;               seq: &lt;&gt;,&#xa;               isEditable:  &lt;&gt;,&#xa;               isRequired:  &lt;&gt;,&#xa;               links:  [] } ],&#xa;          id:  &lt;&gt; } ],&#xa;     aggregateRow: &#xa;      [  ],&#xa;     count:  20, // general count, not heeding limit&#xa;     templateRow: &#xa;      { fields: &#xa;         [] } } }" ID="ID_1860102900" CREATED="1445170418375" MODIFIED="1445170621010"/>
+<node TEXT="Json" ID="ID_19095344"/>
+<node TEXT="list response" ID="ID_617404892">
+<node TEXT="response { data: &#xa;   { action:  &apos;list&apos;,&#xa;     rows: &#xa;      [ { fields: &#xa;           [ { className:  &lt;&gt;,&#xa;               name:  &apos;...&apos;,&#xa;               dataType:  &lt;&gt;,&#xa;               value:  &lt;&gt;,&#xa;               label:  &lt;&gt;,&#xa;               seq: &lt;&gt;,&#xa;               isEditable:  &lt;&gt;,&#xa;               isRequired:  &lt;&gt;,&#xa;               links:  [] } ],&#xa;          id:  &lt;&gt; } ],&#xa;     aggregateRow: &#xa;      [  ],&#xa;     count:  20, // general count, not heeding limit&#xa;     templateRow: &#xa;      { fields: &#xa;         [] } } }" ID="ID_1860102900"/>
 </node>
 </node>
-<node TEXT="Knowledge Base" POSITION="right" ID="ID_601035691" CREATED="1443357414932" MODIFIED="1443357419138">
+<node TEXT="Knowledge Base" POSITION="right" ID="ID_601035691">
 <edge COLOR="#00007c"/>
-<node TEXT="Where do we construct a field?" ID="ID_1928837733" CREATED="1443357419365" MODIFIED="1443357424724"/>
-<node TEXT="Lookup" ID="ID_1701295977" CREATED="1446572716558" MODIFIED="1446572721442">
-<node TEXT="Frontend Settings" ID="ID_156495861" CREATED="1446572643685" MODIFIED="1446572652671">
-<node TEXT="Table has frontendSettings" ID="ID_258887503" CREATED="1446572652930" MODIFIED="1446572658559">
-<node TEXT="default for module, controller, action in lookup" ID="ID_1571360157" CREATED="1446572665097" MODIFIED="1446572678884"/>
-<node TEXT="default for labelField" ID="ID_208378221" CREATED="1446572742548" MODIFIED="1446572769655"/>
+<node TEXT="Where do we construct a field?" ID="ID_1928837733"/>
+<node TEXT="Lookup" ID="ID_1701295977">
+<node TEXT="Frontend Settings" ID="ID_156495861">
+<node TEXT="Table has frontendSettings" ID="ID_258887503">
+<node TEXT="default for module, controller, action in lookup" ID="ID_1571360157"/>
+<node TEXT="default for labelField" ID="ID_208378221"/>
 </node>
 </node>
-<node TEXT="lookupField has a fieldLink" ID="ID_1506697839" CREATED="1446572728268" MODIFIED="1446572735019">
-<node TEXT="links to a field" ID="ID_1820494825" CREATED="1446572735306" MODIFIED="1446572739577"/>
+<node TEXT="lookupField has a fieldLink" ID="ID_1506697839">
+<node TEXT="links to a field" ID="ID_1820494825"/>
 </node>
 </node>
-<node TEXT="SumField, LookupField, Lazy Fields..." ID="ID_909088666" CREATED="1451657957753" MODIFIED="1451657967106">
-<node TEXT="SumField" ID="ID_1049992680" CREATED="1451657967377" MODIFIED="1451657969110">
-<node TEXT="has a fieldLink" ID="ID_1542350452" CREATED="1451657969543" MODIFIED="1451657974386"/>
+<node TEXT="SumField, LookupField, Lazy Fields..." ID="ID_909088666">
+<node TEXT="SumField" ID="ID_1049992680">
+<node TEXT="has a fieldLink" ID="ID_1542350452"/>
 </node>
-<node TEXT="LookupField" ID="ID_1713406169" CREATED="1451657979972" MODIFIED="1451657986458">
-<node TEXT="has a fieldLink" ID="ID_1246376414" CREATED="1451658013830" MODIFIED="1451658016258"/>
-<node TEXT="cons can optionally be called with 5 params, and will then construct its own link via link()" ID="ID_1292093337" CREATED="1451658018717" MODIFIED="1451658036454"/>
+<node TEXT="LookupField" ID="ID_1713406169">
+<node TEXT="has a fieldLink" ID="ID_1246376414"/>
+<node TEXT="cons can optionally be called with 5 params, and will then construct its own link via link()" ID="ID_1292093337"/>
 </node>
 </node>
 </node>
-<node TEXT="Scrum" POSITION="right" ID="ID_1919369938" CREATED="1435663658673" MODIFIED="1435663661271">
+<node TEXT="Scrum" POSITION="right" ID="ID_1919369938">
 <edge COLOR="#7c0000"/>
-<node TEXT="Todo" ID="ID_423863443" CREATED="1430315737368" MODIFIED="1435663662175">
-<node TEXT="is in bugzilla" FOLDED="true" ID="ID_431300306" CREATED="1453058103226" MODIFIED="1453058105992">
-<node TEXT="Prio 1" FOLDED="true" ID="ID_1488675716" CREATED="1435663671175" MODIFIED="1435919335286">
-<node TEXT="sql: distinguish between frontendField and field?" ID="ID_1707574978" CREATED="1452949249911" MODIFIED="1452949650322">
-<node TEXT="rather NO, does that little bit of additional info really hurt?" ID="ID_447815348" CREATED="1453039372058" MODIFIED="1453039393856"/>
+<node TEXT="Todo" ID="ID_423863443">
+<node TEXT="is in bugzilla" ID="ID_431300306">
+<node TEXT="Prio 1" ID="ID_1488675716">
+<node TEXT="sql: distinguish between frontendField and field?" ID="ID_1707574978">
+<node TEXT="rather NO, does that little bit of additional info really hurt?" ID="ID_447815348"/>
 </node>
-<node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671" CREATED="1435775466806" MODIFIED="1435775485986"/>
-<node TEXT="frontend: update count after insert" ID="ID_160128588" CREATED="1435663980835" MODIFIED="1435664064870"/>
-<node TEXT="frontend: implement delete" ID="ID_804335928" CREATED="1431870496548" MODIFIED="1453042435435"/>
-<node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299" CREATED="1435919369839" MODIFIED="1445871999847">
+<node TEXT="frontend: update count / sum after filtering" ID="ID_1002164671"/>
+<node TEXT="frontend: update count after insert" ID="ID_160128588"/>
+<node TEXT="frontend: implement delete" ID="ID_804335928"/>
+<node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_1935644299">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="fieldLinks: need clarification" ID="ID_220136488" CREATED="1435858136027" MODIFIED="1435858141904">
-<node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221" CREATED="1435858142152" MODIFIED="1435858152638"/>
-<node TEXT="currently, we&apos;re just using the first" ID="ID_669468957" CREATED="1435858155342" MODIFIED="1435858163145"/>
-<node TEXT="lookupField/calcField ::link() might compose the link on call" ID="ID_629041098" CREATED="1451768855817" MODIFIED="1451768877666"/>
+<node TEXT="fieldLinks: need clarification" ID="ID_220136488">
+<node TEXT="under what circumstance can there ever be more than one?" ID="ID_542744221"/>
+<node TEXT="currently, we&apos;re just using the first" ID="ID_669468957"/>
+<node TEXT="lookupField/calcField ::link() might compose the link on call" ID="ID_629041098"/>
 </node>
-<node TEXT="backend: when setting the customer id from the frontend, fairly certainly we now do not set the customer() object" ID="ID_1137170107" CREATED="1443976632816" MODIFIED="1443976745650"/>
-<node TEXT="dao: dao.calculateCalcfields() - remove conditions from params, if we are a primary dao... otherwise...???" ID="ID_1556723586" CREATED="1436019216756" MODIFIED="1436019289475"/>
-<node TEXT="frontend: add drilldowns to listform" ID="ID_149198968" CREATED="1435663958459" MODIFIED="1435663965834"/>
-<node TEXT="conditions for which fields to use are sometimes wrong" ID="ID_106910296" CREATED="1445784195689" MODIFIED="1445784214014">
-<node TEXT="DaoDataProvider.prototype.writableFieldsAsList = function() {&#xa;    return _(this._fields).values().filter(function(f) {&#xa;        return !(f instanceof m_sql_calcField.CalcField)&#xa;            &amp;&amp; !(f instanceof m_sql_boField.BoField) }); // TODO this condition is not exactly right&#xa;        return !f.isEditable(); // TODO this SHOULD be the correct condition, but it does not work&#xa;};" ID="ID_1988996891" CREATED="1445784214643" MODIFIED="1445784216358"/>
+<node TEXT="backend: when setting the customer id from the frontend, fairly certainly we now do not set the customer() object" ID="ID_1137170107"/>
+<node TEXT="dao: dao.calculateCalcfields() - remove conditions from params, if we are a primary dao... otherwise...???" ID="ID_1556723586"/>
+<node TEXT="frontend: add drilldowns to listform" ID="ID_149198968"/>
+<node TEXT="conditions for which fields to use are sometimes wrong" ID="ID_106910296">
+<node TEXT="DaoDataProvider.prototype.writableFieldsAsList = function() {&#xa;    return _(this._fields).values().filter(function(f) {&#xa;        return !(f instanceof m_sql_calcField.CalcField)&#xa;            &amp;&amp; !(f instanceof m_sql_boField.BoField) }); // TODO this condition is not exactly right&#xa;        return !f.isEditable(); // TODO this SHOULD be the correct condition, but it does not work&#xa;};" ID="ID_1988996891"/>
 </node>
-<node TEXT="daoset: should dao.populateLookupFields move from loadByConditions to loadByQuery?" ID="ID_3304635" CREATED="1436434490406" MODIFIED="1436434513826"/>
-<node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_331627961" CREATED="1435919369839" MODIFIED="1435919385726"/>
-<node TEXT="remove stupid and useless clone()" ID="ID_666612328" CREATED="1443639111624" MODIFIED="1443639118380">
-<node TEXT="or rather, clarify where exactly to use fieldsFromDao" ID="ID_588673258" CREATED="1443643524415" MODIFIED="1443643534348"/>
+<node TEXT="daoset: should dao.populateLookupFields move from loadByConditions to loadByQuery?" ID="ID_3304635"/>
+<node TEXT="dao: calculatecalcfields(conditions...) and countbyconditions should probably move into daoset?" ID="ID_331627961"/>
+<node TEXT="remove stupid and useless clone()" ID="ID_666612328">
+<node TEXT="or rather, clarify where exactly to use fieldsFromDao" ID="ID_588673258"/>
 </node>
-<node TEXT="clarify / document client/server interface" ID="ID_1707431123" CREATED="1445169720167" MODIFIED="1445169728273">
-<node TEXT="use json-schema" ID="ID_1693580485" CREATED="1451768906327" MODIFIED="1451768910160"/>
-</node>
-</node>
-<node TEXT="Prio 2" FOLDED="true" ID="ID_64316623" CREATED="1435663675610" MODIFIED="1435663676834">
-<node TEXT="reflect on cleaner interface between layers" ID="ID_1983523684" CREATED="1451926981623" MODIFIED="1451926988767">
-<node TEXT="bo/dao" ID="ID_1891991254" CREATED="1451926990464" MODIFIED="1451926993841"/>
-<node TEXT="dao/sql" ID="ID_134085748" CREATED="1451926994289" MODIFIED="1451926995633"/>
-<node TEXT="split sql?" ID="ID_1742725425" CREATED="1451926998835" MODIFIED="1451927003318"/>
-</node>
-<node TEXT="frontend really does not have to fetch anything from backend before instantiating a form" ID="ID_1971642777" CREATED="1453039328962" MODIFIED="1453039344113">
-<node TEXT="have a clean interface call for determining which form to use" ID="ID_1182499475" CREATED="1453039344332" MODIFIED="1453039356740"/>
-<node TEXT="have a system for routing frontend forms" ID="ID_1633725770" CREATED="1445786273721" MODIFIED="1445786282962">
-<node TEXT="especially, user-defined forms" ID="ID_1477318880" CREATED="1445872024578" MODIFIED="1445872034486"/>
+<node TEXT="clarify / document client/server interface" ID="ID_1707431123">
+<node TEXT="use json-schema" ID="ID_1693580485"/>
 </node>
 </node>
-<node TEXT="list response: aggregateRow is just an array, should be a row &quot;object&quot; with fields: []" ID="ID_947876021" CREATED="1445170661755" MODIFIED="1445170694430"/>
-<node TEXT="reflect whether we should separate frontend-fields from sql/fields" ID="ID_1013306220" CREATED="1446572848294" MODIFIED="1446572864568"/>
-<node TEXT="frontend: if pixel height gets really really large, then we run into issues with browser" ID="ID_1658048524" CREATED="1445105902102" MODIFIED="1453039653719"/>
-<node TEXT="sql.query.conditions can currently only do AND" ID="ID_1842917786" CREATED="1444509897101" MODIFIED="1444509907238"/>
-<node TEXT="the way we curretnly avoid circular dependencies in table construction (with stuff in addLinks()) is clearly suboptimal" ID="ID_569725763" CREATED="1436103757312" MODIFIED="1436103785468"/>
-<node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094" CREATED="1436267782321" MODIFIED="1436267796402"/>
-<node TEXT="populateLookupFields() should pass a db to a function populate(db) in LookupField" ID="ID_1203408311" CREATED="1436533947090" MODIFIED="1436533967526"/>
-<node TEXT="unify module var names to m_..." ID="ID_1238267829" CREATED="1436260847908" MODIFIED="1436260859231"/>
-<node TEXT="add locking" ID="ID_547401360" CREATED="1435666625338" MODIFIED="1435666626991"/>
-<node TEXT="add transactions" ID="ID_735663752" CREATED="1435666627223" MODIFIED="1435666630208"/>
-<node TEXT="make forms backbutton- and bookmark-save" ID="ID_1211678358" CREATED="1436182920070" MODIFIED="1436182939178"/>
-<node TEXT="add more data types" ID="ID_1894023975" CREATED="1451769595503" MODIFIED="1451769601127"/>
-<node TEXT="bos: create convenience method for creating concrete bos (invoicebo...) without having to first create a dao" ID="ID_523156851" CREATED="1436255086778" MODIFIED="1436255116637"/>
-<node TEXT="frontend: openlookup might be suboptimal; should use real java object instead of stringified object" FOLDED="true" ID="ID_728537161" CREATED="1436108057676" MODIFIED="1436108082099">
-<node TEXT="needs naming convention for the variable" ID="ID_1918564664" CREATED="1436108083250" MODIFIED="1436108094540"/>
+<node TEXT="Prio 2" ID="ID_64316623">
+<node TEXT="reflect on cleaner interface between layers" ID="ID_1983523684">
+<node TEXT="bo/dao" ID="ID_1891991254"/>
+<node TEXT="dao/sql" ID="ID_134085748"/>
+<node TEXT="split sql?" ID="ID_1742725425"/>
 </node>
-<node TEXT="lookupfield: .clone might be suboptimal, what if user changes Field stuff between construction and cloning?" ID="ID_1528169891" CREATED="1436024303688" MODIFIED="1436024337016"/>
-<node TEXT="test-app" ID="ID_799636667" CREATED="1430315839833" MODIFIED="1430315841342">
-<node TEXT="customer/ invoices" ID="ID_1907447430" CREATED="1430315841734" MODIFIED="1430315846728"/>
-<node TEXT="costs" ID="ID_376143007" CREATED="1430315847016" MODIFIED="1430315851573"/>
+<node TEXT="frontend really does not have to fetch anything from backend before instantiating a form" ID="ID_1971642777">
+<node TEXT="have a clean interface call for determining which form to use" ID="ID_1182499475"/>
+<node TEXT="have a system for routing frontend forms" ID="ID_1633725770">
+<node TEXT="especially, user-defined forms" ID="ID_1477318880"/>
 </node>
-<node TEXT="frontend: design filters" ID="ID_876598995" CREATED="1435833751156" MODIFIED="1435833756334"/>
-<node TEXT="test-app: add invoices" ID="ID_1770355614" CREATED="1435666530978" MODIFIED="1435666545758"/>
-<node TEXT="test-app: add costs" ID="ID_1058617269" CREATED="1435666546174" MODIFIED="1435666548984"/>
-<node TEXT="add method for sequences to dao(set?)" ID="ID_1234828434" CREATED="1435666584298" MODIFIED="1435666597155"/>
-<node TEXT="add visible/editable to fields" ID="ID_1168237780" CREATED="1435666637826" MODIFIED="1435666645518"/>
-<node TEXT="null values when coming from form" FOLDED="true" ID="ID_958543010" CREATED="1432198757393" MODIFIED="1432198762670">
-<node TEXT="should be config&apos;able per field" ID="ID_1729806340" CREATED="1435663770561" MODIFIED="1435663777038"/>
 </node>
-<node TEXT="queries: add additional aggregate/join queries" ID="ID_1593921330" CREATED="1435666661730" MODIFIED="1435666676013"/>
-<node TEXT="fetch much more asynchronously from the frontend!" ID="ID_1921496055" CREATED="1443191513857" MODIFIED="1443191522863"/>
-<node TEXT="calcField now works by returning a query.... maybe we want more consistency with boField which will work via value()" ID="ID_1324496424" CREATED="1443356502372" MODIFIED="1443356532011"/>
-<node TEXT="Plan for fetching from FE / scrolling etc" FOLDED="true" ID="ID_1463795363" CREATED="1443191528967" MODIFIED="1443191539504">
-<node TEXT="Fetch only count" ID="ID_1444155018" CREATED="1443191540094" MODIFIED="1443191546497"/>
-<node TEXT="guesstimate height of content-div" ID="ID_1853977788" CREATED="1443191551909" MODIFIED="1443191689146"/>
-<node TEXT="find out where we are scrolled to" ID="ID_818340448" CREATED="1443191690469" MODIFIED="1443191702521"/>
-<node TEXT="fetch rows accordingly" ID="ID_1338402615" CREATED="1443191710690" MODIFIED="1443191714554"/>
-<node TEXT="for each row" FOLDED="true" ID="ID_1082341436" CREATED="1443191718066" MODIFIED="1443191719852">
-<node TEXT="fill calced fields" ID="ID_1844039011" CREATED="1443191720905" MODIFIED="1443191776590"/>
+<node TEXT="list response: aggregateRow is just an array, should be a row &quot;object&quot; with fields: []" ID="ID_947876021"/>
+<node TEXT="reflect whether we should separate frontend-fields from sql/fields" ID="ID_1013306220"/>
+<node TEXT="frontend: if pixel height gets really really large, then we run into issues with browser" ID="ID_1658048524"/>
+<node TEXT="sql.query.conditions can currently only do AND" ID="ID_1842917786"/>
+<node TEXT="the way we curretnly avoid circular dependencies in table construction (with stuff in addLinks()) is clearly suboptimal" ID="ID_569725763"/>
+<node TEXT="bo._fieldValuesFromDao should use its own list, not the dao&apos;s" ID="ID_125867094"/>
+<node TEXT="populateLookupFields() should pass a db to a function populate(db) in LookupField" ID="ID_1203408311"/>
+<node TEXT="unify module var names to m_..." ID="ID_1238267829"/>
+<node TEXT="add locking" ID="ID_547401360"/>
+<node TEXT="add transactions" ID="ID_735663752"/>
+<node TEXT="make forms backbutton- and bookmark-save" ID="ID_1211678358"/>
+<node TEXT="add more data types" ID="ID_1894023975"/>
+<node TEXT="bos: create convenience method for creating concrete bos (invoicebo...) without having to first create a dao" ID="ID_523156851"/>
+<node TEXT="frontend: openlookup might be suboptimal; should use real java object instead of stringified object" ID="ID_728537161">
+<node TEXT="needs naming convention for the variable" ID="ID_1918564664"/>
 </node>
-<node TEXT="fetch sums" ID="ID_1004679482" CREATED="1443191715175" MODIFIED="1443191716790"/>
-<node TEXT="do all of that asynchronously!" ID="ID_1213865369" CREATED="1443191803798" MODIFIED="1443191815699">
+<node TEXT="lookupfield: .clone might be suboptimal, what if user changes Field stuff between construction and cloning?" ID="ID_1528169891"/>
+<node TEXT="test-app" ID="ID_799636667">
+<node TEXT="customer/ invoices" ID="ID_1907447430"/>
+<node TEXT="costs" ID="ID_376143007"/>
+</node>
+<node TEXT="frontend: design filters" ID="ID_876598995"/>
+<node TEXT="test-app: add invoices" ID="ID_1770355614"/>
+<node TEXT="test-app: add costs" ID="ID_1058617269"/>
+<node TEXT="add method for sequences to dao(set?)" ID="ID_1234828434"/>
+<node TEXT="add visible/editable to fields" ID="ID_1168237780"/>
+<node TEXT="null values when coming from form" ID="ID_958543010">
+<node TEXT="should be config&apos;able per field" ID="ID_1729806340"/>
+</node>
+<node TEXT="queries: add additional aggregate/join queries" ID="ID_1593921330"/>
+<node TEXT="fetch much more asynchronously from the frontend!" ID="ID_1921496055"/>
+<node TEXT="calcField now works by returning a query.... maybe we want more consistency with boField which will work via value()" ID="ID_1324496424"/>
+<node TEXT="Plan for fetching from FE / scrolling etc" ID="ID_1463795363">
+<node TEXT="Fetch only count" ID="ID_1444155018"/>
+<node TEXT="guesstimate height of content-div" ID="ID_1853977788"/>
+<node TEXT="find out where we are scrolled to" ID="ID_818340448"/>
+<node TEXT="fetch rows accordingly" ID="ID_1338402615"/>
+<node TEXT="for each row" ID="ID_1082341436">
+<node TEXT="fill calced fields" ID="ID_1844039011"/>
+</node>
+<node TEXT="fetch sums" ID="ID_1004679482"/>
+<node TEXT="do all of that asynchronously!" ID="ID_1213865369">
 <font BOLD="true"/>
 </node>
 </node>
-<node TEXT="deal with circular deps...?" FOLDED="true" ID="ID_1175574652" CREATED="1443639118655" MODIFIED="1443639128319">
-<node TEXT="fieldLink" ID="ID_1083936208" CREATED="1443639133044" MODIFIED="1443639140646"/>
-<node TEXT="resolve by using events" ID="ID_147953381" CREATED="1443643430139" MODIFIED="1443643435837"/>
+<node TEXT="deal with circular deps...?" ID="ID_1175574652">
+<node TEXT="fieldLink" ID="ID_1083936208"/>
+<node TEXT="resolve by using events" ID="ID_147953381"/>
 </node>
-<node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657" CREATED="1436029551137" MODIFIED="1436029591464"/>
-<node TEXT="specialize lazyFieldLink: currently a little abused in calcFields, which don&apos;t actually use a fieldLink, (oneToMany?!), but something a little different..." ID="ID_882852207" CREATED="1451670069587" MODIFIED="1451670106251"/>
-<node TEXT="We now create field links per dao, but we should really only create them once per application" ID="ID_384555377" CREATED="1451741950476" MODIFIED="1451741966243">
-<node TEXT="sadly, this involves changing the signatures of daos and bos" ID="ID_518037629" CREATED="1451741966809" MODIFIED="1451741976142"/>
-</node>
-</node>
-<node TEXT="Prio 3" FOLDED="true" ID="ID_265969861" CREATED="1441365521864" MODIFIED="1441365523877">
-<node TEXT="Reflect on using q/Promises instead of async" ID="ID_137781395" CREATED="1446141520797" MODIFIED="1446141546456"/>
-<node TEXT="There is no explicit test for bo.calculateCalcFields and dao.calculateCalcFields in our test suites" ID="ID_1702884024" CREATED="1445871708250" MODIFIED="1445871729569"/>
-<node TEXT="Be able to insert non-primary daos/bos" ID="ID_515705090" CREATED="1441365526224" MODIFIED="1441365534286"/>
-<node TEXT="probably unroll the constructor/addLinks discrepancy in (e.g.) invoiceTable" ID="ID_640572594" CREATED="1441365708312" MODIFIED="1441365725566"/>
-<node TEXT="possibly use id() instead of name() to identify fields internally" ID="ID_1908235904" CREATED="1443763773814" MODIFIED="1443763783180"/>
-<node TEXT="frontend: optimize list scrolling" ID="ID_331420556" CREATED="1445601005397" MODIFIED="1445601026366">
-<node TEXT="the actual putting it on the display is slow" ID="ID_1591595761" CREATED="1445601026675" MODIFIED="1445601042541"/>
-</node>
-<node TEXT="field-derived clone() functions might use field::clone()" ID="ID_1471968401" CREATED="1451685169783" MODIFIED="1451685189407">
-<node TEXT="" ID="ID_362738841" CREATED="1451685190681" MODIFIED="1451685190681"/>
-</node>
-<node TEXT="split codebase" ID="ID_804344542" CREATED="1446141369160" MODIFIED="1446141377823">
-<node TEXT="NodeSqlCore" ID="ID_1240592179" CREATED="1446141378971" MODIFIED="1446141387021"/>
-<node TEXT="NodeSqlORM" ID="ID_764954713" CREATED="1446141388094" MODIFIED="1446141409850"/>
-<node TEXT="NodeSqlWeb" ID="ID_1151111862" CREATED="1446141397509" MODIFIED="1446141424188"/>
-<node TEXT="NodeSqlClient" ID="ID_361673061" CREATED="1446141416959" MODIFIED="1446141421445"/>
-</node>
-<node TEXT="rename LazyFieldLinkManager to LazyLinkManager" ID="ID_798753087" CREATED="1451740462566" MODIFIED="1451740497217"/>
-<node TEXT="The LazyLinks should probably derive from a common baseclass to simulate an interface" ID="ID_246307817" CREATED="1451740606158" MODIFIED="1451740622805"/>
-</node>
-<node TEXT="Prio 3" FOLDED="true" ID="ID_1852199333" CREATED="1435663677286" MODIFIED="1435663679383">
-<node TEXT="optimization: cache lookupfield options" ID="ID_32683467" CREATED="1435919298306" MODIFIED="1435919309328"/>
-<node TEXT="secuirity: acheck against sql injection" ID="ID_1469007336" CREATED="1435666679893" MODIFIED="1435666690886"/>
-<node TEXT="create some preprocessor for #ifdef" ID="ID_179422742" CREATED="1435664122057" MODIFIED="1435664132565"/>
-<node TEXT="secuirity: acheck against xss" ID="ID_1037211750" CREATED="1435666679893" MODIFIED="1435666700082"/>
-<node TEXT="server: fix error response" ID="ID_453376038" CREATED="1435762174278" MODIFIED="1435762180771"/>
-<node TEXT="probably use _.isString() instead of util.isString()" ID="ID_274455070" CREATED="1436206341377" MODIFIED="1436206359834"/>
+<node TEXT="possible issue: lookupfield._options have string values because they are an object!!!" ID="ID_481762657"/>
+<node TEXT="specialize lazyFieldLink: currently a little abused in calcFields, which don&apos;t actually use a fieldLink, (oneToMany?!), but something a little different..." ID="ID_882852207"/>
+<node TEXT="We now create field links per dao, but we should really only create them once per application" ID="ID_384555377">
+<node TEXT="sadly, this involves changing the signatures of daos and bos" ID="ID_518037629"/>
 </node>
 </node>
-<node TEXT="TESTS to create" FOLDED="true" ID="ID_799999024" CREATED="1436176760345" MODIFIED="1436176763330">
-<node TEXT="all functions should have type-checks with /* @DEVELOPMENT */" ID="ID_462989029" CREATED="1436182789643" MODIFIED="1436182809364"/>
+<node TEXT="Prio 3" ID="ID_265969861">
+<node TEXT="Reflect on using q/Promises instead of async" ID="ID_137781395"/>
+<node TEXT="There is no explicit test for bo.calculateCalcFields and dao.calculateCalcFields in our test suites" ID="ID_1702884024"/>
+<node TEXT="Be able to insert non-primary daos/bos" ID="ID_515705090"/>
+<node TEXT="probably unroll the constructor/addLinks discrepancy in (e.g.) invoiceTable" ID="ID_640572594"/>
+<node TEXT="possibly use id() instead of name() to identify fields internally" ID="ID_1908235904"/>
+<node TEXT="frontend: optimize list scrolling" ID="ID_331420556">
+<node TEXT="the actual putting it on the display is slow" ID="ID_1591595761"/>
+</node>
+<node TEXT="field-derived clone() functions might use field::clone()" ID="ID_1471968401">
+<node TEXT="" ID="ID_362738841"/>
+</node>
+<node TEXT="split codebase" ID="ID_804344542">
+<node TEXT="NodeSqlCore" ID="ID_1240592179"/>
+<node TEXT="NodeSqlORM" ID="ID_764954713"/>
+<node TEXT="NodeSqlWeb" ID="ID_1151111862"/>
+<node TEXT="NodeSqlClient" ID="ID_361673061"/>
+</node>
+<node TEXT="rename LazyFieldLinkManager to LazyLinkManager" ID="ID_798753087"/>
+<node TEXT="The LazyLinks should probably derive from a common baseclass to simulate an interface" ID="ID_246307817"/>
+</node>
+<node TEXT="Prio 3" ID="ID_1852199333">
+<node TEXT="optimization: cache lookupfield options" ID="ID_32683467"/>
+<node TEXT="secuirity: acheck against sql injection" ID="ID_1469007336"/>
+<node TEXT="create some preprocessor for #ifdef" ID="ID_179422742"/>
+<node TEXT="secuirity: acheck against xss" ID="ID_1037211750"/>
+<node TEXT="server: fix error response" ID="ID_453376038"/>
+<node TEXT="probably use _.isString() instead of util.isString()" ID="ID_274455070"/>
 </node>
 </node>
-<node TEXT="Done" ID="ID_314368932" CREATED="1435663666690" MODIFIED="1435663667460">
-<node TEXT="resolve ambivalence" FOLDED="true" ID="ID_252337074" CREATED="1431782032915" MODIFIED="1431782039477">
-<node TEXT="bo as object or as object-fetcher" FOLDED="true" ID="ID_866162368" CREATED="1431782039758" MODIFIED="1431782047152">
-<node TEXT="boset" ID="ID_1879215516" CREATED="1431782061514" MODIFIED="1431782064169"/>
-<node TEXT="bo" ID="ID_904312964" CREATED="1431782064421" MODIFIED="1431782065479"/>
-</node>
-<node TEXT="dao as object or as object-fetchr" FOLDED="true" ID="ID_1363264783" CREATED="1431782047372" MODIFIED="1431782054849">
-<node TEXT="recordset" ID="ID_1424037263" CREATED="1431782055431" MODIFIED="1431782058465"/>
-<node TEXT="record" FOLDED="true" ID="ID_1187107971" CREATED="1431782058700" MODIFIED="1431782059960">
-<node TEXT="field getters/setters" ID="ID_248607712" CREATED="1431783521083" MODIFIED="1431783524868"/>
-<node TEXT="loadById (if any)" ID="ID_612952630" CREATED="1431783527003" MODIFIED="1431783532350"/>
+<node TEXT="TESTS to create" ID="ID_799999024">
+<node TEXT="all functions should have type-checks with /* @DEVELOPMENT */" ID="ID_462989029"/>
 </node>
 </node>
+<node TEXT="Done" ID="ID_314368932">
+<node TEXT="resolve ambivalence" ID="ID_252337074">
+<node TEXT="bo as object or as object-fetcher" ID="ID_866162368">
+<node TEXT="boset" ID="ID_1879215516"/>
+<node TEXT="bo" ID="ID_904312964"/>
 </node>
-<node TEXT="frontend: add filters to listform" ID="ID_1625286015" CREATED="1435663937369" MODIFIED="1435663950612"/>
-<node TEXT="frontend: addd conditions to listform" ID="ID_1795841236" CREATED="1435666555225" MODIFIED="1435666575856"/>
-<node TEXT="frontend: after selecting for lookup field, saveField must be called" ID="ID_1419094424" CREATED="1436110393500" MODIFIED="1436110408297"/>
-<node TEXT="frontend: ListForm now uses data.rows[0] for the header section" ID="ID_1419571184" CREATED="1435673318570" MODIFIED="1435673335334"/>
-<node TEXT="frontend: test whether changing of lookup field actually works to do saveField" ID="ID_956917651" CREATED="1436179449883" MODIFIED="1436179464908"/>
-<node TEXT="bo: use real objects for references" FOLDED="true" ID="ID_37481252" CREATED="1436018546588" MODIFIED="1436018556452">
-<node TEXT="e.g. customerBo in invoice for customerId" ID="ID_1247201555" CREATED="1436018556794" MODIFIED="1436018569704"/>
-<node TEXT="in reading from db" FOLDED="true" ID="ID_1962396267" CREATED="1441365229201" MODIFIED="1441365234741">
-<node TEXT="at some point, we need to add the bo for its id field" ID="ID_796949035" CREATED="1441365187056" MODIFIED="1441365221599"/>
-</node>
-<node TEXT="in writing to db" FOLDED="true" ID="ID_5620214" CREATED="1441365239335" MODIFIED="1441365241894">
-<node TEXT="at some point, we need to set the id from the bo" ID="ID_1634435108" CREATED="1441365243480" MODIFIED="1441365260486"/>
-<node TEXT="primaryBo.prototype.save() seems like the best place for this" ID="ID_1553157502" CREATED="1441365579833" MODIFIED="1441365603269"/>
-</node>
-</node>
-<node TEXT="bo: create actual objects instead of id-links" FOLDED="true" ID="ID_1271498552" CREATED="1436183076087" MODIFIED="1436183089674">
-<node TEXT="invoice.customer" ID="ID_181813701" CREATED="1436183091843" MODIFIED="1436183095933"/>
-<node TEXT="where?" FOLDED="true" ID="ID_1718271647" CREATED="1436455401012" MODIFIED="1436455402952">
-<node TEXT="x" FOLDED="true" ID="ID_1413752723" CREATED="1443193169582" MODIFIED="1443193170272">
-<node TEXT="BoField knows about its id-field" FOLDED="true" ID="ID_1279616049" CREATED="1443193233746" MODIFIED="1443193239814">
-<node TEXT="i.e., a fieldLink" FOLDED="true" ID="ID_1417406084" CREATED="1443193259279" MODIFIED="1443193386820">
-<node TEXT="of type manyToOne" ID="ID_1840146475" CREATED="1443193410157" MODIFIED="1443193424674"/>
-</node>
-</node>
-<node TEXT="Bo::_fieldsFromDao() constructs the BoField" ID="ID_1767893560" CREATED="1443193145157" MODIFIED="1443193192799"/>
-<node TEXT="BoField::value(val) sets its id field as a side-effect" ID="ID_419442135" CREATED="1443193193623" MODIFIED="1443193224230"/>
-<node TEXT="the boField is not in the writeFields(blah) list" ID="ID_320277805" CREATED="1443193632696" MODIFIED="1443193653713"/>
+<node TEXT="dao as object or as object-fetchr" ID="ID_1363264783">
+<node TEXT="recordset" ID="ID_1424037263"/>
+<node TEXT="record" ID="ID_1187107971">
+<node TEXT="field getters/setters" ID="ID_248607712"/>
+<node TEXT="loadById (if any)" ID="ID_612952630"/>
 </node>
 </node>
 </node>
-<node TEXT="boField" ID="ID_345461857" CREATED="1443639128947" MODIFIED="1443794065853">
+<node TEXT="frontend: add filters to listform" ID="ID_1625286015"/>
+<node TEXT="frontend: addd conditions to listform" ID="ID_1795841236"/>
+<node TEXT="frontend: after selecting for lookup field, saveField must be called" ID="ID_1419094424"/>
+<node TEXT="frontend: ListForm now uses data.rows[0] for the header section" ID="ID_1419571184"/>
+<node TEXT="frontend: test whether changing of lookup field actually works to do saveField" ID="ID_956917651"/>
+<node TEXT="bo: use real objects for references" ID="ID_37481252">
+<node TEXT="e.g. customerBo in invoice for customerId" ID="ID_1247201555"/>
+<node TEXT="in reading from db" ID="ID_1962396267">
+<node TEXT="at some point, we need to add the bo for its id field" ID="ID_796949035"/>
+</node>
+<node TEXT="in writing to db" ID="ID_5620214">
+<node TEXT="at some point, we need to set the id from the bo" ID="ID_1634435108"/>
+<node TEXT="primaryBo.prototype.save() seems like the best place for this" ID="ID_1553157502"/>
+</node>
+</node>
+<node TEXT="bo: create actual objects instead of id-links" ID="ID_1271498552">
+<node TEXT="invoice.customer" ID="ID_181813701"/>
+<node TEXT="where?" ID="ID_1718271647">
+<node TEXT="x" ID="ID_1413752723">
+<node TEXT="BoField knows about its id-field" ID="ID_1279616049">
+<node TEXT="i.e., a fieldLink" ID="ID_1417406084">
+<node TEXT="of type manyToOne" ID="ID_1840146475"/>
+</node>
+</node>
+<node TEXT="Bo::_fieldsFromDao() constructs the BoField" ID="ID_1767893560"/>
+<node TEXT="BoField::value(val) sets its id field as a side-effect" ID="ID_419442135"/>
+<node TEXT="the boField is not in the writeFields(blah) list" ID="ID_320277805"/>
+</node>
+</node>
+</node>
+<node TEXT="boField" ID="ID_345461857">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="add and run testBo.testBoFieldSet" ID="ID_181580310" CREATED="1443794493144" MODIFIED="1443797050611">
+<node TEXT="add and run testBo.testBoFieldSet" ID="ID_181580310">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="testing: enable programmatically running only one test" ID="ID_589403690" CREATED="1443675757484" MODIFIED="1443763587461">
+<node TEXT="testing: enable programmatically running only one test" ID="ID_589403690">
 <icon BUILTIN="button_ok"/>
 </node>
-<node TEXT="conditions: add filters, limits" ID="ID_922616479" CREATED="1444566127632" MODIFIED="1444566140478"/>
-<node TEXT="oop: do we want a defined conditions object?" FOLDED="true" ID="ID_692837098" CREATED="1444566090921" MODIFIED="1444566113116">
-<node TEXT="currently we don&apos;t have it" ID="ID_226726835" CREATED="1444566114861" MODIFIED="1444566120775"/>
+<node TEXT="conditions: add filters, limits" ID="ID_922616479"/>
+<node TEXT="oop: do we want a defined conditions object?" ID="ID_692837098">
+<node TEXT="currently we don&apos;t have it" ID="ID_226726835"/>
 </node>
-<node TEXT="orderby should work via fields, not strings" ID="ID_1403086015" CREATED="1444852696646" MODIFIED="1444852708590"/>
-<node TEXT="add ordering to daoset.loadallbyconditions" ID="ID_579797318" CREATED="1444509797988" MODIFIED="1444509809607"/>
-<node TEXT="create test for m_sql_orderby.orderby" ID="ID_518838018" CREATED="1445007275099" MODIFIED="1445007282132"/>
-<node TEXT="frontend: add scrolling to listform" ID="ID_1689836394" CREATED="1435663966160" MODIFIED="1435663972313"/>
-<node TEXT="frontend: streamline initial request by using ajax" ID="ID_587838158" CREATED="1435775497250" MODIFIED="1435775510097"/>
-<node TEXT="frontend: revisit edit form" ID="ID_1656955817" CREATED="1435663974168" MODIFIED="1435663978868"/>
-<node TEXT="table: use instanceof for determining field classes" ID="ID_1320547546" CREATED="1436015161559" MODIFIED="1436015244304">
-<node TEXT="still does not work!!!" ID="ID_1866960159" CREATED="1436111141178" MODIFIED="1436111144603"/>
-<node TEXT="create small isA() framework" ID="ID_821408512" CREATED="1436111145186" MODIFIED="1436111153061"/>
+<node TEXT="orderby should work via fields, not strings" ID="ID_1403086015"/>
+<node TEXT="add ordering to daoset.loadallbyconditions" ID="ID_579797318"/>
+<node TEXT="create test for m_sql_orderby.orderby" ID="ID_518838018"/>
+<node TEXT="frontend: add scrolling to listform" ID="ID_1689836394"/>
+<node TEXT="frontend: streamline initial request by using ajax" ID="ID_587838158"/>
+<node TEXT="frontend: revisit edit form" ID="ID_1656955817"/>
+<node TEXT="table: use instanceof for determining field classes" ID="ID_1320547546">
+<node TEXT="still does not work!!!" ID="ID_1866960159"/>
+<node TEXT="create small isA() framework" ID="ID_821408512"/>
 </node>
-<node TEXT="dao/bo..." FOLDED="true" ID="ID_131649401" CREATED="1445782712855" MODIFIED="1445782719339">
-<node TEXT="populateLookupFields, calculateCalcFields (loadBoFields?) should be options in constructors" ID="ID_1591555340" CREATED="1445782719858" MODIFIED="1445782770736"/>
+<node TEXT="dao/bo..." ID="ID_131649401">
+<node TEXT="populateLookupFields, calculateCalcFields (loadBoFields?) should be options in constructors" ID="ID_1591555340"/>
 </node>
-<node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437" CREATED="1443639193962" MODIFIED="1443639209876"/>
-<node TEXT="frontend: optimize scrolling" ID="ID_1890576359" CREATED="1451839099023" MODIFIED="1451839107961">
-<node TEXT="calculate top" ID="ID_1590919464" CREATED="1451839108415" MODIFIED="1451839117304">
-<node TEXT="row-height = first row height" ID="ID_1381244649" CREATED="1451839421665" MODIFIED="1451839428321"/>
-<node TEXT="determine offset and limit" ID="ID_51970493" CREATED="1451839437754" MODIFIED="1451839448246"/>
-<node TEXT="= row-number * row-height" ID="ID_1939587224" CREATED="1451839123076" MODIFIED="1451839129403"/>
-</node>
-</node>
-<node TEXT="frontend: add keyboard navigation" ID="ID_1945980710" CREATED="1441363402168" MODIFIED="1441363418686"/>
-<node TEXT="frontend: edit in list probably doesn&apos;t work now" ID="ID_1653320881" CREATED="1445690608858" MODIFIED="1445690618140"/>
-<node TEXT="daoset/boset: populateLookupFields, calculateCalcfields should be options on the daoset/boset, not on the load... function" ID="ID_1766615146" CREATED="1445106055736" MODIFIED="1445106106630"/>
-<node TEXT="rename webize() to toJson() and ...Webized() to ...ToJson()" ID="ID_372599290" CREATED="1451927016653" MODIFIED="1451927045292"/>
-<node TEXT="backend: implement delete" ID="ID_1745908832" CREATED="1453042438683" MODIFIED="1453042442701"/>
+<node TEXT="bo&lt;-&gt;dao: clarify databaseFieldsAsList etc" ID="ID_1846015437"/>
+<node TEXT="frontend: optimize scrolling" ID="ID_1890576359">
+<node TEXT="calculate top" ID="ID_1590919464">
+<node TEXT="row-height = first row height" ID="ID_1381244649"/>
+<node TEXT="determine offset and limit" ID="ID_51970493"/>
+<node TEXT="= row-number * row-height" ID="ID_1939587224"/>
 </node>
 </node>
-<node TEXT="Diary" FOLDED="true" POSITION="right" ID="ID_1729009659" CREATED="1430131954406" MODIFIED="1430131957064">
+<node TEXT="frontend: add keyboard navigation" ID="ID_1945980710"/>
+<node TEXT="frontend: edit in list probably doesn&apos;t work now" ID="ID_1653320881"/>
+<node TEXT="daoset/boset: populateLookupFields, calculateCalcfields should be options on the daoset/boset, not on the load... function" ID="ID_1766615146"/>
+<node TEXT="rename webize() to toJson() and ...Webized() to ...ToJson()" ID="ID_372599290"/>
+<node TEXT="backend: implement delete" ID="ID_1745908832"/>
+</node>
+</node>
+<node TEXT="Diary" POSITION="right" ID="ID_1729009659">
 <edge COLOR="#00ffff"/>
-<node TEXT="2015" FOLDED="true" ID="ID_964006408" CREATED="1430131958180" MODIFIED="1430131963120">
-<node TEXT="04" FOLDED="true" ID="ID_1187779950" CREATED="1430131963508" MODIFIED="1430131964377">
-<node TEXT="27" FOLDED="true" ID="ID_1341591784" CREATED="1430131965156" MODIFIED="1430131966718">
-<node TEXT="wieder mal reingekippt" ID="ID_1320836215" CREATED="1430315698987" MODIFIED="1430315706211"/>
+<node TEXT="2015" ID="ID_964006408">
+<node TEXT="04" ID="ID_1187779950">
+<node TEXT="27" ID="ID_1341591784">
+<node TEXT="wieder mal reingekippt" ID="ID_1320836215"/>
 </node>
-<node TEXT="17" FOLDED="true" ID="ID_109029675" CREATED="1431870466833" MODIFIED="1431870475897">
-<node TEXT="was soll passieren beim feld-&#xe4;ndern?" FOLDED="true" ID="ID_1896478868" CREATED="1431870476348" MODIFIED="1431870486749">
-<node TEXT="update" ID="ID_1747475272" CREATED="1431870487071" MODIFIED="1431870488652"/>
-<node TEXT="insert" ID="ID_1829084091" CREATED="1431870488932" MODIFIED="1431870489677"/>
-<node TEXT="vom frontend aus" FOLDED="true" ID="ID_1029062556" CREATED="1431870546031" MODIFIED="1431870549137">
-<node TEXT="saveField" FOLDED="true" ID="ID_1293311619" CREATED="1431870549459" MODIFIED="1431871304095">
-<node TEXT="[ { name: ..., value: ... }, ..., currentField: name" ID="ID_1678217512" CREATED="1431871304696" MODIFIED="1431871335694"/>
-</node>
-</node>
-<node TEXT="im backend" FOLDED="true" ID="ID_2190357" CREATED="1431871392951" MODIFIED="1431871394893">
-<node TEXT="wenn id unleer" FOLDED="true" ID="ID_1858660533" CREATED="1431870667720" MODIFIED="1431870673576">
-<node TEXT="loadById" ID="ID_1946214181" CREATED="1431870673833" MODIFIED="1431870676018"/>
-</node>
-<node TEXT="felder vom form dr&#xfc;bersetzen" ID="ID_915609873" CREATED="1431871427858" MODIFIED="1431871462976"/>
-<node TEXT="feldValidatoren rufen" FOLDED="true" ID="ID_588650799" CREATED="1431871153561" MODIFIED="1431871173446">
-<node TEXT="f&#xfc;r currentField" ID="ID_649571912" CREATED="1431871469528" MODIFIED="1431871471927"/>
-</node>
-<node TEXT="wenn gutgegangen" FOLDED="true" ID="ID_1316864335" CREATED="1431871524214" MODIFIED="1431871528111">
-<node TEXT="wenn id unleer" FOLDED="true" ID="ID_1603947283" CREATED="1431871175494" MODIFIED="1431871181864">
-<node TEXT="bo-validatoren rufen" ID="ID_437270923" CREATED="1431871184848" MODIFIED="1431871206412"/>
+<node TEXT="17" ID="ID_109029675">
+<node TEXT="was soll passieren beim feld-&#xe4;ndern?" ID="ID_1896478868">
+<node TEXT="update" ID="ID_1747475272"/>
+<node TEXT="insert" ID="ID_1829084091"/>
+<node TEXT="vom frontend aus" ID="ID_1029062556">
+<node TEXT="saveField" ID="ID_1293311619">
+<node TEXT="[ { name: ..., value: ... }, ..., currentField: name" ID="ID_1678217512"/>
 </node>
 </node>
-<node TEXT="wenn gutgegangen" FOLDED="true" ID="ID_606765180" CREATED="1431871687909" MODIFIED="1431871691976">
-<node TEXT="speichern" ID="ID_755576089" CREATED="1431871692366" MODIFIED="1431871695771"/>
+<node TEXT="im backend" ID="ID_2190357">
+<node TEXT="wenn id unleer" ID="ID_1858660533">
+<node TEXT="loadById" ID="ID_1946214181"/>
+</node>
+<node TEXT="felder vom form dr&#xfc;bersetzen" ID="ID_915609873"/>
+<node TEXT="feldValidatoren rufen" ID="ID_588650799">
+<node TEXT="f&#xfc;r currentField" ID="ID_649571912"/>
+</node>
+<node TEXT="wenn gutgegangen" ID="ID_1316864335">
+<node TEXT="wenn id unleer" ID="ID_1603947283">
+<node TEXT="bo-validatoren rufen" ID="ID_437270923"/>
 </node>
 </node>
-</node>
-<node TEXT="autoSave + saveField" FOLDED="true" ID="ID_1449841197" CREATED="1432198430536" MODIFIED="1432198437089">
-<node TEXT="sind alle required fields ausgef&#xfc;llt?" ID="ID_78787627" CREATED="1432198441292" MODIFIED="1432198464993"/>
-<node TEXT="ich muss alle felder vom form holen" FOLDED="true" ID="ID_944256545" CREATED="1432198486292" MODIFIED="1432198491094">
-<node TEXT="weil ich ja keinen halben datensatz speichern kann" ID="ID_1888516385" CREATED="1432198512148" MODIFIED="1432198520452"/>
-</node>
-<node TEXT="felder im form brauchen ein &quot;dirty&quot; flag" FOLDED="true" ID="ID_394469690" CREATED="1432198679599" MODIFIED="1432198686306">
-<node TEXT="NEIN, sie sind entweder ausgef&#xfc;llt oder nicht" ID="ID_1855562146" CREATED="1432198711276" MODIFIED="1432198721639"/>
-</node>
-<node TEXT="&apos;&apos; = NULL???" FOLDED="true" ID="ID_1076353818" CREATED="1432198724684" MODIFIED="1432198729579">
-<node TEXT="jetzt mal nein, ist ein TODO" ID="ID_1677446564" CREATED="1432198748087" MODIFIED="1432198754860"/>
+<node TEXT="wenn gutgegangen" ID="ID_606765180">
+<node TEXT="speichern" ID="ID_755576089"/>
 </node>
 </node>
 </node>
-<node TEXT="29" FOLDED="true" ID="ID_1031889558" CREATED="1430315708788" MODIFIED="1430315710006">
-<node TEXT="backend kann schon so einiges; fe und client-kommunikation noch extrem rudiment&#xe4;r" ID="ID_232588525" CREATED="1430315710582" MODIFIED="1430315729143"/>
+<node TEXT="autoSave + saveField" ID="ID_1449841197">
+<node TEXT="sind alle required fields ausgef&#xfc;llt?" ID="ID_78787627"/>
+<node TEXT="ich muss alle felder vom form holen" ID="ID_944256545">
+<node TEXT="weil ich ja keinen halben datensatz speichern kann" ID="ID_1888516385"/>
+</node>
+<node TEXT="felder im form brauchen ein &quot;dirty&quot; flag" ID="ID_394469690">
+<node TEXT="NEIN, sie sind entweder ausgef&#xfc;llt oder nicht" ID="ID_1855562146"/>
+</node>
+<node TEXT="&apos;&apos; = NULL???" ID="ID_1076353818">
+<node TEXT="jetzt mal nein, ist ein TODO" ID="ID_1677446564"/>
 </node>
 </node>
-<node TEXT="09" FOLDED="true" ID="ID_667945839" CREATED="1443191433869" MODIFIED="1443191434834">
-<node TEXT="ich schau mal wieder ins boFeld..." ID="ID_536837547" CREATED="1443191435322" MODIFIED="1443191453507"/>
-<node TEXT="Handling im Frontend - Plan f&#xfc;r scrolling?" ID="ID_1409362391" CREATED="1443191454651" MODIFIED="1443191473717"/>
-<node TEXT="Wir sollten noch viel feingranularer asynchron werden... auch count etc getrennt vom FE fetchen" ID="ID_1628562964" CREATED="1443191474104" MODIFIED="1443191498367"/>
+</node>
+<node TEXT="29" ID="ID_1031889558">
+<node TEXT="backend kann schon so einiges; fe und client-kommunikation noch extrem rudiment&#xe4;r" ID="ID_232588525"/>
+</node>
+</node>
+<node TEXT="09" ID="ID_667945839">
+<node TEXT="ich schau mal wieder ins boFeld..." ID="ID_536837547"/>
+<node TEXT="Handling im Frontend - Plan f&#xfc;r scrolling?" ID="ID_1409362391"/>
+<node TEXT="Wir sollten noch viel feingranularer asynchron werden... auch count etc getrennt vom FE fetchen" ID="ID_1628562964"/>
+</node>
+</node>
+<node TEXT="2016" ID="ID_1275888629">
+<node TEXT="Yay, another revamp" ID="ID_877807473">
+<node TEXT="customer.save()" ID="ID_1028571099"/>
+<node TEXT="SteerGlance.save(customer);" ID="ID_294885178"/>
+<node TEXT="CustomerSet.loadById(1);" ID="ID_1451454720"/>
+<node TEXT="SteerGlance.loadById(Customer, 1);" ID="ID_1702672354"/>
 </node>
 </node>
 </node>
