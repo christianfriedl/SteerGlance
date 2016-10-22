@@ -22,7 +22,6 @@ describe('sql_Table', function() {
             var field1 = sql_Field.create('field1', sql_Field.DataType.int);
             table1.addField(field1);
             const table2 = table1.cloneWithValueFields();
-            console.log(table2.getField('field1'));
             assert.ok( table2.getField('field1') instanceof sql_ValueField.ValueField, 'should be of type ValueField');
 
             table2.getField('field1').setValue(23);
