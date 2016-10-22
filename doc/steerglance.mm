@@ -49,7 +49,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="8"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="9"/>
 <node TEXT="&quot;BJO v.2&quot;" POSITION="right" ID="ID_28794418">
 <edge COLOR="#ff00ff"/>
 </node>
@@ -98,10 +98,23 @@
 <node TEXT="Table, Field, ValueField, Entity...." ID="ID_174335512">
 <node TEXT="table.getFields() -&gt; object" ID="ID_1543629485">
 <node TEXT="via EntityUtil?" ID="ID_1960591336"/>
+<node TEXT="via Entity.fromTable()" ID="ID_837540452"/>
 </node>
 <node TEXT="object -&gt; Entity" ID="ID_715086752"/>
 <node TEXT="Entity -&gt; EntityModel" ID="ID_739431472"/>
+<node TEXT="so..." ID="ID_1537113514">
+<node TEXT="table... -&gt; Entity.fromTable(table) -&gt; EntityModel.create(entity)" ID="ID_1671971364"/>
 </node>
+</node>
+</node>
+<node TEXT="TODO (not yet in bugzilla)" POSITION="right" ID="ID_1499193472">
+<edge COLOR="#007c00"/>
+<node TEXT="bjooobject should prescribe a clone() method" ID="ID_1404477386">
+<node TEXT="cannot yet be done because it would seriously block development" ID="ID_1651944848"/>
+</node>
+<node TEXT="table.getFieldLinks() seems pretty stupid" ID="ID_1809777578"/>
+<node TEXT="ditto: table._labelFields and lookupfields in general" ID="ID_1601476057"/>
+<node TEXT="ditto: table._fieldLinks" ID="ID_1403477495"/>
 </node>
 <node TEXT="Scrum" POSITION="right" ID="ID_1919369938">
 <edge COLOR="#7c0000"/>
@@ -381,6 +394,8 @@
 </node>
 </node>
 <node TEXT="2016" ID="ID_1275888629">
+<node TEXT="10" ID="ID_835016611">
+<node TEXT="21" ID="ID_1452674495">
 <node TEXT="Yay, another revamp" ID="ID_877807473">
 <node TEXT="customer.save()" ID="ID_1028571099">
 <node TEXT="YAY" ID="ID_369627934"/>
@@ -395,6 +410,22 @@
 <node TEXT="or EntitySet.loadEntityById(Customer, 1);" ID="ID_887239172">
 <node TEXT="--- can always do shortcut" ID="ID_670856316"/>
 <node TEXT="CustomerSet.loadEntityById(1) { return EntitySet.load...(); }" ID="ID_1753725607"/>
+</node>
+</node>
+</node>
+<node TEXT="22" ID="ID_1965810062">
+<node TEXT="Customer IS A Primary Entity" ID="ID_1751292982"/>
+<node TEXT="Primary Entity IS AN Entity" ID="ID_1297975182"/>
+<node TEXT="Entity HAS a model" ID="ID_193536894">
+<node TEXT="EntityModel, which currently refers to a sql backend, but that is not necessarily the case" ID="ID_354412729"/>
+</node>
+<node TEXT="PrimaryEntity HAS a PrimaryEntityModel" ID="ID_642146609"/>
+<node TEXT="EntityModel has method .save()" ID="ID_1039188459"/>
+<node TEXT="PrimaryEntityModel has a method .save()" ID="ID_1070725145"/>
+<node TEXT="PrimaryEntitySet has a method .loadById(/* function */ constructor)" ID="ID_592998240"/>
+<node TEXT="Model has a method .setDb() and a data object" ID="ID_1145326904">
+<node TEXT="... or some kind of table with fields and values" ID="ID_1537253105"/>
+</node>
 </node>
 </node>
 </node>
