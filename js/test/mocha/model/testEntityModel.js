@@ -14,11 +14,13 @@ describe('model_EntityModel', function() {
             .then(function() { done(); });
     });
     it('should insert an entity', function(done) {
+        console.log('start insert entity');
         var table1 = sql_Table.create('table1');
         var field1 = sql_Field.create('field1', sql_Field.DataType.int);
         table1.addField(field1);
 
         const model = model_EntityModel.create(db1, table1);
+        model.getTable().getField('field1').setValue(1);
         model.save().then( function() {
             console.log('then', arguments);
             db1.runSql('SELECT * FROM table1', []).then(function(rows) {
