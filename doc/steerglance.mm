@@ -115,6 +115,7 @@
 <node TEXT="table.getFieldLinks() seems pretty stupid" ID="ID_1809777578"/>
 <node TEXT="ditto: table._labelFields and lookupfields in general" ID="ID_1601476057"/>
 <node TEXT="ditto: table._fieldLinks" ID="ID_1403477495"/>
+<node TEXT="the table given to EntitySetModel now has to already have an id field, because it is used to create the query() before the constructor gets called... should automatically add an id field!" ID="ID_120307510"/>
 </node>
 <node TEXT="Scrum" POSITION="right" ID="ID_1919369938">
 <edge COLOR="#7c0000"/>
