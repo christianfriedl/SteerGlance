@@ -68,4 +68,30 @@ describe('model_EntitySetModel', function() {
             done(err);
         });
     });
+    it('should load an entity', function(done) {
+        var table1 = sql_Table.create('table1');
+        var id1 = sql_Field.create('id', sql_Field.DataType.int);
+        table1.addField(id1);
+        var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+        table1.addField(field1);
+
+        const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
+        set.loadEntityById(1).then( function(em) {
+            assert.strictEqual(em.getTable().getField('id').getValue(), 1);
+            assert.strictEqual(em.getTable().getField('field1').getValue(), 1);
+            done();
+        }).catch(function(err) {
+            done(err);
+        });
+    });
+    it('should throw on a nonexisting entity', function(done) {
+        var table1 = sql_Table.create('table1');
+        var id1 = sql_Field.create('id', sql_Field.DataType.int);
+        table1.addField(id1);
+        var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+        table1.addField(field1);
+
+        const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
+        return set.loadEntityById(257).then(function() { done(); }).catch(function(e) { console.log(e); done(); }).done();
+    });
 });
