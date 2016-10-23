@@ -23,8 +23,9 @@ describe('model_EntityModel', function() {
         model.getTable().getField('field1').setValue(1);
         model.save().then( function() {
             console.log('then', arguments);
-            db1.runSql('SELECT * FROM table1', []).then(function(rows) {
+            db1.allSql('SELECT * FROM table1', []).then(function(rows) {
                 console.log('rows', rows);
+                done();
             });
         });
     });
