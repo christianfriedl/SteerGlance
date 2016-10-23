@@ -2,31 +2,28 @@
 
 var assert = require('assert');
 var model_EntityModel = require('model/EntityModel.js');
+const sql_DB = require('sql/DB.js');
+const sql_Table = require('sql/Table.js');
+const sql_Field = require('sql/Field.js');
 
 describe('model_EntityModel', function() {
-    describe('create', function() {
-        it('should return an object with getter and setter delegates', function() {
-            const object = { 'abc': 'ABC', 'def': 'DEF' };
-            const model = model_EntityModel.create(object);
-            assert.strictEqual('ABC', model.getAbc());
-            assert.strictEqual('DEF', model.getDef());
+    var db1;
+    beforeEach(function(done) {
+        db1 = sql_DB.db(':memory:').open(':memory:');
+        db1.runSql('CREATE TABLE table1 (id int, field1 int)', [])
+            .then(function() { done(); });
+    });
+    it('should insert an entity', function(done) {
+        var table1 = sql_Table.create('table1');
+        var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+        table1.addField(field1);
 
-            model.setAbc('xyz');
-            assert.strictEqual('xyz', model.getAbc());
-
-            assert.strictEqual('xyz', model.xyz());
-
-            var table1 = sql_Table.create('table1');
-            var field1 = sql_Field.create('field1', field.DataType.int);
-            table1.addField(field1);
-            /*
-            var cond = filter.filter: function()
-                .field(new field.Field('field1'))
-                .op(filter.Op.eq)
-                .compareTo('haha');
-                */
-            var select = sql_Query.select(field1).from(table1);
-            // var sqliteQQ = sqlite_Query.create(select);
+        const model = model_EntityModel.create(db1, table1);
+        model.save().then( function() {
+            console.log('then', arguments);
+            db1.runSql('SELECT * FROM table1', []).then(function(rows) {
+                console.log('rows', rows);
+            });
         });
     });
 });
