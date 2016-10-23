@@ -18,13 +18,26 @@
 
 "use strict";
 
-var assert = require('assert');
-var entity_Entity = require('entity/Entity.js');
+const assert = require('assert');
+const entity_Entity = require('entity/Entity.js');
+const sql_DB = require('sql/DB.js');
+const sql_Field = require('sql/Field.js');
+const sql_Table = require('sql/Table.js');
+const model_EntityModel = require('model/EntityModel.js');
 const mockEntityModel = require('MockObjects.js').mockEntityModel;
 
 describe('entity_Entity', function() {
+    var db1;
+    beforeEach(function(done) {
+        db1 = sql_DB.db(':memory:').open(':memory:');
+        db1.runSql('CREATE TABLE table1 (id int, field1 int)', [])
+            .then(function() { done(); });
+    });
+    afterEach(function() {
+        db1.close();
+    });
     describe('create', function() {
-        it('should return an object with auto getters and setters', function() {
+        it('should return an entity with auto getters and setters', function() {
             const entity = entity_Entity.create();
             entity.setModel(mockEntityModel);
             assert.strictEqual('ABC', entity.getAbc());
@@ -32,17 +45,31 @@ describe('entity_Entity', function() {
 
             entity.setAbc('xyz');
             assert.strictEqual('xyz', entity.getAbc());
-            /*
+        });
+        it('should create an entity from a entity model', function() {
             var table1 = sql_Table.create('table1');
-            var field1 = sql_Field.create('field1', field.DataType.int);
+            var field1 = sql_Field.create('field1', sql_Field.DataType.int);
             table1.addField(field1);
-            var cond = filter.filter: function()
-                .field(new field.Field('field1'))
-                .op(filter.Op.eq)
-                .compareTo('haha');
-            var select = sql_Query.select(field1).from(table1);
-            // var sqliteQQ = sqlite_Query.create(select);
-                */
+
+            const em1 = model_EntityModel.create(db1, table1);
+
+            const entity1 = entity_Entity.create(em1);
+
+            entity1.setId(1);
+            entity1.setField1(1);
+            entity1.save().then( function() {
+                db1.allSql('SELECT * FROM table1', []).then(function(rows) {
+                    assert.strictEqual(rows.length, 1, 'there is exactly 1 row');
+                    assert.strictEqual(Number.parseInt(rows[0]['id']), 1, 'id is 1');
+                    assert.strictEqual(Number.parseInt(rows[0]['field1']), 1, 'field1 is 1');
+                    console.log('rows', rows);
+                    done();
+                }).catch(function(err) {
+                    done(err);
+                });
+        }).catch(function(err) {
+            done(err);
+        });
         });
     });
 });
