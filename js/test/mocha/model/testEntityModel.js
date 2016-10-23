@@ -13,6 +13,9 @@ describe('model_EntityModel', function() {
         db1.runSql('CREATE TABLE table1 (id int, field1 int)', [])
             .then(function() { done(); });
     });
+    afterEach(function() {
+        db1.close();
+    });
     it('should insert an entity', function(done) {
         console.log('start insert entity');
         var table1 = sql_Table.create('table1');
@@ -22,11 +25,46 @@ describe('model_EntityModel', function() {
         const model = model_EntityModel.create(db1, table1);
         model.getTable().getField('field1').setValue(1);
         model.save().then( function() {
-            console.log('then', arguments);
             db1.allSql('SELECT * FROM table1', []).then(function(rows) {
+                assert.strictEqual(rows.length, 1, 'there is exactly 1 row');
+                assert.strictEqual(Number.parseInt(rows[0]['id']), 1, 'id is 1');
+                assert.strictEqual(Number.parseInt(rows[0]['field1']), 1, 'field1 is 1');
                 console.log('rows', rows);
                 done();
+            }).catch(function(err) {
+                done(err);
             });
+        }).catch(function(err) {
+            done(err);
+        });
+    });
+    it('should update an entity', function(done) {
+        console.log('start update entity');
+        db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]).then(function() { 
+            var table1 = sql_Table.create('table1');
+            var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+            table1.addField(field1);
+
+            const model = model_EntityModel.create(db1, table1);
+            model.getTable().getField('id').setValue(1);
+            model.getTable().getField('field1').setValue(2);
+            model.save().then( function() {
+                console.log('then', arguments);
+                db1.allSql('SELECT * FROM table1 ORDER BY id', []).then(function(rows) {
+                    console.log('rows', rows);
+                    assert.strictEqual(rows.length, 1, 'there is exactly 1 row');
+                    assert.strictEqual(Number.parseInt(rows[0]['id']), 1, 'id is 1');
+                    assert.strictEqual(Number.parseInt(rows[0]['field1']), 2, 'field1 is 2');
+                    done();
+                }).catch(function(err) {
+                    done(err);
+                });
+            }).catch(function(err) {
+                done(err);
+            });
+        }).catch(function(err) {
+            done(err);
+            throw new Error(err);
         });
     });
 });
