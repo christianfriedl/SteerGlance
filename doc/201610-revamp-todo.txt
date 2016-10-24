@@ -1,0 +1,18 @@
+* entity set (needs to use entity set model)
+* limit/offset in entity set / entity set model
+* AND/OR in queries...???
+* everything between entities and frontend
+** server
+** router
+** ...?
+* frontend...
+* linked entities
+* lazy loading of linked entities (off-switchable? default-off? auto-create getters...?)
+* calc fields
+* lookup/drilldown
+** how much is in the frontend?
+
+* test app
+** customer entity
+** invoice entity
+** frontend scripts
