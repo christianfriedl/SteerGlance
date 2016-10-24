@@ -26,6 +26,8 @@ const sql_Table = require('sql/Table.js');
 const sql_Field = require('sql/Field.js');
 const sql_Filter = require('sql/Filter.js');
 const sql_ConditionSet = require('sql/ConditionSet.js');
+const sql_OrderBy = require('sql/OrderBy.js');
+const sql_OrderByField = require('sql/OrderByField.js');
 
 describe('model_EntitySetModel', function() {
     var db1;
@@ -124,7 +126,7 @@ describe('model_EntitySetModel', function() {
         var field1 = sql_Field.create('field1', sql_Field.DataType.int);
         table1.addField(field1);
 
-        const condSet = sql_ConditionSet.create([ sql_Filter.create(id1, sql_Filter.Op.eq, 1) ], null, null, [ id1 ]);
+        const condSet = sql_ConditionSet.create([ sql_Filter.create(id1, sql_Filter.Op.eq, 1) ], null, null, sql_OrderBy.create([ sql_OrderByField.create(id1, sql_OrderBy.Direction.asc) ]));
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
         set.findEntities(condSet).then( function(ems) {
             assert.strictEqual(ems.length, 1);
