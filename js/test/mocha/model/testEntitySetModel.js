@@ -24,6 +24,8 @@ var model_EntitySetModel = require('model/EntitySetModel.js');
 const sql_DB = require('sql/DB.js');
 const sql_Table = require('sql/Table.js');
 const sql_Field = require('sql/Field.js');
+const sql_Filter = require('sql/Filter.js');
+const sql_ConditionSet = require('sql/ConditionSet.js');
 
 describe('model_EntitySetModel', function() {
     var db1;
@@ -32,6 +34,10 @@ describe('model_EntitySetModel', function() {
         db1.runSql('CREATE TABLE table1 (id int, field1 int)', [])
             .then(function() { 
                 return db1.runSql('INSERT INTO table1 (id, field1) VALUES(1, 1)');
+            }).then(function() { 
+                return db1.runSql('INSERT INTO table1 (id, field1) VALUES(2, 2)');
+            }).then(function() { 
+                return db1.runSql('INSERT INTO table1 (id, field1) VALUES(3, 3)');
             }).done(function() { done(); });
     });
     afterEach(function() {
@@ -93,5 +99,40 @@ describe('model_EntitySetModel', function() {
 
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
         return set.loadEntityById(257).then(function() { done(); }).catch(function(e) { console.log(e); done(); }).done();
+    });
+    it('should find all entities', function(done) {
+        var table1 = sql_Table.create('table1');
+        var id1 = sql_Field.create('id', sql_Field.DataType.int);
+        table1.addField(id1);
+        var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+        table1.addField(field1);
+
+        const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
+        set.findAllEntities().then( function(ems) {
+            assert.strictEqual(ems.length, 3);
+            assert.strictEqual(ems[0].getTable().getField('id').getValue(), 1);
+            assert.strictEqual(ems[0].getTable().getField('field1').getValue(), 1);
+            done();
+        }).catch(function(err) {
+            done(err);
+        });
+    });
+    it('should find entities with filters', function(done) {
+        var table1 = sql_Table.create('table1');
+        var id1 = sql_Field.create('id', sql_Field.DataType.int);
+        table1.addField(id1);
+        var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+        table1.addField(field1);
+
+        const condSet = sql_ConditionSet.create([ sql_Filter.create(id1, sql_Filter.Op.eq, 1) ], null, null, [ id1 ]);
+        const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
+        set.findEntities(condSet).then( function(ems) {
+            assert.strictEqual(ems.length, 1);
+            assert.strictEqual(ems[0].getTable().getField('id').getValue(), 1);
+            assert.strictEqual(ems[0].getTable().getField('field1').getValue(), 1);
+            done();
+        }).catch(function(err) {
+            done(err);
+        });
     });
 });
