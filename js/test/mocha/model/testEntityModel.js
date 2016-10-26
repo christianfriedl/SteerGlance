@@ -19,6 +19,7 @@
 "use strict";
 
 var assert = require('assert');
+var q = require('q');
 var model_EntityModel = require('model/EntityModel.js');
 const sql_DB = require('sql/DB.js');
 const sql_Table = require('sql/Table.js');
@@ -67,7 +68,6 @@ describe('model_EntityModel', function() {
             model.getTable().getField('id').setValue(1);
             model.getTable().getField('field1').setValue(2);
             model.save().then( function() {
-                console.log('then', arguments);
                 db1.allSql('SELECT * FROM table1 ORDER BY id', []).then(function(rows) {
                     console.log('rows', rows);
                     assert.strictEqual(rows.length, 1, 'there is exactly 1 row');
@@ -84,5 +84,8 @@ describe('model_EntityModel', function() {
             done(err);
             throw new Error(err);
         });
+    });
+    it.skip('should find an entity', function(done) {
+        done(new Error('test is not implemented'));
     });
 });

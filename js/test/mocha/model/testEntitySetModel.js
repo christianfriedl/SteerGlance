@@ -19,6 +19,7 @@
 "use strict";
 
 var assert = require('assert');
+var q = require('q');
 var model_EntityModel = require('model/EntityModel.js');
 var model_EntitySetModel = require('model/EntitySetModel.js');
 const sql_DB = require('sql/DB.js');
@@ -54,9 +55,11 @@ describe('model_EntitySetModel', function() {
 
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
         set.findEntityById(1).then( function(em) {
-            assert.strictEqual(em.getTable().getField('id').getValue(), 1);
-            assert.strictEqual(em.getTable().getField('field1').getValue(), 1);
-            done();
+            q.all( [ em.getTable().getField('id').getValue(), em.getTable().getField('field1').getValue() ]).spread( (id, field1) => {
+                assert.strictEqual(id, 1);
+                assert.strictEqual(field1, 1);
+                done();
+            });
         }).catch(function(err) {
             done(err);
         });
@@ -85,9 +88,11 @@ describe('model_EntitySetModel', function() {
 
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
         set.loadEntityById(1).then( function(em) {
-            assert.strictEqual(em.getTable().getField('id').getValue(), 1);
-            assert.strictEqual(em.getTable().getField('field1').getValue(), 1);
-            done();
+            q.all( [ em.getTable().getField('id').getValue(), em.getTable().getField('field1').getValue() ]).spread( (id, field1) => {
+                assert.strictEqual(id, 1);
+                assert.strictEqual(field1, 1);
+                done();
+            });
         }).catch(function(err) {
             done(err);
         });
@@ -112,8 +117,13 @@ describe('model_EntitySetModel', function() {
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
         set.findAllEntities().then( function(ems) {
             assert.strictEqual(ems.length, 3);
-            assert.strictEqual(ems[0].getTable().getField('id').getValue(), 1);
-            assert.strictEqual(ems[0].getTable().getField('field1').getValue(), 1);
+            q.all([ ems[0].getTable().getField('id').getValue(), ems[0].getTable().getField('field1').getValue() ])
+                .spread( (id, field1) => { 
+                    assert.strictEqual(id, 1);
+                    assert.strictEqual(field1, 1); 
+                });
+                
+                
             done();
         }).catch(function(err) {
             done(err);
