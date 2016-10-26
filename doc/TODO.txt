@@ -1,0 +1,7 @@
+* frontend
+* server
+** return promises for getters; test it TODO
+** spread all resulting fields over an object by request TODO
+*** Entity.getAllAttributes, .getAllAttributesAsList, .getAttributes, .getAtributesAsList TODO
+** LookupField TODO
+** CalcField TODO

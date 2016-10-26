@@ -1,0 +1,12 @@
+/* 
+ * load a customer, output its name and all its invoices' nr
+ */
+
+CustomerEntitySet.loadById(1).then( (customer) => {
+    customer.getAttributes('name', 'invoices').spread( (name, invoices) => { // we can shorten this to "get()" later on, now let's have full descriptive names!
+        console.log(name);
+
+        // we need to get all invoice nrs IN ORDER
+        q.all(invoices.map( (inv ) => { return inv.getNr(); })).then((invNrs) => { console.log('ordered inv nrs', invNrs); });
+    });
+});
