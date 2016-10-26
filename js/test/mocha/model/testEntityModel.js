@@ -19,7 +19,6 @@
 "use strict";
 
 var assert = require('assert');
-var q = require('q');
 var model_EntityModel = require('model/EntityModel.js');
 const sql_DB = require('sql/DB.js');
 const sql_Table = require('sql/Table.js');

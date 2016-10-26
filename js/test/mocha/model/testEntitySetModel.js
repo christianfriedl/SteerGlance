@@ -117,11 +117,11 @@ describe('model_EntitySetModel', function() {
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
         set.findAllEntities().then( function(ems) {
             assert.strictEqual(ems.length, 3);
-            q.all([ ems[0].getTable().getField('id').getValue(), ems[0].getTable().getField('field1').getValue() ])
-                .spread( (id, field1) => { 
-                    assert.strictEqual(id, 1);
-                    assert.strictEqual(field1, 1); 
-                });
+        q.all([ ems[0].getTable().getField('id').getValue(), ems[0].getTable().getField('field1').getValue() ])
+            .spread( (id, field1) => { 
+                assert.strictEqual(id, 1);
+                assert.strictEqual(field1, 1); 
+            });
                 
                 
             done();
@@ -140,9 +140,12 @@ describe('model_EntitySetModel', function() {
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
         set.findEntities(condSet).then( function(ems) {
             assert.strictEqual(ems.length, 1);
-            assert.strictEqual(ems[0].getTable().getField('id').getValue(), 1);
-            assert.strictEqual(ems[0].getTable().getField('field1').getValue(), 1);
-            done();
+            q.all([ ems[0].getTable().getField('id').getValue(), ems[0].getTable().getField('field1').getValue() ])
+                .spread( (id, field1) => { 
+                    assert.strictEqual(id, 1);
+                    assert.strictEqual(field1, 1); 
+                    done();
+                });
         }).catch(function(err) {
             done(err);
         });
