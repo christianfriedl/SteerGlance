@@ -9,7 +9,7 @@ var sql_Query = require('sql/Query.js');
 var sql_Filter = require('sql/Filter.js');
 var sql_sqlite_Query = require('sql/sqlite/Query.js');
 
-describe('sql_sqlite_Query', function() {
+describe.skip('sql_sqlite_Query', function() {
     describe('create', function() {
         var db1;
         beforeEach(function(done) {

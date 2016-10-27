@@ -1,13 +1,12 @@
 "use strict";
 
-var assert = require('assert');
-var sql_Table = require('sql/Table.js');
+const assert = require('assert');
+const sql_Table = require('sql/Table.js');
 const sql_Field = require('sql/Field.js');
-var sql_ValueField = require('sql/ValueField.js');
-var sql_Query = require('sql/Query.js');
-var sql_Filter = require('sql/Filter.js');
-var sql_sqlite_Query = require('sql/sqlite/Query.js');
-var sql_DB = require('sql/DB.js');
+const sql_ValueField = require('sql/ValueField.js');
+const sql_Query = require('sql/Query.js');
+const sql_Filter = require('sql/Filter.js');
+const sql_sqlite_Query = require('sql/sqlite/Query.js');
 
 describe('sql_sqlite_Query', function() {
     describe('create', function() {

@@ -25,10 +25,10 @@ describe('model_EntityModel', function() {
             console.log(select);
             // var sqliteQQ = sqlite_Query.create(select);
         });
-        it('should create a update query', function() {
+        it.skip('should create a update query', function() {
             assert.ok(false, 'test is not implemented');
         });
-        it('should create a insert query', function() {
+        it.skip('should create a insert query', function() {
             assert.ok(false, 'test is not implemented');
         });
     });

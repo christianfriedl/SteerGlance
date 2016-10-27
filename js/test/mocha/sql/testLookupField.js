@@ -28,4 +28,4 @@ describe('model_EntitySetModel', function() {
         throw 'not implemented';
         const lf = sql_LookupField.create('lookup', MO.mockEntitySetModel);
     });
-
+});
