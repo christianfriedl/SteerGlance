@@ -107,14 +107,14 @@ describe('model_EntityModel', function() {
                 table2 = sql_Table.create('table2');
                 table2.addField(sql_ValueField.create('id', sql_Field.DataType.int));
                 table1Id = sql_ValueField.create('table1Id', sql_Field.DataType.int);
-                table1Ref = sql_LookupField.create('table1x', table1Id, entitySetModel1, 'table 1');
+                table1Ref = sql_LookupField.create('table1', table1Id, entitySetModel1, 'table 1');
                 console.log('table1Ref is field', table1Ref);
                 table2.addField(table1Id);
                 table2.addField(table1Ref);
                 entitySetModel2 = model_EntitySetModel.create(db1, table2, model_EntityModel.create);
 
                 return entitySetModel2.findEntityById(1)
-                    .then( (entity2) => { console.log('start it all done done 1', entity2, 'field:::', entity2.getTable().getField('table1x'));return entity2.getTable().getField('table1x').getValue(); })
+                    .then( (entity2) => { console.log('start it all done done 1', entity2, 'field:::', entity2.getTable().getField('table1'));return entity2.getTable().getField('table1').getValue(); })
                     .then( (entity1) => { console.log('start it all done done 2:', entity1);return entity1.getTable().getField('id').getValue(); })
                     .then( (id) => { 
                         assert.ok(false);
