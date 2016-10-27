@@ -40,7 +40,6 @@ describe('model_EntityModel', function() {
         db1.close();
     });
     it.skip('should insert an entity', function(done) {
-        console.log('start insert entity');
         var table1 = sql_Table.create('table1');
         var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
         table1.addField(field1);
@@ -52,7 +51,6 @@ describe('model_EntityModel', function() {
                 assert.strictEqual(rows.length, 1, 'there is exactly 1 row');
                 assert.strictEqual(Number.parseInt(rows[0]['id']), 1, 'id is 1');
                 assert.strictEqual(Number.parseInt(rows[0]['field1']), 1, 'field1 is 1');
-                console.log('rows', rows);
                 done();
             }).catch(function(err) {
                 done(err);
@@ -62,7 +60,6 @@ describe('model_EntityModel', function() {
         });
     });
     it.skip('should update an entity', function(done) {
-        console.log('start update entity');
         db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]).then(function() { 
             var table1 = sql_Table.create('table1');
             var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
@@ -73,7 +70,6 @@ describe('model_EntityModel', function() {
             model.getTable().getField('field1').setValue(2);
             model.save().then( function() {
                 db1.allSql('SELECT * FROM table1 ORDER BY id', []).then(function(rows) {
-                    console.log('rows', rows);
                     assert.strictEqual(rows.length, 1, 'there is exactly 1 row');
                     assert.strictEqual(Number.parseInt(rows[0]['id']), 1, 'id is 1');
                     assert.strictEqual(Number.parseInt(rows[0]['field1']), 2, 'field1 is 2');
@@ -90,44 +86,42 @@ describe('model_EntityModel', function() {
         });
     });
     it('should find an entity by lookup field', function(itdone) {
-            db1.runSql('CREATE TABLE table2 (id int, table1Id int)', []).then(function() {
-                console.log('oida1');
-                return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
-            }).then(function() {
-                console.log('oida2');
-                return db1.runSql('INSERT INTO table2(id, table1Id) VALUES(?, ?)', [1, 1]);
-            }).then(function() {
-                console.log('oida3');
-                let table1, field1, table2, table1Id, table1Ref, id1, id2, entityModel1, entitySetModel1, entitySetModel2;
-                table1 = sql_Table.create('table1');
-                field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
-                table1.addField(field1);
-                entityModel1 = model_EntityModel.create(db1, table1);
-                entitySetModel1 = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
-                table2 = sql_Table.create('table2');
-                table2.addField(sql_ValueField.create('id', sql_Field.DataType.int));
-                table1Id = sql_ValueField.create('table1Id', sql_Field.DataType.int);
-                table1Ref = sql_LookupField.create('table1', table1Id, entitySetModel1, 'table 1');
-                console.log('table1Ref is field', table1Ref);
-                table2.addField(table1Id);
-                table2.addField(table1Ref);
-                entitySetModel2 = model_EntitySetModel.create(db1, table2, model_EntityModel.create);
+        db1.runSql('CREATE TABLE table2 (id int, table1Id int)', []).then(function() {
+            return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id) VALUES(?, ?)', [1, 1]);
+        }).then(function() {
+            let table1, field1, table2, table1Id, table1Ref, id1, id2, entityModel1, entitySetModel1, entitySetModel2;
+            table1 = sql_Table.create('table1');
+            field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
+            table1.addField(field1);
+            entityModel1 = model_EntityModel.create(db1, table1);
+            entitySetModel1 = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
+            table2 = sql_Table.create('table2');
+            table2.addField(sql_ValueField.create('id', sql_Field.DataType.int));
+            table1Id = sql_ValueField.create('table1Id', sql_Field.DataType.int);
+            table1Ref = sql_LookupField.create('table1', table1Id, entitySetModel1, 'table 1');
+            table2.addField(table1Id);
+            table2.addField(table1Ref);
+            entitySetModel2 = model_EntitySetModel.create(db1, table2, model_EntityModel.create);
 
-                return entitySetModel2.findEntityById(1)
-                    .then( (entity2) => { console.log('start it all done done 1', entity2, 'field:::', entity2.getTable().getField('table1'));return entity2.getTable().getField('table1').getValue(); })
-                    .then( (entity1) => { console.log('start it all done done 2:', entity1);return entity1.getTable().getField('id').getValue(); })
-                    .then( (id) => { 
-                        assert.ok(false);
-                        assert.strictEqual(id, 1, 'id of table1 entity is 1'); 
-                        console.log('will done done 3');
-                        done();
-                    })
-                    .done();
-            }).then( (em) => {
-                console.log(em);
-                itdone();
-            }).catch( (err) => {
-                console.error(err);
-            }).done();
+            return entitySetModel2.findEntityById(1)
+                .then( (entity2) => { 
+                    const field = entity2.getTable().getField('table1');
+                    return field.getValue(); 
+                })
+                .then( (entity1) => { 
+                    const field = entity1.getTable().getField('id');
+                    return field.getValue(); 
+                })
+                .then( (id) => { 
+                    assert.strictEqual(id, 1, 'id of table1 entity is 1'); 
+                    itdone();
+                })
+                .catch((e) => {
+                    console.error('error in chain', e);
+                    itdone(e);
+                });
+        }).done();
     });
 });
