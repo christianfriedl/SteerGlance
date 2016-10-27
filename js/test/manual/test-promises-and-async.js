@@ -19,5 +19,7 @@ async.series([ (cb) => {
 }, (cb) => {
     // we want them all in order
     const promises = invoices.map(getInvNr);
-    q.all(promises).then((invNrs) => { console.log('ordered inv nrs', invNrs); cb(); });
+    setTimeout( () => {
+        q.all(promises).then((invNrs) => { console.log('ordered inv nrs', invNrs); cb(); });
+    }, 5000);
 }]);

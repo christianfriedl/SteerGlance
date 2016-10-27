@@ -5,3 +5,5 @@
 *** Entity.getAllAttributes, .getAllAttributesAsList, .getAttributes, .getAtributesAsList TODO
 ** LookupField TODO
 ** CalcField TODO
+** REFLECT: do we need to extend LookupField to look into any field, or just the id (as it is now)?
+** REFLECT: possibly, LookupField should get the value-label from the master field too

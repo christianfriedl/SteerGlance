@@ -18,11 +18,15 @@
 
 "use strict";
 
+var q = require('q');
 var assert = require('assert');
 var model_EntityModel = require('model/EntityModel.js');
 const sql_DB = require('sql/DB.js');
 const sql_Table = require('sql/Table.js');
 const sql_Field = require('sql/Field.js');
+const sql_LookupField = require('sql/LookupField.js');
+const sql_LookupIdField = require('sql/LookupIdField.js');
+const model_EntitySetModel = require('model/EntitySetModel.js');
 
 describe('model_EntityModel', function() {
     var db1;
@@ -34,7 +38,7 @@ describe('model_EntityModel', function() {
     afterEach(function() {
         db1.close();
     });
-    it('should insert an entity', function(done) {
+    it.skip('should insert an entity', function(done) {
         console.log('start insert entity');
         var table1 = sql_Table.create('table1');
         var field1 = sql_Field.create('field1', sql_Field.DataType.int);
@@ -56,7 +60,7 @@ describe('model_EntityModel', function() {
             done(err);
         });
     });
-    it('should update an entity', function(done) {
+    it.skip('should update an entity', function(done) {
         console.log('start update entity');
         db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]).then(function() { 
             var table1 = sql_Table.create('table1');
@@ -84,7 +88,45 @@ describe('model_EntityModel', function() {
             throw new Error(err);
         });
     });
-    it.skip('should find an entity', function(done) {
-        done(new Error('test is not implemented'));
+    it('should find an entity by lookup field', function(itdone) {
+            db1.runSql('CREATE TABLE table2 (id int, table1Id int)', []).then(function() {
+                console.log('oida1');
+                return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
+            }).then(function() {
+                console.log('oida2');
+                return db1.runSql('INSERT INTO table2(id, table1Id) VALUES(?, ?)', [1, 1]);
+            }).then(function() {
+                console.log('oida3');
+                let table1, field1, table2, table1Id, table1Ref, id1, id2, entityModel1, entitySetModel1, entitySetModel2;
+                table1 = sql_Table.create('table1');
+                field1 = sql_Field.create('field1', sql_Field.DataType.int);
+                table1.addField(field1);
+                entityModel1 = model_EntityModel.create(db1, table1);
+                entitySetModel1 = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
+                table2 = sql_Table.create('table2');
+                table2.addField(sql_Field.create('id', sql_Field.DataType.int));
+                table1Id = sql_Field.create('table1Id', sql_Field.DataType.int);
+                table1Ref = sql_LookupField.create('table1x', table1Id, entitySetModel1, 'table 1');
+                console.log('table1Ref is field', table1Ref);
+                table2.addField(table1Id);
+                table2.addField(table1Ref);
+                entitySetModel2 = model_EntitySetModel.create(db1, table2, model_EntityModel.create);
+
+                return entitySetModel2.findEntityById(1)
+                    .then( (entity2) => { console.log('start it all done done 1', entity2, 'field:::', entity2.getTable().getField('table1x'));return entity2.getTable().getField('table1x').getValue(); })
+                    .then( (entity1) => { console.log('start it all done done 2:', entity1);return entity1.getTable().getField('id').getValue(); })
+                    .then( (id) => { 
+                        assert.ok(false);
+                        assert.strictEqual(id, 1, 'id of table1 entity is 1'); 
+                        console.log('will done done 3');
+                        done();
+                    })
+                    .done();
+            }).then( (em) => {
+                console.log(em);
+                itdone();
+            }).catch( (err) => {
+                console.error(err);
+            }).done();
     });
 });

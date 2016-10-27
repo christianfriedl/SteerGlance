@@ -18,15 +18,14 @@
 
 "use strict";
 
-exports.mockEntityModel = { 
-    'abc': 'ABC', 
-    'def': 'DEF', 
-    'id': 1, 
-    getAttributeNames: function() { return ['abc', 'def', 'id' ]; } ,
-    getAttributeValue: function(name) { return this[name] },
-    setAttributeValue: function(name, value) { this[name] = value; },
-};
+var assert = require('assert');
+var q = require('q');
+const sql_LookupField = require('sql/LookupField.js');
+const MO = require('MockObjects.js');
 
-exports.mockEntitySetModel = { 
-    loadEntityById: function(id) { return exports.mockEntityModel; }
-};
+describe('model_EntitySetModel', function() {
+    it.skip('should return the entity', function(done) {
+        throw 'not implemented';
+        const lf = sql_LookupField.create('lookup', MO.mockEntitySetModel);
+    });
+
