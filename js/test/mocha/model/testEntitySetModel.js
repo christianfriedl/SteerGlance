@@ -25,6 +25,7 @@ var model_EntitySetModel = require('model/EntitySetModel.js');
 const sql_DB = require('sql/DB.js');
 const sql_Table = require('sql/Table.js');
 const sql_Field = require('sql/Field.js');
+const sql_ValueField = require('sql/ValueField.js');
 const sql_Filter = require('sql/Filter.js');
 const sql_ConditionSet = require('sql/ConditionSet.js');
 const sql_OrderBy = require('sql/OrderBy.js');
@@ -48,9 +49,9 @@ describe('model_EntitySetModel', function() {
     });
     it('should find an entity', function(done) {
         var table1 = sql_Table.create('table1');
-        var id1 = sql_Field.create('id', sql_Field.DataType.int);
+        var id1 = sql_ValueField.create('id', sql_Field.DataType.int);
         table1.addField(id1);
-        var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+        var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
         table1.addField(field1);
 
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
@@ -66,9 +67,9 @@ describe('model_EntitySetModel', function() {
     });
     it('should not find a nonexisting entity', function(done) {
         var table1 = sql_Table.create('table1');
-        var id1 = sql_Field.create('id', sql_Field.DataType.int);
+        var id1 = sql_ValueField.create('id', sql_Field.DataType.int);
         table1.addField(id1);
-        var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+        var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
         table1.addField(field1);
 
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
@@ -81,9 +82,9 @@ describe('model_EntitySetModel', function() {
     });
     it('should load an entity', function(done) {
         var table1 = sql_Table.create('table1');
-        var id1 = sql_Field.create('id', sql_Field.DataType.int);
+        var id1 = sql_ValueField.create('id', sql_Field.DataType.int);
         table1.addField(id1);
-        var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+        var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
         table1.addField(field1);
 
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
@@ -99,9 +100,9 @@ describe('model_EntitySetModel', function() {
     });
     it('should throw on a nonexisting entity', function(done) {
         var table1 = sql_Table.create('table1');
-        var id1 = sql_Field.create('id', sql_Field.DataType.int);
+        var id1 = sql_ValueField.create('id', sql_Field.DataType.int);
         table1.addField(id1);
-        var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+        var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
         table1.addField(field1);
 
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
@@ -109,9 +110,9 @@ describe('model_EntitySetModel', function() {
     });
     it('should find all entities', function(done) {
         var table1 = sql_Table.create('table1');
-        var id1 = sql_Field.create('id', sql_Field.DataType.int);
+        var id1 = sql_ValueField.create('id', sql_Field.DataType.int);
         table1.addField(id1);
-        var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+        var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
         table1.addField(field1);
 
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
@@ -131,9 +132,9 @@ describe('model_EntitySetModel', function() {
     });
     it('should find entities with filters', function(done) {
         var table1 = sql_Table.create('table1');
-        var id1 = sql_Field.create('id', sql_Field.DataType.int);
+        var id1 = sql_ValueField.create('id', sql_Field.DataType.int);
         table1.addField(id1);
-        var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+        var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
         table1.addField(field1);
 
         const condSet = sql_ConditionSet.create([ sql_Filter.create(id1, sql_Filter.Op.eq, 1) ], null, null, sql_OrderBy.create([ sql_OrderByField.create(id1, sql_OrderBy.Direction.asc) ]));

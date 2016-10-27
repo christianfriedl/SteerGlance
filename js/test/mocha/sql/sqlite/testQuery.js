@@ -2,7 +2,7 @@
 
 var assert = require('assert');
 var sql_Table = require('sql/Table.js');
-var sql_Field = require('sql/Field.js');
+const sql_Field = require('sql/Field.js');
 var sql_ValueField = require('sql/ValueField.js');
 var sql_Query = require('sql/Query.js');
 var sql_Filter = require('sql/Filter.js');
@@ -13,7 +13,7 @@ describe('sql_sqlite_Query', function() {
     describe('create', function() {
         it('should insert and fetch a field', function() {
             var table1 = sql_Table.create('table1');
-            var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+            var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
             table1.addField(field1);
             var cond = sql_Filter.create(field1, sql_Filter.Op.eq, 'haha');
             var select = sql_Query.select(field1).from(table1).where(cond);
@@ -23,7 +23,7 @@ describe('sql_sqlite_Query', function() {
         });
         it('should output a sqlite update query', function() {
             var table1 = sql_Table.create('table1');
-            var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+            var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
             table1.addField(field1);
             var cond = sql_Filter.create(field1, sql_Filter.Op.eq, 'haha');
             var update = sql_Query.update(sql_ValueField.create(field1, 1)).from(table1).where(cond);
@@ -34,7 +34,7 @@ describe('sql_sqlite_Query', function() {
         });
         it('should output a sqlite insert query', function() {
             var table1 = sql_Table.create('table1');
-            var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+            var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
             table1.addField(field1);
             var insert = sql_Query.insert(sql_ValueField.create(field1, 1)).into(table1);
 

@@ -22,6 +22,7 @@ const assert = require('assert');
 const entity_Entity = require('entity/Entity.js');
 const sql_DB = require('sql/DB.js');
 const sql_Field = require('sql/Field.js');
+const sql_ValueField = require('sql/ValueField.js');
 const sql_Table = require('sql/Table.js');
 const model_EntityModel = require('model/EntityModel.js');
 const mockEntityModel = require('MockObjects.js').mockEntityModel;
@@ -48,7 +49,7 @@ describe('entity_Entity', function() {
         });
         it('should create an entity from a entity model', function() {
             var table1 = sql_Table.create('table1');
-            var field1 = sql_Field.create('field1', sql_Field.DataType.int);
+            var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
             table1.addField(field1);
 
             const em1 = model_EntityModel.create(db1, table1);
