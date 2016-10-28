@@ -7,3 +7,7 @@
 ** CalcField TODO
 ** REFLECT: do we need to extend LookupField to look into any field, or just the id (as it is now)?
 ** REFLECT: possibly, LookupField should get the value-label from the master field too
+
+* handle datetimes correctly TODO;datesandtimes
+* have a date AND a datetime type TODO;datesandtimes
+* use a good node library for dates and times TODO;datesandtimes
