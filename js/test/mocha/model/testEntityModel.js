@@ -166,7 +166,9 @@ describe('model_EntityModel', function() {
                     console.log(util.inspect(entity2s, { depth: null }));
                     assert.strictEqual(entity2s.length, 3, 'there are exactly 3 results');
                     q.all(_.map(entity2s, ( ent ) => { return ent.getTable().getField('id').getValue(); })).then ( (ids) => {
-                        console.log(ids);
+                        assert.ok(_.contains(ids, 1));
+                        assert.ok(_.contains(ids, 3));
+                        assert.ok(_.contains(ids, 4));
                     }).done();
                 })
                 .then( (entity2s) => { 
