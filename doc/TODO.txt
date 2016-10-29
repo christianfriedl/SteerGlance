@@ -13,7 +13,7 @@
 * table.getFieldLinks() seems pretty stupid -- TODO
 * ditto: table._labelFields and lookupfields in general -- TODO
 * ditto: table._fieldLinks -- TODO
-* the table given to EntitySetModel now has to already have an id field, because it is used to create the query() before the constructor gets called... should automatically add an id field! -- TODO
+* the table given to EntitySetModel now has to already have an id field, because it is used to create the query() before the constructor gets called... should automatically add an id field! -- DONE
 * move sql_Field and its descendants, and sql_Table, into a new namespace table -- TODO;refactor
 * REFLECT: do we want to be able to save() via a ZoomField, i.e. customer.setInvoices([inv1, inv2,...]); customer.save().then(...); ??? -- TODO;reflect;model
 * sql_Filter: 80:  return this._compareTo.value(); // TODO OOOOPS this will not fly!!! it returns a promise now
