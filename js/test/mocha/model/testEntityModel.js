@@ -158,17 +158,16 @@ describe('model_EntityModel', function() {
 
             return entitySetModel1.findEntityById(1)
                 .then( (entity1) => { 
-                    console.log('entity1 table', entity1.getTable());
                     const field = entity1.getTable().getField('table2s');
                     return field.getValue(); 
                 })
                 .then( (entity2s) => { 
-                    console.log(util.inspect(entity2s, { depth: null }));
-                    assert.strictEqual(entity2s.length, 3, 'there are exactly 3 results');
                     q.all(_.map(entity2s, ( ent ) => { return ent.getTable().getField('id').getValue(); })).then ( (ids) => {
-                        assert.ok(_.contains(ids, 1));
-                        assert.ok(_.contains(ids, 3));
-                        assert.ok(_.contains(ids, 4));
+                        assert.ok(_.includes(ids, 1), 'resulting ids includes 1');
+                        assert.ok(_.includes(ids, 2), 'resulting ids includes 2');
+                        assert.ok(_.includes(ids, 5), 'resulting ids includes 5');
+                    }).catch( (e) => {
+                        itdone(e);
                     }).done();
                 })
                 .then( (entity2s) => { 
