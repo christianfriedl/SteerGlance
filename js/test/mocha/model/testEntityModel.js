@@ -18,7 +18,9 @@
 
 "use strict";
 
+var _ = require('lodash');
 var q = require('q');
+const util = require('util');
 var assert = require('assert');
 var model_EntityModel = require('model/EntityModel.js');
 const sql_DB = require('sql/DB.js');
@@ -26,7 +28,7 @@ const sql_Table = require('sql/Table.js');
 const sql_Field = require('sql/Field.js');
 const sql_ValueField = require('sql/ValueField.js');
 const sql_LookupField = require('sql/LookupField.js');
-const sql_LookupIdField = require('sql/LookupIdField.js');
+const sql_ZoomField = require('sql/ZoomField.js');
 const model_EntitySetModel = require('model/EntitySetModel.js');
 
 describe('model_EntityModel', function() {
@@ -39,7 +41,7 @@ describe('model_EntityModel', function() {
     afterEach(function() {
         db1.close();
     });
-    it.skip('should insert an entity', function(done) {
+    it('should insert an entity', function(done) {
         var table1 = sql_Table.create('table1');
         var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
         table1.addField(field1);
@@ -59,7 +61,7 @@ describe('model_EntityModel', function() {
             done(err);
         });
     });
-    it.skip('should update an entity', function(done) {
+    it('should update an entity', function(done) {
         db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]).then(function() { 
             var table1 = sql_Table.create('table1');
             var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
@@ -91,8 +93,9 @@ describe('model_EntityModel', function() {
         }).then(function() {
             return db1.runSql('INSERT INTO table2(id, table1Id) VALUES(?, ?)', [1, 1]);
         }).then(function() {
-            let table1, field1, table2, table1Id, table1Ref, id1, id2, entityModel1, entitySetModel1, entitySetModel2;
+            let table1, field1, table2, table1Id, table1Lookup, id1, id2, entityModel1, entitySetModel1, entitySetModel2;
             table1 = sql_Table.create('table1');
+            table1.addField(sql_ValueField.create('id', sql_Field.DataType.int));
             field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
             table1.addField(field1);
             entityModel1 = model_EntityModel.create(db1, table1);
@@ -100,9 +103,9 @@ describe('model_EntityModel', function() {
             table2 = sql_Table.create('table2');
             table2.addField(sql_ValueField.create('id', sql_Field.DataType.int));
             table1Id = sql_ValueField.create('table1Id', sql_Field.DataType.int);
-            table1Ref = sql_LookupField.create('table1', table1Id, entitySetModel1, 'table 1');
+            table1Lookup = sql_LookupField.create('table1', table1Id, entitySetModel1, 'table 1');
             table2.addField(table1Id);
-            table2.addField(table1Ref);
+            table2.addField(table1Lookup);
             entitySetModel2 = model_EntitySetModel.create(db1, table2, model_EntityModel.create);
 
             return entitySetModel2.findEntityById(1)
@@ -116,6 +119,57 @@ describe('model_EntityModel', function() {
                 })
                 .then( (id) => { 
                     assert.strictEqual(id, 1, 'id of table1 entity is 1'); 
+                    itdone();
+                })
+                .catch((e) => {
+                    console.error('error in chain', e);
+                    itdone(e);
+                });
+        }).done();
+    });
+    it('should find entities by zoom field', function(itdone) {
+        db1.runSql('CREATE TABLE table2 (id int, table1Id int)', []).then(function() {
+            return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id) VALUES(?, ?)', [1, 1]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id) VALUES(?, ?)', [2, 1]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id) VALUES(?, ?)', [5, 1]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id) VALUES(?, ?)', [3, 2]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id) VALUES(?, ?)', [4, 2]);
+        }).then(function() {
+            let table1, field1, table2, table1Id, table2Zoom, id1, id2, entityModel1, entitySetModel1, entitySetModel2;
+            table1 = sql_Table.create('table1');
+            table1.addField(sql_ValueField.create('id', sql_Field.DataType.int));
+            field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
+            table1.addField(field1);
+            entityModel1 = model_EntityModel.create(db1, table1);
+            entitySetModel1 = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
+            table2 = sql_Table.create('table2');
+            table2.addField(sql_ValueField.create('id', sql_Field.DataType.int));
+            table1Id = sql_ValueField.create('table1Id', sql_Field.DataType.int);
+            table2.addField(table1Id);
+            entitySetModel2 = model_EntitySetModel.create(db1, table2, model_EntityModel.create);
+            table2Zoom = sql_ZoomField.create('table2s', table1.getField('id'), entitySetModel2, table1Id, 'Table 2s');
+            table1.addField(table2Zoom);
+
+            return entitySetModel1.findEntityById(1)
+                .then( (entity1) => { 
+                    console.log('entity1 table', entity1.getTable());
+                    const field = entity1.getTable().getField('table2s');
+                    return field.getValue(); 
+                })
+                .then( (entity2s) => { 
+                    console.log(util.inspect(entity2s, { depth: null }));
+                    assert.strictEqual(entity2s.length, 3, 'there are exactly 3 results');
+                    q.all(_.map(entity2s, ( ent ) => { return ent.getTable().getField('id').getValue(); })).then ( (ids) => {
+                        console.log(ids);
+                    }).done();
+                })
+                .then( (entity2s) => { 
                     itdone();
                 })
                 .catch((e) => {
