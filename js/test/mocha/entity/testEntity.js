@@ -87,7 +87,23 @@ describe('entity_Entity', function() {
                 done();
             }).catch( (e) => {
                 done(e);
-            });;
+            });
+        });
+        it('should return all requiested values as promises', function(done) {
+            var table1 = sql_Table.create('table1');
+            var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
+            table1.addField(field1);
+
+            const em1 = model_EntityModel.create(db1, table1);
+            em1.setAttributeValue('field1', 1);
+
+            const entity1 = entity_Entity.create(em1);
+            entity1.getValuesAsObject([ 'field1' ]).then( ( obj ) => {
+                assert.strictEqual(obj.field1, 1);
+                done();
+            }).catch( (e) => {
+                done(e);
+            });
         });
     });
 });
