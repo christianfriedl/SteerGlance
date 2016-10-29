@@ -1,16 +1,15 @@
-* We need to clone the table upon entity creation, or find another way to create new tables for new entities -- TODO;entity
+* We need to clone the table upon entity creation, or find another way to create new tables for new entities -- DONE;entity
 * return promises for getters; test it -- DONE;server
 * spread all resulting fields over an object by request -- TODO
 * Entity.getAllAttributes, .getAllAttributesAsList, .getAttributes, .getAtributesAsList -- TODO
 * LookupField -- TODO
 * CalcField -- TODO
-* ZoomField - opposite of LookupField -- TODO
+* ZoomField - opposite of LookupField -- DONE
 * SumField  -- TODO;sql;fields
 * CountField  -- TODO;sql;fields
 * REFLECT: do we need to extend LookupField to look into any field, or just the id (as it is now)? -- TODO
 * REFLECT: possibly, LookupField should get the value-label from the master field too -- TODO
-* bjooobject should prescribe a clone() method -- TODO
-** cannot yet be done because it would seriously block development -- TODO
+* bjooobject should prescribe a clone() method -- REJECTED
 * table.getFieldLinks() seems pretty stupid -- TODO
 * ditto: table._labelFields and lookupfields in general -- TODO
 * ditto: table._fieldLinks -- TODO

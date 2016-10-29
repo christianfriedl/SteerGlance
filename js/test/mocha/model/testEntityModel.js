@@ -143,13 +143,11 @@ describe('model_EntityModel', function() {
         }).then(function() {
             let table1, field1, table2, table1Id, table2Zoom, id1, id2, entityModel1, entitySetModel1, entitySetModel2;
             table1 = sql_Table.create('table1');
-            table1.addField(sql_ValueField.create('id', sql_Field.DataType.int));
             field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
             table1.addField(field1);
             entityModel1 = model_EntityModel.create(db1, table1);
             entitySetModel1 = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
             table2 = sql_Table.create('table2');
-            table2.addField(sql_ValueField.create('id', sql_Field.DataType.int));
             table1Id = sql_ValueField.create('table1Id', sql_Field.DataType.int);
             table2.addField(table1Id);
             entitySetModel2 = model_EntitySetModel.create(db1, table2, model_EntityModel.create);
