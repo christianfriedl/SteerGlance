@@ -5,11 +5,13 @@
 *** Entity.getAllAttributes, .getAllAttributesAsList, .getAttributes, .getAtributesAsList TODO
 ** LookupField TODO
 ** CalcField TODO
-** REFLECT: do we need to extend LookupField to look into any field, or just the id (as it is now)?
-** REFLECT: possibly, LookupField should get the value-label from the master field too
+** REFLECT: do we need to extend LookupField to look into any field, or just the id (as it is now)? -- REFLECT
+** REFLECT: possibly, LookupField should get the value-label from the master field too -- REFLECT
 
 * handle datetimes correctly TODO;datesandtimes
 * have a date AND a datetime type TODO;datesandtimes
 * use a good node library for dates and times TODO;datesandtimes
 
 * use yuidoc or another tool for documentation -- TODO;documentation
+* use node7 Promises -- REFLECT;server
+* be able to create an entity with default values from table/fields -- TODO;REFLECT;server
