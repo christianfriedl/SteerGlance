@@ -29,6 +29,7 @@ const sql_Field = require('sql/Field.js');
 const sql_ValueField = require('sql/ValueField.js');
 const sql_LookupField = require('sql/LookupField.js');
 const sql_ZoomField = require('sql/ZoomField.js');
+const sql_SumField = require('sql/SumField.js');
 const model_EntitySetModel = require('model/EntitySetModel.js');
 
 describe('model_EntityModel', function() {
@@ -167,6 +168,52 @@ describe('model_EntityModel', function() {
                     }).catch( (e) => {
                         itdone(e);
                     }).done();
+                })
+                .then( (entity2s) => { 
+                    itdone();
+                })
+                .catch((e) => {
+                    console.error('error in chain', e);
+                    itdone(e);
+                });
+        }).done();
+    });
+    it('should sum up a sum by a sum field', function(itdone) {
+        db1.runSql('CREATE TABLE table2 (id int, table1Id int, amount int)', []).then(function() {
+            return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [1, 1, 20]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [2, 1, 20]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [5, 1, 20]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [3, 2, 10]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [4, 2, 10]);
+        }).then(function() {
+            let table1, field1, table2, table1Id, table2Zoom, id1, id2, entityModel1, entitySetModel1, entitySetModel2, amount;
+            table1 = sql_Table.create('table1');
+            field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
+            table1.addField(field1);
+            entityModel1 = model_EntityModel.create(db1, table1);
+            entitySetModel1 = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
+            table2 = sql_Table.create('table2');
+            table1Id = sql_ValueField.create('table1Id', sql_Field.DataType.int);
+            table2.addField(table1Id);
+            amount = sql_ValueField.create('amount', sql_Field.DataType.int);
+            table2.addField(amount);
+            entitySetModel2 = model_EntitySetModel.create(db1, table2, model_EntityModel.create);
+            table2sumAmount = sql_SumField.create('table2sumAmount', table1.getField('id'), entitySetModel2, table1Id, amount, 'Table 2 amount sum');
+            table1.addField(table2sumAmount);
+
+            return entitySetModel1.findEntityById(1)
+                .then( (entity1) => { 
+                    const field = entity1.getTable().getField('table2sumAmount');
+                    return field.getValue(); 
+                })
+                .then( (sumAmount) => { 
+                    assert.strictEqual(sumAmount, 80, 'sum of table2.amount should be 80');
                 })
                 .then( (entity2s) => { 
                     itdone();

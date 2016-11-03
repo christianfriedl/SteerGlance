@@ -2,11 +2,11 @@
 * return promises for getters; test it -- DONE;server
 * spread all resulting fields over an object by request -- TODO
 * Entity.getAllAttributes, .getAllAttributesAsList, .getAttributes, .getAtributesAsList -- TODO
-* LookupField -- TODO
-* CalcField -- TODO
-* ZoomField - opposite of LookupField -- DONE
 * SumField  -- TODO;sql;fields
 * CountField  -- TODO;sql;fields
+* LookupField -- DONE
+* CalcField -- CLARIFY;sql;fields
+* ZoomField - opposite of LookupField -- DONE
 * REFLECT: do we need to extend LookupField to look into any field, or just the id (as it is now)? -- TODO
 * REFLECT: possibly, LookupField should get the value-label from the master field too -- TODO
 * bjooobject should prescribe a clone() method -- REJECTED
