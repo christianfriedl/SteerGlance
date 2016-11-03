@@ -17,3 +17,9 @@
 * move sql_Field and its descendants, and sql_Table, into a new namespace table -- TODO;refactor
 * REFLECT: do we want to be able to save() via a ZoomField, i.e. customer.setInvoices([inv1, inv2,...]); customer.save().then(...); ??? -- TODO;reflect;model
 * sql_Filter: 80:  return this._compareTo.value(); // TODO OOOOPS this will not fly!!! it returns a promise now
+* handle datetimes correctly TODO;datesandtimes
+* have a date AND a datetime type TODO;datesandtimes
+* use a good node library for dates and times TODO;datesandtimes
+* use yuidoc or another tool for documentation -- TODO;documentation
+* use node7 Promises -- REFLECT;server
+* possibly be able to create an entity with default values from table/fields -- TODO;REFLECT;server
