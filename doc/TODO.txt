@@ -1,11 +1,11 @@
 * We need to clone the table upon entity creation, or find another way to create new tables for new entities -- DONE;entity
 * return promises for getters; test it -- DONE;server
-* spread all resulting fields over an object by request -- TODO
+* spread all resulting fields over an object by request -- DONE
 * Entity.getAllAttributes, .getAllAttributesAsList, .getAttributes, .getAtributesAsList -- TODO
-* SumField  -- TODO;sql;fields
-* CountField  -- TODO;sql;fields
+* SumField  -- DONE;sql;fields
+* CountField  -- DONE;sql;fields
 * LookupField -- DONE
-* CalcField -- CLARIFY;sql;fields
+* CalcField -- REFLECT;sql;fields
 * ZoomField - opposite of LookupField -- DONE
 * REFLECT: do we need to extend LookupField to look into any field, or just the id (as it is now)? -- TODO
 * REFLECT: possibly, LookupField should get the value-label from the master field too -- TODO
@@ -23,3 +23,4 @@
 * use yuidoc or another tool for documentation -- TODO;documentation
 * use node7 Promises -- REFLECT;server
 * possibly be able to create an entity with default values from table/fields -- TODO;REFLECT;server
+* name of count field is now 'aggregate' which will be a bit unfortunate in the future, should get some unique name per query -- TODO;server;sql
