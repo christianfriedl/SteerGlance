@@ -26,3 +26,4 @@
 * name of count field is now 'aggregate' which will be a bit unfortunate in the future, should get some unique name per query -- TODO;server;sql
 * use node-assert for "DEVELOPMENT {" checks -- TODO;prio-3
 * parse-out "DEVELOPMENT {" checks -- TODO;prio-3
+* auto-create id field again -- TODO;prio-2
