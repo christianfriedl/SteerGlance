@@ -106,15 +106,15 @@ describe('model_EntityModel', function() {
                     return field1.getValue().then( ( field1val ) => {
                         assert.strictEqual(field1val, 1, 'field1 should be 1');
                     });
+                }).then( () => {
                     itdone();
-                })
-                .catch((e) => {
+                }).catch((e) => {
                     console.error('error in chain', e);
-                    itdone(e);
+                    throw new Error(e);
                 });
         }).done();
     });
-    it.skip('should find an entity by lookup field', function(itdone) {
+    it('should find an entity by lookup field', function(itdone) {
         db1.runSql('CREATE TABLE table2 (id int, table1Id int)', []).then(function() {
             return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
         }).then(function() {
@@ -154,7 +154,7 @@ describe('model_EntityModel', function() {
                 });
         }).done();
     });
-    it.skip('should find entities by zoom field', function(itdone) {
+    it('should find entities by zoom field', function(itdone) {
         db1.runSql('CREATE TABLE table2 (id int, table1Id int)', []).then(function() {
             return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
         }).then(function() {
@@ -204,7 +204,7 @@ describe('model_EntityModel', function() {
                 });
         }).done();
     });
-    it.skip('should sum up a sum by a sum field', function(itdone) {
+    it('should sum up a sum by a sum field', function(itdone) {
         db1.runSql('CREATE TABLE table2 (id int, table1Id int, amount int)', []).then(function() {
             return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
         }).then(function() {
@@ -250,7 +250,7 @@ describe('model_EntityModel', function() {
                 });
         }).done();
     });
-    it.skip('should count by a count field', function(itdone) {
+    it('should count by a count field', function(itdone) {
         db1.runSql('CREATE TABLE table2 (id int, table1Id int, amount int)', []).then(function() {
             return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
         }).then(function() {
