@@ -27,3 +27,6 @@
 * use node-assert for "DEVELOPMENT {" checks -- TODO;prio-3
 * parse-out "DEVELOPMENT {" checks -- TODO;prio-3
 * auto-create id field again -- TODO;prio-2
+* possibly extract sub-queries from sql/sqlite/Query -- REFLECT;server;prio-3
+    * currently, we always call _getXxxxQueryString() AND _getXxxxQueryParams() -- might warrant a (local?) class
+* sql/sqlite/Query: restructure internally, and rename run() to runQuery() -- TODO;server;sql;prio-2

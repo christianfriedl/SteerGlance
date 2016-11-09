@@ -61,6 +61,7 @@ describe('model_EntityModel', function() {
                 done(err);
             });
         }).catch(function(err) {
+            console.error('err', err);
             done(err);
         });
     });
