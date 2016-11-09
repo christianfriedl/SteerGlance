@@ -91,7 +91,30 @@ describe('model_EntityModel', function() {
             throw new Error(err);
         });
     });
-    it('should find an entity by lookup field', function(itdone) {
+    it('should find an entity by id', function(itdone) {
+        db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]).then( () => {
+            let table1, field1, entityModel1, entitySetModel1;
+            table1 = sql_Table.create('table1');
+            table1.addField(sql_ValueField.create('id', sql_Field.DataType.int));
+            field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
+            table1.addField(field1);
+            entityModel1 = model_EntityModel.create(db1, table1);
+            entitySetModel1 = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
+            return entitySetModel1.findEntityById(1)
+                .then( (entity1) => { 
+                    const field1 = entity1.getTable().getField('field1');
+                    return field1.getValue().then( ( field1val ) => {
+                        assert.strictEqual(field1val, 1, 'field1 should be 1');
+                    });
+                    itdone();
+                })
+                .catch((e) => {
+                    console.error('error in chain', e);
+                    itdone(e);
+                });
+        }).done();
+    });
+    it.skip('should find an entity by lookup field', function(itdone) {
         db1.runSql('CREATE TABLE table2 (id int, table1Id int)', []).then(function() {
             return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
         }).then(function() {
@@ -131,7 +154,7 @@ describe('model_EntityModel', function() {
                 });
         }).done();
     });
-    it('should find entities by zoom field', function(itdone) {
+    it.skip('should find entities by zoom field', function(itdone) {
         db1.runSql('CREATE TABLE table2 (id int, table1Id int)', []).then(function() {
             return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
         }).then(function() {
@@ -181,7 +204,7 @@ describe('model_EntityModel', function() {
                 });
         }).done();
     });
-    it('should sum up a sum by a sum field', function(itdone) {
+    it.skip('should sum up a sum by a sum field', function(itdone) {
         db1.runSql('CREATE TABLE table2 (id int, table1Id int, amount int)', []).then(function() {
             return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
         }).then(function() {
@@ -227,7 +250,7 @@ describe('model_EntityModel', function() {
                 });
         }).done();
     });
-    it('should count by a count field', function(itdone) {
+    it.skip('should count by a count field', function(itdone) {
         db1.runSql('CREATE TABLE table2 (id int, table1Id int, amount int)', []).then(function() {
             return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
         }).then(function() {
