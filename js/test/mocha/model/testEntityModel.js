@@ -30,6 +30,8 @@ const sql_ValueField = require('sql/ValueField.js');
 const sql_LookupField = require('sql/LookupField.js');
 const sql_ZoomField = require('sql/ZoomField.js');
 const sql_SumField = require('sql/SumField.js');
+const sql_MinField = require('sql/MinField.js');
+const sql_MaxField = require('sql/MaxField.js');
 const sql_CountField = require('sql/CountField.js');
 const model_EntitySetModel = require('model/EntitySetModel.js');
 
@@ -242,6 +244,98 @@ describe('model_EntityModel', function() {
                 })
                 .then( (sumAmount) => { 
                     assert.strictEqual(sumAmount, 60, 'sum of table2.amount should be 60');
+                    itdone();
+                })
+                .catch((e) => {
+                    console.error('error in chain', e);
+                    itdone(e);
+                });
+        }).done();
+    });
+    it('should min up a min by a min field', function(itdone) {
+        db1.runSql('CREATE TABLE table2 (id int, table1Id int, amount int)', []).then(function() {
+            return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [1, 1, 80]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [2, 1, 30]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [5, 1, 20]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [3, 2, 10]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [4, 2, 10]);
+        }).then(function() {
+            let table1, field1, table2, table1Id, table2Zoom, id1, id2, entityModel1, entitySetModel1, entitySetModel2, amount, table2minAmount;
+            table1 = sql_Table.create('table1');
+            id1 = sql_ValueField.create('id', sql_Field.DataType.int);
+            table1.addField(id1);
+            field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
+            table1.addField(field1);
+            entityModel1 = model_EntityModel.create(db1, table1);
+            entitySetModel1 = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
+            table2 = sql_Table.create('table2');
+            table1Id = sql_ValueField.create('table1Id', sql_Field.DataType.int);
+            table2.addField(table1Id);
+            amount = sql_ValueField.create('amount', sql_Field.DataType.int);
+            table2.addField(amount);
+            entitySetModel2 = model_EntitySetModel.create(db1, table2, model_EntityModel.create);
+            table2minAmount = sql_MinField.create('table2minAmount', table1.getField('id'), entitySetModel2, table1Id, amount, 'Table 2 amount min');
+            table1.addField(table2minAmount);
+
+            entitySetModel1.findEntityById(1)
+                .then( (entity1) => { 
+                    const field = entity1.getTable().getField('table2minAmount');
+                    return field.getValue(); 
+                })
+                .then( (minAmount) => { 
+                    assert.strictEqual(minAmount, 20, 'min of table2.amount should be 20');
+                }).then( () => {
+                    itdone();
+                }).catch((e) => {
+                    console.error('error in chain', e);
+                    itdone(e);
+                });
+        }).done();
+    });
+    it('should max up a max by a max field', function(itdone) {
+        db1.runSql('CREATE TABLE table2 (id int, table1Id int, amount int)', []).then(function() {
+            return db1.runSql('INSERT INTO table1 (id, field1) VALUES(?, ?)', [1, 1]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [1, 1, 80]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [2, 1, 30]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [5, 1, 20]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [3, 2, 10]);
+        }).then(function() {
+            return db1.runSql('INSERT INTO table2(id, table1Id, amount) VALUES(?, ?, ?)', [4, 2, 10]);
+        }).then(function() {
+            let table1, field1, table2, table1Id, table2Zoom, id1, id2, entityModel1, entitySetModel1, entitySetModel2, amount, table2maxAmount;
+            table1 = sql_Table.create('table1');
+            id1 = sql_ValueField.create('id', sql_Field.DataType.int);
+            table1.addField(id1);
+            field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
+            table1.addField(field1);
+            entityModel1 = model_EntityModel.create(db1, table1);
+            entitySetModel1 = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
+            table2 = sql_Table.create('table2');
+            table1Id = sql_ValueField.create('table1Id', sql_Field.DataType.int);
+            table2.addField(table1Id);
+            amount = sql_ValueField.create('amount', sql_Field.DataType.int);
+            table2.addField(amount);
+            entitySetModel2 = model_EntitySetModel.create(db1, table2, model_EntityModel.create);
+            table2maxAmount = sql_MaxField.create('table2maxAmount', table1.getField('id'), entitySetModel2, table1Id, amount, 'Table 2 amount max');
+            table1.addField(table2maxAmount);
+
+            return entitySetModel1.findEntityById(1)
+                .then( (entity1) => { 
+                    const field = entity1.getTable().getField('table2maxAmount');
+                    return field.getValue(); 
+                })
+                .then( (maxAmount) => { 
+                    assert.strictEqual(maxAmount, 80, 'max of table2.amount should be 80');
                     itdone();
                 })
                 .catch((e) => {

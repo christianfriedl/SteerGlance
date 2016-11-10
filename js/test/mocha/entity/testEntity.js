@@ -99,10 +99,15 @@ describe('entity_Entity', function() {
             const entity1 = entity_Entity.create(em1);
             entity1.getValuesAsObject([ 'field1' ]).then( ( obj ) => {
                 assert.strictEqual(obj.field1, 1);
-                done();
-            }).catch( (e) => {
+            }).then(() => { 
+                return entity1.getValuesAsObject([ 'field1' ]);
+            }).then((obj) => { 
+                assert.strictEqual(obj.field1, 1);
+            }).then(() => { done(); })
+            .catch( (e) => {
                 done(e);
             });
         });
+        it('should return aggregated fields');
     });
 });
