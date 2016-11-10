@@ -12,3 +12,4 @@ tags
 COMMANDS
 .ctags
 *-journal
+js/client.bundle.js
