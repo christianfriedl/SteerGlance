@@ -18,14 +18,14 @@
 
 var assert = require('assert');
 var m_TestSuite = require('TestSuite.js');
-var m_util = require('util.js');
+var Util = require('Util.js');
 
 var tests = {
     _name: 'testUtil',
     testIsInEnum: function() {
         var E = { one: '1', two: '2' };
-        assert.ok(m_util.isInEnum(E.one, E));
-        assert.ok(!m_util.isInEnum('haha', E));
+        assert.ok(Util.isInEnum(E.one, E));
+        assert.ok(!Util.isInEnum('haha', E));
     },
 };
 
