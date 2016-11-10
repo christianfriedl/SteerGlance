@@ -1,7 +1,6 @@
-* REFLECT: should sql_Table.isDatabaseField and getDatabaseFields really have this name (possibly getWritableFields or similar?)? -- TODO;prio-1
-* Re-Add sorting and filtering -- TODO;prio-1
 * Make tables + fields configurable and auto-creatable -- TODO;prio-1
     * at what point shall we put non-persistent fields (sum fields etc) into the entity?
+* Re-Add sorting and filtering -- TODO;prio-1
 * Re-activate server part -- TODO;prio-1
     * Plus write tests for it
 * Re-Implement test app -- TODO;prio-1
@@ -19,6 +18,7 @@
 * parse-out "DEVELOPMENT {" checks -- TODO;prio-3
 * use node-assert for "DEVELOPMENT {" checks -- TODO;prio-3
 * SumField, MinField, MaxField could be reduced to one AggregationField + 3 subclasses -- TODO;refactor;prio-3
+* sql_DB: url is currently actually just a filename, and sqlite is hardcoded... TODO;prio-3
 * move sql\_Field and its descendants, and sql\_Table, into a new namespace table -- TODO;refactor;prio-3
     * currently, we always call \_getXxxxQueryString() AND \_getXxxxQueryParams() -- might warrant a (local?) class
 * We need to clone the table upon entity creation, or find another way to create new tables for new entities -- DONE;entity
@@ -45,3 +45,4 @@
 * sql\_Filter: 80:  return this.\_compareTo.value(); -- // OOOOPS this will not fly!!! it returns a promise now;REJECTED
 * Implement MaxField --DONE;prio-1
 * Implement MinField --DONE;prio-1
+* REFLECT: should sql_Table.isDatabaseField and getDatabaseFields really have this name (possibly getWritableFields or similar?)? -- DONE;prio-1
