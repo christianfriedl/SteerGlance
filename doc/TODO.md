@@ -1,7 +1,7 @@
-* Implement MaxField --TODO;prio-1
-* Implement MinField --TODO;prio-1
-* REFLECT: should sql_Table.isDatabaseField and getDatabaseFields really have this name (possibly getWritableFields or similar?) -- TODO;prio-1
+* REFLECT: should sql_Table.isDatabaseField and getDatabaseFields really have this name (possibly getWritableFields or similar?)? -- TODO;prio-1
+* Re-Add sorting and filtering -- TODO;prio-1
 * Make tables + fields configurable and auto-creatable -- TODO;prio-1
+    * at what point shall we put non-persistent fields (sum fields etc) into the entity?
 * Re-activate server part -- TODO;prio-1
     * Plus write tests for it
 * Re-Implement test app -- TODO;prio-1
@@ -42,4 +42,6 @@
 * table.getFieldLinks() seems pretty stupid -- DONE
 * ditto: table.\_labelFields and lookupfields in general -- DONE
 * ditto: table.\_fieldLinks -- DONE
-* sql\_Filter: 80:  return this.\_compareTo.value(); // TODO OOOOPS this will not fly!!! it returns a promise now;REJECTED
+* sql\_Filter: 80:  return this.\_compareTo.value(); -- // OOOOPS this will not fly!!! it returns a promise now;REJECTED
+* Implement MaxField --DONE;prio-1
+* Implement MinField --DONE;prio-1
