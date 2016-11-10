@@ -22,8 +22,6 @@ describe('model_EntityModel', function() {
 
             assert.strictEqual('field1', select.getFields()[0].getName());
             assert.strictEqual('table1', select.getTables()[0].getName());
-            console.log(select);
-            // var sqliteQQ = sqlite_Query.create(select);
         });
         it.skip('should create a update query', function() {
             assert.ok(false, 'test is not implemented');

@@ -63,7 +63,6 @@ describe('entity_Entity', function() {
                     assert.strictEqual(rows.length, 1, 'there is exactly 1 row');
                     assert.strictEqual(Number.parseInt(rows[0]['id']), 1, 'id is 1');
                     assert.strictEqual(Number.parseInt(rows[0]['field1']), 1, 'field1 is 1');
-                    console.log('rows', rows);
                     done();
                 }).catch(function(err) {
                     done(err);

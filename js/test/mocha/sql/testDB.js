@@ -32,7 +32,6 @@ describe.skip('sql_sqlite_Query', function() {
                 if ( err ) {
                     return done(err);
                 }
-                console.log(result);
                 done();
             });
         });
@@ -47,7 +46,6 @@ describe.skip('sql_sqlite_Query', function() {
                 if ( err ) {
                     return done(err);
                 }
-                console.log(result);
                 done();
             });
         });

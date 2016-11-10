@@ -106,7 +106,7 @@ describe('model_EntitySetModel', function() {
         table1.addField(field1);
 
         const set = model_EntitySetModel.create(db1, table1, model_EntityModel.create);
-        return set.loadEntityById(257).then(function() { done(); }).catch(function(e) { console.log(e); done(); }).done();
+        set.loadEntityById(257).then( () => { done(); }).catch(function(e) { done(); }); // done() is NOT a typo; we're catching the error here
     });
     it('should find all entities', function(done) {
         var table1 = sql_Table.create('table1');
