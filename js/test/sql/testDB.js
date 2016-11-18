@@ -13,7 +13,7 @@ describe.skip('sql_sqlite_Query', function() {
     describe('create', function() {
         var db1;
         beforeEach(function(done) {
-            db1 = sql_DB.db(':memory:').open(':memory:');
+            db1 = sql_DB.create(':memory:').open(':memory:');
             db1._db.runSql('CREATE TABLE table1 (field1 int)', [], function(err) {
                 done(err);
             });

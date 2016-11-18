@@ -16,6 +16,9 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
+
+/////////////////////////////////// largely TODO, this is only partly moved from old testing infrastructure
+
 var _ = require('underscore');
 var async = require('async');
 var m_app_customer_customerDao = require('app/customer/customerDao.js');
@@ -24,7 +27,7 @@ var m_app_invoice_invoiceDao = require('app/invoice/invoiceDao.js');
 var m_app_invoice_invoiceBo = require('app/invoice/invoiceBo.js');
 var m_dao_daoSet = require('dao/daoSet.js');
 var m_bo_boSet = require('bo/boSet.js');
-var m_sql_db = require('sql/db.js');
+var sql_DB = require('sql/db.js');
 var assert = require('assert');
 var m_TestSuite = require('TestSuite.js');
 var m_dao_daoSet = require('dao/daoSet.js');
@@ -63,10 +66,9 @@ function setupDb(db1, callback) {
     ], callback);
 }
 
-var tests = {
-    _name: 'actAsClient',
-    testFetchCustomerList: function() { // can test calcfield...
-        var db1 = m_sql_db.db(':memory:').open(':memory:');
+describe('server', function() {
+    it('should fetch customer list', function() { // can test calcfield...
+        var db1 = sql_DB.create(':memory:').open(':memory:');
         var daoSet = m_dao_daoSet.daoSet(db1, m_app_customer_customerDao.customerDao);
         var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_customer_customerBo.customerBo);
         var request = {};
@@ -99,9 +101,9 @@ var tests = {
                 }
         ]);
 
-    },
-    testFetchInvoiceList: function() {
-        var db1 = m_sql_db.db(':memory:').open(':memory:');
+    });
+    it('should fetch invoice list', function() {
+        var db1 = sql_DB.create(':memory:').open(':memory:');
         var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
         var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
         var request = {};
@@ -117,9 +119,9 @@ var tests = {
 
                 }
         ]);
-    },
-    testFetchInvoiceListWithLimits: function() {
-        var db1 = m_sql_db.db(':memory:').open(':memory:');
+    });
+    it('shold fetch invoice list with limit'), function() {
+        var db1 = sql_DB.create(':memory:').open(':memory:');
         var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
         var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
         var request = { body: { conditions: { limit: 3, offset: 9 } } };
@@ -134,9 +136,9 @@ var tests = {
 
                 }
         ]);
-    },
-    testFetchInvoiceListWithLimitsAndOrderby: function() {
-        var db1 = m_sql_db.db(':memory:').open(':memory:');
+    });
+    it('should fetch invoice list with imits and orderby', function() {
+        var db1 = sql_DB.create(':memory:').open(':memory:');
         var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
         var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
         var request = { body: { conditions: { limit: 3, offset: 9, count: 2, orderBy: [ { field: 'id' } ] } } };
@@ -169,9 +171,9 @@ var tests = {
                 }
         ]);
 
-    },
-    testFetchInvoiceListWithFilter: function() {
-        var db1 = m_sql_db.db(':memory:').open(':memory:');
+    });
+    it('should fetch invoice list with filter', : function() {
+        var db1 = sql_DB.create(':memory:').open(':memory:');
         var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
         var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
         var request = { body: { conditions: { limit: 3, offset: 0, orderBy: [ { field: 'id' } ], filters: [ { fieldName: 'customerId', opName: 'eq', value: '2' } ] } } };
@@ -187,12 +189,5 @@ var tests = {
                 });
             }
         ]);
-    }
-};
-
-function runTests(testNames) {
-    m_TestSuite.TestSuite.call(tests);
-    m_TestSuite.TestSuite.prototype.runTests.call(tests, testNames);
-}
-
-exports.runTests = runTests;
+    });
+});

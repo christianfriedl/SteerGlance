@@ -1,16 +1,16 @@
-var async = require('async');
+ar async = require('async');
 var m_app_invoice_invoiceDao = require('app/invoice/invoiceDao.js');
 var m_app_invoice_invoiceBo = require('app/invoice/invoiceBo.js');
 var m_dao_daoSet = require('dao/daoSet.js');
 var m_bo_boSet = require('bo/boSet.js');
-var m_sql_db = require('sql/db.js');
+var sql_DB = require('sql/db.js');
 var assert = require('assert');
 var m_TestSuite = require('TestSuite.js');
 
 var tests = {
     _name: 'testInvoiceBo',
     testUpdate: function() {
-        var db1 = m_sql_db.db(':memory:').open(':memory:');
+        var db1 = sql_DB.create(':memory:').open(':memory:');
         var bo1 = m_app_invoice_invoiceBo.invoiceBo(db1);
         async.series([
                 function(callback) { db1.runSql('CREATE TABLE invoice (id int, customerId int, amount decimal)', [], callback); },

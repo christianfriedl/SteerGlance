@@ -30,7 +30,7 @@ const mockEntityModel = require('MockObjects.js').mockEntityModel;
 describe('entity_Entity', function() {
     var db1;
     beforeEach(function(done) {
-        db1 = sql_DB.db(':memory:').open(':memory:');
+        db1 = sql_DB.create(':memory:').open(':memory:');
         db1.runSql('CREATE TABLE table1 (id int, field1 int)', [])
             .then(function() { done(); });
     });

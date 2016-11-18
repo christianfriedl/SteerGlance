@@ -34,7 +34,7 @@ const sql_OrderByField = require('sql/OrderByField.js');
 describe('model_EntitySetModel', function() {
     var db1;
     beforeEach(function(done) {
-        db1 = sql_DB.db(':memory:').open(':memory:');
+        db1 = sql_DB.create(':memory:').open(':memory:');
         db1.runSql('CREATE TABLE table1 (id int, field1 int)', [])
             .then(function() { 
                 return db1.runSql('INSERT INTO table1 (id, field1) VALUES(1, 1)');
