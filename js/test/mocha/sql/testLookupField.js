@@ -3,7 +3,7 @@
  *
  * This file is part of SteerGlance.
  *
- * Mapitor is free software; you can redistribute it and/or modify
+ * SteerGlance is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
  *
@@ -16,23 +16,16 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
+"use strict";
+
 var assert = require('assert');
-var m_TestSuite = require('TestSuite.js');
-var Util = require('Util.js');
+var q = require('q');
+const sql_LookupField = require('sql/LookupField.js');
+const MO = require('MockObjects.js');
 
-var tests = {
-    _name: 'testUtil',
-    testIsInEnum: function() {
-        var E = { one: '1', two: '2' };
-        assert.ok(Util.isInEnum(E.one, E));
-        assert.ok(!Util.isInEnum('haha', E));
-    },
-};
-
-function runTests(testNames) {
-    m_TestSuite.TestSuite.call(tests);
-    m_TestSuite.TestSuite.prototype.runTests.call(tests, testNames);
-}
-
-
-exports.runTests = runTests;
+describe('model_EntitySetModel', function() {
+    it.skip('should return the entity', function(done) {
+        throw 'not implemented';
+        const lf = sql_LookupField.create('lookup', MO.mockEntitySetModel);
+    });
+});

@@ -1,0 +1,4 @@
+* ZoomFields and LookupFields -- cloning the table for new EntityModel
+** The LookupField only has a dependency on the id field in its own table, so sql_Table.clone() can handle it
+** ZoomField does not depend on the referencedIdField's value, so it does not need to be updated to the cloned table
+** The problem would only arise if we depend on a _value_ in another table, then we'd have to update the reference, and thus know about it in the referenced field

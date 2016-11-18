@@ -1,0 +1,4 @@
+* fangen wir ganz ganz einfach an
+    * entity, sql-queries
+* verwenden wir gleich mocha
+* verwenden wir promises/q https://github.com/kriskowal/q

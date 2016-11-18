@@ -1,0 +1,43 @@
+* how will we model relations and calc fields?
+** okay, a calc field can stay a field, because we will have the result of the calculation as the value of the field
+** a reference...
+*** 1:n (we are the customer, other is the invoice)
+**** name: ZoomField
+**** will be a drilldown or a link to a new window in the ui
+**** we do not need to load the fields content, except if... TODO...???
+**** in the Entity, we need to generate a getInvoices()
+**** EntityModel for customer has an attribute invoices which is a ZoomField in the Table
+*** n:1 (we are the invoice, other is the customer) 
+**** getValue() should return an entity
+*** field IS a LookupField ---> we are a n:1 relation
+**** has a dataSourceField, dataLabelField(or expression.... or dataLabelField might reference a CalcField!)
+**** getValue() will... hmm... create a EntityModel and then a Entity???
+**** has a EntitySetModel, and getValue() returns a EntityModel -- basically by calling loadEntityById() on the model?
+*** later on, we could have a FieldLink class, from which we create a LookupField etc by way of some factory
+**** // DO WE NAME THEM parent/child? or master/detail?
+**** FieldLink
+***** MasterDetailLink
+***** MatrixLink?
+** n:n ???????
+
+
+
+
+* entity set (needs to use entity set model)
+* limit/offset in entity set / entity set model
+* AND/OR in queries...???
+* everything between entities and frontend
+** server
+** router
+** ...?
+* frontend...
+* linked entities
+* lazy loading of linked entities (off-switchable? default-off? auto-create getters...?)
+* calc fields
+* lookup/drilldown
+** how much is in the frontend?
+
+* test app
+** customer entity
+** invoice entity
+** frontend scripts
