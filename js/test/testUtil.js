@@ -17,22 +17,12 @@
  */
 
 var assert = require('assert');
-var m_TestSuite = require('TestSuite.js');
 var Util = require('Util.js');
 
-var tests = {
-    _name: 'testUtil',
-    testIsInEnum: function() {
+describe('Util class', function() {
+        it('shoud test enum', function() {
         var E = { one: '1', two: '2' };
         assert.ok(Util.isInEnum(E.one, E));
         assert.ok(!Util.isInEnum('haha', E));
-    },
-};
-
-function runTests(testNames) {
-    m_TestSuite.TestSuite.call(tests);
-    m_TestSuite.TestSuite.prototype.runTests.call(tests, testNames);
-}
-
-
-exports.runTests = runTests;
+    });
+});
