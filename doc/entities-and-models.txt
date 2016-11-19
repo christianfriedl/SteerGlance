@@ -1,0 +1,15 @@
+EntityModel.create(db, table)
+EntitySetModel.create(db, table, entityModelConstructor)
+EntitySetModel.loadEntityById... this._entityModelConstructor(db, table)
+
+Entity.create(model)
+EntitySet.create(model, entityConstructor)
+EntitySet.loadEntityById... --> this._entityConstructor(entitymodel)
+
+CustomerEntityModel.create(db)
+CustomerEntytySetModel.create(db)
+CustomerEntytySetModel.loadEntityById... --> (inherited) this._entityModelConstructor(db, table)
+
+CustomerEntity.create(db)
+CustomerEntitySet.create(db)
+CustomerEntitySet.loadEntityById... --> (inherited) this._entityConstructor(entitymodel)
