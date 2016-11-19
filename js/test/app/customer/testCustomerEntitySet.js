@@ -27,7 +27,7 @@ const app_CustomerEntity = require('app/customer/CustomerEntity.js');
 const app_CustomerEntitySet = require('app/customer/CustomerEntitySet.js');
 const sql_DB = require('sql/DB.js');
 
-describe('CustomerEntity', function() {
+describe('CustomerEntitySet', function() {
     var db1;
     beforeEach(function(done) {
         db1 = sql_DB.create(':memory:').open(':memory:');
@@ -42,7 +42,7 @@ describe('CustomerEntity', function() {
             const customerEntitySet = app_CustomerEntitySet.create(db1);
             return customerEntitySet.loadEntityById(1)
                 .then( (customer1) => { 
-            console.log('s2', customer1);
+                    assert.ok(customer1 instanceof app_CustomerEntity.CustomerEntity, 'customer should be a customer entity: ' + customer1);
                     customer1.get().then( (obj) => {
                         assert.strictEqual(obj.id, 1, 'id should be 1');
                         assert.strictEqual(obj.name, 'aleph', 'name should be aleph');
@@ -57,12 +57,15 @@ describe('CustomerEntity', function() {
                 });
         });
     });
-    it.skip('should find all customers', function(done) {
-        db1.runSql('INSERT INTO customer (id, name) VALUES(?, ?)', [1, 'aleph']).then(() => { 
+    it('should find all customers', function(done) {
+        db1.runSql("INSERT INTO customer (id, name) VALUES(1, 'aleph'),(2,'bejt')").then(() => { 
             const customerEntitySet = app_CustomerEntitySet.create(db1);
-            return customerEntitySet.findEntityById(1)
-                .then( (customer1) => { 
-                    customer1.get().then( (obj) => {
+            return customerEntitySet.findAllEntities()
+                .then( (customers) => { 
+                    console.log('just for check, customers are', customers);
+                    assert.strictEqual(customers.length, 2);
+                    assert.ok(customers[0] instanceof app_CustomerEntity.CustomerEntity, 'customer should be a customer entity: ' + customers[0]);
+                    customers[0].get().then( (obj) => {
                         assert.strictEqual(obj.id, 1, 'id should be 1');
                         assert.strictEqual(obj.name, 'aleph', 'name should be aleph');
                     }).done();

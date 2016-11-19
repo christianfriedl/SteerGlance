@@ -1,4 +1,4 @@
-* EntitySet needs to return an Entity, not an EntityModel -- TODO;prio-1
+* EntitySet needs to return an Entity, not an EntityModel -- DONE;prio-1
 * EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- TODO;prio-2
 * Make tables + fields configurable and auto-creatable -- TODO;prio-1
     * at what point shall we put non-persistent fields (sum fields etc) into the entity?
