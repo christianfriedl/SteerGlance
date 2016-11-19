@@ -25,7 +25,7 @@ const sql_Field = require('sql/Field.js');
 const sql_ValueField = require('sql/ValueField.js');
 const sql_Table = require('sql/Table.js');
 const model_EntityModel = require('model/EntityModel.js');
-const mockEntityModel = require('MockObjects.js').mockEntityModel;
+const model_EntitySetModel = require('model/EntityModel.js');
 
 describe('entity_Entity', function() {
     var db1;

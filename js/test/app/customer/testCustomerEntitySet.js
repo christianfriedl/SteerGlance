@@ -39,12 +39,10 @@ describe('CustomerEntity', function() {
     });
     it('should load a customer by id', function(done) {
         db1.runSql('INSERT INTO customer (id, name) VALUES(?, ?)', [1, 'aleph']).then(() => { 
-            console.log('s1');
             const customerEntitySet = app_CustomerEntitySet.create(db1);
-            console.log('sx', customerEntitySet);
             return customerEntitySet.loadEntityById(1)
                 .then( (customer1) => { 
-            console.log('s2');
+            console.log('s2', customer1);
                     customer1.get().then( (obj) => {
                         assert.strictEqual(obj.id, 1, 'id should be 1');
                         assert.strictEqual(obj.name, 'aleph', 'name should be aleph');

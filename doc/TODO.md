@@ -1,3 +1,5 @@
+* EntitySet needs to return an Entity, not an EntityModel -- TODO;prio-1
+* EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- TODO;prio-2
 * Make tables + fields configurable and auto-creatable -- TODO;prio-1
     * at what point shall we put non-persistent fields (sum fields etc) into the entity?
 * Re-Add sorting and filtering -- TODO;prio-1
@@ -5,7 +7,8 @@
     * Plus write tests for it
 * Re-Implement test app -- TODO;prio-1
     * Customer and invoice
-* Implement locking -- TODO;prio-2
+* Implement row locking -- TODO;prio-2
+* Implement table locking? -- TODO;prio-2;REFLECT
 * Implement transactions -- TODO;prio-2
 * sql/sqlite/Query: restructure internally, and rename run() to runQuery() -- TODO;server;sql;prio-2
 * auto-create id field again -- TODO;prio-2
