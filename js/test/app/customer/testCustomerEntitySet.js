@@ -42,13 +42,11 @@ describe('CustomerEntitySet', function() {
     });
     it('should load a customer by id', function(done) {
         db1.runSql('INSERT INTO customer (id, name) VALUES(?, ?)', [1, 'aleph']).then(() => { 
-            const customerEntitySet = app_CustomerEntitySet.create(db1);
-            return customerEntitySet.loadEntityById(1)
+            const customerEntitySet1 = app_CustomerEntitySet.create(db1);
+            return customerEntitySet1.loadEntityById(1)
                 .then( (customer1) => { 
-                    console.log('oida');
                     assert.ok(customer1 instanceof app_CustomerEntity.CustomerEntity, 'customer should be a customer entity: ' + customer1);
                     customer1.get().then( (obj) => {
-                    console.log('oida2');
                         assert.strictEqual(obj.id, 1, 'id should be 1');
                         assert.strictEqual(obj.name, 'aleph', 'name should be aleph');
                     }).done(); 
@@ -60,12 +58,11 @@ describe('CustomerEntitySet', function() {
                 });
         });
     });
-    it.skip('should find all customers', function(done) {
+    it('should find all customers', function(done) {
         db1.runSql("INSERT INTO customer (id, name) VALUES(1, 'aleph'),(2,'bejt')").then(() => { 
             const customerEntitySet = app_CustomerEntitySet.create(db1);
             return customerEntitySet.findAllEntities()
                 .then( (customers) => { 
-                    console.log('just for check, customers are', customers);
                     assert.strictEqual(customers.length, 2);
                     assert.ok(customers[0] instanceof app_CustomerEntity.CustomerEntity, 'customer should be a customer entity: ' + customers[0]);
                     customers[0].get().then( (obj) => {
