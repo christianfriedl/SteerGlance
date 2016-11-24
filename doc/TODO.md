@@ -1,6 +1,7 @@
 * currently there is no config object -- TODO;prio-1
 * server.js is an unnecessary singleton now, make it create an object -- TODO;prio-2
 * use winston for logging -- TODO;prio-2
+* add test for entity.toJson() - specifically, zoomfields -- TODO;prio-2
 * Entity.update() creates the wrong sql query: -- TODO;prio-1;BUGFIX
     * sqlite_db_runSql: queryString UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id parameters [ 1, 'beyt' ] -- runsql on UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id has promise { state: 'pending' }
 * EntitySet needs to return an Entity, not an EntityModel -- DONE;prio-1
