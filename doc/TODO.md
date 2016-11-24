@@ -1,14 +1,9 @@
-* Entity.update() creates the wrong sql query: -- TODO;prio-1;BUGFIX
-    * sqlite_db_runSql: queryString UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id parameters [ 1, 'beyt' ] -- runsql on UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id has promise { state: 'pending' }
-* EntitySet needs to return an Entity, not an EntityModel -- DONE;prio-1
-* EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- TODO;prio-2
-* Make tables + fields configurable and auto-creatable -- TODO;prio-1
-    * at what point shall we put non-persistent fields (sum fields etc) into the entity?
-* Re-Add sorting and filtering -- TODO;prio-1
-* Re-activate server part -- TODO;prio-1
-    * Plus write tests for it
 * Re-Implement test app -- TODO;prio-1
     * Customer and invoice
+* Re-activate server part -- TODO;prio-1
+    * Plus write tests for it
+* Make tables + fields configurable and auto-creatable -- TODO;prio-1
+    * at what point shall we put non-persistent fields (sum fields etc) into the entity?
 * Implement row locking -- TODO;prio-2
 * Implement table locking? -- TODO;prio-2;REFLECT
 * Implement transactions -- TODO;prio-2
@@ -17,6 +12,7 @@
 * name of count field is now 'aggregate' which will be a bit unfortunate in the future, should get some unique name per query -- TODO;server;sql;prio-2
 * use yuidoc or another tool for documentation -- TODO;documentation;prio-2
 * use a good node library for dates and times TODO;datesandtimes;prio-2
+* add more datatypes -- TODO;prio-2
 * have a date AND a datetime type TODO;datesandtimes;prio-2
 * handle datetimes correctly TODO;datesandtimes;prio-2
 * Implement some kind of generalized CalcField -- TODO;REFLECT;prio-3 (currently not exactly needed)
@@ -51,3 +47,8 @@
 * Implement MaxField --DONE;prio-1
 * Implement MinField --DONE;prio-1
 * REFLECT: should sql_Table.isDatabaseField and getDatabaseFields really have this name (possibly getWritableFields or similar?)? -- DONE;prio-1
+* Entity.update() creates the wrong sql query: -- DONE;prio-1;BUGFIX
+    * sqlite_db_runSql: queryString UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id parameters [ 1, 'beyt' ] -- runsql on UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id has promise { state: 'pending' }
+* EntitySet needs to return an Entity, not an EntityModel -- DONE;prio-1
+* EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- DONE;prio-2
+* Re-Add sorting and filtering -- DONE;prio-1
