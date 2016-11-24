@@ -26,6 +26,7 @@ const sql_ValueField = require('sql/ValueField.js');
 const sql_Table = require('sql/Table.js');
 const model_EntityModel = require('model/EntityModel.js');
 const model_EntitySetModel = require('model/EntityModel.js');
+const test_MockObjects = require('MockObjects.js');
 
 describe('entity_Entity', function() {
     var db1;
@@ -40,7 +41,7 @@ describe('entity_Entity', function() {
     describe('create', function() {
         it('should return an entity with auto getters and setters', function() {
             const entity = entity_Entity.create();
-            entity.setModel(mockEntityModel);
+            entity.setModel(test_MockObjects.mockEntityModel);
             assert.strictEqual('ABC', entity.getAbc());
             assert.strictEqual('DEF', entity.getDef());
 

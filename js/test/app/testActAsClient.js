@@ -21,7 +21,7 @@
 
 var _ = require('underscore');
 var async = require('async');
-var sql_DB = require('sql/db.js');
+var sql_DB = require('sql/DB.js');
 var assert = require('assert');
 var m_controller = require('server/defaultController.js');
 var util = require('util');
