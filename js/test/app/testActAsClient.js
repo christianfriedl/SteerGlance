@@ -23,7 +23,7 @@ var _ = require('underscore');
 var async = require('async');
 var sql_DB = require('sql/DB.js');
 var assert = require('assert');
-var m_controller = require('server/defaultController.js');
+var server_DefaultController = require('server/DefaultController.js');
 var util = require('util');
 
 function setupDb(db1, callback) {
@@ -67,7 +67,7 @@ xdescribe('server', function() {
         async.series([
                 function(callback) { setupDb(db1, callback); },
                 function(callback) {
-                    return m_controller.list(boSet, request, response, function(response) {
+                    return server_DefaultController.list(boSet, request, response, function(response) {
                         console.log('testFetchCustomerList: "responsecallback" received response', response, 'with rows', util.inspect(response.data.rows, { depth: 3} ));
                         console.log('testFetchCustomerList: "responsecallback" with templateRow', util.inspect(response.data.templateRow, { depth: 3} ));
                         console.log('testFetchCustomerList: "responsecallback" with aggregateRow', util.inspect(response.data.aggregateRow, { depth: 3} ));
@@ -102,7 +102,7 @@ xdescribe('server', function() {
         async.series([
                 function(callback) { setupDb(db1, callback); },
                 function(callback) {
-                    return m_controller.list(boSet, request, response, function(response) {
+                    return server_DefaultController.list(boSet, request, response, function(response) {
                         assert.strictEqual(20, response.data.count);
                         assert.strictEqual('id', response.data.rows[0].fields[0].name);
                         assert.strictEqual(1, response.data.rows[0].fields[0].value);
@@ -120,7 +120,7 @@ xdescribe('server', function() {
         async.series([
                 function(callback) { setupDb(db1, callback); },
                 function(callback) {
-                    return m_controller.list(boSet, request, response, function(response) {
+                    return server_DefaultController.list(boSet, request, response, function(response) {
                         assert.strictEqual(3, response.data.rows.length);
                         assert.strictEqual('id', response.data.rows[0].fields[0].name);
                     });
@@ -137,7 +137,7 @@ xdescribe('server', function() {
         async.series([
                 function(callback) { setupDb(db1, callback); },
                 function(callback) {
-                    return m_controller.list(boSet, request, response, function(response) {
+                    return server_DefaultController.list(boSet, request, response, function(response) {
                         console.log('"responsecallback" received response', response, 'with rows', util.inspect(response.data.rows, { depth: 3} ));
                         assert.strictEqual(3, response.data.rows.length);
                         assert.strictEqual('id', response.data.rows[0].fields[0].name);
@@ -172,7 +172,7 @@ xdescribe('server', function() {
         async.series([
             function(callback) { setupDb(db1, callback); },
             function(callback) {
-                return m_controller.list(boSet, request, response, function(response) {
+                return server_DefaultController.list(boSet, request, response, function(response) {
                     console.log('"responsecallback" in testFetchInvoiceListWithFilter received response', response, 'with rows', util.inspect(response.data.rows, { depth: 10} ));
                     assert.strictEqual(response.data.rows.length, 3);
                     var f = _(response.data.rows[0].fields).find(function(f) { return f.name === 'customerId' });
