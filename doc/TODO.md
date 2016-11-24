@@ -1,3 +1,16 @@
+* currently there is no config object -- TODO;prio-1
+* server.js is an unnecessary singleton now, make it create an object -- TODO;prio-2
+* use winston for logging -- TODO;prio-2
+* add test for entity.toJson() - specifically, zoomfields -- TODO;prio-2
+* Entity.update() creates the wrong sql query: -- TODO;prio-1;BUGFIX
+    * sqlite_db_runSql: queryString UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id parameters [ 1, 'beyt' ] -- runsql on UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id has promise { state: 'pending' }
+* EntitySet needs to return an Entity, not an EntityModel -- DONE;prio-1
+* EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- TODO;prio-2
+* Make tables + fields configurable and auto-creatable -- TODO;prio-1
+    * at what point shall we put non-persistent fields (sum fields etc) into the entity?
+* Re-Add sorting and filtering -- TODO;prio-1
+* Re-activate server part -- TODO;prio-1
+    * Plus write tests for it
 * Re-Implement test app -- TODO;prio-1
     * Customer and invoice
 * Re-activate server part -- TODO;prio-1
