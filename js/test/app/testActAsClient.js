@@ -16,8 +16,7 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-
-/////////////////////////////////// largely TODO, this is only partly moved from old testing infrastructure
+"use strict";
 
 var _ = require('lodash');
 var async = require('async');
@@ -113,6 +112,57 @@ describe('server', function() {
             done(e);
         });
     });
+
+    it('should save a field from an existing entity', function(done) {
+        var entitySet = app_customer_CustomerEntitySet.create(db1);
+        var request = { body: { id: 1, field: { name: 'name', value: 'Bettina' } } };
+        var response = {};
+        server_DefaultController.saveField(entitySet, request, response).then((response) => {
+            console.log('response', response);
+            assert.strictEqual( response.row.id, 1);
+            assert.strictEqual(response.row.name, 'Bettina');
+
+            done(); 
+        }).catch((e) => {
+            console.error('error in chain', e);
+            done(e);
+        });
+    });
+    it('should save a field and create a new entity');
+    /*
+
+        var entitySet = app_customer_CustomerEntitySet.create(db1);
+        var request = { body: { field: { name: 'name', value: 'Bettina' } } };
+        var response = {};
+        server_DefaultController.saveField(entitySet, request, response).then((response) => {
+            console.log('response', response);
+            assert.strictEqual(2, response.row.id);
+            assert.strictEqual('Bettina', response.row.name);
+
+            done(); 
+        }).catch((e) => {
+            console.error('error in chain', e);
+            done(e);
+        });
+    */
+    it('should not save a field but return an error instead');
+    /*
+        var entitySet = app_customer_CustomerEntitySet.create(db1);
+        var request = { body: { id: 1, field: { name: 'name', value: '' } } }; // 'name cannot be empty' or sth
+        var response = {};
+        server_DefaultController.saveField(entitySet, request, response).then((response) => {
+            console.log('response', response);
+            assert.strictEqual(response.row.id, 1);
+            assert.strictEqual(response.row.name, 'Christian');
+            assert.strictEqual(response.errors.length, 1);
+            assert.strictEqual(response.errors[0], 'name cannot be empty');
+
+            done(); 
+        }).catch((e) => {
+            console.error('error in chain', e);
+            done(e);
+        });
+        */
     it.skip('should fetch invoice list', function() {
         var db1 = sql_DB.create(':memory:').open(':memory:');
         var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
