@@ -1,5 +1,5 @@
 * re-enable validation for fields -- TODO;milestone:v0.1;prio-1
-* re-enable validation for entities -- TODO;milestone:v0.1;prio-1
+* re-enable validation for entities -- TODO;milestone:v0.1;prio-1 ----> currently only validates the model...
 * field / entity / entityModel: canSave(), validate(), addValidation() -- TODO;milestone:v0.1;prio-1
 * validation can not always create an error - we need canSave() and handle it correctly in the controller -- TODO;milestone:v0.1;prio-1
 * tests for DefaultController should test whether the enitty was actually saved -- TODO;prio-1
@@ -12,6 +12,9 @@
 * Re-activate server part -- TODO;milestone:v0.1;prio-1
 * Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 ... at what point shall we put non-persistent fields (sum fields etc) into the entity?
 * EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- TODO;prio-2
+* validate() and isValid() might move from Field to ValueField -- TODO;REFLECT;prio-2
+* currently, the only place we call validate() is from save(); do we need to do that elsewhere? -- TODO;REFLECT;prio-2
+* Entity should emit events before and after save(), update(), insert() -- TODO;REFLECT;prio-2
 * Implement row locking -- TODO;prio-2
 * server.js is an unnecessary singleton now, make it create an object -- TODO;prio-2
 * use winston for logging -- TODO;prio-2
