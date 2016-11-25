@@ -1,16 +1,16 @@
-* currently there is no config object -- TODO;prio-1
-* Entity.update() creates the wrong sql query: -- TODO;prio-1;BUGFIX
-    * sqlite_db_runSql: queryString UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id parameters [ 1, 'beyt' ] -- runsql on UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id has promise { state: 'pending' }
-* EntitySet needs to return an Entity, not an EntityModel -- DONE;prio-1
-* Make tables + fields configurable and auto-creatable -- TODO;prio-1
-    * at what point shall we put non-persistent fields (sum fields etc) into the entity?
-* Complete DefaultController: is currently missing aggregate fields... -- TODO;prio-1
-* Re-Add sorting and filtering -- TODO;prio-1
-* Re-activate server part -- TODO;prio-1
-* Re-Implement test app -- TODO;prio-1
-    * Customer and invoice
-* Re-activate server part -- TODO;prio-1
-* Make tables + fields configurable and auto-creatable -- TODO;prio-1 ... at what point shall we put non-persistent fields (sum fields etc) into the entity?
+* re-enable validation for fields -- TODO;milestone:v0.1;prio-1
+* re-enable validation for entities -- TODO;milestone:v0.1;prio-1
+* field / entity / entityModel: canSave(), validate(), addValidation() -- TODO;milestone:v0.1;prio-1
+* validation can not always create an error - we need canSave() and handle it correctly in the controller -- TODO;milestone:v0.1;prio-1
+* tests for DefaultController should test whether the enitty was actually saved -- TODO;prio-1
+* currently there is no config object -- TODO;milestone:v0.1;prio-1
+* Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 -- at what point shall we put non-persistent fields (sum fields etc) into the entity?
+* Complete DefaultController: is currently missing aggregate fields... -- TODO;milestone:v0.1;prio-1
+* Re-Add sorting and filtering -- TODO;milestone:v0.1;prio-1
+* Re-activate server part -- TODO;milestone:v0.1;prio-1
+* Re-Implement test app -- TODO;milestone:v0.1;prio-1 (Customer and invoice)
+* Re-activate server part -- TODO;milestone:v0.1;prio-1
+* Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 ... at what point shall we put non-persistent fields (sum fields etc) into the entity?
 * EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- TODO;prio-2
 * Implement row locking -- TODO;prio-2
 * server.js is an unnecessary singleton now, make it create an object -- TODO;prio-2
@@ -26,13 +26,25 @@
 * add more datatypes -- TODO;prio-2
 * have a date AND a datetime type TODO;datesandtimes;prio-2
 * handle datetimes correctly TODO;datesandtimes;prio-2
+* always throw Errors, not just strings -- TODO;prio-2
 * Implement some kind of generalized CalcField -- TODO;REFLECT;prio-3 (currently not exactly needed)
+* response.state and message are now strings, should become enums -- TODO;prio-3
 * parse-out "DEVELOPMENT {" checks -- TODO;prio-3
 * use node-assert for "DEVELOPMENT {" checks -- TODO;prio-3
 * SumField, MinField, MaxField could be reduced to one AggregationField + 3 subclasses -- TODO;refactor;prio-3
 * sql_DB: url is currently actually just a filename, and sqlite is hardcoded... TODO;prio-3
-* move sql\_Field and its descendants, and sql\_Table, into a new namespace table -- TODO;refactor;prio-3
-    * currently, we always call \_getXxxxQueryString() AND \_getXxxxQueryParams() -- might warrant a (local?) class
+* move sql\_Field and its descendants, and sql\_Table, into a new namespace table -- TODO;refactor;prio-3 (currently, we always call \_getXxxxQueryString() AND \_getXxxxQueryParams() -- might warrant a (local?) class)
+* getFields() vs getAttributes() should really be unified, we need to settle on either naming convention....! -- REFLECT;TODO;prio-3
+* possibly extract sub-queries from sql/sqlite/Query -- REFLECT;server;prio-3
+* REFLECT: do we need to extend LookupField to look into any field, or just the id (as it is now)? -- TODO
+* REFLECT: possibly, LookupField should get the value-label from the master field too -- TODO
+* REFLECT: do we want to be able to save() via a ZoomField, i.e. customer.setInvoices([inv1, inv2,...]); customer.save().then(...); ??? -- TODO;reflect;model
+* use node7 Promises? -- REFLECT;server
+* possibly be able to create an entity with default values from table/fields -- TODO;REFLECT;server
+* bjooobject should prescribe a clone() method -- REJECTED
+* sql\_Filter: 80:  return this.\_compareTo.value(); -- // OOOOPS this will not fly!!! it returns a promise now;REJECTED
+* Entity.update() creates the wrong sql query: -- DONE;milestone:v0.1;prio-1;BUGFIX ( sqlite_db_runSql: queryString UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id parameters [ 1, 'beyt' ] -- runsql on UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id has promise { state: 'pending' })
+* EntitySet needs to return an Entity, not an EntityModel -- DONE;milestone:v0.1;prio-1
 * We need to clone the table upon entity creation, or find another way to create new tables for new entities -- DONE;entity
 * return promises for getters; test it -- DONE;server
 * spread all resulting fields over an object by request -- DONE
@@ -41,25 +53,14 @@
 * LookupField -- DONE
 * ZoomField - opposite of LookupField -- DONE
 * the table given to EntitySetModel now has to already have an id field, because it is used to create the query() before the constructor gets called... should automatically add an id field! -- DONE
-* CalcField -- REFLECT;sql;fields
-* REFLECT: do we need to extend LookupField to look into any field, or just the id (as it is now)? -- TODO
-* REFLECT: possibly, LookupField should get the value-label from the master field too -- TODO
-* REFLECT: do we want to be able to save() via a ZoomField, i.e. customer.setInvoices([inv1, inv2,...]); customer.save().then(...); ??? -- TODO;reflect;model
-* use node7 Promises -- REFLECT;server
-* possibly be able to create an entity with default values from table/fields -- TODO;REFLECT;server
-* possibly extract sub-queries from sql/sqlite/Query -- REFLECT;server;prio-3
-* Entity.getAllAttributes, .getAllAttributesAsList, .getAttributes, .getAtributesAsList -- DONE
-    * call it get() with an optional array param -- DONE
-* bjooobject should prescribe a clone() method -- REJECTED
+* Entity.getAllAttributes, .getAllAttributesAsList, .getAttributes, .getAtributesAsList -- DONE (call it get() with an optional array param -- DONE)
 * table.getFieldLinks() seems pretty stupid -- DONE
 * ditto: table.\_labelFields and lookupfields in general -- DONE
 * ditto: table.\_fieldLinks -- DONE
-* sql\_Filter: 80:  return this.\_compareTo.value(); -- // OOOOPS this will not fly!!! it returns a promise now;REJECTED
-* Implement MaxField --DONE;prio-1
-* Implement MinField --DONE;prio-1
-* REFLECT: should sql_Table.isDatabaseField and getDatabaseFields really have this name (possibly getWritableFields or similar?)? -- DONE;prio-1
-* Entity.update() creates the wrong sql query: -- DONE;prio-1;BUGFIX
-    * sqlite_db_runSql: queryString UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id parameters [ 1, 'beyt' ] -- runsql on UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id has promise { state: 'pending' }
-* EntitySet needs to return an Entity, not an EntityModel -- DONE;prio-1
+* Implement MaxField --DONE;milestone:v0.1;prio-1
+* Implement MinField --DONE;milestone:v0.1;prio-1
+* REFLECT: should sql_Table.isDatabaseField and getDatabaseFields really have this name (possibly getWritableFields or similar?)? -- DONE;milestone:v0.1;prio-1
+* Entity.update() creates the wrong sql query: -- DONE;milestone:v0.1;prio-1;BUGFIX (sqlite_db_runSql: queryString UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id parameters [ 1, 'beyt' ] -- runsql on UPDATE customer SET id = ?, name = ? WHERE customer.id = customer.id has promise { state: 'pending' })
+* EntitySet needs to return an Entity, not an EntityModel -- DONE;milestone:v0.1;prio-1
 * EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- DONE;prio-2
-* Re-Add sorting and filtering -- DONE;prio-1
+* Re-Add sorting and filtering -- DONE;milestone:v0.1;prio-1

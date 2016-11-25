@@ -109,6 +109,8 @@ describe('entity_Entity', function() {
                 done(e);
             });
         });
+        it('should throw on save() if it does not validate');
+        it('should return whether it can be save()d');
         it('should return aggregated fields');
     });
 });

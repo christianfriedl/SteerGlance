@@ -31,38 +31,9 @@ function setupDb(db1) {
     return db1.runSql('CREATE TABLE customer (id int, name text)', []).then( () => {
         return db1.runSql('INSERT INTO customer (id, name) VALUES(1, \'Christian\')', []);
     });
-        /*
-
-        function(callback) { db1.runSql('INSERT INTO customer (id, firstName, lastName) VALUES(1, \'Christian\', \'Friedl\')', [], callback); },
-        function(callback) { db1.runSql('INSERT INTO customer (id, firstName, lastName) VALUES(2, \'Hargenbrihl\', \'Zackenbruck\')', [], callback); },
-        function(callback) { db1.runSql('CREATE TABLE invoice (id int, amount int, customerId int)', [], callback); },
-        function(callback) {
-            var i=1; 
-            async.whilst(
-                function() { return i <= 10 },
-                function(callback) { 
-                    db1.runSql('INSERT INTO invoice (id, amount, customerId) VALUES(' + i + ', ' + (i*10) + ', 1)', [], function() { ++i;  callback(); }); 
-                },
-                function(err, res) { }
-                // 10 + 20 + ... + 100 = 550 => custid 1
-            );
-            var j=11;
-            async.whilst(
-                function() { return j <= 20 },
-                function(callback) { 
-                    db1.runSql('INSERT INTO invoice (id, amount, customerId) VALUES(' + j + ', ' + (j*10) + ', 2)', [], function() { ++j;  callback(); }); 
-                },
-                function(err, res) { callback(); }
-                // 110 + 120 + ... + 200 = 1550 => custid 2
-
-                // custid 1 + custid 2 => 550 + 1550 = 2100
-            );
-        }
-    ], callback);
-        */
 }
 
-describe('server', function() {
+describe('DefaultController (actAsClient)', function() {
     let db1;
     beforeEach(function(done) {
         db1 = sql_DB.create(':memory:').open(':memory:');
@@ -73,7 +44,7 @@ describe('server', function() {
         db1.close();
     });
 
-    it('should fetch customer edit screen', function(done) {
+    it('should fetch customer edit data', function(done) {
         var entitySet = app_customer_CustomerEntitySet.create(db1);
         var request = {
             query: {
@@ -92,6 +63,23 @@ describe('server', function() {
         }).catch((e) => {
             console.error('error in chain', e);
             done(e);
+        });
+    });
+
+    it('should not fetch customer edit data for nonexisting customers', function(done) {
+        var entitySet = app_customer_CustomerEntitySet.create(db1);
+        var request = {
+            query: {
+                id: 1000
+            }
+        };
+        var response = {};
+        server_DefaultController.edit(entitySet, request, response).then((response) => {
+            console.error('error: should have thrown');
+            done('error: should have thrown'); 
+        }).catch((e) => {
+            console.log('all fine, got error as planned:', e);
+            done();
         });
     });
 
@@ -121,16 +109,20 @@ describe('server', function() {
             console.log('response', response);
             assert.strictEqual( response.row.id, 1);
             assert.strictEqual(response.row.name, 'Bettina');
+            assert.strictEqual(response.performedAction, 'updated');
 
-            done(); 
+            entitySet.loadEntityById(1).then( (entity) => {
+                entity.getValuesAsObject((obj) => {
+                    assert.strictEqual(obj.id, 1);
+                    assert.strictEqual(obj.name, 'Bettina');
+                });
+            }).then(() => { done(); });
         }).catch((e) => {
             console.error('error in chain', e);
             done(e);
         });
     });
-    it('should save a field and create a new entity');
-    /*
-
+    it('should save a field and create a new entity', (done) => {
         var entitySet = app_customer_CustomerEntitySet.create(db1);
         var request = { body: { field: { name: 'name', value: 'Bettina' } } };
         var response = {};
@@ -138,15 +130,15 @@ describe('server', function() {
             console.log('response', response);
             assert.strictEqual(2, response.row.id);
             assert.strictEqual('Bettina', response.row.name);
+            assert.strictEqual(response.performedAction, 'inserted');
 
             done(); 
         }).catch((e) => {
             console.error('error in chain', e);
             done(e);
         });
-    */
-    it('should not save a field but return an error instead');
-    /*
+    });
+    it('should not save a field but return a message', (done) => {
         var entitySet = app_customer_CustomerEntitySet.create(db1);
         var request = { body: { id: 1, field: { name: 'name', value: '' } } }; // 'name cannot be empty' or sth
         var response = {};
@@ -154,15 +146,15 @@ describe('server', function() {
             console.log('response', response);
             assert.strictEqual(response.row.id, 1);
             assert.strictEqual(response.row.name, 'Christian');
-            assert.strictEqual(response.errors.length, 1);
-            assert.strictEqual(response.errors[0], 'name cannot be empty');
+            assert.strictEqual(response.performedAction, null, 'there should be no action, we did not save it');
+            assert.strictEqual(response.messages.length, 1);
 
             done(); 
         }).catch((e) => {
-            console.error('error in chain', e);
+            console.log('error in chain', e);
             done(e);
         });
-        */
+    });
     it.skip('should fetch invoice list', function() {
         var db1 = sql_DB.create(':memory:').open(':memory:');
         var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
