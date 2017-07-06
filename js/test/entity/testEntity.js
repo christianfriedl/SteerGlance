@@ -151,7 +151,7 @@ describe('entity_Entity', function() {
             });
 
             entity1.setId(1);
-            entity1.setField1(1);
+            entity1.setField1('');
             entity1.save().then(() => {
                 done(new Error('should have thrown'));
             }).catch(function(err) {
