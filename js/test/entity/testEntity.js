@@ -109,7 +109,7 @@ describe('entity_Entity', function() {
                 done(e);
             });
         });
-        it('should throw on save() if it does not validate', function(done) {
+        it('should throw on validate() if it does not validate', function(done) {
             var table1 = sql_Table.create('table1');
             var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
             table1.addField(field1);
@@ -126,6 +126,32 @@ describe('entity_Entity', function() {
 
             entity1.setId(1);
             entity1.setField1(1);
+            entity1.validate().then(() => {
+                done(new Error('should have thrown'));
+            }).catch(function(err) {
+                console.log('caught error, and that is fine');
+                done();
+            });
+
+        });
+        it('should throw on save() if it does not validate', function(done) {
+            var table1 = sql_Table.create('table1');
+            var field1 = sql_ValueField.create('field1', sql_Field.DataType.int);
+            table1.addField(field1);
+
+            const em1 = model_EntityModel.create(db1, table1);
+
+            const entity1 = entity_Entity.create(em1);
+            entity1.getField('field1').setValidation((value, field) => {
+                if ( field.getName() !== 'field1') {
+                    console.error('bad bad! ctx should be field');
+                }
+                console.log('validation for field1 will throw now');
+                throw new Error('validation failure');
+            });
+
+            entity1.setId(1);
+            entity1.setField1(1);
             entity1.save().then(() => {
                 done(new Error('should have thrown'));
             }).catch(function(err) {
@@ -134,7 +160,6 @@ describe('entity_Entity', function() {
             });
 
         });
-        it('should return whether it is valid for being save()d'); // return entity.isValid()
         it('should return aggregated fields');
     });
 });
