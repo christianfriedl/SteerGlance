@@ -1,7 +1,3 @@
-* re-enable validation for fields -- TODO;milestone:v0.1;prio-1
-* re-enable validation for entities -- TODO;milestone:v0.1;prio-1 ----> currently only validates the model...
-* field / entity / entityModel: canSave(), validate(), addValidation() -- TODO;milestone:v0.1;prio-1
-* validation can not always create an error - we need canSave() and handle it correctly in the controller -- TODO;milestone:v0.1;prio-1
 * tests for DefaultController should test whether the enitty was actually saved -- TODO;prio-1
 * currently there is no config object -- TODO;milestone:v0.1;prio-1
 * Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 -- at what point shall we put non-persistent fields (sum fields etc) into the entity?
@@ -9,10 +5,8 @@
 * Re-Add sorting and filtering -- TODO;milestone:v0.1;prio-1
 * Re-activate server part -- TODO;milestone:v0.1;prio-1
 * Re-Implement test app -- TODO;milestone:v0.1;prio-1 (Customer and invoice)
-* Re-activate server part -- TODO;milestone:v0.1;prio-1
 * Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 ... at what point shall we put non-persistent fields (sum fields etc) into the entity?
 * EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- TODO;prio-2
-* validate() and isValid() might move from Field to ValueField -- TODO;REFLECT;prio-2
 * currently, the only place we call validate() is from save(); do we need to do that elsewhere? -- TODO;REFLECT;prio-2
 * Entity should emit events before and after save(), update(), insert() -- TODO;REFLECT;prio-2
 * Implement row locking -- TODO;prio-2
@@ -30,6 +24,7 @@
 * have a date AND a datetime type TODO;datesandtimes;prio-2
 * handle datetimes correctly TODO;datesandtimes;prio-2
 * always throw Errors, not just strings -- TODO;prio-2
+* validate() might move from Field to ValueField -- TODO;REFLECT;prio-3
 * Implement some kind of generalized CalcField -- TODO;REFLECT;prio-3 (currently not exactly needed)
 * response.state and message are now strings, should become enums -- TODO;prio-3
 * parse-out "DEVELOPMENT {" checks -- TODO;prio-3
@@ -67,3 +62,7 @@
 * EntitySet needs to return an Entity, not an EntityModel -- DONE;milestone:v0.1;prio-1
 * EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- DONE;prio-2
 * Re-Add sorting and filtering -- DONE;milestone:v0.1;prio-1
+* re-enable validation for fields -- DONE;milestone:v0.1;prio-1
+* re-enable validation for entities -- DONE;milestone:v0.1;prio-1 ----> currently only validates the model...
+* field / entity / entityModel: canSave(), validate(), addValidation() -- REJECTED;milestone:v0.1;prio-1
+* validation can not always create an error - we need canSave() and handle it correctly in the controller -- REJECTED;milestone:v0.1;prio-1
