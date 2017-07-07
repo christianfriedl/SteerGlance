@@ -28,6 +28,8 @@
 * have a date AND a datetime type TODO;datesandtimes;prio-2
 * handle datetimes correctly TODO;datesandtimes;prio-2
 * always throw Errors, not just strings -- TODO;prio-2
+* sql/* should adhere to get()/set() convention -- TODO;beautification;sql;prio-2
+* Query.prototype.conditions should just copy the object, not its parts -- TODO;beautification;sql;prio-2
 * validate() might move from Field to ValueField -- TODO;REFLECT;prio-3
 * Implement some kind of generalized CalcField -- TODO;REFLECT;prio-3 (currently not exactly needed)
 * response.state and message are now strings, should become enums -- TODO;prio-3
@@ -38,6 +40,8 @@
 * move sql\_Field and its descendants, and sql\_Table, into a new namespace table -- TODO;refactor;prio-3 (currently, we always call \_getXxxxQueryString() AND \_getXxxxQueryParams() -- might warrant a (local?) class)
 * getFields() vs getAttributes() should really be unified, we need to settle on either naming convention....! -- REFLECT;TODO;prio-3
 * possibly extract sub-queries from sql/sqlite/Query -- REFLECT;server;prio-3
+* rename sql_OrderBy.OrderBy to sql_Order.Order -- REFLECT;TODO;sql;prio-3
+* unfuck sql/* naming scheme -- REFLECT;TODO;sql;prio-3
 * REFLECT: do we need to extend LookupField to look into any field, or just the id (as it is now)? -- TODO
 * REFLECT: possibly, LookupField should get the value-label from the master field too -- TODO
 * REFLECT: do we want to be able to save() via a ZoomField, i.e. customer.setInvoices([inv1, inv2,...]); customer.save().then(...); ??? -- TODO;reflect;model

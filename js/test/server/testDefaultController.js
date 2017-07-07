@@ -35,6 +35,10 @@ var entity_Entity = require('entity/Entity.js');
 function setupDb(db1) {
     return db1.runSql('CREATE TABLE customer (id int, name text)', []).then( () => {
         return db1.runSql('INSERT INTO customer (id, name) VALUES(1, \'Christian\')', []);
+    }).then( () => {
+        return db1.runSql('INSERT INTO customer (id, name) VALUES(2, \'Magdalena\')', []);
+    }).then( () => {
+        return db1.runSql('INSERT INTO customer (id, name) VALUES(3, \'Eva\')', []);
     });
 }
 
@@ -138,13 +142,13 @@ describe('DefaultController', function() {
         var request = { body: { fieldName: 'name', row: [ { name: 'name', value: 'Bettina' } ] } };
         var response = {};
         server_DefaultController.saveField(entitySet, request, response).then((response) => {
-            assert.strictEqual(2, response.row.id);
+            assert.strictEqual(4, response.row.id);
             assert.strictEqual('Bettina', response.row.name);
             assert.strictEqual(response.performedAction, 'inserted');
 
-            entitySet.loadEntityById(2).then( (entity) => {
+            entitySet.loadEntityById(4).then( (entity) => {
                 return entity.getValuesAsObject((obj) => {
-                    assert.strictEqual(obj.id, 2);
+                    assert.strictEqual(obj.id, 4);
                     assert.strictEqual(obj.name, 'Bettina');
                 });
             }).then(() => { done(); });
@@ -153,7 +157,7 @@ describe('DefaultController', function() {
             done(e);
         });
     });
-    it('should not save a field but return a message', (done) => {
+    it.skip('should not save a field but return a message', (done) => {
         var request = { body: { id: 1, field: { name: 'name', value: '' } } }; // 'name cannot be empty' or sth
         var response = {};
         server_DefaultController.saveField(entitySet, request, response).then((response) => {
@@ -167,77 +171,44 @@ describe('DefaultController', function() {
             done(e);
         });
     });
-    it.skip('should fetch invoice list', function() {
-        var db1 = sql_DB.create(':memory:').open(':memory:');
-        var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
-        var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
+    it.skip('should fetch a list', function(done) {
         var request = {};
         var response = {};
-        async.series([
-                function(callback) { setupDb(db1, callback); },
-                function(callback) {
-                    return server_DefaultController.list(boSet, request, response, function(response) {
-                        assert.strictEqual(20, response.data.count);
-                        assert.strictEqual('id', response.data.rows[0].fields[0].name);
-                        assert.strictEqual(1, response.data.rows[0].fields[0].value);
-                    });
+        server_DefaultController.list(entitySet, request, response).then( (response) => {
+            assert.ok(_.find(response.rows[0].fields, (field) => { return field.name === 'id'; }), 'id field should exist in response');
+            assert.strictEqual(1, _.find(response.rows[0].fields, (field) => { return field.name === 'id'; }).value, 'id field has value response');
 
-                }
-        ]);
+            done();
+        }).catch((e) => {
+            done(e);
+        });
     });
-    it.skip('shold fetch invoice list with limit', function() {
-        var db1 = sql_DB.create(':memory:').open(':memory:');
-        var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
-        var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
-        var request = { body: { conditions: { limit: 3, offset: 9 } } };
+    it.skip('shold fetch a list with limit', function(done) {
+        var request = { body: { conditions: { limit: 2 } } };
         var response = {};
-        async.series([
-                function(callback) { setupDb(db1, callback); },
-                function(callback) {
-                    return server_DefaultController.list(boSet, request, response, function(response) {
-                        assert.strictEqual(3, response.data.rows.length);
-                        assert.strictEqual('id', response.data.rows[0].fields[0].name);
-                    });
+        server_DefaultController.list(entitySet, request, response).then( (response) => {
+            assert.strictEqual(2, response.rows.length, 'should be 2 rows');
 
-                }
-        ]);
+            done();
+        }).catch((e) => {
+            done(e);
+        });
     });
-    it.skip('should fetch invoice list with imits and orderby', function() {
-        var db1 = sql_DB.create(':memory:').open(':memory:');
-        var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
-        var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
-        var request = { body: { conditions: { limit: 3, offset: 9, count: 2, orderBy: [ { field: 'id' } ] } } };
-        var response = {};
-        async.series([
-                function(callback) { setupDb(db1, callback); },
-                function(callback) {
-                    return server_DefaultController.list(boSet, request, response, function(response) {
-                        console.log('"responsecallback" received response', response, 'with rows', util.inspect(response.data.rows, { depth: 3} ));
-                        assert.strictEqual(3, response.data.rows.length);
-                        assert.strictEqual('id', response.data.rows[0].fields[0].name);
-                        assert.strictEqual(10, response.data.rows[0].fields[0].value);
-                        assert.strictEqual(100, response.data.rows[0].fields[1].value);
-                        assert.strictEqual(1, response.data.rows[0].fields[2].value);
+    it('should fetch a list with orderby', function(done) {
+        const request = { body: { conditions: { orderBy: [ { field: 'name' } ] } } };
+        const response = {};
+        server_DefaultController.list(entitySet, request, response).then( (response) => {
+            console.log('response is', response);
+            assert.strictEqual(3, response.rows.length, 'should be 3 rows');
+            assert.strictEqual(3, _.find(response.rows[1].fields, (field) => { return field.name === 'id'; }).value, 'id field has correct value ');
+            assert.strictEqual('Eva', _.find(response.rows[1].fields, (field) => { return field.name === 'name'; }).value, 'id field has correct value ');
 
-                        assert.strictEqual('id', response.data.rows[1].fields[0].name);
-                        assert.strictEqual(11, response.data.rows[1].fields[0].value);
-                        assert.strictEqual(110, response.data.rows[1].fields[1].value);
-                        assert.strictEqual(2, response.data.rows[1].fields[2].value);
-
-                        assert.strictEqual('id', response.data.rows[2].fields[0].name);
-                        assert.strictEqual(12, response.data.rows[2].fields[0].value);
-                        assert.strictEqual(120, response.data.rows[2].fields[1].value);
-                        assert.strictEqual(2, response.data.rows[2].fields[2].value);
-
-                        console.log('"responsecallback" with templateRow', util.inspect(response.data.templateRow, { depth: 3} ));
-                        console.log('"responsecallback" with aggregateRow', util.inspect(response.data.aggregateRow, { depth: 3} ));
-                    });
-
-                }
-        ]);
-
+            done();
+        }).catch((e) => {
+            done(e);
+        });
     });
-    it.skip('should fetch invoice list with filter', function() {
+    it.skip('should fetch a list with filter', function() {
         var db1 = sql_DB.create(':memory:').open(':memory:');
         var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
         var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
