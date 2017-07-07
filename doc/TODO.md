@@ -9,6 +9,7 @@
 * Re-activate server part -- TODO;milestone:v0.1;prio-1
 * Re-Implement test app -- TODO;milestone:v0.1;prio-1 (Customer and invoice)
 * Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 ... at what point shall we put non-persistent fields (sum fields etc) into the entity?
+* error response generation in DefaultController is rather fragile, messages: [] should be in a function -- TODO;prio-2
 * EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- TODO;prio-2
 * currently, the only place we call validate() is from save(); do we need to do that elsewhere? -- TODO;REFLECT;prio-2
 * Entity should emit events before and after save(), update(), insert() -- TODO;REFLECT;prio-2

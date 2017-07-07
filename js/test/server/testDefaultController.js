@@ -157,14 +157,14 @@ describe('DefaultController', function() {
         var request = { body: { id: 1, field: { name: 'name', value: '' } } }; // 'name cannot be empty' or sth
         var response = {};
         server_DefaultController.saveField(entitySet, request, response).then((response) => {
-            assert.strictEqual(response.row.id, 1);
             assert.strictEqual(response.performedAction, null, 'there should be no action, we did not save it');
-            assert.strictEqual(response.messages.length, 1);
+            assert.strictEqual(response.errors.length, 1);
+            console.log('response', response);
 
-            done(new Error('exception was not thrown'));
-        }).catch((e) => {
-            console.log('error caught -- all is good', e);
             done();
+        }).catch((e) => {
+            console.log('error caught -- not good, should be a message in the response', e);
+            done(e);
         });
     });
     it.skip('should fetch invoice list', function() {
