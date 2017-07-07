@@ -45,6 +45,11 @@ describe('DefaultController', function() {
         setupDb(db1).then(() => { done(); });
 
         nameField = sql_ValueField.create('name', sql_Field.DataType.int); // HHHHMMM
+        nameField.setValidation(( value, field ) => {
+            if ( !value || value.length === 0 ) {
+                throw new Error('name must be set.');
+            }
+        });
         customerTable = sql_Table.create('customer');
         customerTable.addField(nameField);
         entitySetModel = model_EntitySetModel.create(db1, customerTable, model_EntityModel.create);
@@ -55,7 +60,7 @@ describe('DefaultController', function() {
         db1.close();
     });
 
-    it('should fetch customer edit data', function(done) {
+    it.skip('should fetch customer edit data', function(done) {
         var request = {
             query: {
                 id: 1
@@ -77,7 +82,6 @@ describe('DefaultController', function() {
     });
 
     it.skip('should not fetch customer edit data for nonexisting customers', function(done) {
-        var entitySet = app_customer_CustomerEntitySet.create(db1);
         var request = {
             query: {
                 id: 1000
@@ -94,7 +98,6 @@ describe('DefaultController', function() {
     });
 
     it.skip('should fetch customer list', function(done) {
-        var entitySet = app_customer_CustomerEntitySet.create(db1);
         var request = {};
         var response = {};
         server_DefaultController.list(entitySet, request, response).then((response) => {
@@ -112,7 +115,6 @@ describe('DefaultController', function() {
     });
 
     it.skip('should save a field from an existing entity', function(done) {
-        var entitySet = app_customer_CustomerEntitySet.create(db1);
         var request = { body: { id: 1, field: { name: 'name', value: 'Bettina' } } };
         var response = {};
         server_DefaultController.saveField(entitySet, request, response).then((response) => {
@@ -133,36 +135,36 @@ describe('DefaultController', function() {
         });
     });
     it.skip('should save a field and create a new entity', (done) => {
-        var entitySet = app_customer_CustomerEntitySet.create(db1);
-        var request = { body: { field: { name: 'name', value: 'Bettina' } } };
+        var request = { body: { fieldName: 'name', row: [ { name: 'name', value: 'Bettina' } ] } };
         var response = {};
         server_DefaultController.saveField(entitySet, request, response).then((response) => {
-            console.log('response', response);
             assert.strictEqual(2, response.row.id);
             assert.strictEqual('Bettina', response.row.name);
             assert.strictEqual(response.performedAction, 'inserted');
 
-            done(); 
+            entitySet.loadEntityById(2).then( (entity) => {
+                return entity.getValuesAsObject((obj) => {
+                    assert.strictEqual(obj.id, 2);
+                    assert.strictEqual(obj.name, 'Bettina');
+                });
+            }).then(() => { done(); });
         }).catch((e) => {
             console.error('error in chain', e);
             done(e);
         });
     });
-    it.skip('should not save a field but return a message', (done) => {
-        var entitySet = app_customer_CustomerEntitySet.create(db1);
+    it('should not save a field but return a message', (done) => {
         var request = { body: { id: 1, field: { name: 'name', value: '' } } }; // 'name cannot be empty' or sth
         var response = {};
         server_DefaultController.saveField(entitySet, request, response).then((response) => {
-            console.log('response', response);
             assert.strictEqual(response.row.id, 1);
-            assert.strictEqual(response.row.name, 'Christian');
             assert.strictEqual(response.performedAction, null, 'there should be no action, we did not save it');
             assert.strictEqual(response.messages.length, 1);
 
-            done(); 
+            done(new Error('exception was not thrown'));
         }).catch((e) => {
-            console.log('error in chain', e);
-            done(e);
+            console.log('error caught -- all is good', e);
+            done();
         });
     });
     it.skip('should fetch invoice list', function() {

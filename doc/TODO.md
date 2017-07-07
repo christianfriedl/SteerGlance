@@ -1,5 +1,8 @@
 * tests for DefaultController should test whether the enitty was actually saved -- TODO;prio-1
 * currently there is no config object -- TODO;milestone:v0.1;prio-1
+* Field.isRequired() should be a real validation -- TODO;milestone:v0.1;prio-1
+* Field.isEditable() should have functionality -- TODO;milestone:v0.1;prio-1
+* Field.isPersistent() should have functionality -- TODO;milestone:v0.1;prio-1
 * Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 -- at what point shall we put non-persistent fields (sum fields etc) into the entity?
 * Complete DefaultController: is currently missing aggregate fields... -- TODO;milestone:v0.1;prio-1
 * Re-Add sorting and filtering -- TODO;milestone:v0.1;prio-1
