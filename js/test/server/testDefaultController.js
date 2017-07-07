@@ -194,7 +194,7 @@ describe('DefaultController', function() {
             done(e);
         });
     });
-    it('should fetch a list with orderby', function(done) {
+    it.skip('should fetch a list with orderby', function(done) {
         const request = { body: { conditions: { orderBy: [ { field: 'name' } ] } } };
         const response = {};
         server_DefaultController.list(entitySet, request, response).then( (response) => {
@@ -208,22 +208,18 @@ describe('DefaultController', function() {
             done(e);
         });
     });
-    it.skip('should fetch a list with filter', function() {
-        var db1 = sql_DB.create(':memory:').open(':memory:');
-        var daoSet = m_dao_daoSet.daoSet(db1, m_app_invoice_invoiceDao.invoiceDao);
-        var boSet = m_bo_boSet.boSet(db1, daoSet, m_app_invoice_invoiceBo.invoiceBo);
-        var request = { body: { conditions: { limit: 3, offset: 0, orderBy: [ { field: 'id' } ], filters: [ { fieldName: 'customerId', opName: 'eq', value: '2' } ] } } };
+    it('should fetch a list with filter', function(done) {
+        var request = { body: { conditions: { filters: [ { fieldName: 'name', opName: 'eq', value: 'Eva' } ] } } };
         var response = {};
-        async.series([
-            function(callback) { setupDb(db1, callback); },
-            function(callback) {
-                return server_DefaultController.list(boSet, request, response, function(response) {
-                    console.log('"responsecallback" in testFetchInvoiceListWithFilter received response', response, 'with rows', util.inspect(response.data.rows, { depth: 10} ));
-                    assert.strictEqual(response.data.rows.length, 3);
-                    var f = _(response.data.rows[0].fields).find(function(f) { return f.name === 'customerId' });
-                    assert.strictEqual(2, f.value);
-                });
-            }
-        ]);
+        server_DefaultController.list(entitySet, request, response).then( (response) => {
+            console.log('response is', response);
+            assert.strictEqual(1, response.rows.length, 'should be 1 row');
+            assert.strictEqual(3, _.find(response.rows[0].fields, (field) => { return field.name === 'id'; }).value, 'id field has correct value ');
+            assert.strictEqual('Eva', _.find(response.rows[0].fields, (field) => { return field.name === 'name'; }).value, 'id field has correct value ');
+
+            done();
+        }).catch((e) => {
+            done(e);
+        });
     });
 });
