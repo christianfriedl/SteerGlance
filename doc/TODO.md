@@ -1,17 +1,14 @@
-* tests for DefaultController should test whether the enitty was actually saved -- TODO;prio-1
 * currently there is no config object -- TODO;milestone:v0.1;prio-1
 * Field.isRequired() should be a real validation -- TODO;milestone:v0.1;prio-1
 * Field.isEditable() should have functionality -- TODO;milestone:v0.1;prio-1
 * Field.isPersistent() should have functionality -- TODO;milestone:v0.1;prio-1
 * Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 -- at what point shall we put non-persistent fields (sum fields etc) into the entity?
 * Complete DefaultController: is currently missing aggregate fields... -- TODO;milestone:v0.1;prio-1
-* Re-Add sorting and filtering -- TODO;milestone:v0.1;prio-1
 * Re-activate server part -- TODO;milestone:v0.1;prio-1
 * Re-Implement test app -- TODO;milestone:v0.1;prio-1 (Customer and invoice)
 * Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 ... at what point shall we put non-persistent fields (sum fields etc) into the entity?
 * error response generation in DefaultController is rather fragile, messages: [] should be in a function -- TODO;prio-2
 * EntitySetModel.findAllEntities ... PHEW, this is actually a misnomer, as is the whole EntitySetModel, it is actually an EntityModelSet, and it returns EntityModels -- TODO;prio-2
-* currently, the only place we call validate() is from save(); do we need to do that elsewhere? -- TODO;REFLECT;prio-2
 * Entity should emit events before and after save(), update(), insert() -- TODO;REFLECT;prio-2
 * Implement row locking -- TODO;prio-2
 * server.js is an unnecessary singleton now, make it create an object -- TODO;prio-2
@@ -28,6 +25,7 @@
 * have a date AND a datetime type TODO;datesandtimes;prio-2
 * handle datetimes correctly TODO;datesandtimes;prio-2
 * always throw Errors, not just strings -- TODO;prio-2
+* sumFields will now return null if no detail records found; do we really want NULL, not ZERO? -- TODO;REFLECT;sql;prio-2
 * sql/* should adhere to get()/set() convention -- TODO;beautification;sql;prio-2
 * Query.prototype.conditions should just copy the object, not its parts -- TODO;beautification;sql;prio-2
 * validate() might move from Field to ValueField -- TODO;REFLECT;prio-3
@@ -74,3 +72,6 @@
 * re-enable validation for entities -- DONE;milestone:v0.1;prio-1 ----> currently only validates the model...
 * field / entity / entityModel: canSave(), validate(), addValidation() -- REJECTED;milestone:v0.1;prio-1
 * validation can not always create an error - we need canSave() and handle it correctly in the controller -- REJECTED;milestone:v0.1;prio-1
+* tests for DefaultController should test whether the enitty was actually saved -- DONE;prio-1
+* Re-Add sorting and filtering -- DONE;milestone:v0.1;prio-1
+* currently, the only place we call validate() is from save(); do we need to do that elsewhere? -- REJECTED;REFLECT;prio-2
