@@ -20,6 +20,7 @@
 * use yuidoc or another tool for documentation -- TODO;documentation;prio-2
 * use a good node library for dates and times TODO;datesandtimes;prio-2
 * add more datatypes -- TODO;prio-2
+* Field.prototype.getFQName: reflect on whether this should be in Table -- REFLECT;prio-2
 * have a date AND a datetime type TODO;datesandtimes;prio-2
 * handle datetimes correctly TODO;datesandtimes;prio-2
 * always throw Errors, not just strings -- TODO;prio-2
