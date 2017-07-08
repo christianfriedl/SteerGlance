@@ -1,0 +1,10 @@
+{
+    "name": "SteerGlance",
+    "description": "The SteerGlance library for doing X, Y, and Z",
+    "version": "0.1",
+    "url": "http://example.com/",
+    "options": {
+        "paths": "js/node_modules",
+        "outdir": "doc/html"
+    }
+}
