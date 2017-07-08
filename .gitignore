@@ -13,3 +13,4 @@ COMMANDS
 .ctags
 *-journal
 js/client.bundle.js
+doc/html
