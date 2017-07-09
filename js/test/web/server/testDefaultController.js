@@ -23,7 +23,7 @@ var async = require('async');
 var sql_DB = require('sql/DB.js');
 var assert = require('assert');
 var util = require('util');
-var server_DefaultController = require('server/DefaultController.js');
+var w_s_c_DefaultController = require('web/server/controller/DefaultController.js');
 var sql_ValueField = require('sql/ValueField.js');
 var sql_Field = require('sql/Field.js');
 var sql_Table = require('sql/Table.js');
@@ -43,7 +43,7 @@ function setupDb(db1) {
 }
 
 describe('DefaultController', function() {
-    let db1, nameField, customerTable, entitySetModel, entitySet;
+    let db1, nameField, customerTable, entitySetModel, entitySet, defaultController;
     beforeEach(function(done) {
         db1 = sql_DB.create(':memory:').open(':memory:');
         setupDb(db1).then(() => { done(); });
@@ -58,6 +58,7 @@ describe('DefaultController', function() {
         customerTable.addField(nameField);
         entitySetModel = model_EntitySetModel.create(db1, customerTable, model_EntityModel.create);
         entitySet = entity_EntitySet.create(entitySetModel, entity_Entity.create);
+        defaultController = w_s_c_DefaultController.create();
     });
 
     afterEach(function() {
@@ -65,13 +66,13 @@ describe('DefaultController', function() {
     });
 
     it('should fetch customer edit data', function(done) {
-        var request = {
+        let request = {
             query: {
                 id: 1
             }
         };
-        var response = {};
-        server_DefaultController.edit(entitySet, request, response).then((response) => {
+        let response = {};
+        defaultController.edit(entitySet, request, response).then((response) => {
             console.log('response', response);
             assert.strictEqual('edit', response.action);
             assert.ok(response.row);
@@ -92,7 +93,7 @@ describe('DefaultController', function() {
             }
         };
         var response = {};
-        server_DefaultController.edit(entitySet, request, response).then((response) => {
+        defaultController.edit(entitySet, request, response).then((response) => {
             console.error('error: should have thrown');
             done('error: should have thrown'); 
         }).catch((e) => {
@@ -104,7 +105,7 @@ describe('DefaultController', function() {
     it('should fetch customer list', function(done) {
         var request = {};
         var response = {};
-        server_DefaultController.list(entitySet, request, response).then((response) => {
+        defaultController.list(entitySet, request, response).then((response) => {
             console.log('response', response);
             assert.strictEqual('list', response.action);
             assert.ok(response.rows);
@@ -121,7 +122,7 @@ describe('DefaultController', function() {
     it('should save a field from an existing entity', function(done) {
         var request = { body: { id: 1, field: { name: 'name', value: 'Bettina' } } };
         var response = {};
-        server_DefaultController.saveField(entitySet, request, response).then((response) => {
+        defaultController.saveField(entitySet, request, response).then((response) => {
             console.log('response', response);
             assert.strictEqual(1, _.find(response.row.fields, (field) => { return field.name === 'id'; }).value, 'id field has value in response');
             assert.strictEqual('Bettina', _.find(response.row.fields, (field) => { return field.name === 'name'; }).value, 'id field has value in response');
@@ -141,7 +142,7 @@ describe('DefaultController', function() {
     it('should save a field and create a new entity', (done) => {
         var request = { body: { fieldName: 'name', row: [ { name: 'name', value: 'Bettina' } ] } };
         var response = {};
-        server_DefaultController.saveField(entitySet, request, response).then((response) => {
+        defaultController.saveField(entitySet, request, response).then((response) => {
             assert.strictEqual(4, _.find(response.row.fields, (field) => { return field.name === 'id'; }).value, 'id field has value in response');
             assert.strictEqual('Bettina', _.find(response.row.fields, (field) => { return field.name === 'name'; }).value, 'id field has value in response');
             assert.strictEqual(response.performedAction, 'inserted');
@@ -160,7 +161,7 @@ describe('DefaultController', function() {
     it('should not save a field but return a message', (done) => {
         var request = { body: { id: 1, field: { name: 'name', value: '' } } }; // 'name cannot be empty' or sth
         var response = {};
-        server_DefaultController.saveField(entitySet, request, response).then((response) => {
+        defaultController.saveField(entitySet, request, response).then((response) => {
             assert.strictEqual(response.performedAction, null, 'there should be no action, we did not save it');
             assert.strictEqual(response.errors.length, 1);
             console.log('response', response);
@@ -174,7 +175,7 @@ describe('DefaultController', function() {
     it('should fetch a list', function(done) {
         var request = {};
         var response = {};
-        server_DefaultController.list(entitySet, request, response).then( (response) => {
+        defaultController.list(entitySet, request, response).then( (response) => {
             assert.ok(_.find(response.rows[0].fields, (field) => { return field.name === 'id'; }), 'id field should exist in response');
             assert.strictEqual(1, _.find(response.rows[0].fields, (field) => { return field.name === 'id'; }).value, 'id field has value response');
 
@@ -186,7 +187,7 @@ describe('DefaultController', function() {
     it('shold fetch a list with limit', function(done) {
         var request = { body: { conditions: { limit: 2 } } };
         var response = {};
-        server_DefaultController.list(entitySet, request, response).then( (response) => {
+        defaultController.list(entitySet, request, response).then( (response) => {
             assert.strictEqual(2, response.rows.length, 'should be 2 rows');
 
             done();
@@ -197,7 +198,7 @@ describe('DefaultController', function() {
     it('should fetch a list with orderby', function(done) {
         const request = { body: { conditions: { orderBy: [ { field: 'name' } ] } } };
         const response = {};
-        server_DefaultController.list(entitySet, request, response).then( (response) => {
+        defaultController.list(entitySet, request, response).then( (response) => {
             console.log('response is', response);
             assert.strictEqual(3, response.rows.length, 'should be 3 rows');
             assert.strictEqual(3, _.find(response.rows[1].fields, (field) => { return field.name === 'id'; }).value, 'id field has correct value ');
@@ -211,7 +212,7 @@ describe('DefaultController', function() {
     it('should fetch a list with filter', function(done) {
         var request = { body: { conditions: { filters: [ { fieldName: 'name', opName: 'eq', value: 'Eva' } ] } } };
         var response = {};
-        server_DefaultController.list(entitySet, request, response).then( (response) => {
+        defaultController.list(entitySet, request, response).then( (response) => {
             console.log('response is', response);
             assert.strictEqual(1, response.rows.length, 'should be 1 row');
             assert.strictEqual(3, _.find(response.rows[0].fields, (field) => { return field.name === 'id'; }).value, 'id field has correct value ');
