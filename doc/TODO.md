@@ -6,6 +6,8 @@
 * Re-activate server part -- TODO;milestone:v0.1;prio-1
 * Re-Implement test app -- TODO;milestone:v0.1;prio-1 (Customer and invoice)
 * Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 ... at what point shall we put non-persistent fields (sum fields etc) into the entity?
+* add tests for MinField -- TODO;prio-1
+* add tests for MaxField -- TODO;prio-1
 * error response generation in DefaultController is rather fragile, messages: [] should be in a function -- TODO;prio-2
 * Entity should emit events before and after save(), update(), insert() -- TODO;REFLECT;prio-2
 * Implement row locking -- TODO;prio-2
