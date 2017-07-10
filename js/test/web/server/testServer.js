@@ -27,7 +27,6 @@ const w_s_Server = require('web/server/Server.js');
 
 const mockHttp = {
     createServer: function(cb) {
-        console.log('createserver called', cb);
         this.cb = cb;
         return {
             listen: function(port) {
@@ -35,21 +34,20 @@ const mockHttp = {
         };
     },
     receive: function(req, resp) {
-        console.log('receive', req, resp);
         return this.cb(req, resp);
     },
 };
 
 const mockHttpResp = {
+    body: '',
     done: null,
     writeHead: function() {
-        console.log('writeHead', arguments);
+        this.head = Array.prototype.slice.call(arguments);
     },
-    write: function() {
-        console.log('write', arguments);
+    write: function(text) {
+        this.body += text;
     },
     end: function() {
-        console.log('mockHttpResp done');
         this.done();
     },
 };
@@ -66,7 +64,10 @@ describe('webserver', function() {
     beforeEach(function() {
         w_s_Server.deps.http = mockHttp;
         w_s_Server.deps.jsonBody = mockJsonBody;
-        server = w_s_Server.create({ web: { server: { port: 8888 } } });
+        server = w_s_Server.create({ 
+            web: { server: { port: 8888 } },
+            documentRoot: '/home/cf/GitWd/Coding/SteerGlance/html'
+        });
         server.run();
     });
 
@@ -76,8 +77,9 @@ describe('webserver', function() {
     */
 
     it('should route / to index', function(done) {
-        mockHttpResp.done = function(text) {
-            console.log('routetest done', text);
+        mockHttpResp.done = function() {
+            assert.strictEqual(200, mockHttpResp.head[0]);
+            assert.ok(mockHttpResp.body.match(/html/));
             done();
         };
         mockHttp.receive({ method: 'GET', url: '/'}, mockHttpResp);
