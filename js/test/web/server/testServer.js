@@ -65,8 +65,10 @@ describe('webserver', function() {
         w_s_Server.deps.http = mockHttp;
         w_s_Server.deps.jsonBody = mockJsonBody;
         server = w_s_Server.create({ 
-            web: { server: { port: 8888 } },
-            documentRoot: '/home/cf/GitWd/Coding/SteerGlance/html'
+            web: { server: { 
+                documentRoot: '/home/cf/GitWd/Coding/SteerGlance/webroot',
+                port: 8888 
+            } },
         });
         server.run();
     });
@@ -76,12 +78,20 @@ describe('webserver', function() {
     });
     */
 
-    it('should route / to index', function(done) {
+    it('should resolve / to index.html', function(done) {
         mockHttpResp.done = function() {
             assert.strictEqual(200, mockHttpResp.head[0]);
             assert.ok(mockHttpResp.body.match(/html/));
             done();
         };
         mockHttp.receive({ method: 'GET', url: '/'}, mockHttpResp);
+    });
+    it('should route /css/site.css to correct file', function(done) {
+        mockHttpResp.done = function() {
+            assert.strictEqual(200, mockHttpResp.head[0]);
+            assert.ok(mockHttpResp.body.match(/html/));
+            done();
+        };
+        mockHttp.receive({ method: 'GET', url: '/css/site.css'}, mockHttpResp);
     });
 });
