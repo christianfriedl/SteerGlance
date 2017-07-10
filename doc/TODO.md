@@ -8,6 +8,8 @@
 * Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 ... at what point shall we put non-persistent fields (sum fields etc) into the entity?
 * add tests for MinField -- TODO;prio-1
 * add tests for MaxField -- TODO;prio-1
+* path resolution in Server.js should be more generic -- TODO;prio-2
+* find a way to favour composition over inheritance -- TODO;prio-2 (where do we use inheritance even? just in the forms, really... so, not so bad)
 * error response generation in DefaultController is rather fragile, messages: [] should be in a function -- TODO;prio-2
 * Entity should emit events before and after save(), update(), insert() -- TODO;REFLECT;prio-2
 * Implement row locking -- TODO;prio-2
