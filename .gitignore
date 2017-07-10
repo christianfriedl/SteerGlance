@@ -14,3 +14,4 @@ COMMANDS
 *-journal
 js/client.bundle.js
 doc/html
+config/
