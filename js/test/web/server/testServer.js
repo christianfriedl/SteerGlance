@@ -62,21 +62,15 @@ const mockJsonBody = (req, resp, cb) => {
 describe('webserver', function() {
     let server;
     beforeEach(function() {
+        mockHttpResp.body = '';
+        mockHttpResp.done = null;
         w_s_Server.deps.http = mockHttp;
         w_s_Server.deps.jsonBody = mockJsonBody;
-        server = w_s_Server.create({ 
-            web: { server: { 
-                documentRoot: '/home/cf/GitWd/Coding/SteerGlance/webroot',
-                port: 8888 
-            } },
-        });
+        const config = require('configReader.js').readConfig();
+        console.log(require('util').inspect(config, { depth: null }));
+        server = w_s_Server.create(config);
         server.run();
     });
-
-    /*
-    afterEach(function() {
-    });
-    */
 
     it('should resolve / to index.html', function(done) {
         mockHttpResp.done = function() {
@@ -89,9 +83,17 @@ describe('webserver', function() {
     it('should route /css/site.css to correct file', function(done) {
         mockHttpResp.done = function() {
             assert.strictEqual(200, mockHttpResp.head[0]);
-            assert.ok(mockHttpResp.body.match(/html/));
+            assert.ok(mockHttpResp.body.match(/\..+\{/));
             done();
         };
         mockHttp.receive({ method: 'GET', url: '/css/site.css'}, mockHttpResp);
+    });
+    it('should route nonexistent /abla/oida to error page', function(done) {
+        mockHttpResp.done = function() {
+            assert.strictEqual(400, mockHttpResp.head[0]);
+            assert.strictEqual('An error occurred: dir for controller file OidaController.js not found', mockHttpResp.body);
+            done();
+        };
+        mockHttp.receive({ method: 'GET', url: '/abla/oida'}, mockHttpResp);
     });
 });

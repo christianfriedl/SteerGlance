@@ -35,6 +35,8 @@
 * Implement some kind of generalized CalcField -- TODO;REFLECT;prio-3 (currently not exactly needed)
 * response.state and message are now strings, should become enums -- TODO;prio-3
 * parse-out "DEVELOPMENT {" checks -- TODO;prio-3
+* can we find a more generic way to find the controller? currently, we have 2 dirs defined in the config -- TODO;prio-3
+* Server::\_getControllerDir contains ugly and brittle code, can we somehow test for the existence of a required file without using require()? -- TODO;prio-3
 * use node-assert for "DEVELOPMENT {" checks -- TODO;prio-3
 * SumField, MinField, MaxField could be reduced to one AggregationField + 3 subclasses -- TODO;refactor;prio-3
 * sql_DB: url is currently actually just a filename, and sqlite is hardcoded... TODO;prio-3
