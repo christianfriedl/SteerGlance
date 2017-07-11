@@ -91,7 +91,7 @@ describe('webserver', function() {
     it('should route nonexistent /abla/oida to error page', function(done) {
         mockHttpResp.done = function() {
             assert.strictEqual(400, mockHttpResp.head[0]);
-            assert.strictEqual('An error occurred: dir for controller file OidaController.js not found', mockHttpResp.body);
+            assert.strictEqual('An error occurred: dir for controller file AblaController.js not found', mockHttpResp.body);
             done();
         };
         mockHttp.receive({ method: 'GET', url: '/abla/oida'}, mockHttpResp);
