@@ -1,6 +1,6 @@
 
 /*
- * Copyright (C) 2015,2016 Christian Friedl <Mag.Christian.Friedl@gmail.com>
+ * Copyright (C) 2015-2017 Christian Friedl <Mag.Christian.Friedl@gmail.com>
  *
  * This file is part of SteerGlance.
  *
