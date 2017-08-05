@@ -2,17 +2,18 @@
     <head>
         <title>BJO2</title>
         <link rel="stylesheet" type="text/css" href="../css/site.css" />
-        <link rel="stylesheet" type="text/css" href="../js/extlib/jquery-ui-1.11.4/jquery-ui.min.css"/> <!-- general goodness -->
-        <script type="text/javascript" src="../js/extlib/jquery-2.1.1.min.js"></script> <!-- general goodness -->
-        <script type="text/javascript" src="../js/extlib/jquery-ui-1.11.4/jquery-ui.min.js"></script> <!-- general goodness -->
-        <script type="text/javascript" src="../js/extlib/underscore.js"></script> <!-- functional -->
-        <script type="text/javascript" src="../js/client.bundle.js"></script>
+        <link rel="stylesheet" type="text/css" href="../js/jquery-ui-1.11.4/jquery-ui.min.css"/> <!-- general goodness -->
+        <script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script> <!-- general goodness -->
+        <script type="text/javascript" src="../js/jquery-ui-1.11.4/jquery-ui.min.js"></script> <!-- general goodness -->
+        <script type="text/javascript" src="../js/underscore.js"></script> <!-- functional -->
+        <script type="text/javascript" src="../js/SteerGlanceUI/index.js"></script>
+        <script type="text/javascript" src="../js/client.js"></script>
     </head>
     <body>
         <div id="bjo-ui" class="bjo-ui">
             <div class="bjo-links">
-                <a href="#" onClick="loadUI('bjo-main-form', 'http://' + window.location.hostname + ':8888', { module: 'invoice', controller: 'invoice', action: 'list', id: 1} );return false;">invoice list</a><br/>
-                <a href="#" onClick="loadUI('bjo-main-form', 'http://' + window.location.hostname + ':8888', { module: 'invoice', controller: 'invoice', action: 'edit', id: 1} );return false;">invoice edit</a><br/>
+                <a href="#" onClick="loadUIByUrl('bjo-main-form', 'http://' + window.location.hostname + ':8888/customer/list' );return false;">customer list</a><br/>
+                <a href="#" onClick="loadUI('bjo-main-form', 'http://' + window.location.hostname + ':8888', { controller: 'invoice', action: 'edit', id: 1 } );return false;">invoice edit</a><br/>
             </div>
             <div id="bjo-main-form">
             </div>
