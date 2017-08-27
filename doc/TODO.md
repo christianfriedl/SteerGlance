@@ -1,9 +1,12 @@
+* SteerglanceUI: Have a table with editable fields -- TODO;milestone:v0.1;prio-1
+* SteerglanceUI: Table needs pagination -- TODO;milestone:v0.1;prio-1
+* SteerglanceUI: loadUIByUrl needs to fetch and route the controller/action metadata to the correct form... -- TODO;milestone:v0.1;prio-1
 * currently there is no config object -- TODO;milestone:v0.1;prio-1
 * Field.isRequired() should be a real validation -- TODO;milestone:v0.1;prio-1
 * Field.isEditable() should have functionality -- TODO;milestone:v0.1;prio-1
 * Field.isPersistent() should have functionality -- TODO;milestone:v0.1;prio-1
 * Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 -- at what point shall we put non-persistent fields (sum fields etc) into the entity?
-* Re-activate server part -- TODO;milestone:v0.1;prio-1
+* Re-activate server part -- DONE;milestone:v0.1;prio-1
 * Re-Implement test app -- TODO;milestone:v0.1;prio-1 (Customer and invoice)
 * Make tables + fields configurable and auto-creatable -- TODO;milestone:v0.1;prio-1 ... at what point shall we put non-persistent fields (sum fields etc) into the entity?
 * add tests for MinField -- TODO;prio-1

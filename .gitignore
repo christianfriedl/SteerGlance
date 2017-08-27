@@ -15,3 +15,7 @@ COMMANDS
 js/client.bundle.js
 doc/html
 config/
+js/node_modules/web/client/models.js
+js/node_modules/web/client/sgui.js
+webroot/js/models.js
+webroot/js/sgui.js

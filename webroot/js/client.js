@@ -13,44 +13,22 @@ window.loadUI = function(cssId, baseUrl, data) {
     });
 };
 window.loadUIByUrl = function(cssId, url) {
-    jQuery.ajax(url, {
-        method: 'get',
-        async: true,
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function(data) {
-            // TODO route it...
-            console.log('succ', data);
-            // jQuery('#' + cssId).html(JSON.stringify(data));
-            createTableUi(cssId, data);
-        }, error: function() {
-            console.log('error', arguments);
-        }
-    });
+    createTableUi(cssId, url);
+    // TODO get the correct route from server, and route to the correct form
 };
 
 
-function createTableUi(cssId, response) {
-    const tableObj = {
-        /*
-        header: [ _.map(_.range(0, numCols), ( col ) => {
-            return 'head ' + col;
-        }) ],
-        */
-        body: _.map(response.rows, ( row ) => {
-            return _.map(row.fields, ( field ) => {
-                return field.value
-            });
-        }),
-        /*
-        footer: [ _.map(_.range(0, numCols), ( col ) => {
-            return 'foot ' + col;
-        }) ],
-        */
-    };
-    const table1 = sgui.Table.fromObject(tableObj);
-    const ui = sgui.UI.fromConfigObject(document.getElementById(cssId), table1);
-    ui.add(table1);
-    console.log(ui, table1);
+function createTableUi(cssId, url) {
+    const tableModel = web_client_TableModel.create(url);
+    const table = sgui.Table.fromModel(tableModel);
+    console.log('createTableUi cssId', cssId, document.getElementById(cssId), 'table from sgui.Table', sgui.Table);
+    const ui = sgui.UI.fromConfigObject(document.getElementById(cssId), table);
+    ui.add(table);
+    const label = sgui.Label.label('clicky here:');
+    ui.add(label);
+    const button = sgui.Button.button('change row');
+    button.on('click', () => { tableModel._fetchRows(0, 1); });
+    ui.add(button);
+    console.log(ui, table);
     ui.run();
 }
